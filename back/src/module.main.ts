@@ -5,15 +5,15 @@ import User from './routes/user/user.route'
 import Branch from './routes/branch/branch.route'
 import Wallets from './routes/wallets/wallet.route'
 import Barkota from './routes/barkota/barkota.router'
-
 import Admin from './routes/transactions/dashboard/admin.route'
+import Eloads from './routes/eLoads/eloads.router'
 export default class MainModule {
 	private branch = 'branch'
     private user = 'user'
 	private wallet = 'wallet'
 	private barkota = 'barkota'
 	private admin = 'admin'
-
+	private eloads = 'eloads'
     constructor(private app : Express) {
 		// this.branch = 'branch'
 		// this.user = 'user'
@@ -26,8 +26,11 @@ export default class MainModule {
 		this.app.use(`/${ this.wallet }/wallets`, Wallets)
 		
 		this.app.use( `/${ this.admin }/admins`, Admin )
-		// api 
+		/**
+		 * API endpoints
+		 */
 		this.app.use(`/${this.barkota}/barkotas`, Barkota)
+		this.app.use(`/${this.eloads}/eloads`, Eloads)
 		
     }
 

@@ -17,7 +17,9 @@ export enum Codes {
 }
 
 export enum Endpoints {
-    BARKOTA_STAGING = "https://barkota-reseller-php-staging-4kl27j34za-uc.a.run.app"
+    BARKOTA_STAGING = "https://barkota-reseller-php-staging-4kl27j34za-uc.a.run.app",
+    LOADCENTRAL_SELL_PRODUCT = "https://loadcentral.net/sellapi.do",
+    LOADCENTRAL_SELL_PRODUCT_STATUS = "https://loadcentral.net/sellapiinq.do"
 }
 
 export enum staticPassword {
