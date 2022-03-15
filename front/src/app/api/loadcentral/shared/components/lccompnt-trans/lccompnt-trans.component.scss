@@ -1,0 +1,29 @@
+@import 'src/app/styles/colors';
+@import 'src/app/styles/font';
+@import 'src/app/styles/variables';
+
+// ::ng-deep.mat-dialog-container {
+//     padding: 0px !important;
+// }
+
+// .mat-dialog-container {
+
+//     .mat-form-field {
+//         width: 100% !important;
+//     }
+// }
+
+.mat-dialog-title {
+    color: $grey;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 0px 2px;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid $gray-80;
+
+}
+
+// .mat-dialog-actions {
+//     border-top: 1px solid $gray-80;
+// }

@@ -1,0 +1,127 @@
+
+<div class="cs-backdrop" *ngIf="progress">
+    <mat-progress-bar mode="query" class="cs-absolute"></mat-progress-bar>
+</div>
+
+<div fxLayout="row wrap">
+
+	
+
+	<span  *ngIf="annoncementCard"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+
+	<div  fxFlex= "90%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-toolbar >
+			<div *ngIf="annoncementCard" >
+				<button (click)="btnBack()" style=" color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+					<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+				</button>
+			</div>
+			<h1>Settings</h1>
+		</mat-toolbar>
+	</div>
+	
+</div>
+<div  fxLayout="row wrap" *ngIf="createAnnoucementCard">
+	<div style="margin-left: 1%; cursor: pointer;" fxFlex= "45%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-card  style="color:rgb(49, 13, 78)" (click) = "showAnnouncement()" class="card _card">
+			<div class="row">
+				<div class="col-md-1">
+					<b style="font-size: 30px; font-weight: 500;"> 
+						<i class="fa fa-bullhorn" style=" margin-right: 3px; "></i>
+					</b>
+				</div>
+				<div class="col-md-11">
+					<b>Create Announcement</b><br>
+					announcement for all..
+				</div>
+			</div>
+		</mat-card>
+	</div>
+</div>
+
+<br>
+<div *ngIf="annoncementCard" fxLayout="row wrap">
+	<div style="margin-left: 1%;" fxFlex= "30%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-card>
+			<mat-card-title class="card__header">
+				<h5 class="card__title">Create Announcement</h5>
+			</mat-card-title>
+			
+			<mat-card-content >
+				<form [formGroup]="announcementForm" (ngSubmit)="createAnnouncement()">
+					<mat-form-field appearance="outline"  style="width: 100%;">
+						<mat-label>Message</mat-label>
+						<input type="text" matInput autocomplete="off" formControlName="message" >
+					</mat-form-field>
+
+					<div class="formbtn-actions" aling ="end">
+						<button class="formbtn-actions__save" mat-raised-button [disabled]="announcementForm.invalid"> {{ btnName }} </button>
+					</div>
+				</form>
+				<br><br>
+			</mat-card-content>
+		</mat-card>
+	</div>
+	<div style="margin-left: 1% ;" fxFlex= "67%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-card>
+			<mat-card-title class="card__header">
+				<h5 class="card__title">Announcements...</h5>
+			</mat-card-title>
+			<mat-card-content>
+				<table [dataSource]="data" fxFlex= "100%" fxFlex.md="100%" fxFlex.xs="100%" class="table__table" mat-table class="mat-elevation-z0" >
+
+					<ng-container matColumnDef="no">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>No</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
+					</ng-container>
+
+					<ng-container matColumnDef="message">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Message</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.message }} </td>
+					</ng-container>
+
+					<ng-container matColumnDef="createdBy">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>CreatedBy</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.createdBy }} </td>
+					</ng-container>
+
+					<ng-container matColumnDef="createdDate">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>CreatedDate</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.createdDate | date : 'medium' }} </td>
+					</ng-container>
+
+					<ng-container matColumnDef="updatedBy">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Updated By</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> 
+							<span *ngIf="element.updatedBy === ''; else elseBlock "> ---- </span>
+							<ng-template #elseBlock> {{ element.updatedBy }} </ng-template>
+						</td>
+					</ng-container>
+
+					<ng-container matColumnDef="status">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>status</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> 
+							<mat-slide-toggle  [checked]="element.status == 0"  (change)="changeStatus(element)">
+								<div *ngIf="element.status == 0 ;else elseBlock">Active</div>
+								<ng-template #elseBlock >Inactive</ng-template>
+							</mat-slide-toggle>
+						</td>
+					</ng-container>
+
+					<ng-container matColumnDef="action">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Action</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element">
+							<button mat-raised-button color="primary" *ngIf="element.status === 0" (click)="updateMessage(element)">Edit</button>
+						</td>
+					</ng-container>
+
+					<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+				</table>
+			</mat-card-content>
+			<div class="pagination">
+				<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+			</div>
+		</mat-card>
+	</div>
+</div>

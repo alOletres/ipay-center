@@ -1,0 +1,146 @@
+<div class="cs-backdrop" *ngIf="progress">
+    <mat-progress-bar mode="query" class="cs-absolute"></mat-progress-bar>
+</div>
+<div fxLayout="row wrap">
+    <div *ngIf="btnBack" fxFlex="5%" fxFlex.md="100%" fxFlex.xs="100%">
+        <div class="example-button-container">
+			<button (click) = "function_back()" style="margin-top:50%; margin-left: 20px; color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+				<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+			</button>
+		</div>
+    </div>
+    <div fxFlex="95%" fxFlex.md="100%" fxFlex.xs="100%">
+        <mat-toolbar class="page-header" role="heading">
+            <h1>Settings</h1>
+        </mat-toolbar>
+    </div>
+</div>
+<div fxLayout="row wrap" fxLayoutGap="0px grid">
+    <div *ngIf="cards" style="cursor: pointer; margin-left: 20px;" fxFlex="48%" fxFlex.md="100%" fxFlex.xs="100%" (click)="function_showAccountInformation()">
+        <mat-card  style="color:rgb(49, 13, 78)" class="card _card">
+			<div class="row">
+				<div class="col-md-1">
+					<b style="font-size: 30px; font-weight: 500;">
+						<i class="fa fa-user-circle" aria-hidden="true" style=" margin-right: 3px; "></i>
+					</b>
+				</div>
+				<div class="col-md-11">
+					<b>Account</b><br>
+					Update your account information..
+				</div>
+			</div>
+        </mat-card>
+    </div>
+
+    <div *ngIf="cards" (click) = "function_showChangePassword()" style="cursor: pointer; margin-left: 20px;" fxFlex="48%" fxFlex.md="100%" fxFlex.xs="100%">
+        <mat-card style="color: darkgoldenrod;" class="card _card">
+			<div class="row">
+				<div class="col-md-1">
+					<b style="font-size: 30px; font-weight: 500;">
+						<i class="fa fa-unlock-alt" aria-hidden="true" style=" margin-right: 3px; "></i>
+					</b>
+				</div>
+				<div class="col-md-11">
+				<b>	CHANGE PASSWORD</b><br>
+					Change Password for security purpose 
+				</div>
+			</div>
+		</mat-card>
+    </div>
+
+    <br>
+    <mat-card *ngIf="accountInformation"  style="margin-left: 20px;" fxFlex="97%" fxFlex.md="100%" fxFlex.xs="100%" class="card card-wrapper">
+        
+        <mat-card-title  class="card__header">
+            <h5  class="card__title">
+                Account Information
+            </h5>
+        </mat-card-title>
+        <mat-card-content>
+            <div style =" float: left; margin-right: 20px; margin-left: 20px; padding-bottom: 40px;" >
+                <img  class="avatar"  src="./../../../../assets/img/avatar.png" alt="">
+            </div>
+            <form [formGroup]="accountInformationForm" (ngSubmit)="function_updateAccountInformation()">
+
+                <mat-form-field appearance="outline" style="width: 42% ;">
+                    <mat-label>Firstname</mat-label>
+                    <input style=" text-transform: uppercase;" matInput type="text"  class="form__spacing"   formControlName="ownerFirstname"  autocomplete="off">
+                </mat-form-field>
+                &nbsp;
+                <mat-form-field  class="form__input example-full-width" style="width: 42%;" appearance="outline">
+                    <mat-label class="form__label">Lastname</mat-label>
+                    <input  style=" text-transform: uppercase;" matInput type="text" class="form__spacing" formControlName ="ownerLastname" autocomplete="off" >		
+                </mat-form-field>
+    
+                <mat-form-field appearance="fill" style="width:42%;">
+                    <mat-label class="form__label">Contact Number</mat-label>
+                    <span matPrefix>+63 &nbsp;</span>
+                    <input  matInput type="text" class="form__spacing" formControlName="contactNo" autocomplete="off">
+                </mat-form-field>
+                &nbsp;
+                <mat-form-field appearance="outline" style="width:42%;">
+                    <mat-label class="form__label">Email</mat-label>
+                    <input matInput type="text" class="form__spacing" formControlName="emailAdd" autocomplete="off">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" style="width:42%;">
+                    <mat-label class="form__label">Address</mat-label>
+                    <input style=" text-transform: uppercase;" matInput type="text" class="form__spacing" formControlName="address" autocomplete="off">
+                </mat-form-field>
+                &nbsp;
+                <mat-form-field appearance="outline" style="width:42%;">
+                    <mat-label class="form__label">Branch Name</mat-label>
+                    <input style=" text-transform: uppercase;" matInput type="text" class="form__spacing" formControlName="branchName" autocomplete="off">
+                </mat-form-field>
+                <br><br>
+                <div style="float:right;margin-right: 60px">
+                    <button type="submit" mat-raised-button [disabled]="accountInformationForm.invalid"> <mat-icon>save</mat-icon> Save </button>
+                </div>
+                <br><br><br>
+           </form>
+        </mat-card-content>
+
+       
+    </mat-card>
+
+    <mat-card *ngIf="changePassword" style="margin: auto;" fxFlex="30%" fxFlex.md="100%" fxFlex.xs="100%" >
+        <mat-card-title  class="card__header">
+            <h5  class="card__title">
+               Change Password 
+            </h5>
+        </mat-card-title>
+        <mat-card-content >
+            <form [formGroup]="changePasswordForm" class="form" style="margin-left: 2%;" (ngSubmit)="function_updatePassword()" >
+              
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Current Password </mat-label>
+                    <input formControlName="currentPassword" matInput [type]="hide ? 'password' : 'text'">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                  </mat-form-field>
+                  &nbsp;&nbsp;
+                  <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>New Password </mat-label>
+                    <input formControlName="newPassword" matInput [type]="hide1 ? 'password' : 'text'">
+                    <button mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide1">
+                      <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                  </mat-form-field>
+                  &nbsp;&nbsp;
+                  <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>ReWrite new Password </mat-label>
+                    <input formControlName="compareToNewPassword" matInput [type]="hide2 ? 'password' : 'text'">
+                    <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide2">
+                      <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                  </mat-form-field>
+                  <div style="float: right; margin-right: 20px;">
+                    <button mat-raised-button type="submit" class="formbtn-actions__save"  [disabled]="changePasswordForm.invalid" > <mat-icon>save</mat-icon> Save Changes </button>
+                </div>
+            </form>
+            
+            <br><br><br>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,353 @@
+
+<div fxLayout="row wrap" >
+	<div fxFlex="5%" fxFlex.md="100%" fxFlex.xs="100%">
+		<!-- &nbsp;&nbsp;&nbsp;<mat-icon matTooltip="Back">arrow_back</mat-icon> -->
+		<button  [routerLink]="['/barkotadashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  style=" margin-left: 20px; color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+			<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+		</button>
+		
+	</div>
+	<div fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+		
+	</div>
+</div>
+<br>
+<mat-tab-group mat-align-tabs="end">
+	<mat-tab label="Search Tickets">
+		<mat-card>
+			<!-- <mat-card-title class="card__header">
+				<h5 class="card__title" style="margin-top:2px;"> Settings</h5>
+			</mat-card-title> -->
+			<mat-card-content>
+		
+				<form [formGroup]="daterange">
+		
+					<mat-card-title class="card__header">
+						<h5 class="card__title"> Search Tickets</h5>
+					</mat-card-title>
+		
+					<mat-form-field style="width:48%;" appearance="outline">
+						<mat-label>Enter a date range</mat-label>
+						<mat-date-range-input  [rangePicker]="picker">
+							<input matStartDate formControlName="start" placeholder="Start date">
+							<input matEndDate formControlName="end" placeholder="End date">
+						</mat-date-range-input>
+						<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+						<mat-date-range-picker #picker></mat-date-range-picker>
+					</mat-form-field>
+					&nbsp;
+					<mat-form-field style="width: 48%;" appearance="outline">
+						<mat-label class="form_label">Enter Ticket Number</mat-label>
+						<input matInput type="text" class="form_spacing" formControlName="ticketNumber" autocomplete="off">
+					</mat-form-field>
+					&nbsp;
+					<mat-form-field style="width: 48%;" appearance="outline">
+						<mat-label class="form_label">Firstname</mat-label>
+						<input matInput type="text"class="form_spacing" formControlName= "firstname" autocomplete="off">
+					</mat-form-field>
+					&nbsp;
+					<mat-form-field style="width: 48%;" appearance="outline">
+						<mat-label class="form_label">Lastname</mat-label>
+						<input matInput type="text" class="form_spacing" formControlName="lastname" autocomplete="off" >
+					</mat-form-field> 
+		
+					<div class="formbtn-actions">
+						<button class="formbtn-actions__save" mat-raised-button  [disabled]="daterange.invalid" (click)="functions_searchTickets()" > <mat-icon>search</mat-icon> Search</button>
+					</div>
+					<br>
+					<br>
+					<br>
+				</form>
+		
+				<table style="width: 100%;" [dataSource]= "searchTicketTable" class="table__table" mat-table class="mat-elevation-z8">
+		
+					<ng-container matColumnDef="no">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>No.</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
+					</ng-container>
+		
+					<ng-container matColumnDef="companyName">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Company Name</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.company.displayName }} </td>
+					</ng-container>
+		
+					<ng-container matColumnDef="passengerName">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Passenger Name</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.passengerName }} </td>
+					</ng-container>
+					
+					<ng-container matColumnDef="gender">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Gender</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.gender }} </td>
+					</ng-container>
+					<ng-container matColumnDef="discountType">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Discount type</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.discountType }} </td>
+					</ng-container>
+					<ng-container matColumnDef="accommodation">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Accommodation</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.accommodationName }} </td>
+					</ng-container>
+					<ng-container matColumnDef="ticketNumber">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Ticket Number</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.ticketNumber }} </td>
+					</ng-container>
+					<ng-container matColumnDef="barkotaNumber">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Barkota Ticket Number</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.barkotaBookingId}} </td>
+					</ng-container>
+					<ng-container matColumnDef="status">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Status</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.status }} </td>
+					</ng-container>
+					<ng-container matColumnDef="action">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Action</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element">
+							<button class="" mat-raised-button matTooltip="Transaction Info" (click)="function_showTransactions()"> <mat-icon>notes</mat-icon> </button>
+							<button class="" mat-raised-button matTooltip="Voyage vessel" (click)="function_showVoyageVessel()" > <mat-icon>directions_boat</mat-icon> </button>
+							<button class="" mat-raised-button matTooltip="Contact Info" (click)="function_showContactInfo()" > <mat-icon> call</mat-icon> </button>
+						</td>
+					</ng-container>
+					
+					<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+				</table>
+				
+				<br><br><br>
+				<!-- transaction table -->
+				<table *ngIf="transactionsTable" style="width: 100%;" [dataSource]= "dataTransactions" class="table__table" mat-table class="mat-elevation-z0">
+					<ng-container matColumnDef="id">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Transaction Id</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.id }} </td>
+					</ng-container>
+
+					<ng-container matColumnDef="bookingReferenceNumber">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Booking Reference Number</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.bookingReferenceNumber }} </td>
+					</ng-container>
+		
+					<ng-container matColumnDef="bookingDate">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Booking Date</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.bookingDate }} </td>
+					</ng-container>
+		
+					<ng-container matColumnDef="reservationExpiry">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Reservation Expiry</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.reservationExpiry }} </td>
+					</ng-container>
+		
+					<ng-container matColumnDef="status">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Status</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.status }} </td>
+					</ng-container>
+		
+					<ng-container matColumnDef="total">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Total</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.total | currency : "&#8369;" }} </td>
+					</ng-container>
+		
+					<tr mat-header-row *matHeaderRowDef="displayedColumnsT"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColumnsT;"></tr>
+					
+				</table>
+		
+				<!-- voyage vessel table -->
+				<table *ngIf="voyageVesselTable" style="width: 100%;" [dataSource]="dataVoyageVessel" class="table__table" mat-table class="mat-elevation-z0">
+		
+					<ng-container matColumnDef="routeCode">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Route Code</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.routeCode }} </td>
+					</ng-container>
+					<ng-container matColumnDef="origin">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Origin</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.origin }} </td>
+					</ng-container>
+					<ng-container matColumnDef="destination">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Destination</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.destination }} </td>
+					</ng-container>
+					<ng-container matColumnDef="vesselName">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Vessel</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.vesselName }} </td>
+					</ng-container>
+		
+					<ng-container matColumnDef="departureDate">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Departure Date</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.departureDate | date :'medium' }} </td>
+					</ng-container>
+		
+					<tr mat-header-row *matHeaderRowDef="displayedColumnsV"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColumnsV;"></tr>
+				</table>
+		
+				<!-- contact info table -->
+				
+				<table *ngIf="contactInfoTable" style="width: 100%;" [dataSource]="dataContactInfo" class="table__table" mat-table class="mat-elevation-z0">
+		
+					<ng-container matColumnDef="contactPerson">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Contact Person</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.contactPerson }} </td>
+					</ng-container>
+					<ng-container matColumnDef="email">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Email</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.email }} </td>
+					</ng-container>
+					<ng-container matColumnDef="mobile">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Mobile</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.mobile }} </td>
+					</ng-container>
+					<ng-container matColumnDef="landLine">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>landLine</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.landLine }} </td>
+					</ng-container>
+					<ng-container matColumnDef="address">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Address</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.address }} </td>
+					</ng-container>
+					<tr mat-header-row *matHeaderRowDef="displayedColumnsC"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColumnsC;"></tr>
+				</table>
+			</mat-card-content>
+		</mat-card>		
+	</mat-tab>
+	<mat-tab label="Search Voucher URL by Ticket">
+		<form [formGroup]="searchVoucherForm">
+			<mat-card-title style="margin-left: 20px;" class="card__header">
+				<h5 class="card__title"> Search Voucher by Ticket</h5>
+			</mat-card-title>
+			<br>
+			
+			<mat-form-field style="width: 48%; margin-left: 20px;" appearance="outline">
+				<mat-label class="form_label">Enter Barkota Ticket Id</mat-label>
+				<input matInput type="text" class="form_spacing" formControlName="barkotaTicketId" autocomplete="off">
+			</mat-form-field>
+			<button style=" padding-top: 10px ; padding-bottom: 4px;" class="formbtn-actions__save" mat-raised-button  [disabled]="searchVoucherForm.invalid" (click)="functions_searchVoucherbYborkotaId()" > <mat-icon>search</mat-icon>  Search</button>
+
+		</form>
+	</mat-tab>
+	<mat-tab label="Search Voucher URL by Transaction">
+		<form [formGroup]="searchTransactionForm">
+			<mat-card-title style="margin-left: 20px;" class="card__header">
+				<h5 class="card__title"> Search Voucher URL by Transaction</h5>
+			</mat-card-title>
+			<br>
+			
+			<mat-form-field style="width: 48%; margin-left: 20px;" appearance="outline">
+				<mat-label class="form_label">Enter Transaction no.</mat-label>
+				<input matInput type="text" class="form_spacing" formControlName="barkotaTransactionId" autocomplete="off">
+			</mat-form-field>
+			<button style=" padding-top: 10px ; padding-bottom: 4px;" class="formbtn-actions__save" mat-raised-button  [disabled]="searchTransactionForm.invalid" (click)="functions_searchsearchTransaction()" > <mat-icon>search</mat-icon>  Search</button>
+
+		</form>
+	</mat-tab>
+	<mat-tab label="Reports Transactions" >
+		<div>
+			<mat-card-title  style="margin-left: 20px;"  class="card__header"> 
+				<h5 class="card__title"> Reports </h5>
+			</mat-card-title>
+			
+			<div  style="margin-left: 20px;" >
+				<form [formGroup]="searchBakotaReportForm">
+					<div fxLayout="row wrap">
+						<div fxFlex="75%" fxFlex.md="100%" fxFlex.xs="100%">
+							<mat-form-field  appearance="outline">
+								<mat-label>Enter a date range</mat-label>
+								<mat-date-range-input  [rangePicker]="pickers"  >
+									<input matStartDate [(ngModel)]="start"  [ngModelOptions]="{standalone: true}" placeholder="Start date">
+									<input matEndDate [(ngModel)]="end"  [ngModelOptions]="{standalone: true}" placeholder="End date">
+								</mat-date-range-input>
+								<mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+								<mat-date-range-picker #pickers></mat-date-range-picker>
+							</mat-form-field>
+						</div>
+						<div fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%" (click)="print()">
+							<button mat-raised-button style="background-color:black;color: white;"> <mat-icon>print</mat-icon> Print </button>
+						</div>
+						
+						<div fxFlex="15%" fxFlex.md="100%" fxFlex.xs="100%" (click)="exportArrayAsExcel()">
+							<button mat-raised-button style="background-color:black;color: white;"> <mat-icon>save_alt</mat-icon> Save as Excel</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>		
+		<mat-card-content id="print-section" #table>
+
+			<table   fxFlex="100%" fxFlex.md="100%" fxFlex.xs="100%" [dataSource] = "dataSourceBarkotaReports | searchByDate: start : end" class="table__table" mat-table class="mat-elevation-z0">
+
+				<ng-container matColumnDef="no">
+					<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>No.</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
+					<td mat-footer-cell *matFooterCellDef></td>
+				</ng-container>
+	
+				<ng-container matColumnDef="code">
+					<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Transaction No.</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.barkota_code }} </td>
+					<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;">Total</td>
+				</ng-container>
+	
+				<ng-container matColumnDef="services">
+					<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Services</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.origin }} 
+						<img style="width: 20px;" src="./../../../../assets/img/arrow.png" alt="">
+						{{ element.destination }} </td>
+						<td mat-footer-cell *matFooterCellDef></td>
+					</ng-container>
+	
+	
+				<ng-container matColumnDef="collection">
+					<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Collection</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.ticket_totalPrice | compute : element.franchise_charge : element.ipayService_charge | currency : "&#8369;"  }} 
+					</td>
+					<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;">{{ dataSourceBarkotaReports | computeCollection : start : end | currency : "&#8369;"  }}</td>
+
+				</ng-container>
+	
+				<ng-container matColumnDef="sales">
+					<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Sales</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.ticket_totalPrice | computeSales : element.ipayService_charge | currency : "&#8369;"}}  </td>
+					<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;"> {{ dataSourceBarkotaReports | computeTotalSales : start : end | currency : "&#8369;"  }} </td>
+			
+				</ng-container>
+	
+				<ng-container matColumnDef="income">
+					<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Income</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.franchise_charge | currency : "&#8369;" }} </td>
+					<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;"> {{ dataSourceBarkotaReports | computeIncome : start : end | currency : "&#8369;"  }}</td>
+				
+				</ng-container>
+	
+				<ng-container matColumnDef="status">
+					<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Status</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.status }} </td>
+					<td mat-footer-cell *matFooterCellDef></td>
+
+				</ng-container>
+
+				<ng-container matColumnDef="transacted_date">
+					<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Date transacted</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.transacted_date | date : 'medium' }} </td>
+					<td mat-footer-cell *matFooterCellDef></td>
+				</ng-container>
+	
+				<ng-container matColumnDef="transactedBy">
+					<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Transacted by</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.transacted_by }} </td>
+					<td mat-footer-cell *matFooterCellDef></td>
+				</ng-container>
+				
+				<tr mat-header-row *matHeaderRowDef="displayedColumss"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumss;"></tr>
+								
+				<tr mat-footer-row *matFooterRowDef="displayedColumss"></tr>
+			</table>
+		</mat-card-content>
+		<div class="pagination">
+			<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+		</div>
+		<br><br><br>
+		
+	</mat-tab>
+</mat-tab-group>
+<!-- -->

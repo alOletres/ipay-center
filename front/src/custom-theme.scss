@@ -1,0 +1,584 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '~@angular/material' as mat;
+
+@import '~@angular/material/theming';
+
+@import "src/app/styles/colors";
+@import "src/app/styles/variables";
+@import "src/app/styles/font";
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$ipaycenter-primary: mat.define-palette(mat.$indigo-palette);
+$ipaycenter-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$ipaycenter-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$ipaycenter-theme: mat.define-light-theme((
+  color: (
+    primary: $ipaycenter-primary,
+    accent: $ipaycenter-accent,
+    warn: $ipaycenter-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($ipaycenter-theme);
+
+
+
+$ama-yellow: (
+  50: $yellow,
+  100: #ECECEC,
+  200: $yellow,
+  300: $yellow,
+  400: $yellow,
+  500: $yellow,
+  600: $yellow,
+  700: $yellow,
+  800: $yellow,
+  900: $yellow,
+  A100: $yellow,
+  A200: $yellow,
+  A400: $yellow,
+  A700: $yellow,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  )
+);
+
+$ama-pink: (
+	50: $pink,
+	100: #ECECEC,
+	200: $pink,
+	300: $pink,
+	400: $pink,
+	500: $pink,
+	600: $pink,
+	700: $pink,
+	800: $pink,
+	900: $pink,
+	contrast: (
+		50: $dark-primary-text,
+		100: $dark-primary-text,
+		200: $dark-primary-text,
+		300: $dark-primary-text,
+		400: $dark-primary-text,
+		500: $light-primary-text,
+		600: $light-primary-text,
+		700: $light-primary-text,
+		800: $light-primary-text,
+		900: $light-primary-text,
+		A100: $dark-primary-text,
+		A200: $dark-primary-text,
+		A400: $light-primary-text,
+		A700: $light-primary-text,
+	)
+);
+
+$ama-blue: (
+	50: $blue,
+	100: #ECECEC,
+	200: $blue,
+	300: $blue,
+	400: $blue,
+	500: $blue,
+	600: $blue,
+	700: $blue,
+	800: $blue,
+	900: $blue,
+	A100: $blue,
+	A200: $blue,
+	A400: $blue,
+	A700: $blue,
+	contrast: (
+		50: $dark-primary-text,
+		100: $dark-primary-text,
+		200: $dark-primary-text,
+		300: $dark-primary-text,
+		400: $dark-primary-text,
+		500: $light-primary-text,
+		600: $light-primary-text,
+		700: $light-primary-text,
+		800: $light-primary-text,
+		900: $light-primary-text,
+		A100: $dark-primary-text,
+		A200: $dark-primary-text,
+		A400: $light-primary-text,
+		A700: $light-primary-text,
+	)
+);
+
+$ama-primary: mat-palette($ama-blue);
+$ama-accent:  mat-palette($ama-yellow);
+$ama-warn:    mat-palette($ama-pink);
+
+$ama-theme: mat-light-theme($ama-primary, $ama-accent, $ama-warn);
+
+// @include angular-material-theme($ama-theme);
+
+button.mat-menu-item {
+  	font-size: 16px;
+}
+
+button.mat-menu-item:hover:not([disabled]), .mat-menu-item.cdk-program-focused:not([disabled]), .mat-menu-item.cdk-keyboard-focused:not([disabled]), .mat-menu-item-highlighted:not([disabled]) {
+  	font-size: 16px;
+}
+
+// ayaw hilabte
+// mat-select.mat-select {
+// 	width: auto;
+// 	display: inline;
+// 	font-size: 16px;
+// 	font-weight: 300;
+// 	color: $dark-grey;
+// 	border: 1px solid $light-grey;
+// 	border-radius: 4px;
+// 	padding: 8px 10px;
+
+// 	& .mat-select-value {
+// 		width: auto;
+// 		display: inline;
+// 	}
+
+// 	& .mat-select-arrow {
+// 		color: $light-grey;
+// 		margin-right: 0;
+// 	}
+// }
+
+.mat-option {
+	font-size: 16px;
+	height: 36px;
+	padding: 6px 16px;
+	color: $dark-grey;
+
+	&.mat-focus-indicator.mat-selected.mat-active {
+		background-color: $blue-white;
+		color: $dark-grey;
+	}
+
+	&:hover:not(.mat-option-disabled) {
+		background-color: $blue-white;
+	}
+}
+
+.mat-form-field-underline {
+  	display: none;
+}
+
+html, body { height: 100%; }
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-h1, .mat-headline, .mat-typography h1{
+	font-weight: 400;
+	font-size: 48px;
+}
+
+.mat-h2, .mat-headline, .mat-typography h2{
+	font-weight: 400;
+	font-size: 36px;
+}
+
+.mat-h3, .mat-headline, .mat-typography h3{
+	font-weight: 400;
+	font-size: 26px;
+}
+
+.mat-h4, .mat-headline, .mat-typography h4{
+	font-weight: 400;
+	font-size: 24px;
+}
+
+.mat-h5, .mat-headline, .mat-typography h5{
+	font-weight: 400;
+	font-size: 21px;
+}
+
+.mat-h6, .mat-headline, .mat-typography h6{
+	font-weight: 400;
+	font-size: 18px;
+}
+
+.mat-body p, .mat-body-1 p, .mat-typography p {
+	margin-bottom: 16px;
+	line-height: normal;
+}
+
+button.mat-fab .mat-button-wrapper {
+  	padding: 0;
+}
+
+
+/**==============CARDS================*/
+
+.card {
+
+	&__header {
+		color: $grey;
+		display: flex;
+		justify-content: space-between;
+		padding: 24px 24px 2px;
+		margin-bottom: 0;
+		align-items: center;
+
+		@media (max-width: $small) {
+			padding: 0 16px;
+		}
+	}
+
+	&__title {
+		font-size: $fs-medium;
+		font-weight: $fw-lighter;
+		margin: 0;
+		line-height: 10px;
+		position: relative;
+	}
+
+	&__title::after {
+		content: "";
+		background-color: $dark-green;
+		position: absolute;
+		left: -24px;
+		top: 0;
+		width: 4px;
+		height: 25px;
+	}
+
+
+	&__content {
+		overflow-y: hidden;
+		overflow-x: scroll;
+
+		@media (max-width: $small) {
+		height: auto;
+		}
+	}
+
+}
+
+
+mat-toolbar.page-header {
+	display: flex;
+	justify-content: space-between;
+	padding: 50px 24px 16px 24px;
+	background: none;
+	height: auto;
+
+	@media (max-width: $small) {
+		flex-direction: column;
+		align-items: baseline;
+	}
+}
+
+.mat-toolbar h1 {
+	font-weight: 400;
+	font-size: 38.4px;
+	color: $toolbar-title-font-color;
+	line-height: 1;
+	letter-spacing: -0.2186px;
+
+	@media (max-width: $small) {
+		white-space: normal;
+	}
+}
+
+.mat-toolbar button {
+	height: 41.6px;
+	width: auto;
+	line-height: 1.75;
+	font-size: 0.9375rem;
+	font-weight: 400;
+
+	@media (max-width: $small) {
+		margin-top: 16px;
+	}
+}
+
+mat-tab-header .mat-tab-label, .mat-tab-link {
+	text-transform: uppercase;
+	color: $tabs-header-font-color;
+	font-weight: $fw-normal;
+	width: 50%;
+	min-width: 0;
+	padding: 0;
+	opacity: 1;
+}
+
+mat-tab-header .mat-tab-label-active {
+  	color: $dark-green;
+}
+
+mat-tab-group.mat-tab-group.mat-primary .mat-ink-bar {
+  	background-color: $dark-green;
+}
+
+mat-tab-body div.mat-tab-body-content {
+  	overflow: hidden;
+}
+
+.toast-top-center {
+  	top: 76px;
+}
+
+.toast-top-left {
+  	top: 76px;
+}
+
+.toast-top-right {
+  	top: 76px;
+}
+
+.toast-bottom-center {
+  	bottom: 12px;
+}
+
+.toast-container .ngx-toastr {
+	padding: 16px;
+	border-radius: 45px;
+}
+
+.toast-container .ngx-toastr:hover {
+ 	 box-shadow: 0 0 12px $light-grey;
+}
+
+.mat-icon {
+	padding-right: 3px;
+	padding-bottom: 5px;
+}
+
+.material-icons {
+  	font-size: 28px;
+}
+
+button.mat-mini-fab .mat-button-wrapper {
+  	padding: 0;
+}
+
+button.mat-mini-fab {
+	height: 36px;
+	width: 36px;
+}
+
+// div.mat-menu-panel {
+//   	margin-top: 10px;
+// }
+
+.fa {
+  	font-size: 1.5em;
+}
+
+.apexcharts-xaxistooltip.apexcharts-xaxistooltip-bottom.apexcharts-theme-light {
+	background-color: $chart-tooltip-background-color;
+	color: $chart-tooltip-font-color;
+	border: none;
+}
+
+div.apexcharts-xaxistooltip-bottom:after {
+  	border-bottom-color: $chart-tooltip-border-color;
+}
+
+.mat-drawer-backdrop.mat-drawer-shown {
+  	background-color: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar { width: 6px; height: 3px;}
+::-webkit-scrollbar-button { display: none }
+::-webkit-scrollbar-track {  background-color: $scrollbar-track-color;}
+::-webkit-scrollbar-track-piece { background-color: $scrollbar-track-piece-color;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: $light-grey; border-radius: 36px;}
+::-webkit-scrollbar-corner { background-color: $scrollbar-corner-color;}
+::-webkit-resizer { background-color: $dark-grey;}
+
+.wrapper {
+	padding: 0 8px;
+}
+
+.button-background {
+	background-color: $dark-green;
+	color: $white;
+}
+
+
+//======forms========
+
+.form {
+	margin-top: 0px;
+	padding: 0px 18px 0px;
+
+	&__label {
+		font-weight: $fw-normal;
+	}
+
+	.mat-form-field {
+		width: 100%;
+		.mat-input-element {
+			color: $dark-grey;
+		}
+
+	}
+
+	input.mat-input-element {
+		color: $dark-grey;
+		font-size: $fs-normal;
+		letter-spacing: 0.01em;
+		font-weight: $fw-lighter;
+	}
+
+	select.mat-input-element {
+		color: $dark-grey;
+		font-size: $fs-normal;
+		letter-spacing: 0.01em;
+		font-weight: $fw-lighter;
+	}
+
+
+}
+
+// .mat-form-field {
+
+// 	&.mat-focused {
+// 		.mat-form-field-label {
+// 			font-weight: 500;
+// 			color: #0a610d;
+// 		}
+// 		.mat-form-field-ripple {
+// 			background-color: #0a610d;
+// 		}
+// 		.mat-form-field-required-marker {
+// 			color: #0a610d;
+// 		}
+// 	}
+
+// 	&.mat-form-field-invalid {
+// 		.mat-input-element {
+// 			color: $b_red;
+// 		}
+// 		.mat-form-field-label {
+// 			color: $b_red;
+
+// 			.mat-form-field-required-marker {
+// 				color: $b_red;
+// 			}
+// 		}
+// 		.mat-form-field-ripple {
+// 			background-color: $b_red;
+// 		}
+
+// 		.mat-form-field-appearance-outline .mat-form-field-outline-thick .mat-form-field-outline-start,
+// 		.mat-form-field-appearance-outline .mat-form-field-outline-thick .mat-form-field-outline-end,
+// 		.mat-form-field-appearance-outline .mat-form-field-outline-thick .mat-form-field-outline-gap {
+// 			color: $b_red;
+// 		}
+// 	}
+// }
+
+.formbtn-actions {
+	float: right;
+	justify-content: space-between;
+	padding-bottom: 25px;
+
+
+	&__cancel {
+		margin-right: 50px;
+		background-color: $b_red;
+		color: white
+	}
+
+	&__save {
+		margin-left: 100px;
+		background-color: $b_green;
+		color: white;
+	}
+}
+
+// Snack Bar
+.success-snackbar {
+    background: $dark-green;
+    color: white;
+
+	.mat-icon {
+		vertical-align: middle;
+		margin-right: 6px;
+	}
+
+	button {
+		color: white;
+	}
+}
+
+.error-snackbar {
+    background: $b_red;
+    color: white;
+
+	.mat-icon {
+		vertical-align: middle;
+		margin-right: 6px;
+	}
+
+	button {
+		color: white;
+	}
+}
+
+
+
+.row:before,
+.row:after {
+  display: table;
+  content: " ";
+}
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+
+.myClass {
+	background-color:  transparent !important;
+}
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: #039A4D;
+}
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: #5ac28c;
+}

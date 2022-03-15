@@ -1,0 +1,52 @@
+
+<div fxLayout="row wrap">
+    <div *ngIf="btnBack" fxFlex="5%" fxFlex.md="100%" fxFlex.xs="100%">
+        <div class="example-button-container">
+			<button style="margin-top:60%; margin-left: 40%; color: darkgray; cursor: pointer; background-color: lightgray;"  (click) = "function_back()" matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+			  <mat-icon>arrow_back</mat-icon>
+			</button>
+		</div>
+    </div>
+    <div fxFlex="95%" fxFlex.md="100%" fxFlex.xs="100%">
+        <mat-toolbar class="page-header" role="heading">
+            <h1>Ferries</h1>
+        </mat-toolbar>
+    </div>
+</div>
+<div *ngIf="barkotaApiCard" class="inline-block">
+    <mat-card [routerLink]="['/']" (click) ="function_getToken()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="cursor: pointer;" class="card credentialing">
+        <div class="overlay"></div>
+        <img mat-card-image src="./../../../assets/img/barkota.png" alt="Photo of a Shiba Inu">  
+    </mat-card>
+</div>
+
+<div fxLayout="row wrap" fxLayoutGap="0px grid">
+    <div fxFlex="97%" fxFlex.md="100%" fxFlex.xs="100%" style="margin-top: 100px; margin-left: 20px;">
+        <mat-card *ngIf="ticketTableTransactions">
+            <mat-card-content>
+                <mat-tab-group mat-align-tabs="end">
+                    <mat-tab label="Void Ticket">
+                        <form [formGroup]="voidTicketForm" (ngSubmit)="function_submitVoidTicket()"> 
+                            <mat-card-title class="card__header">
+                                <h5 class="card__title"> Void Ticket Form</h5>
+                            </mat-card-title>
+                            <mat-form-field style="width: 40%;" class="form__input" appearance="outline" >
+                                <mat-label class="form__label"> Ticket Id </mat-label>
+                                <input type="text" matInput class="form__spacing" formControlName="ticketId" autocomplete="off">
+                            </mat-form-field>
+                            &nbsp;&nbsp;
+                            <mat-form-field style="width: 40%;" class="form__input" appearance="outline" >
+                                <mat-label class="form__label"> Remarks </mat-label>
+                                <input type="text" matInput class="form__spacing" formControlName="remarks" autocomplete="off">
+                            </mat-form-field>
+                            <br><br>
+                            <div style="float: right; margin-right: 17%;">
+                                <button class="formbtn-actions__save" mat-raised-button [disabled]="voidTicketForm.invalid" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </mat-tab>
+                </mat-tab-group>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

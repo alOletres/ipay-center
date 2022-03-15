@@ -1,0 +1,65 @@
+<mat-card-title class="card__header">
+	<h5 class="card__title"> {{ concat }} {{ item }}</h5>
+</mat-card-title>
+<form [formGroup]="editForm" (ngSubmit) ="updateFbranch()">
+		<mat-form-field class="form__input example-full-width" appearance="outline" style="width: 100%;">
+			<mat-label class="form__label">Firstname</mat-label>
+			<input matInput type="text"  class="form__spacing" formControlName="firstname" autocomplete="off" >
+		</mat-form-field>
+
+		<mat-form-field class="form__input example-full-width" appearance="outline" style="width:100%;">
+			<mat-label class="form__label">Lastname</mat-label>
+			<input matInput type="text" class="" formControlName ="lastname" autocomplete="off" >		
+		</mat-form-field>
+		
+
+		<mat-form-field class="form__input" appearance="fill" style="width: 100%;">
+			<mat-label class="form__label">Contact No.</mat-label>
+			<span matPrefix>+63 &nbsp;</span>
+			<input matInput type="text" class="form__spacing" maxlength="10"  formControlName="contactNo" (keypress)="validateOnlyNumbers($event)" autocomplete="off" >
+		</mat-form-field>
+		
+		<mat-form-field class="form__input" appearance="outline" style="width: 100%;">
+			<mat-label class="form__label">Email Address</mat-label>
+			<input matInput type="email" class="form__spacing" formControlName="email" autocomplete="off" >
+		</mat-form-field>
+		
+		<mat-form-field *ngIf ="item != 'Teller' && item != 'Sheet' " class="form__input" appearance="outline" style="width:100%">
+			<mat-label class="form__label">Branch Name</mat-label>
+			<input matInput type="text" class="form__spacing" formControlName="branchName" autocomplete="off" >
+		</mat-form-field>
+
+		<mat-form-field class="form__input" appearance="outline" style="width:100%">
+			<mat-label class="form__label">Location / Address</mat-label>
+			<textarea matInput [matTextareaAutosize]="true" formControlName="locationAddress" rows="2" ></textarea>
+		</mat-form-field>
+
+		<div *ngIf ="btnName === 'Save ' ">
+			
+			<mat-form-field class="form__input example-full-width" appearance="outline" style="width:50%;">
+				<mat-label class="form__label">Select Status</mat-label>
+				<mat-select [(ngModel)]="status" [ngModelOptions]="{standalone: true}">
+					<mat-option  *ngFor="let i of stat" [value]="i">{{ i }}</mat-option>
+				</mat-select>
+			</mat-form-field>
+			&nbsp;
+			<mat-form-field *ngIf ="status !== 'Decline' " style="text-align: right;" class="form__input example-full-width" appearance="outline" style="width: 47%;">
+				<mat-label class="form__label">Add Wallet</mat-label>
+				<input matInput type="number" [(ngModel)]="wallet" [ngModelOptions]="{standalone: true}"  class="form__spacing"  autocomplete="off" >
+			</mat-form-field>
+
+			<mat-form-field class="form__input example-full-width" appearance="outline" style="width: 47%;">
+				<mat-label class="form__label">Date Added</mat-label>
+				<input style="color: blue;" matInput type="text"  class="form__spacing" formControlName="date_added" autocomplete="off" >
+			</mat-form-field>
+			
+		</div>
+
+	<div  class="formbtn-actions">
+		<button class="formbtn-actions__cancel" type="button" mat-raised-button (click) ="closeDialog()"> Cancel</button>
+		&nbsp;&nbsp;
+		<button  class="formbtn-actions__save" mat-raised-button type="submit" [disabled]="editForm.invalid">{{btnName}}</button>	
+	</div>
+  </form>
+
+  

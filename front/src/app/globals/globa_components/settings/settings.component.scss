@@ -1,0 +1,18 @@
+.avatar {
+    vertical-align: middle;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+
+  
+._card:hover {
+	background-color: rgb(250, 250, 250);
+	border: solid 3px rgb(201, 200, 200);
+	transition: ease-in-out .3s;
+	color: rgb(119, 118, 118);
+}
+.card{
+  margin: 16px 24px 0;
+border: solid 3px transparent;
+}

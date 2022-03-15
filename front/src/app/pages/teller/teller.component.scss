@@ -1,0 +1,181 @@
+@import 'src/app/styles/colors';
+@import 'src/app/styles/font';
+@import 'src/app/styles/variables';
+
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: #039A4D;
+}
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: #5ac28c;
+}
+
+.card-wrapper {
+	padding:0;
+	margin: 16px 24px 0;
+	box-shadow: 0 3px 11px 0 $shadow-white, 0 3px 3px -2px $shadow-grey, 0 1px 8px 0 $shadow-dark-grey;
+
+	&__header {
+		color: $grey;
+		display: flex;
+		justify-content: space-between;
+		padding: 24px 24px 2px;
+		margin-bottom: 0;
+		align-items: center;
+	}
+
+	&__title {
+		margin: 0;
+	}
+
+	&__search {
+		display: flex;
+		align-items: center;
+	}
+
+	&__icon-wrapper {
+		height: 46px;
+		width: 46px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&__icon {
+		color: inherit;
+	}
+
+	&__search-input {
+		font-size: $fs-normal;
+		height: 32px;
+		border: 0;
+		border-bottom: 1px solid $grey;
+		outline: none;
+
+		@media (max-width: $small) {
+			width: 150px;
+		}
+
+		&:focus {
+			border-bottom: 2px solid $blue;
+		}
+	}
+
+	&__button {
+		box-shadow: none;
+		background-color: inherit;
+		width: 46px;
+		height: 46px;
+		color: $grey;
+
+		&:hover {
+			background-color: $black-08;
+			color: $blue;
+		}
+	}
+}
+
+.table {
+	&__content {
+		@media (max-width: $small) {
+			overflow-x: scroll;
+		}
+	}
+
+	&__table {
+		width:100%;
+		box-shadow: none;
+
+		@media (max-width: $small) {
+			width: 200%;
+		}
+		}
+
+	&__table-checkbox {
+		width: 32px;
+		padding-left: 24px;
+	}
+
+	&__table-header {
+		padding: 1rem;
+		font-size: $fs-small;
+		text-transform: $ft-uppercase;
+		font-weight: $fw-normal;
+	}
+
+	&__table-body {
+		padding: 1rem;
+		font-size: $fs-small;
+		color: $grey;
+		text-transform: $ft-capitalize;
+	}
+}
+
+span {
+	text-transform: $ft-uppercase;
+	font-weight: $fw-normal;
+	line-height: 30px
+}
+
+p {
+	text-transform: none;
+}
+
+i {
+	text-transform: $ft-capitalize
+}
+
+
+mat-select.mat-select {
+	width: auto;
+	display: inline;
+	font-size: 16px;
+	font-weight: 300;
+	color: $dark-grey;
+	border: 1px solid $light-grey;
+	border-radius: 4px;
+	padding: 8px 10px;
+
+	& .mat-select-value {
+		width: auto;
+		display: inline;
+	}
+
+	& .mat-select-arrow {
+		color: $light-grey;
+		margin-right: 0;
+	}
+}
+
+
+.settings-button {
+	box-shadow: none;
+	background-color: $settings-button-background-color;
+	color: $settings-button-color;
+
+	&:hover {
+		background-color: $settings-menu-background-color-hover;
+		color: $settings-button-color;
+	}
+
+	&__icon {
+		color: inherit;
+	}
+}
+
+.settings-menu {
+	position: absolute;
+
+	&__item {
+	color: $dark-grey;
+
+		&:hover {
+			background-color: $settings-menu-background-color-hover;
+		}
+	}
+}
+
+
+
+.myClass {
+	background-color:  transparent !important;
+}

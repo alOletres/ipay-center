@@ -1,0 +1,73 @@
+<mat-card-title class="card__header">
+	<h5 class="card__title">{{ type }} List</h5>
+</mat-card-title>
+<!-- <mat-card class="card card-wrapper">
+	
+	<mat-card-content class="card__content">
+		<div fxLayout="row wrap">
+			<div fxFlex="70%" fxFlex.md="70%" fxFlex.xs="70%"></div>
+		
+		</div>
+        
+	</mat-card-content>
+</mat-card>
+<br> -->
+<mat-dialog-content>
+	<table style="width: 100%;"    class="table__table" mat-table class="mat-elevation-z0" [dataSource]="dataSource">
+		<ng-container matColumnDef="no">
+			<th  class="table_table-header" mat-header-cell *matHeaderCellDef> no </th>
+			<td mat-cell *matCellDef="let element; index as i"> {{ i+1 }}. </td>
+		</ng-container>
+		<ng-container matColumnDef="name">
+			<th  class="table_table-header" mat-header-cell *matHeaderCellDef>name</th>
+			<td mat-cell *matCellDef="let element">
+				<span> {{ element.firstname }} {{ element.lastname }} </span>
+				<p>{{ element.contactNo }} / {{ element.email }} <br> <i>{{ element.location }}</i> </p>
+			</td>
+		</ng-container>
+		
+		<ng-container matColumnDef="branch code">
+			<th  class="table_table-header" mat-header-cell *matHeaderCellDef>Branch code</th>
+			<td mat-cell *matCellDef="let element">
+				<span *ngIf = "type === 'iBarangay' " >  {{ element.ib_ibrgyyCode }} </span>
+				<span *ngIf = " type === 'Teller' "> {{ element.tellerCode }} </span>
+			</td>
+		</ng-container>
+		<ng-container matColumnDef="branch name">
+			<th  class="table_table-header"  mat-header-cell *matHeaderCellDef>  Branch name</th>
+			<td mat-cell *matCellDef="let element">
+				<span *ngIf = "type === 'iBarangay' "> {{ element.franchiseName }} </span>
+				<span *ngIf = "type === 'Teller' "> --- </span>
+			</td>
+		</ng-container>
+		<ng-container matColumnDef="branchType">
+			<th  class="table_table-header" mat-header-cell *matHeaderCellDef>Branch Type</th>
+			<td mat-cell *matCellDef="let element">
+				<span > {{ type }} </span>
+			</td>
+		</ng-container>
+		<ng-container matColumnDef="status">
+			<th  class="table_table-header" mat-header-cell *matHeaderCellDef>status</th>
+			<td mat-cell *matCellDef="let element">
+				<span > 
+					<mat-chip-list aria-label="Fish selection">
+	
+						<mat-chip *ngIf = "element.status === 0" color="primary" selected>Active</mat-chip>
+						<mat-chip *ngIf = "element.status === 1" color="accent" selected>pending</mat-chip>
+						<mat-chip *ngIf = "element.status === 2" color="warn" selected>Decline</mat-chip>
+	
+					</mat-chip-list>
+				</span>
+			</td>
+		</ng-container>
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+	</table>
+	<br>
+	<p *ngIf="dataSourceLength === 0" style="text-align:center">NO RECORD FOUND..</p>
+	<div  class="formbtn-actions">
+	
+		<button class="formbtn-actions__cancel" type="button" mat-raised-button (click) ="closeDialog()"> Close</button>
+	
+	</div>
+</mat-dialog-content>

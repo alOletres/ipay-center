@@ -1,0 +1,4089 @@
+[
+	{
+		"TYPE": "ELOAD",
+		"LIST" : [
+			{
+				"PRODUCTNAME": "SMART PRODUCTS",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Smart Flexi Load (P10 - P500)",
+						"LCPRODUCTCODE": "SMFLEXI",
+						"DESCRIPTION_EQUIVALENT": "Regular Load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Wonder (Load10)",
+						"LCPRODUCTCODE": "SM10",
+						"DESCRIPTION_EQUIVALENT": "10 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Eload 15",
+						"LCPRODUCTCODE": "SM15",
+						"DESCRIPTION_EQUIVALENT": "15 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Eload 20",
+						"LCPRODUCTCODE": "SM20",
+						"DESCRIPTION_EQUIVALENT": "20 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Eload Economy (P30)",
+						"LCPRODUCTCODE": "SM30",
+						"DESCRIPTION_EQUIVALENT": "30 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Eload 50",
+						"LCPRODUCTCODE": "SM50",
+						"DESCRIPTION_EQUIVALENT": "50 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Eload Regular (P60)",
+						"LCPRODUCTCODE": "SM60",
+						"DESCRIPTION_EQUIVALENT": "60 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Eload 100",
+						"LCPRODUCTCODE": "SM100",
+						"DESCRIPTION_EQUIVALENT": "100 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Eload Extra (P115)",
+						"LCPRODUCTCODE": "SM115",
+						"DESCRIPTION_EQUIVALENT": "115 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Eload 200",
+						"LCPRODUCTCODE": "SM200",
+						"DESCRIPTION_EQUIVALENT": "200 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Eload 250",
+						"LCPRODUCTCODE": "SM250",
+						"DESCRIPTION_EQUIVALENT": "250 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Eload 300",
+						"LCPRODUCTCODE": "SM300",
+						"DESCRIPTION_EQUIVALENT": "300 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Eload 500",
+						"LCPRODUCTCODE": "SM500",
+						"DESCRIPTION_EQUIVALENT": "500 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Eload 1000",
+						"LCPRODUCTCODE": "SM1000",
+						"DESCRIPTION_EQUIVALENT": "1000 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "All Out Surf 20 (WEB) for Smart subs only",
+						"LCPRODUCTCODE": "SMWAO20",
+						"DESCRIPTION_EQUIVALENT": "Unli AllNet SMS, 20 minutes Trinet calls, 150MB Open Access + 100MB/day FB and FB Messenger access, open to SPP",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Smart Giga Video 50 (for Smart subscribers only)",
+						"LCPRODUCTCODE": "SMGS50",
+						"DESCRIPTION_EQUIVALENT": "1GB + 1GB EVERY DAY for YouTube, NBA, Cignal & iWant + UNLITEXT to ALL",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "GIGA VIDEO 99 (for Smart subs only)",
+						"LCPRODUCTCODE": "SMGS99",
+						"DESCRIPTION_EQUIVALENT": "2 GB Data Access + 1 GB TikTok EVERY DAY + 1 GB VIDEO EVERY DAY for YouTube, NBA TV, GigaPlay, iWantTFC, Cignal Play",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Giga Video 299 (for Smart subs only)",
+						"LCPRODUCTCODE": "SMGS299",
+						"DESCRIPTION_EQUIVALENT": "4 GB Data Access + UNLI TikTok EVERY DAY + 1 GB VIDEO EVERY DAY for YouTube, NBA TV, GigaPlay, iWantTFC, Cignal Play",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "GIGA VIDEO 50 (for Smart subs only)",
+						"LCPRODUCTCODE": "SMBB50",
+						"DESCRIPTION_EQUIVALENT": "1GB + 1GB EVERY DAY for YouTube, NBA, Cignal & iWant + UNLITEXT to ALL",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Enhanced UCT 30",
+						"LCPRODUCTCODE": "SMUCT30",
+						"DESCRIPTION_EQUIVALENT": "Unlimited calls to SMART, TNT and SUN Unlimited texts to All Networks 100MB for FB Messenger and Whatsapp",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Enhanced UCT 50",
+						"LCPRODUCTCODE": "SMUCT50",
+						"DESCRIPTION_EQUIVALENT": "Unlimited calls to Smart, TNT and Sun , Unlimited texts to All Networks , 300MB for FB Messenger and Whatsapp",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "UCT 100",
+						"LCPRODUCTCODE": "SMUCT100",
+						"DESCRIPTION_EQUIVALENT": "Unlimited calls to Smart, TNT and Sun , Unlimited texts to All Networks , 500MB for FB Messenger and Whatsapp",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "UCT 350",
+						"LCPRODUCTCODE": "SMUCT350",
+						"DESCRIPTION_EQUIVALENT": "Unli calls to SMART, TNT and SUN , Unlimited texts to All Networks , 1GB for Messenger and Whatsapp",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart All Out Surf 20 (HERO OFFER) (for Smart subscribers only)",
+						"LCPRODUCTCODE": "SMAOS20",
+						"DESCRIPTION_EQUIVALENT": "150MB Data + 100MB/day for Facebook and FB Messenger + Unlimited texts to all networks + 20 Min calls to Smart, TNT and Sun",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Smart All Out Surf 30 (HERO OFFER) (for Smart subscribers only)",
+						"LCPRODUCTCODE": "SMAOS30",
+						"DESCRIPTION_EQUIVALENT": "30min Trinet Calls + Unli All-Net SMS + 300MB open access + 100MB/day for Facebook and FB Messenger",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart All Out Surf 50 (for Smart subscribers only)",
+						"LCPRODUCTCODE": "SMAOS50",
+						"DESCRIPTION_EQUIVALENT": "50min Trinet Calls + Unli All-Net SMS + 500MB open access + 100MB/day for Facebook and FB Messenger",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart All Out Surf 99 (for Smart subscribers only)",
+						"LCPRODUCTCODE": "SMAOS99",
+						"DESCRIPTION_EQUIVALENT": "100min Trinet Calls + Unli All-Net SMS + 1GB open access + 100MB/day for Facebook and FB Messenger",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "All Out Surf 30 (WEB)",
+						"LCPRODUCTCODE": "SMWALLIN30 ",
+						"DESCRIPTION_EQUIVALENT": "Unli AllNet SMS, 30 minutes Trinet calls, 300MB Open Access + 100MB FB and FB Messenger access valid for 2 days",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "All Out Surf 50 (WEB)",
+						"LCPRODUCTCODE": "SMWALLIN50 ",
+						"DESCRIPTION_EQUIVALENT": "Unli AllNet SMS, 50 minutes Trinet calls, 500MB Open Access + 100MB FB and FB Messenger access valid for 3 days",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "All Out Surf 99 (WEB)",
+						"LCPRODUCTCODE": "SMWALLIN99 ",
+						"DESCRIPTION_EQUIVALENT": "Unli AllNet SMS,100 minutes Trinet calls, 1GB Open Access +100MB FB and FB Messenger access valid for 7 days",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Giga Video+ 75 (for Smart subscribers only)",
+						"LCPRODUCTCODE": "SMGIGAPLUS75",
+						"DESCRIPTION_EQUIVALENT": "1 GB open access, unli All net call, unli All net SMS + 1GB per day for Youtube, NBA TV, Cignal Play & iWantTFC for 3 days",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Giga Video+ 149 (for Smart subscribers only)",
+						"LCPRODUCTCODE": "SMGIGAPLUS149",
+						"DESCRIPTION_EQUIVALENT": "2 GB Data Access + Unli Allnet Calls & Texts + UNLI TikTok EVERY DAY + 1 GB VIDEO EVERY DAY for YouTube, NBA TV, GigaPlay, iWantTFC, Cignal Play",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Giga Video+ 449 (for Smart subscribers only)",
+						"LCPRODUCTCODE": "SMGIGAPLUS449",
+						"DESCRIPTION_EQUIVALENT": "4 GB Data Access + Unli Allnet Calls & Texts + UNLI TikTok EVERY DAY + 1 GB VIDEO EVERY DAY for YouTube, NBA TV, GigaPlay, iWantTFC, Cignal Play",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "GIGA VIDEO 299 (for Smart subs only)",
+						"LCPRODUCTCODE": "SMGIGA299",
+						"DESCRIPTION_EQUIVALENT": "4GB Data, 1.3GB daily data for YouTube, NBA, Cignal, iWant TV ",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "SMARTLoad 20",
+						"LCPRODUCTCODE": "SMWP20",
+						"DESCRIPTION_EQUIVALENT": "P20 SmartLoad valid for 365 days",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Unli 50 (WEB)",
+						"LCPRODUCTCODE": "SMUNLI50",
+						"DESCRIPTION_EQUIVALENT": "Unlimited SMS to All Networks, Unlimited calls to Smart/TNT/Sun, 300MB data FB Messenger, Viber, Whatsapp, and Telegram valid for 3 days",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Unli 100",
+						"LCPRODUCTCODE": "SMUCT100",
+						"DESCRIPTION_EQUIVALENT": "Unlimited SMS to All Networks, Unlimited calls to Smart/TNT/Sun, 500MB data FB Messenger, Viber, Whatsapp, and Telegram valid for 7 days",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "GIGA IG+FB 50",
+						"LCPRODUCTCODE": "SMGIF50",
+						"DESCRIPTION_EQUIVALENT": "1 GB Data + 1 GB STORIES EVERY DAY for Tiktok, IG, FB, Twitter, Kumu",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "GIGA IG+FB 99",
+						"LCPRODUCTCODE": "SMGIF99",
+						"DESCRIPTION_EQUIVALENT": "2 GB Data + 1 GB STORIES EVERY DAY for Tiktok, IG, FB, Twitter, Kumu",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "GIGA IG+FB 299",
+						"LCPRODUCTCODE": "SMGIF299",
+						"DESCRIPTION_EQUIVALENT": "4 GB Data + 1 GB STORIES EVERY DAY for Tiktok, IG, FB, Twitter, Kumu",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "GIGA IG+FB 499",
+						"LCPRODUCTCODE": "SMGIF499",
+						"DESCRIPTION_EQUIVALENT": "8 GB data access +  1 GB STORIES EVERY DAY for Tiktok, IG, FB, Twitter, Kumu",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart GIGA GAMES 50",
+						"LCPRODUCTCODE": "SMGGM50",
+						"DESCRIPTION_EQUIVALENT": "1 GB Data Access + 1 GB GAMES EVERY DAY for PUBG Mobile, ML, CoC, AoV, Clash Royale, FB Gaming",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "GIGA GAMES 99",
+						"LCPRODUCTCODE": "SMGGM99",
+						"DESCRIPTION_EQUIVALENT": "2 GB Data Access + 1 GB of Tiktok EVERY DAY + 1 GB GAMES EVERY DAY for PUBG Mobile, ML, CoC, AoV, Clash Royale, FB Gaming",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Magic Data 499",
+						"LCPRODUCTCODE": "SMMDT499",
+						"DESCRIPTION_EQUIVALENT": "36 GB DATA NO EXPIRY",
+						"VALIDITY": "NO EXPIRY"
+					},
+					{
+						"PRODUCTNAME": "Smart GIGA POWER 75",
+						"LCPRODUCTCODE": "SMGIGAPOWER75",
+						"DESCRIPTION_EQUIVALENT": "2 GB POWER EVERY DAY for ALL Sites & Apps, PLUS 2 GB DATA FOR A TOTAL 8 GB",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart GIGA POWER 149",
+						"LCPRODUCTCODE": "SMGIGAPOWER149",
+						"DESCRIPTION_EQUIVALENT": "6 GB Shareable Data + UNLI TikTok EVERY DAY + 2 GB POWER EVERY DAY FOR ALL SITES & APPS",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart GIGA POWER 499",
+						"LCPRODUCTCODE": "SMGIGAPOWER499",
+						"DESCRIPTION_EQUIVALENT": "2 GB POWER EVERY DAY for ALL Sites & Apps, PLUS 24 GB DATA FOR A TOTAL 84 GB",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart GIGA STORIES 299",
+						"LCPRODUCTCODE": "SMGIGAS299",
+						"DESCRIPTION_EQUIVALENT": "4 GB Data Access + UNLI TikTok EVERY DAY + 1 GB STORIES EVERY DAY for TikTok, IG, FB, Twitter, Kumu",
+						"VALIDITY": "30 Days"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "SUN XPRESSLOAD PRODUCTS",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "SUN 10 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUN10",
+						"DESCRIPTION_EQUIVALENT": "10 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN 15 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUN15",
+						"DESCRIPTION_EQUIVALENT": "15 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN 20 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUN20",
+						"DESCRIPTION_EQUIVALENT": "20 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN 25 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUN25",
+						"DESCRIPTION_EQUIVALENT": "25 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN 30 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUN30",
+						"DESCRIPTION_EQUIVALENT": "30 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN 50 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUN50",
+						"DESCRIPTION_EQUIVALENT": "50 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN 75 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUN75",
+						"DESCRIPTION_EQUIVALENT": "75 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN 100 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUN100",
+						"DESCRIPTION_EQUIVALENT": "100 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN 150 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUN150",
+						"DESCRIPTION_EQUIVALENT": "150 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN 200 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUN200",
+						"DESCRIPTION_EQUIVALENT": "200 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN 300 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUN300",
+						"DESCRIPTION_EQUIVALENT": "300 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN 500 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUN500",
+						"DESCRIPTION_EQUIVALENT": "500 airtime load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Giga Video 50 (SUN, SMART, SMARTBRO and TNT subs)",
+						"LCPRODUCTCODE": "SMSUNGV50",
+						"DESCRIPTION_EQUIVALENT": "1 GB open access data and UNLI ALLNET Texts + 1 GB VIDEO EVERY DAY for YouTube, NBA, iWant, Cignal Play (for SUN PREPAID,  SMART PREPAID, SMARTBRO PREPAID, TNT PREPAID subscribers)",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Giga Video 99 (SUN, SMART, SMARTBRO and TNT subs)",
+						"LCPRODUCTCODE": "SMSUNGV99",
+						"DESCRIPTION_EQUIVALENT": "2 GB open access data + 1 GB VIDEO EVERY DAY for YouTube, NBA, iWant, Cignal Play (for SUN PREPAID,  SMART PREPAID, SMARTBRO PREPAID, TNT PREPAID subscribers)",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Giga Video 299 (SUN, SMART, SMARTBRO and TNT subs)",
+						"LCPRODUCTCODE": "SMSUNGV299",
+						"DESCRIPTION_EQUIVALENT": "4 GB open access data + 1 GB VIDEO EVERY DAY for YouTube, NBA, iWant, Cignal Play (for SUN PREPAID,  SMART PREPAID, SMARTBRO PREPAID, TNT PREPAID subscribers)",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Sulit Surf Plus 20 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUNSSP20",
+						"DESCRIPTION_EQUIVALENT": "300 MB, Unli Trinet Calls & Unli Allnet Texts ( for SUN and SUN Brodband Subs. Only )",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Sulit Surf Plus 50 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUNSSP50",
+						"DESCRIPTION_EQUIVALENT": "500 MB, Unli Trinet Calls & Unli Allnet Texts ( for SUN and SUN Brodband Subs. Only )",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Sulit Surf Plus 99 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUNSSP99",
+						"DESCRIPTION_EQUIVALENT": "1 GB open access data + Unli Trinet Calls, 30 Allnet Mins and Unli Allnet Texts ( for SUN and SUN Brodband Subs. Only )",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Sulit Surf Plus 249 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUNSSP249",
+						"DESCRIPTION_EQUIVALENT": "2 GB open access data + Unli Trinet Calls, 60 Allnet Mins and Unli Allnet Texts ( for SUN and SUN Brodband Subs. Only )",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Call and Text Combo 10 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUNCTC10",
+						"DESCRIPTION_EQUIVALENT": "100 MB/day for FB, Non Stop Chat + 10 Trinet Mins Call and 100 Allnet Texts ( for SUN and SUN Brodband Subs. Only )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "SUN Call and Text Combo 20 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUNCTC20",
+						"DESCRIPTION_EQUIVALENT": "100 MB/day for FB, Non Stop Chat + 25 Trinet Mins Call and 200 Allnet Texts ( for SUN and SUN Brodband Subs. Only )",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Call and Text Combo 30 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUNCTC30",
+						"DESCRIPTION_EQUIVALENT": "100 MB/day for FB + 50 MB/day for Non Stop Chat, 40 Trinet Mins Call and 300 Allnet Texts ( for SUN and SUN Brodband Subs. Only )",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Call and Text Combo 50 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUNCTC50",
+						"DESCRIPTION_EQUIVALENT": "100 MB/day for FB + 50 MB/day for Non Stop Chat, 70 Trinet Mins Call and 250 Sun Texts, 250 Allnet Texts ( for SUN and SUN Brodband Subs. Only )",
+						"VALIDITY": "5 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Text Unli 50 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUNTU50",
+						"DESCRIPTION_EQUIVALENT": "100 MB/day for FB + 50 MB/day for Non Stop Chat, 60 Trinet Mins Call and Unli Allnet Texts ( for SUN and SUN Brodband Subs. Only )",
+						"VALIDITY": "10 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Text Unli 150 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUNTU150",
+						"DESCRIPTION_EQUIVALENT": "100 MB/day for FB + 50 MB/day for Non Stop Chat, 300 Trinet Mins Call  and Unli Allnet Texts ( for SUN and SUN Brodband Subs. Only )",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN Text Unli 200 (SUN and SUN Broadband subs only)",
+						"LCPRODUCTCODE": "SMSUNTU200",
+						"DESCRIPTION_EQUIVALENT": "100 MB/day for FB + 50 MB/day for Non Stop Chat, 300 Quadnet Mins Call and Unli Allnet Texts ( for SUN and SUN Brodband Subs. Only )",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN IDD Top 10 50 (for SUN subs only)",
+						"LCPRODUCTCODE": "SMSUNIDD50",
+						"DESCRIPTION_EQUIVALENT": "15 Trinet Mins Call and 20 Trinet Texts valid for 15 Days ( for SUN Subs. Only ) ",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN IDD Top 10 100 (for SUN subs only)",
+						"LCPRODUCTCODE": "SMSUNIDD100",
+						"DESCRIPTION_EQUIVALENT": "30 Trinet Mins and 30 Trinet Texts valid for 30 Days ( for SUN Subs. Only )",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "SUN IDD Top 10 300 (for SUN subs only) ",
+						"LCPRODUCTCODE": "SMSUNIDD300",
+						"DESCRIPTION_EQUIVALENT": "60 Trinet Mins and 80 Trinet Texts valid for 60 Days ( for SUN Subs. Only )",
+						"VALIDITY": "60 Days"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "TNT PRODUCTS",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Super Combo 20",
+						"LCPRODUCTCODE": "TNTSC20",
+						"DESCRIPTION_EQUIVALENT": "Unli Trinet SMS and calls + 50MB data ( *Upgraded to Surf Saya 20 - 200MB to 250 MB/day for FB, ML, IG, Tiktok + Unli Allnet Calls & Texts )",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "UnliText Plus 15",
+						"LCPRODUCTCODE": "TNTUTP15",
+						"DESCRIPTION_EQUIVALENT": "Unlitext + UNLI calls to TNT/Smart/Sun + 50 all-net texts for 2 days",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Unlitext Extra 30 (Enhancement)",
+						"LCPRODUCTCODE": "TNTUT30",
+						"DESCRIPTION_EQUIVALENT": "Unli All-net SMS, 100mins Tri-net calls, 100MB Tropa Apps",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Willie - UnliTxt150",
+						"LCPRODUCTCODE": "TNTWUT150",
+						"DESCRIPTION_EQUIVALENT": "150 All-net SMS, 150 mins Tri-net calls",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Facebook 10",
+						"LCPRODUCTCODE": "TNTFB10",
+						"DESCRIPTION_EQUIVALENT": "200 MB/day for FB",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "SURFMAX 50",
+						"LCPRODUCTCODE": "TNTSFMX50",
+						"DESCRIPTION_EQUIVALENT": "800MB all day internet data",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Giga Video 299",
+						"LCPRODUCTCODE": "TNTSPPGIGA299",
+						"DESCRIPTION_EQUIVALENT": "4GB Data , 1 GB/day for YT, NBA, Cignal, iWant ",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "SURFSAYA FB 20 (for TNT subscribers only)",
+						"LCPRODUCTCODE": "TNTSAYA20",
+						"DESCRIPTION_EQUIVALENT": "200MB to 250 MB/day for FB, ML, IG, Tiktok + Unli Allnet Calls & Texts",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "SURFSAYA FB 30 (for TNT subscribers only)",
+						"LCPRODUCTCODE": "TNTSAYA30",
+						"DESCRIPTION_EQUIVALENT": "400 MB to 450 MB MB/day for FB, ML, IG, Tiktok + Unli Allnet Calls & Texts for 3 days",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "SURFSAYA FB 99 (for TNT subscribers only)",
+						"LCPRODUCTCODE": "TNTSAYA99",
+						"DESCRIPTION_EQUIVALENT": "1.5 GB Data Access + Unli Allnet Calls & Texts + 1 GB TikTok ARAW-ARAW + 100 MB ARAW-ARAW for TikTok, IG, FB, ML",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "SURFSAYA FB 199 (for TNT subscribers only)",
+						"LCPRODUCTCODE": "TNTSAYA199",
+						"DESCRIPTION_EQUIVALENT": "2 GB Data Access + Unli Allnet Calls & Texts + UNLI TikTok ARAW-ARAW + 200 MB ARAW-ARAW for TikTok, IG, FB, ML",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "GIGA VIDEO 50 (for TNT subs)",
+						"LCPRODUCTCODE": "TNTGV50",
+						"DESCRIPTION_EQUIVALENT": "1GB + 1GB EVERY DAY for YouTube, NBA, Cignal & iWant + UNLITEXT to ALL ",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "GIGA VIDEO 99 (for TNT subs)",
+						"LCPRODUCTCODE": "TNTGV99",
+						"DESCRIPTION_EQUIVALENT": "2GB + 1GB EVERY DAY for YouTube, NBA, Cignal & iWant ",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "TNT GIGA STORIES 50",
+						"LCPRODUCTCODE": "TNTGS50",
+						"DESCRIPTION_EQUIVALENT": "1 GB STORIES EVERY DAY for Tiktok, IG, FB, Twitter, Kumu",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "TNT GIGA STORIES 99",
+						"LCPRODUCTCODE": "TNTGS99",
+						"DESCRIPTION_EQUIVALENT": "2 GB DATA ACCESS + 1 GB TikTok EVERY DAY + 1 GB STORIES EVERY DAY for TikTok, IG, FB, Twitter, Kumu",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "TNT GIGA POWER 75",
+						"LCPRODUCTCODE": "TNTGIGAPOWER75",
+						"DESCRIPTION_EQUIVALENT": "2 GB POWER EVERY DAY for ALL Sites & Apps, PLUS 2 GB DATA FOR A TOTAL 8 GB",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "TNT GIGA POWER 149",
+						"LCPRODUCTCODE": "TNTGIGAPOWER149",
+						"DESCRIPTION_EQUIVALENT": "2 GB POWER EVERY DAY for ALL Sites & Apps, PLUS 6 GB DATA FOR A TOTAL 20 GB",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "TNT GIGA POWER 499",
+						"LCPRODUCTCODE": "TNTGIGAPOWER499",
+						"DESCRIPTION_EQUIVALENT": "24 GB Shareable Data + UNLI TikTok EVERY DAY + 2 GB POWER EVERY DAY FOR ALL SITES & APPS",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "TNT PANTAWID 10",
+						"LCPRODUCTCODE": "PANTAWID10",
+						"DESCRIPTION_EQUIVALENT": "100 MB + 100 Allnet Mins + 100 Allnet Texts",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "TNT PANTAWID 15",
+						"LCPRODUCTCODE": "PANTAWID15",
+						"DESCRIPTION_EQUIVALENT": "150 MB + 150 Allnet Mins + 150 Allnet Texts",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "TNT PANTAWID 20",
+						"LCPRODUCTCODE": "PANTAWID20",
+						"DESCRIPTION_EQUIVALENT": "200 MB + Unli Allnet Calls & Texts",
+						"VALIDITY": "1 Day"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "SmartBRO PRODUCTS",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Giga Video 50 (SMBro)",
+						"LCPRODUCTCODE": "SMBROBB50",
+						"DESCRIPTION_EQUIVALENT": "1GB + 1GB EVERY DAY for YouTube, NBA, Cignal & iWant + UNLITEXT to ALL",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Giga Video 50 (BRO)",
+						"LCPRODUCTCODE": "SMBROGS50",
+						"DESCRIPTION_EQUIVALENT": "1GB + 1GB EVERY DAY for YouTube, NBA, Cignal & iWant + UNLITEXT to ALL",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Smart Giga Video 99 (BRO)",
+						"LCPRODUCTCODE": "SMBROGS99",
+						"DESCRIPTION_EQUIVALENT": "2GB of data for all apps & sites + 1/GB day for YouTube, iWant TV, NBA League Pass, Cignal TV",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Giga Video 299 (SMBro)",
+						"LCPRODUCTCODE": "SMBROGS299",
+						"DESCRIPTION_EQUIVALENT": "4GB + 1GB EVERY DAY for YouTube, NBA, Cignal, iWant TV",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "SULITIDD50",
+						"LCPRODUCTCODE": "SMSIDD50",
+						"DESCRIPTION_EQUIVALENT": "IDD calls (50) ",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "SULITIDD100",
+						"LCPRODUCTCODE": "SMSIDD100",
+						"DESCRIPTION_EQUIVALENT": "IDD calls (100) ",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "SULITIDD500",
+						"LCPRODUCTCODE": "SMSIDD500",
+						"DESCRIPTION_EQUIVALENT": "IDD calls (500)",
+						"VALIDITY": "90 Days"
+					},
+					{
+						"PRODUCTNAME": "Home Boost 599 ((for SmartBro and  PLDT subscribers)",
+						"LCPRODUCTCODE": "SMBROBOOST599",
+						"DESCRIPTION_EQUIVALENT": "15GB Data",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "SmartBRO UNLI DATA 599",
+						"LCPRODUCTCODE": "SBUNLIDATA599",
+						"DESCRIPTION_EQUIVALENT": "UNLI DATA, 5 Mbps for Videos on YT, FB, IG, Netflix. (Allowed Device: Pocket Wifi & Smartphones) (Allowed Site/s: P2P, Torrents blocked)",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "SmartBRO UNLI FAM 999",
+						"LCPRODUCTCODE": "SBUNLIFAM999",
+						"DESCRIPTION_EQUIVALENT": "UNLI DATA, NO SPEED LIMITS",
+						"VALIDITY": "30 Days"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "PLDT FAMLOAD Video Plus",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "PLDT FAMLOAD VIDEO PLUS 199 (7GB Data, 7 days)",
+						"LCPRODUCTCODE": "FAMLOADVP199",
+						"DESCRIPTION_EQUIVALENT": "7GB open access + 3GB video per day for Youtube, iWant, NBA  League Pass and Cignal Play (subscription not included) ",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT FAMLOAD VIDEO PLUS 599 (15GB Data, 15 days)",
+						"LCPRODUCTCODE": "FAMLOADVP599",
+						"DESCRIPTION_EQUIVALENT": "15GB open access + 3GB video per day for Youtube, iWant, NBA  League Pass and Cignal Play (subscription not included) ",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT FAMLOAD VIDEO PLUS 999 (30GB Data, 30 days)",
+						"LCPRODUCTCODE": "FAMLOADVP999",
+						"DESCRIPTION_EQUIVALENT": "30GB open access + 3GB video per day for Youtube, iWant, NBA  League Pass and Cignal Play (subscription not included) ",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT FAMLOAD VIDEO PLUS 1499 (90GB Data, 30 days)",
+						"LCPRODUCTCODE": "FAMLOADVP1499",
+						"DESCRIPTION_EQUIVALENT": "90GB open access + 3GB video per day for Youtube, iWant, NBA  League Pass and Cignal Play (subscription not included) ",
+						"VALIDITY": "30 Days"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "PLDT FAMLOAD Video",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "PLDT FAMLOAD VIDEO 199 (12GB Data, 7 days)",
+						"LCPRODUCTCODE": "FAMLOADVIDEO199",
+						"DESCRIPTION_EQUIVALENT": "12GB open access + 1GB video per day for Youtube ",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT FAMLOAD VIDEO 599 (40GB Data, 15 days)",
+						"LCPRODUCTCODE": "FAMLOADVIDEO599",
+						"DESCRIPTION_EQUIVALENT": "40GB open access + 1GB video per day for Youtube",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT FAMLOAD VIDEO 999 (70GB Data, 30 days)",
+						"LCPRODUCTCODE": "FAMLOADVIDEO999",
+						"DESCRIPTION_EQUIVALENT": "70GB open access + 1GB video per day for Youtube",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT FAMLOAD VIDEO 1499 (100GB Data, 30 days)",
+						"LCPRODUCTCODE": "FAMLOADVID1499",
+						"DESCRIPTION_EQUIVALENT": "100GB open access + 1GB video per day for Youtube",
+						"VALIDITY": "30 Days"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "PLDT Load",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "PLDT Load 30",
+						"LCPRODUCTCODE": "PLP30",
+						"DESCRIPTION_EQUIVALENT": "UNLIMITED LOCAL CALLS (LOCAL AREA) + PHP1.00 NDD AND IDD CALLS +TEXT MESSAGING",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT Load 50",
+						"LCPRODUCTCODE": "PLP50",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT Load 60",
+						"LCPRODUCTCODE": "PLP60",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT Load 100",
+						"LCPRODUCTCODE": "PLP100",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT Load 115",
+						"LCPRODUCTCODE": "PLP115",
+						"VALIDITY": "45 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT Load 175",
+						"LCPRODUCTCODE": "PLP175",
+						"VALIDITY": "60 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT Load 200",
+						"LCPRODUCTCODE": "PLP200",
+						"VALIDITY": "60 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT Load 300",
+						"LCPRODUCTCODE": "PLP300",
+						"VALIDITY": "75 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT Load 500",
+						"LCPRODUCTCODE": "PLP500",
+						"VALIDITY": "120 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT Load 1000",
+						"LCPRODUCTCODE": "PLP1000",
+						"VALIDITY": "120 Days"
+					},
+					{
+						"PRODUCTNAME": "PLDT Prepaid Home WIFI UNLI FAM 999",
+						"LCPRODUCTCODE": "UNLIFAM999",
+						"DESCRIPTION_EQUIVALENT": "UNLI DATA, NO SPEED LIMITS",
+						"VALIDITY": "30 Days"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "CIGNAL PRODUCTS",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Plan 450 SD",
+						"LCPRODUCTCODE": "CIGNALSD450",
+						"DESCRIPTION_EQUIVALENT": "59 SD Channels",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "Plan 450 HD",
+						"LCPRODUCTCODE": "CIGNAL450",
+						"DESCRIPTION_EQUIVALENT": "5 HD Channels, 59 SD Channels",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "Plan 500 HD",
+						"LCPRODUCTCODE": "CIGNAL500",
+						"DESCRIPTION_EQUIVALENT": "9 HD Channels, 62 SD Channels",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "Plan 600 HD",
+						"LCPRODUCTCODE": "CIGNAL600",
+						"DESCRIPTION_EQUIVALENT": "15 HD Channels, 67 SD Channels",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "Plan 800 HD",
+						"LCPRODUCTCODE": "CIGNAL800",
+						"DESCRIPTION_EQUIVALENT": "18 HD Channels, 73 SD Channels",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "Plan 1000 HD",
+						"LCPRODUCTCODE": "CIGNAL1000",
+						"DESCRIPTION_EQUIVALENT": "21 HD Channels, 80 SD Channels",
+						"VALIDITY": "1 month"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "MERALCO KURYENTE LOAD",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Meralco Load 110",
+						"LCPRODUCTCODE": "ILW110",
+						"DESCRIPTION_EQUIVALENT": "Available on: TAYTAY, ANGONO, CAINTA"
+					},
+					{
+						"PRODUCTNAME": "Meralco Load 220",
+						"LCPRODUCTCODE": "ILW220"
+					},
+					{
+						"PRODUCTNAME": "Meralco Load 330",
+						"LCPRODUCTCODE": "ILW330"
+					},
+					{
+						"PRODUCTNAME": "Meralco Load 550",
+						"LCPRODUCTCODE": "ILW550"
+					},
+					{
+						"PRODUCTNAME": "Meralco Load 1100",
+						"LCPRODUCTCODE": "ILW1100"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "SATLITE by CIGNAL thru Smart e-Load",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "SATLITE LOAD 499 (66 channels for 30 days)",
+						"LCPRODUCTCODE": "SATLITE499",
+						"DESCRIPTION_EQUIVALENT": "66 Channels",
+						"VALIDITY": "30 Days"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "GLOBE, TOUCH MOBILE & CHERRY PRODUCTS",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Globe Amax Other (P15 - P150)",
+						"LCPRODUCTCODE": "GMXMAX",
+						"DESCRIPTION_EQUIVALENT": "Regular Load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Amax 10",
+						"LCPRODUCTCODE": "GMX10",
+						"DESCRIPTION_EQUIVALENT": "10 regular load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Amax 100",
+						"LCPRODUCTCODE": "GMX100",
+						"DESCRIPTION_EQUIVALENT": "100 regular load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Amax 350 (for Globe and TM)",
+						"LCPRODUCTCODE": "GMX350",
+						"DESCRIPTION_EQUIVALENT": "350 regular load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Amax 450 (for Globe and TM)",
+						"LCPRODUCTCODE": "GMX450",
+						"DESCRIPTION_EQUIVALENT": "450 regular load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Amax 550 (for Globe and TM)",
+						"LCPRODUCTCODE": "GMX550",
+						"DESCRIPTION_EQUIVALENT": "550 regular load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Amax 600 (for Globe and TM)",
+						"LCPRODUCTCODE": "GMX600",
+						"DESCRIPTION_EQUIVALENT": "600 regular load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Amax 700 (for Globe and TM)",
+						"LCPRODUCTCODE": "GMX700",
+						"DESCRIPTION_EQUIVALENT": "700 regular load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Amax 900 (for Globe and TM)",
+						"LCPRODUCTCODE": "GMX900",
+						"DESCRIPTION_EQUIVALENT": "900 regular load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GO UNLI 20",
+						"LCPRODUCTCODE": "GOUNLI20",
+						"DESCRIPTION_EQUIVALENT": "Unlimited text to All Network, Unli Call Globe/TM, and 20MB (Maintain P1 load)",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GO UNLI 25",
+						"LCPRODUCTCODE": "GOUNLI25",
+						"DESCRIPTION_EQUIVALENT": "Unlimited Calls to Globe/TM, Unlimited text to All Networks and Unli Viber chat valid for 1 day (Maintain P1 load)",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GO UNLI 50",
+						"LCPRODUCTCODE": "GOUNLI50",
+						"DESCRIPTION_EQUIVALENT": "Unli calls to Globe/TM, Unli text All Network , and 50MB of surfing valid for 3 days (Maintain P1 load)",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GO UNLI 30",
+						"LCPRODUCTCODE": "USSDGOUNLI30",
+						"DESCRIPTION_EQUIVALENT": "Unlimited calls to Globe/TM, unlimited texts to all networks and all day access (Viber, FB Messenger, Kakao, GMessage and other major chat apps like Line & WeChat)",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GO SURF 299",
+						"LCPRODUCTCODE": "GOSURF299",
+						"DESCRIPTION_EQUIVALENT": "Consumable 2GB + 10GB access to choice of GoShare&Shop, GoWatch&Play or GoLive&Discover apps + 1GB GoWifi + Gcash Voucher",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GO SURF 999",
+						"LCPRODUCTCODE": "GOSURF999",
+						"DESCRIPTION_EQUIVALENT": "10GB data access  + 10GB access to choice of GoShare&Shop, GoWatch&Play or GoLive&Discover apps + 1GB GoWifi + Gcash Voucher",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GO TIPIDD 30",
+						"LCPRODUCTCODE": "GOTIPIDD30",
+						"DESCRIPTION_EQUIVALENT": "P30 worth of IDD calls",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GO TIPIDD 50",
+						"LCPRODUCTCODE": "GOTIPIDD50",
+						"DESCRIPTION_EQUIVALENT": "P50 worth of IDD calls",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GO TIPIDD 100",
+						"LCPRODUCTCODE": "GOTIPIDD100",
+						"DESCRIPTION_EQUIVALENT": "P100 worth of idd calls",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Unli Txt 10 (all network)",
+						"LCPRODUCTCODE": "UA10",
+						"DESCRIPTION_EQUIVALENT": "unlimited texts to ALL NETWORKS",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GO SURF MB 10",
+						"LCPRODUCTCODE": "GOSURFMB10",
+						"DESCRIPTION_EQUIVALENT": "Consumable 40MB mobile internet + FREE 200MB of music streaming via Spotify",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GO SURF MB 15",
+						"LCPRODUCTCODE": "GOSURFMB15",
+						"DESCRIPTION_EQUIVALENT": "Consumable 100MB with FREE 30MB of Instagram",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GO SURF MB 30",
+						"LCPRODUCTCODE": "GOSURFMB30",
+						"DESCRIPTION_EQUIVALENT": "Consumable 300MB + 50MB for 1 chosen freebie( FB, Instagram, Viber or Snapchat)",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GO SURF MB 50",
+						"LCPRODUCTCODE": "GOSURFMB50",
+						"DESCRIPTION_EQUIVALENT": "Consumable 2GB + 1GB Daily for 1 chosen freebie (GoWATCH&PLAY,GoSHARE&SHOP)",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe CHAT PLUS 25",
+						"LCPRODUCTCODE": "CHATPLUS25",
+						"DESCRIPTION_EQUIVALENT": "15 IDD minutes to the US & Canada + ALL-Day access to FB Messenger, Viber, Kakaotalk, WeChat, WhatsAPP & Google Messenger",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GO TIPIDD 100",
+						"LCPRODUCTCODE": "USSDGOTIPIDD100",
+						"DESCRIPTION_EQUIVALENT": "Call 200+ countries for as low as P2.50/min",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GOSAKTO 70",
+						"LCPRODUCTCODE": "GOTSCOMBODD70",
+						"DESCRIPTION_EQUIVALENT": "1GB data + Unli texts to all networks + 1GB GoWiFi Access + free GCash QR voucher + FREE 1GB/day GoSHARE&SHOP and GoWATCH&PLAY.",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GOSAKTO 90",
+						"LCPRODUCTCODE": "GOTSCOMBODD90",
+						"DESCRIPTION_EQUIVALENT": "2GB data + Unli texts to all networks + 1GB GoWiFi Access + free GCash QR voucher + FREE 1GB/day for GoSHARE&SHOP and GoWATCH&PLAY.",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GOSAKTO 120",
+						"LCPRODUCTCODE": "GOCOMBOEED120",
+						"DESCRIPTION_EQUIVALENT": "3GB data + Unli texts to all networks + Unli calls to Globe/TM + 2GB GoWiFi Access + free GCash QR voucher + FREE 1GB/day for GoSHARE&SHOP and GoWATCH&PLAY.",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GOSAKTO 140",
+						"LCPRODUCTCODE": "GOCOMBOEED140",
+						"DESCRIPTION_EQUIVALENT": "4GB data + Unli texts to all networks + Unli calls to Globe/TM + 2GB GoWiFi Access + free GCash QR voucher + FREE 1GB/day for GoSHARE&SHOP and GoWATCH&PLAY. ",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GoSURF 1299",
+						"LCPRODUCTCODE": "GoSURF1299",
+						"DESCRIPTION_EQUIVALENT": "15GB data + 10GB freebie of choice + 1GB GoWiFi Access + free GCash QR voucher.",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GoSURF 1999",
+						"LCPRODUCTCODE": "GoSURF1999",
+						"DESCRIPTION_EQUIVALENT": "30GB data + 10GB freebie of choice + 1GB GoWiFi Access + free GCash QR voucher.",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Prepaid Go Surf 2499",
+						"LCPRODUCTCODE": "GOSURF2499",
+						"DESCRIPTION_EQUIVALENT": "50GB data + 10GB choice of apps + 1GB GoWiFi",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GOUNLI 180",
+						"LCPRODUCTCODE": "GOUNLI180",
+						"DESCRIPTION_EQUIVALENT": "Unli calls to Globe/TM + Unli texts to all networks + 150MB data.",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GOUNLI 350",
+						"LCPRODUCTCODE": "GOUNLI350",
+						"DESCRIPTION_EQUIVALENT": "Unli calls to Globe/TM + Unli texts to all networks + 200MB data.",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe SUPERSURF 999",
+						"LCPRODUCTCODE": "SUPERSURF999",
+						"DESCRIPTION_EQUIVALENT": "Unlimited surfing",
+						"VALIDITY": "10 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GOALLNET 30",
+						"LCPRODUCTCODE": "GOALLNET30",
+						"DESCRIPTION_EQUIVALENT": "Unli calls and texts to all networks + 100MB data",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GOALLNET 50",
+						"LCPRODUCTCODE": "GOALLNET50",
+						"DESCRIPTION_EQUIVALENT": "Unli calls and texts to all networks + 300MB data",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GOSURF 599",
+						"LCPRODUCTCODE": "GOSURF599",
+						"DESCRIPTION_EQUIVALENT": "5GB data + 10GB freebie of choice + 1GB GoWiFi Access + free GCash QR voucher",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GCOMBODDPLA 90",
+						"LCPRODUCTCODE": "GCOMBODDPLA90",
+						"DESCRIPTION_EQUIVALENT": "2GB data + Unli texts to all networks + 1GB GoWiFi Access + free GCash QR voucher + FREE 1GB/day GoSHARE&SHOP + GoWATCH&PLAY",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GOUNLI 95",
+						"LCPRODUCTCODE": "GOUNLI95",
+						"DESCRIPTION_EQUIVALENT": "Unli calls to Globe/TM + Unli texts to all networks + 100MB data",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GOWATCH 99",
+						"LCPRODUCTCODE": "GOWATCH99",
+						"DESCRIPTION_EQUIVALENT": "2.5GB Data for Youtube, Hooq, Netflix, D-Life, NBA, iWant, iFlix, Viu, One FC, Fox+",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe MYBIZSURF 1499",
+						"LCPRODUCTCODE": "MYBIZSURF1499",
+						"DESCRIPTION_EQUIVALENT": "100GB data +2GB Facebook, Viber, Skype",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe MYBIZSURF 199",
+						"LCPRODUCTCODE": "MYBIZSURF199",
+						"DESCRIPTION_EQUIVALENT": "12GB data +2GB Facebook, Viber, Skype",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe MYBIZSURF 599",
+						"LCPRODUCTCODE": "MYBIZSURF599",
+						"DESCRIPTION_EQUIVALENT": "40GB data +2GB Facebook, Viber, Skype",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe MYBIZSURF 799",
+						"LCPRODUCTCODE": "MYBIZSURF799",
+						"DESCRIPTION_EQUIVALENT": "55GB data +2GB Facebook, Viber, Skype",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe MYBIZSURF 999",
+						"LCPRODUCTCODE": "MYBIZSURF999",
+						"DESCRIPTION_EQUIVALENT": "65GB data +2GB Facebook, Viber, Skype",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe TRAVELALLIN 350",
+						"LCPRODUCTCODE": "TRAVELALLIN350",
+						"DESCRIPTION_EQUIVALENT": "4GB Data+  Unlicalls to Globe&TM+ Unlitext to all networks local and international",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Go 50",
+						"LCPRODUCTCODE": "GO50",
+						"DESCRIPTION_EQUIVALENT": "5GB data for all sites + Unli txts to all network + 1GB GoWIFI",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Prepaid Go 75",
+						"LCPRODUCTCODE": "GO75",
+						"DESCRIPTION_EQUIVALENT": "5 GB to all Access Data, Unli Allnet Call and Text",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Go 90",
+						"LCPRODUCTCODE": "GO90",
+						"DESCRIPTION_EQUIVALENT": "8GB data for all sites + Unli txts to all network + 1GB GoWIFI",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Go 120",
+						"LCPRODUCTCODE": "GO120",
+						"DESCRIPTION_EQUIVALENT": "10GB data for all sites + Unli txts to all network  + Unli calls to Globe/TM + 2GB GoWIFI",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Go 140",
+						"LCPRODUCTCODE": "GO140",
+						"DESCRIPTION_EQUIVALENT": "11GB data for all sites + Unli txts to all network  + Unli calls to Globe/TM + 2GB GoWIFI",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Prepaid Go 250",
+						"LCPRODUCTCODE": "GO250",
+						"DESCRIPTION_EQUIVALENT": "15GB Data Access",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Prepaid Go 400",
+						"LCPRODUCTCODE": "GO400",
+						"DESCRIPTION_EQUIVALENT": "25GB Data Access",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Prepaid Go Plus 99",
+						"LCPRODUCTCODE": "GOPLUS99",
+						"DESCRIPTION_EQUIVALENT": "8 GB All Access + 8 GB Choice of Content (GoWATCH, GoPLAY, GoSHARE, GoLEARN, & GoWORK) Total 16 GB, Unli Allnet Text",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Prepaid Go Plus 129",
+						"LCPRODUCTCODE": "GOPLUS129",
+						"DESCRIPTION_EQUIVALENT": "10 GB All Access + 8 GB Choice of Content (GoWATCH, GoPLAY, GoSHARE, GoLEARN, & GoWORK) Total 18 GB, Unli Allnet Text, Unli Intra Call",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Prepaid Go Plus 149",
+						"LCPRODUCTCODE": "GOPLUS149",
+						"DESCRIPTION_EQUIVALENT": "11 GB All Access + 8 GB Choice of Content (GoWATCH, GoPLAY, GoSHARE, GoLEARN, & GoWORK) Total 19 GB, Unli Allnet Text, Unli Allnet Call ",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Prepaid Go Plus 250",
+						"LCPRODUCTCODE": "GOPLUS250",
+						"DESCRIPTION_EQUIVALENT": "15 GB All Access + 15 GB Choice of Content (GoWATCH, GoPLAY, GoSHARE, GoLEARN, & GoWORK) Total 30 GB ",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Prepaid Go Plus 400",
+						"LCPRODUCTCODE": "GOPLUS400",
+						"DESCRIPTION_EQUIVALENT": "25 GB All Access + 15 GB Choice of Content (GoWATCH, GoPLAY, GoSHARE, GoLEARN, & GoWORK) Total 40 GB ",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "HOMESURF 15",
+						"LCPRODUCTCODE": "HOMESURF15",
+						"DESCRIPTION_EQUIVALENT": "1GB, exclusive add-on to GoSURF and HomeSURF. (Available for Globe at Home Prepaid WiFi only.)",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "HOMESURF 20",
+						"LCPRODUCTCODE": "HOMESURF20"
+					},
+					{
+						"PRODUCTNAME": "Globe AT HOME SURF 50",
+						"LCPRODUCTCODE": "HOMESURF50",
+						"DESCRIPTION_EQUIVALENT": "5GB data (Available for Globe at Home Prepaid WiFi only.)",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "HOMESURF 125",
+						"LCPRODUCTCODE": "HOMESURF125",
+						"DESCRIPTION_EQUIVALENT": "7GB + 1 GB Daily for YouTube. (Available for Globe at Home Prepaid WiFi only.)",
+						"VALIDITY": "5 Days"
+					},
+					{
+						"PRODUCTNAME": "HOMESURF 199",
+						"LCPRODUCTCODE": "HOMESURF199",
+						"DESCRIPTION_EQUIVALENT": "Up to 22 GB valid for 7 days. 15 GB + 1 GB Daily for YouTube. (Available for Globe at Home Prepaid WiFi only.)",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "HOMESURF 349",
+						"LCPRODUCTCODE": "HOMESURF349",
+						"DESCRIPTION_EQUIVALENT": "10 GB + 1 GB Daily for YouTube. (Available for Globe at Home Prepaid WiFi only.)",
+						"VALIDITY": "10 Days"
+					},
+					{
+						"PRODUCTNAME": "HOMESURF 599",
+						"LCPRODUCTCODE": "HOMESURF599",
+						"DESCRIPTION_EQUIVALENT": "30 GB + 1GB Daily Pillar of Choice*. (Available for Globe at Home Prepaid WiFi only.)",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "HOMESURF 999",
+						"LCPRODUCTCODE": "HOMESURF999",
+						"DESCRIPTION_EQUIVALENT": "70 GB + 1 GB Daily for YouTube. (Available for Globe at Home Prepaid WiFi only.)",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "HOMESURF 1499",
+						"LCPRODUCTCODE": "HOMESURF1499",
+						"DESCRIPTION_EQUIVALENT": "100 GB + 1 GB Daily for YouTube. (Available for Globe at Home Prepaid WiFi only.)",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "HOMEWATCH 199",
+						"LCPRODUCTCODE": "HOMEWATCH199",
+						"DESCRIPTION_EQUIVALENT": "6 GB + 4 GB Daily for Videos. (Available for Globe at Home Prepaid WiFi only.)",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "HOMEWATCH 599",
+						"LCPRODUCTCODE": "HOMEWATCH599",
+						"DESCRIPTION_EQUIVALENT": "15 GB + 4 GB Daily for Videos. (Available for Globe at Home Prepaid WiFi only.)",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "HOMEWATCH 999",
+						"LCPRODUCTCODE": "HOMEWATCH999",
+						"DESCRIPTION_EQUIVALENT": "20 GB + 4 GB Daily for Videos.  (Available for Globe at Home Prepaid WiFi only.)",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "HOMEWATCH 1499",
+						"LCPRODUCTCODE": "HOMEWATCH1499",
+						"DESCRIPTION_EQUIVALENT": "80 GB + 4 GB Daily for Videos (Available for Globe at Home Prepaid WiFi only.)",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe AT HOME SHARE 199",
+						"LCPRODUCTCODE": "HOMESHARE199",
+						"DESCRIPTION_EQUIVALENT": "20GB + 5GB for Watch, Learn, & Earn. (Available for Globe at HOME Prepaid WIfi only.)",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe AT HOME SHARE 299",
+						"LCPRODUCTCODE": "HOMESHARE299",
+						"DESCRIPTION_EQUIVALENT": "40GB + 5GB for Watch, Learn, & Earn. (Available for Globe at HOME Prepaid WIfi only.)",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe AT HOME SHARE 599",
+						"LCPRODUCTCODE": "HOMESHARE599",
+						"DESCRIPTION_EQUIVALENT": "50GB + 5GB for Watch, Learn, & Earn. (Available for Globe at HOME Prepaid WIfi only.)",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Go70 for Students ",
+						"LCPRODUCTCODE": "GOSTUDENTS70",
+						"DESCRIPTION_EQUIVALENT": "5GB data + 1GB GoLearn & Work apps + Unli text to all networks + 1GB GoWifi Access Valid for 5days ( Globe Prepaid Subs. Only )",
+						"VALIDITY": "5 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Go90 for Students ",
+						"LCPRODUCTCODE": "GOSTUDENTS90",
+						"DESCRIPTION_EQUIVALENT": "8GB data + 1GB GoLearn & Work apps + Unli text to all networks + 1GB GoWifi Access Valid for 7days ( Globe Prepaid Subs. Only )",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GoBoost 15",
+						"LCPRODUCTCODE": "GOBOOST15",
+						"DESCRIPTION_EQUIVALENT": "1 GB Data for Surfing Valid for 1day ( For Globe Prepaid Subs. Only-Must be registered first to Go Promos. )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GoCALL 10",
+						"LCPRODUCTCODE": "GOCALL10",
+						"DESCRIPTION_EQUIVALENT": "Unli Call to All Network Valid For 1day ( For Globe Prepaid Subs. Only-Must be registered first to Go Promos. )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe Go Korean 10",
+						"LCPRODUCTCODE": "GOKOREAN10",
+						"DESCRIPTION_EQUIVALENT": "1GB  Data for Vlive,Viu, YouTube, NetFlix, WeTV and Viki Valid for 1day ( for Globe Prepaid Subs. Only-Must be registered first to Go Promos. )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe Go Learn 10",
+						"LCPRODUCTCODE": "GOLEARN10",
+						"DESCRIPTION_EQUIVALENT": "1GB Data for  YouTube Learning, Wikipedia, Google Suite and Canva Valid for 1day ( for Globe Prepaid Subs. Only-Must be registered first to Go Promos. )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GoListen 10",
+						"LCPRODUCTCODE": "GOLISTEN10",
+						"DESCRIPTION_EQUIVALENT": "1GB Data for YouTube Music, Spotify, SoundCloud and WeSing Valid for 1day ( for Globe Prepaid Subs. Only-Must be registered first to Go Promos. )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GoPlay 10",
+						"LCPRODUCTCODE": "GOPLAY10",
+						"DESCRIPTION_EQUIVALENT": "1GB Data for Mobile Legends, Clash of Clans, PUBG, Call of Duty, MU Origin 2, Legends of Runeterre and Twitch Valid for 1day ( for Globe Prepaid Subs. Only-Must be registered first to Go Promos. )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe Go Ride 10",
+						"LCPRODUCTCODE": "GORIDE10",
+						"DESCRIPTION_EQUIVALENT": "1GB Data for Grab, Google Map and Waze Valid for 1day  ( for Globe Prepaid Subs. Only-Must be registered first to Go Promos. )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GoShare 10",
+						"LCPRODUCTCODE": "GOSHARE10",
+						"DESCRIPTION_EQUIVALENT": "1GB Data for Facebook, Tiktok, Instagram, Twitter, Snapchat, Houseparty and Kumu Valid for 1day ( for Globe Prepaid Subs. Only-Must be registered first to Go Promos. )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe Go Shop 10",
+						"LCPRODUCTCODE": "GOSHOP10",
+						"DESCRIPTION_EQUIVALENT": "1GB Data for Lazada, Shoppe,Grab Food and Foodpanda Valid for 1day ( for Globe Prepaid Subs. Only-Must be registered first to Go Promos. )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GO TIPIDD 50",
+						"LCPRODUCTCODE": "GOTIPIDD50",
+						"DESCRIPTION_EQUIVALENT": "P50 worth of IDD calls",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GOWATCH 10",
+						"LCPRODUCTCODE": "GOWATCH10",
+						"DESCRIPTION_EQUIVALENT": "1GB Data for Youtube, Netflix, Viu, iWant, WeTV, HBOGo, GMovies and  NBA Valid for 1day ( Globe Prepaid Subs. Only-Must be registered first to Go Promos. )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GoWork 10",
+						"LCPRODUCTCODE": "GOWORK10",
+						"DESCRIPTION_EQUIVALENT": "1GB Data for Zoom, Yahoo Mail, MS Teams, WhatsApp, Viber and Telegram Valid for 1day ( Globe Subs. Only-Must be registered first to Go Promos. )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe GoWork 50",
+						"LCPRODUCTCODE": "GOWORK50",
+						"DESCRIPTION_EQUIVALENT": "1GB Data + 1GB per day access to productivity tools  Valid for 3days ( Globe Prepaid Subs. Only )",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GoWork 90",
+						"LCPRODUCTCODE": "GOWORK90",
+						"DESCRIPTION_EQUIVALENT": "3GB Data + 1GB per day access to productivity tools  Valid for 7days ( Globe Prepaid Subs. Only )",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GoWork Plus 99",
+						"LCPRODUCTCODE": "GOWORKP99",
+						"DESCRIPTION_EQUIVALENT": "1GB Data + 1GB per day access to productivity tools Plus Unli Calls and text to all networks Valid for 3days ( Globe Prepaid Subs. Only )",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe GoWork Plus 199",
+						"LCPRODUCTCODE": "GOWORKP199",
+						"DESCRIPTION_EQUIVALENT": "3GB Data + 1GB per day access to productivity tools Plus Unli Calls and text to all networks Valid for 7days ( Globe Prepaid Subs. Only )",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Prepaid Go Sell 10",
+						"LCPRODUCTCODE": "GOSELL10",
+						"DESCRIPTION_EQUIVALENT": "1GB data for Shopee, Lazada, Grab, Facebook, Instagram, Carousell and Viber. Valid for 1 day. Must be registered to Go or Go+ promos.",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "GLOBE GO 5G 99",
+						"LCPRODUCTCODE": "GO5G99",
+						"DESCRIPTION_EQUIVALENT": "Unlimited 5G all-access data for surfing in 5G-ready areas. ( Must be registered first to a Go+ or Go90 and up promo, and must have a 5G-capable device, 5G SIM, and in 5G-ready area )",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "GLOBE GO 5G 199",
+						"LCPRODUCTCODE": "GO5G199",
+						"DESCRIPTION_EQUIVALENT": "Unlimited 5G all-access data for surfing in 5G-ready areas. ( Must be registered first to a Go+ or Go90 and up promo, and must have a 5G-capable device, 5G SIM, and in 5G-ready area )",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "GLOBE GO 5G 299",
+						"LCPRODUCTCODE": "GO5G299",
+						"DESCRIPTION_EQUIVALENT": "Unlimited 5G all-access data for surfing in 5G-ready areas. ( Must be registered first to a Go+ or Go90 and up promo, and must have a 5G-capable device, 5G SIM, and in 5G-ready area )",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "GLOBE GO PINOY 10",
+						"LCPRODUCTCODE": "GOPINOY10",
+						"DESCRIPTION_EQUIVALENT": "1GB data for Kumu, iWantTFC, and Vivamax. ( Must be registered first to Go or Go+ promos )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "GLOBE GO ANIME 10",
+						"LCPRODUCTCODE": "GOANIME10",
+						"DESCRIPTION_EQUIVALENT": "1GB data for Netflix, Viu, WeTV, iQiyi and YouTube. ( Must be registered first to Go or Go+ promos )",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "HOMETIKTOK 15",
+						"LCPRODUCTCODE": "HOMETIKTOK15",
+						"DESCRIPTION_EQUIVALENT": "2GB Daily of Tiktok (for Home Prepaid Wifi Subs only)",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "HOMENETFLIX 15",
+						"LCPRODUCTCODE": "HOMENETFLIX15",
+						"DESCRIPTION_EQUIVALENT": "2GB Daily of Netflix  (for Home Prepaid Wifi Subs only)",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "HOMEVIU 15",
+						"LCPRODUCTCODE": "HOMEVIU15",
+						"DESCRIPTION_EQUIVALENT": "2GB Daily of Viu (for Home Prepaid Wifi Subs only)",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "HOMEZOOM 15",
+						"LCPRODUCTCODE": "HOMEZOOM15",
+						"DESCRIPTION_EQUIVALENT": "2GB Daily of Zoom (for Home Prepaid Wifi Subs only)",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "HOMEMobileLegend 15",
+						"LCPRODUCTCODE": "HOMEML15",
+						"DESCRIPTION_EQUIVALENT": "2GB Daily of Mobile Legends (for Home Prepaid Wifi Subs only)",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "HOMERIOT 15",
+						"LCPRODUCTCODE": "HOMERIOT15",
+						"DESCRIPTION_EQUIVALENT": "2GB Daily of Riot  (for Home Prepaid Wifi Subs only)",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "HOMEYoutube 15",
+						"LCPRODUCTCODE": "HOMEYT15",
+						"DESCRIPTION_EQUIVALENT": "2GB Daily of Youtube (for Home Prepaid Wifi Subs only)",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "HOMEFacebook 15",
+						"LCPRODUCTCODE": "HOMEFB15",
+						"DESCRIPTION_EQUIVALENT": "2GB Daily of Facebook (for Home Prepaid Wifi Subs only)",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe Surf 4 ALL 99",
+						"LCPRODUCTCODE": "GPSURF4ALL99",
+						"DESCRIPTION_EQUIVALENT": "9GB shareable data for all valid for 7 days",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe Surf 4 ALL 249",
+						"LCPRODUCTCODE": "GPSURF4ALL249",
+						"DESCRIPTION_EQUIVALENT": "20GB Shareable data for all valid for 7 days",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe & Touch Mobile GoSurf 10",
+						"LCPRODUCTCODE": "GOSURF10",
+						"DESCRIPTION_EQUIVALENT": "40MB of consumable mobile internet",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Globe & Touch Mobile GoSurf 15",
+						"LCPRODUCTCODE": "GOSURF15",
+						"DESCRIPTION_EQUIVALENT": "100MB of consumable mobile internet + Free 30 MB Instagram",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe & Touch Mobile GoSurf 30",
+						"LCPRODUCTCODE": "GOSURF30",
+						"DESCRIPTION_EQUIVALENT": "Consumable 300MB + 50MB for 1 chosen freebie (FB, Viber, SnapChat or Instagram)",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe & Touch Mobile GoSurf 50",
+						"LCPRODUCTCODE": "GOSURF50",
+						"DESCRIPTION_EQUIVALENT": "Consumable 1GB + 1GB Daily for 1 chosen freebie GoWATCH&PLAY and GoSHARE&SHOP + 1GB GoWifi",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe & Touch Mobile Super Surf 50",
+						"LCPRODUCTCODE": "SUPERSURF50",
+						"DESCRIPTION_EQUIVALENT": "unlimited surfing for 1 day (Maintain P5 to use the service)",
+						"VALIDITY": "1 day"
+					},
+					{
+						"PRODUCTNAME": "Globe & Touch Mobile Super Surf 120",
+						"LCPRODUCTCODE": "SUPERSURF120",
+						"DESCRIPTION_EQUIVALENT": "unlimited surfing for 3 days (Maintain P5 to use the service)",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Globe & Touch Mobile Super Surf 200",
+						"LCPRODUCTCODE": "SUPERSURF200",
+						"DESCRIPTION_EQUIVALENT": "unlimited surfing for 5 days (Maintain P5 to use the service)",
+						"VALIDITY": "5 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile Amax 10",
+						"LCPRODUCTCODE": "TMX10",
+						"DESCRIPTION_EQUIVALENT": "10 regular load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile Amax Other (P15 - P150)",
+						"LCPRODUCTCODE": "TMXMAX",
+						"DESCRIPTION_EQUIVALENT": "Regular Load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile Amax 50",
+						"LCPRODUCTCODE": "TMX50",
+						"DESCRIPTION_EQUIVALENT": "50 regular load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile Amax 100",
+						"LCPRODUCTCODE": "TMX100",
+						"DESCRIPTION_EQUIVALENT": "100 regular load",
+						"VALIDITY": "365 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile Combo 15",
+						"LCPRODUCTCODE": "COMBO15",
+						"DESCRIPTION_EQUIVALENT": "Unlimited All Netwok Text and 120 minutes calls to TM/Globe",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile Combo 20",
+						"LCPRODUCTCODE": "COMBO20",
+						"DESCRIPTION_EQUIVALENT": "Unlitxt to all networks + 120 minutes call to TM and Globe",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile Unli Txt 10 (TM & Globe)",
+						"LCPRODUCTCODE": "TXT10",
+						"DESCRIPTION_EQUIVALENT": "unlimited texts to Globe and TM",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile UNLI CALL 15",
+						"LCPRODUCTCODE": "TMUNLICALL15",
+						"DESCRIPTION_EQUIVALENT": "UNLICALLS to TM/Globe",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile Astig Txt 20",
+						"LCPRODUCTCODE": "ASTIGITXT20",
+						"DESCRIPTION_EQUIVALENT": "30 Local text and 30 International text for 53 destinations",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile TIPIDD 30",
+						"LCPRODUCTCODE": "TIPIDD30",
+						"DESCRIPTION_EQUIVALENT": "4 minutes IDD calls to SAUDI ARABIA, UAE, KUWAIT, BAHRAIN, AUSTRALIA, UK, ITALY and JAPAN",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "TM COMBO ALL 10",
+						"LCPRODUCTCODE": "COMBOALL10",
+						"DESCRIPTION_EQUIVALENT": "Unli Calls & Text to TM/Globe + 50 AllNet Texts",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobie COMBO ALL 20",
+						"LCPRODUCTCODE": "COMBOALL20",
+						"DESCRIPTION_EQUIVALENT": "UNLICALLS to TM/Globe +  Unli texts to TM/Globe + 50 allnet texts",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "TM CALL & ALL NET TXT 15",
+						"LCPRODUCTCODE": "CA15",
+						"DESCRIPTION_EQUIVALENT": "Unli Calls & Text to TM/Globe + 50 AllNet Texts",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile All-In / All-In SURF 20 Instagram",
+						"LCPRODUCTCODE": "AIG20",
+						"DESCRIPTION_EQUIVALENT": "Unli Allnet texts + Unlicalls to TM/Globe + 100MB IG + 200MB consumable internet",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile ALL-IN SURF 20 FACEBOOK",
+						"LCPRODUCTCODE": "A20FB",
+						"DESCRIPTION_EQUIVALENT": "Unli ALLNET calls & texts + 100MB Facebook + 200 MB pang-internet",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile ALL-IN SURF 20 YOUTUBE",
+						"LCPRODUCTCODE": "A20YT",
+						"DESCRIPTION_EQUIVALENT": "Unli ALLNET calls & texts + 100MB YouTube + 200 MB pang-internet",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile ALL-IN SURF 20 MOBILE LEGENDS",
+						"LCPRODUCTCODE": "A20ML",
+						"DESCRIPTION_EQUIVALENT": "Unli ALLNET calls & texts + 100MB Mobile Legends + 200 MB pang-internet",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile ALL-IN SURF 20 WATTPAD",
+						"LCPRODUCTCODE": "A20WP",
+						"DESCRIPTION_EQUIVALENT": "Unli ALLNET calls & texts + 100MB Wattpad + 200 MB pang-internet",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile ALL-IN SURF 30",
+						"LCPRODUCTCODE": "ALLINSURF30",
+						"DESCRIPTION_EQUIVALENT": "UNLI Allnet Calls & Texts + 1GB data (300MB internet, 700MB FB, YouTube, ML, TikTok, WeSing, Wild Rift, & iWantTFC)",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile A 30",
+						"LCPRODUCTCODE": "A30",
+						"DESCRIPTION_EQUIVALENT": "Unli ALLNET calls & texts + 750MB pang-internet + 150MB/Day FB,YT, ML",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EasySURF 15",
+						"LCPRODUCTCODE": "EZ15",
+						"DESCRIPTION_EQUIVALENT": "100MB consumable mobile internet + 50MB freebie. ",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EasySURF 50",
+						"LCPRODUCTCODE": "EZ50",
+						"DESCRIPTION_EQUIVALENT": "1GB consumable mobile internet + Unli Allnet texts + 1Gb/day free site of choice*",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobie EASY SURF 70",
+						"LCPRODUCTCODE": "EASYSURF70",
+						"DESCRIPTION_EQUIVALENT": "1GB data + 7GB (1GB araw-araw) para sa app freebies",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EasySurf 75",
+						"LCPRODUCTCODE": "EZ75",
+						"DESCRIPTION_EQUIVALENT": "6GB apps (2GB /day), Unli Call and Text to all networks",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EASY SURF 90",
+						"LCPRODUCTCODE": "EASYSURF90",
+						"DESCRIPTION_EQUIVALENT": "2GB data + 7GB (1GB araw-araw) para sa app freebies",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EasySurf 99",
+						"LCPRODUCTCODE": "EZ99",
+						"DESCRIPTION_EQUIVALENT": "14 GB apps(2GB/day), Unli allnet Text ",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EasySurf 140",
+						"LCPRODUCTCODE": "EZ140",
+						"DESCRIPTION_EQUIVALENT": "14GB apps (2GB /day), Unli Call and Text to all networks",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EasySURF 299",
+						"LCPRODUCTCODE": "EZ299",
+						"DESCRIPTION_EQUIVALENT": "2GB consumable internet with 10GB free site of choice. ",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EasySURF 599",
+						"LCPRODUCTCODE": "EZ599",
+						"DESCRIPTION_EQUIVALENT": "5GB consumable internet with 10GB free site of choice.",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EasySURF 999",
+						"LCPRODUCTCODE": "EZ999",
+						"DESCRIPTION_EQUIVALENT": "10GB consumable internet with 10GB free site of choice.",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EasySURF 1299",
+						"LCPRODUCTCODE": "EZ1299",
+						"DESCRIPTION_EQUIVALENT": "15GB consumable internet with 10GB free site of choice.",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EasySURF 1999",
+						"LCPRODUCTCODE": "EZ1999",
+						"DESCRIPTION_EQUIVALENT": "30GB consumable internet with 10GB free site of choice.",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EASY SURF50 FUN ALIW",
+						"LCPRODUCTCODE": "EZ50FA",
+						"DESCRIPTION_EQUIVALENT": "2GB data + 3GB (1GB araw-araw) para sa FunALIW Pack (FB, YT, ML, TikTok, & WeSing)",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile Surf 4 ALL 99",
+						"LCPRODUCTCODE": "TMSURF4ALL99",
+						"DESCRIPTION_EQUIVALENT": "9GB shareable data for all valid for 7 days",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile Surf 4 ALL 249",
+						"LCPRODUCTCODE": "TMSURF4ALL249",
+						"DESCRIPTION_EQUIVALENT": "20GB Shareable data for all valid for 7 days",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch TMEP 150",
+						"LCPRODUCTCODE": "TMEP150",
+						"DESCRIPTION_EQUIVALENT": "Unli Calls to TM/Globe + Unli Allnet texts + 1.5GB each for Facebook, Instagram, & Viber",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile AN 20",
+						"LCPRODUCTCODE": "AN20",
+						"DESCRIPTION_EQUIVALENT": "Unli ALLNET calls & texts +300MB pang-internet +150MB/Day  FB,YT, ML",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile U 15",
+						"LCPRODUCTCODE": "U15",
+						"DESCRIPTION_EQUIVALENT": "Unlicalls to TM/Globe",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile GG 30",
+						"LCPRODUCTCODE": "GG30",
+						"DESCRIPTION_EQUIVALENT": "300MB games + unli allnet SMS",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile GG 50",
+						"LCPRODUCTCODE": "GG50",
+						"DESCRIPTION_EQUIVALENT": "500MB games + unli allnet SMS",
+						"VALIDITY": "5 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile EZWATCH 99",
+						"LCPRODUCTCODE": "EasyWATCH99",
+						"DESCRIPTION_EQUIVALENT": "Add-on for TM GoSURF50/EasySURF50 up or TM EasyPLAN, 2.5GB video streaming. (For Globe/HPW/XPW Subs.)",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile USSD COMBO 10",
+						"LCPRODUCTCODE": "USSDCOMBO10",
+						"DESCRIPTION_EQUIVALENT": "Unli Texts to TM/Globe + 50 Allnet Texts + 10mins Calls to TM/Globe",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile USSD COMBO 15",
+						"LCPRODUCTCODE": "USSDCOMBO15",
+						"DESCRIPTION_EQUIVALENT": "Unli Allnet Texts + 60 mins Calls to TM/Globe",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile AML 20",
+						"LCPRODUCTCODE": "AML20",
+						"DESCRIPTION_EQUIVALENT": "Unlicalls to TM/Globe with Unli Allnet SMS. 100 MB Mobile Legends + 200 MB data",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile AWP 20",
+						"LCPRODUCTCODE": "AWP20",
+						"DESCRIPTION_EQUIVALENT": "Unlicalls to TM/Globe with Unli Allnet SMS. 100 MB Wattpad + 200 MB data",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile AYT 20",
+						"LCPRODUCTCODE": "AYT20",
+						"DESCRIPTION_EQUIVALENT": "Unlicalls to TM/Globe with Unli Allnet SMS. 100 MB Youtube + 200 MB data",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile AYTPLA 20",
+						"LCPRODUCTCODE": "AYTPLA20",
+						"DESCRIPTION_EQUIVALENT": "Unlicalls to TM/Globe with Unli Allnet SMS. 100 MB Youtube + 200 MB data",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile FACEBOOK 10",
+						"LCPRODUCTCODE": "TMFB10",
+						"DESCRIPTION_EQUIVALENT": "1GB para sa Facebook",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile FB 30",
+						"LCPRODUCTCODE": "FB30",
+						"DESCRIPTION_EQUIVALENT": "300MB Facebook + Unli texts to all networks",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile FB 50",
+						"LCPRODUCTCODE": "FB50",
+						"DESCRIPTION_EQUIVALENT": "500MB Facebook + Unli texts to all networks",
+						"VALIDITY": "5 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile A 20",
+						"LCPRODUCTCODE": "A20",
+						"DESCRIPTION_EQUIVALENT": "UNLI ALLNET Calls  with Unli Allnet SMS. 100 MB Facebook + 200 MB data",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile C 20",
+						"LCPRODUCTCODE": "C20",
+						"DESCRIPTION_EQUIVALENT": "Unli texts to all networks + 120 minutes of calls to TM/Globe",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobie MOBILE LEGENDS 10",
+						"LCPRODUCTCODE": "ML10",
+						"DESCRIPTION_EQUIVALENT": "1GB para sa Mobile Legends",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile YOUTUBE 10",
+						"LCPRODUCTCODE": "YT10",
+						"DESCRIPTION_EQUIVALENT": "1GB para sa YouTube",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile WILD RIFT 10",
+						"LCPRODUCTCODE": "WR10",
+						"DESCRIPTION_EQUIVALENT": "1GB para sa Wild Rift",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile VIU 10",
+						"LCPRODUCTCODE": "VIU10",
+						"DESCRIPTION_EQUIVALENT": "1GB para sa Viu",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile TIKTOK 10",
+						"LCPRODUCTCODE": "TIKTOK10",
+						"DESCRIPTION_EQUIVALENT": "1GB para sa TikTok",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Touch Mobile CALL OF DUTY MOBILE 10",
+						"LCPRODUCTCODE": "COD10",
+						"DESCRIPTION_EQUIVALENT": "1GB para sa Call of Duty: Mobile",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry Prepaid TRICALL 10",
+						"LCPRODUCTCODE": "TRICALL10",
+						"DESCRIPTION_EQUIVALENT": "All days calls to Cherry Prepaid Subscribers, Globe & TM",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Cherry Prepaid TRINET 15",
+						"LCPRODUCTCODE": "TRINET15",
+						"DESCRIPTION_EQUIVALENT": "All days texts + 30 minutes calls to Cherry Prepaid Subscribers Globe&TM",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry Prepaid TRITALK 5",
+						"LCPRODUCTCODE": "TRITALK5",
+						"DESCRIPTION_EQUIVALENT": "30 minutes calls to Cherry Prepaid Subscribers, Globe&TM",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry Prepaid TRITALK 10",
+						"LCPRODUCTCODE": "TRITALK10",
+						"DESCRIPTION_EQUIVALENT": "60 minutes calls to Cherry Prepaid Subscribers, Globe&TM",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry Prepaid TRITEXT 5",
+						"LCPRODUCTCODE": "TRITEXT5",
+						"DESCRIPTION_EQUIVALENT": "All day texts to Cherry Prepaid Subscribers, Globe&TM",
+						"VALIDITY": "2 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMANET 10",
+						"LCPRODUCTCODE": "CMANET10",
+						"DESCRIPTION_EQUIVALENT": "All day texts to all networks",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMANET 20",
+						"LCPRODUCTCODE": "CMANET20",
+						"DESCRIPTION_EQUIVALENT": "100 texts to all networks",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMANET 70",
+						"LCPRODUCTCODE": "CMANET70",
+						"DESCRIPTION_EQUIVALENT": "All day texts to all networks",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMCHAT 10",
+						"LCPRODUCTCODE": "CMCHAT10",
+						"DESCRIPTION_EQUIVALENT": "Unlimited chat + Facebook",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMSURF 10",
+						"LCPRODUCTCODE": "CMSURF10",
+						"DESCRIPTION_EQUIVALENT": "150MB mobile internet",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMSURF 199",
+						"LCPRODUCTCODE": "CMSURF199",
+						"DESCRIPTION_EQUIVALENT": "2GB mobile internet",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMSURF 20",
+						"LCPRODUCTCODE": "CMSURF20",
+						"DESCRIPTION_EQUIVALENT": "350MB mobile internet",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMSURF 299",
+						"LCPRODUCTCODE": "CMSURF299",
+						"DESCRIPTION_EQUIVALENT": "3GB mobile internet",
+						"VALIDITY": "60 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMSURF 399",
+						"LCPRODUCTCODE": "CMSURF399",
+						"DESCRIPTION_EQUIVALENT": "4GB mobile internet",
+						"VALIDITY": "60 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMSURF 499",
+						"LCPRODUCTCODE": "CMSURF499",
+						"DESCRIPTION_EQUIVALENT": "6GB mobile internet",
+						"VALIDITY": "60 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMSURF 50",
+						"LCPRODUCTCODE": "CMSURF50",
+						"DESCRIPTION_EQUIVALENT": "900MB mobile internet",
+						"VALIDITY": "15 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMSURF 99",
+						"LCPRODUCTCODE": "CMSURF99",
+						"DESCRIPTION_EQUIVALENT": "1.75 GB mobile internet",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMTALK 30",
+						"LCPRODUCTCODE": "CMTALK30",
+						"DESCRIPTION_EQUIVALENT": "10 minutes call to all networks",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMTEXT 30",
+						"LCPRODUCTCODE": "CMTEXT30",
+						"DESCRIPTION_EQUIVALENT": "All day texts to  Cherry Prepaid Subscribers, Globe and TM + 50 texts to all networks",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMUNLI 100",
+						"LCPRODUCTCODE": "CMUNLI100",
+						"DESCRIPTION_EQUIVALENT": "All day texts to  Cherry Prepaid Subscribers + All day chat and Facebook + 20 text to other networks",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMUNLI 15",
+						"LCPRODUCTCODE": "CMUNLI15",
+						"DESCRIPTION_EQUIVALENT": "All day texts to  Cherry Prepaid Subscribers + All day chat and Facebook",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMUNLI 199",
+						"LCPRODUCTCODE": "CMUNLI199",
+						"DESCRIPTION_EQUIVALENT": "All day texts and 300 mins calls to Cherry Prepaid Subscribers + 50 MB mobile internet + 100 text to other networks",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMUNLI 50",
+						"LCPRODUCTCODE": "CMUNLI50",
+						"DESCRIPTION_EQUIVALENT": "All day texts and calls to  Cherry Prepaid Subscribers + All day chat and Facebook + 10 texts to other networks",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry CMVIBE 5",
+						"LCPRODUCTCODE": "CMVIBE5",
+						"DESCRIPTION_EQUIVALENT": "All day Viber chat",
+						"VALIDITY": "1 Day"
+					},
+					{
+						"PRODUCTNAME": "Cherry KACHER 30",
+						"LCPRODUCTCODE": "KACHER30",
+						"DESCRIPTION_EQUIVALENT": "500MB mobile internet+30 mins call to Cherry Prepaid Subscribers, Globe&TM +50 text to other networks",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry KACHER 50",
+						"LCPRODUCTCODE": "KACHER50",
+						"DESCRIPTION_EQUIVALENT": "1.2GB mobile internet+30 mins call to Cherry Prepaid Subscribers, Globe&TM +75 text to other networks",
+						"VALIDITY": "5 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry KACHER 70",
+						"LCPRODUCTCODE": "KACHER70",
+						"DESCRIPTION_EQUIVALENT": "1.2GB mobile internet+30 mins call to Cherry Prepaid Subscribers, Globe&TM +75 text to other networks",
+						"VALIDITY": "5 Days"
+					},
+					{
+						"PRODUCTNAME": "Cherry KACHER 99",
+						"LCPRODUCTCODE": "KACHER99",
+						"DESCRIPTION_EQUIVALENT": "1.5GB mobile internet+60 mins call to Cherry Prepaid Subscribers, Globe&TM +100 text to other networks",
+						"VALIDITY": "7 Days"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "DITO Telecommunity",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "DITO 15",
+						"LCPRODUCTCODE": "DITO15",
+						"DESCRIPTION_EQUIVALENT": "15 e-Load",
+						"VALIDITY": "1 year"
+					},
+					{
+						"PRODUCTNAME": "DITO 20",
+						"LCPRODUCTCODE": "DITO20",
+						"DESCRIPTION_EQUIVALENT": "20 e-Load",
+						"VALIDITY": "1 year"
+					},
+					{
+						"PRODUCTNAME": "DITO 30",
+						"LCPRODUCTCODE": "DITO30",
+						"DESCRIPTION_EQUIVALENT": "30 e-Load",
+						"VALIDITY": "1 year"
+					},
+					{
+						"PRODUCTNAME": "DITO 50",
+						"LCPRODUCTCODE": "DITO50",
+						"DESCRIPTION_EQUIVALENT": "50 e-Load",
+						"VALIDITY": "1 year"
+					},
+					{
+						"PRODUCTNAME": "DITO 100",
+						"LCPRODUCTCODE": "DITO100",
+						"DESCRIPTION_EQUIVALENT": "100 e-Load",
+						"VALIDITY": "1 year"
+					},
+					{
+						"PRODUCTNAME": "DITO 200",
+						"LCPRODUCTCODE": "DITO200",
+						"DESCRIPTION_EQUIVALENT": "200 e-Load",
+						"VALIDITY": "1 year"
+					},
+					{
+						"PRODUCTNAME": "DITO 300",
+						"LCPRODUCTCODE": "DITO300",
+						"DESCRIPTION_EQUIVALENT": "300 e-Load",
+						"VALIDITY": "1 year"
+					},
+					{
+						"PRODUCTNAME": "DITO 500",
+						"LCPRODUCTCODE": "DITO500",
+						"DESCRIPTION_EQUIVALENT": "500 e-Load",
+						"VALIDITY": "1 year"
+					},
+					{
+						"PRODUCTNAME": "DITO 1000",
+						"LCPRODUCTCODE": "DITO1000",
+						"DESCRIPTION_EQUIVALENT": "1000 e-Load",
+						"VALIDITY": "1 year"
+					},
+					{
+						"PRODUCTNAME": "DITO Level Up 99",
+						"LCPRODUCTCODE": "DSCMDITOLU99",
+						"DESCRIPTION_EQUIVALENT": "7GB High Speed Data + Unlimited DITO to DITO voice and video calls + 300 mins of calls to other mobile networks + Unlimited Text to all Networks",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "DITO Level Up 199",
+						"LCPRODUCTCODE": "DSCMDITOLU199",
+						"DESCRIPTION_EQUIVALENT": "16GB High Speed Data + Unlimited DITO to DITO voice and video calls + 300 mins of calls to other mobile networks + Unlimited Text to all Networks",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "DITO Level Up 299",
+						"LCPRODUCTCODE": "DSCMDITOLU299",
+						"DESCRIPTION_EQUIVALENT": "28GB High Speed Data + Unlimited DITO to DITO voice and video calls + 300 mins of calls to other mobile networks + Unlimited Text to all Networks",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "DITO Level Up 499",
+						"LCPRODUCTCODE": "DSCMDITOLU499",
+						"DESCRIPTION_EQUIVALENT": "55GB High Speed Data + Unlimited DITO to DITO voice and video calls + 300 mins of calls to other mobile networks + Unlimited Text to all Networks",
+						"VALIDITY": "30 Days"
+					},
+					{
+						"PRODUCTNAME": "DITO Level Up 999",
+						"LCPRODUCTCODE": "DSCMDITOLU999",
+						"DESCRIPTION_EQUIVALENT": "120GB High Speed Data + Unlimited DITO to DITO voice and video calls + 300 mins of calls to other mobile networks + Unlimited Text to all Networks",
+						"VALIDITY": "30 Days"
+					}
+				]
+			}
+		]
+	},
+	{
+		"TYPE": "GAMES",
+		"LIST" : [
+			{
+				"PRODUCTNAME": "STEAM WALLET CODES",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "PHP50 Steam Wallet - SRP @ PHP58",
+						"LCPRODUCTCODE": "Steam58",
+						"DESCRIPTION_EQUIVALENT": "equivalent to Steam Wallet PHP50"
+					},
+					{
+						"PRODUCTNAME": "PHP100 Steam Wallet - SRP @ PHP116",
+						"LCPRODUCTCODE": "Steam116",
+						"DESCRIPTION_EQUIVALENT": "equivalent to Steam Wallet PHP100"
+					},
+					{
+						"PRODUCTNAME": "PHP250 Steam Wallet - SRP @ PHP290",
+						"LCPRODUCTCODE": "Steam290",
+						"DESCRIPTION_EQUIVALENT": "equivalent to Steam Wallet PHP250"
+					},
+					{
+						"PRODUCTNAME": "PHP500 Steam Wallet - SRP @ PHP580",
+						"LCPRODUCTCODE": "Steam580",
+						"DESCRIPTION_EQUIVALENT": "equivalent to Steam Wallet PHP500"
+					},
+					{
+						"PRODUCTNAME": "PHP800 Steam Wallet - SRP @ PHP928",
+						"LCPRODUCTCODE": "Steam928",
+						"DESCRIPTION_EQUIVALENT": "equivalent to Steam Wallet PHP800"
+					},
+					{
+						"PRODUCTNAME": "PHP1,000 Steam Wallet - SRP @ PHP1160",
+						"LCPRODUCTCODE": "Steam1160",
+						"DESCRIPTION_EQUIVALENT": "equivalent to Steam Wallet PHP1000"
+					},
+					{
+						"PRODUCTNAME": "PHP2200 Steam Wallet - SRP @ PHP2552",
+						"LCPRODUCTCODE": "Steam2552",
+						"DESCRIPTION_EQUIVALENT": "equivalent to Steam Wallet PHP2200"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "GARENA",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Garena 10",
+						"LCPRODUCTCODE": "GM10",
+						"DESCRIPTION_EQUIVALENT": "10 Shells"
+					},
+					{
+						"PRODUCTNAME": "Garena 20",
+						"LCPRODUCTCODE": "GM20",
+						"DESCRIPTION_EQUIVALENT": "20 Shells"
+					},
+					{
+						"PRODUCTNAME": "Garena 50",
+						"LCPRODUCTCODE": "GM50",
+						"DESCRIPTION_EQUIVALENT": "50 Shells"
+					},
+					{
+						"PRODUCTNAME": "Garena 100",
+						"LCPRODUCTCODE": "GM100",
+						"DESCRIPTION_EQUIVALENT": "100 Shells"
+					},
+					{
+						"PRODUCTNAME": "Garena 200",
+						"LCPRODUCTCODE": "GM200",
+						"DESCRIPTION_EQUIVALENT": "200 Shells"
+					},
+					{
+						"PRODUCTNAME": "Garena 300",
+						"LCPRODUCTCODE": "GM300",
+						"DESCRIPTION_EQUIVALENT": "300 Shells"
+					},
+					{
+						"PRODUCTNAME": "Garena 500",
+						"LCPRODUCTCODE": "GM500",
+						"DESCRIPTION_EQUIVALENT": "500 Shells"
+					},
+					{
+						"PRODUCTNAME": "Garena 1000",
+						"LCPRODUCTCODE": "GM1000",
+						"DESCRIPTION_EQUIVALENT": "1000 Shells"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "CHERRY CREDITS",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "210",
+						"LCPRODUCTCODE": "CC210",
+						"DESCRIPTION_EQUIVALENT": "(5000 CC)"
+					},
+					{
+						"PRODUCTNAME": "420",
+						"LCPRODUCTCODE": "CC420",
+						"DESCRIPTION_EQUIVALENT": "(10000 CC)"
+					},
+					{
+						"PRODUCTNAME": "1260",
+						"LCPRODUCTCODE": "CC1260",
+						"DESCRIPTION_EQUIVALENT": "(30000 CC)"
+					},
+					{
+						"PRODUCTNAME": "2100",
+						"LCPRODUCTCODE": "CC2100",
+						"DESCRIPTION_EQUIVALENT": "(50000 CC)"
+					},
+					{
+						"PRODUCTNAME": "4200",
+						"LCPRODUCTCODE": "CC4200",
+						"DESCRIPTION_EQUIVALENT": "(100000 CC)"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "PLAYPARK (Games - Perfect World, Ragnarok, Flyff, Rohan, Bounty Hounds, Eligium, RAN, Point Blank, Cabal, Grandchase, Audition, Assault Fire)",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "PlayPark P20 (Razer Gold)",
+						"LCPRODUCTCODE": "PLAYPARK20"
+					},
+					{
+						"PRODUCTNAME": "PlayPark P50 (Razer Gold)",
+						"LCPRODUCTCODE": "PLAYPARK50"
+					},
+					{
+						"PRODUCTNAME": "PlayPark P100 (Razer Gold)",
+						"LCPRODUCTCODE": "PLAYPARK100"
+					},
+					{
+						"PRODUCTNAME": "PlayPark P300 (Razer Gold)",
+						"LCPRODUCTCODE": "PLAYPARK300"
+					},
+					{
+						"PRODUCTNAME": "PlayPark P500 (Razer Gold)",
+						"LCPRODUCTCODE": "PLAYPARK500"
+					},
+					{
+						"PRODUCTNAME": "PlayPark P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "PLAYPARK1000"
+					},
+					{
+						"PRODUCTNAME": "PlayPark P2000 (Razer Gold)",
+						"LCPRODUCTCODE": "PLAYPARK2000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "GAME CLUB",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Game Club 20 (for CF,WOW,iDate,Dragona)",
+						"LCPRODUCTCODE": "GC20",
+						"DESCRIPTION_EQUIVALENT": "20 eCoins"
+					},
+					{
+						"PRODUCTNAME": "Game Club 50 (for CF,WOW,iDate,Dragona)",
+						"LCPRODUCTCODE": "GC50",
+						"DESCRIPTION_EQUIVALENT": "50 eCoins"
+					},
+					{
+						"PRODUCTNAME": "Game Club 100 (for CF,WOW,iDate,Dragona)",
+						"LCPRODUCTCODE": "GC100",
+						"DESCRIPTION_EQUIVALENT": "100 eCoins"
+					},
+					{
+						"PRODUCTNAME": "Game Club 200 (for CF,WOW,iDate,Dragona)",
+						"LCPRODUCTCODE": "GC200",
+						"DESCRIPTION_EQUIVALENT": "200 eCoins"
+					},
+					{
+						"PRODUCTNAME": "Game Club 300 (for CF,WOW,iDate,Dragona)",
+						"LCPRODUCTCODE": "GC300",
+						"DESCRIPTION_EQUIVALENT": "300 eCoins"
+					},
+					{
+						"PRODUCTNAME": "Game Club 400 (for CF,WOW,iDate,Dragona)",
+						"LCPRODUCTCODE": "GC400",
+						"DESCRIPTION_EQUIVALENT": "400 eCoins"
+					},
+					{
+						"PRODUCTNAME": "Game Club 500 (for CF,WOW,iDate,Dragona)",
+						"LCPRODUCTCODE": "GC500",
+						"DESCRIPTION_EQUIVALENT": "500 eCoins"
+					},
+					{
+						"PRODUCTNAME": "Game Club 1000 (for CF,WOW,iDate,Dragona)",
+						"LCPRODUCTCODE": "GC1000",
+						"DESCRIPTION_EQUIVALENT": "1000 eCoins"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "WARPPORTAL (GRAVITY INTERACTIVE, INC., US)",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "WarpPortal 220 (RO1,RO2,Requiem,Rose,Dragon Saga)",
+						"LCPRODUCTCODE": "WP220",
+						"DESCRIPTION_EQUIVALENT": "$5/500 Points"
+					},
+					{
+						"PRODUCTNAME": "WarpPortal 440 (RO1,RO2,Requiem,Rose,Dragon Saga)",
+						"LCPRODUCTCODE": "WP440",
+						"DESCRIPTION_EQUIVALENT": "$10/1000 Points"
+					},
+					{
+						"PRODUCTNAME": "WarpPortal 660 (RO1,RO2,Requiem,Rose,Dragon Saga)",
+						"LCPRODUCTCODE": "WP660",
+						"DESCRIPTION_EQUIVALENT": "$15/1,500 Points"
+					},
+					{
+						"PRODUCTNAME": "WarpPortal 880 (RO1,RO2,Requiem,Rose,Dragon Saga)",
+						"LCPRODUCTCODE": "WP880",
+						"DESCRIPTION_EQUIVALENT": "$20/2,000 Points"
+					},
+					{
+						"PRODUCTNAME": "WarpPortal 1320 (RO1,RO2,Requiem,Rose,Dragon Saga)",
+						"LCPRODUCTCODE": "WP1320",
+						"DESCRIPTION_EQUIVALENT": "$30/3,000 Points"
+					},
+					{
+						"PRODUCTNAME": "WarpPortal 2200 (RO1,RO2,Requiem,Rose,Dragon Saga)",
+						"LCPRODUCTCODE": "WP2200",
+						"DESCRIPTION_EQUIVALENT": "$50/5,000 Points"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "PUSOY PINOY (TAMTAY GLOBAL PTE LTD)",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "50",
+						"LCPRODUCTCODE": "PUSOY50"
+					},
+					{
+						"PRODUCTNAME": "100",
+						"LCPRODUCTCODE": "PUSOY100"
+					},
+					{
+						"PRODUCTNAME": "250",
+						"LCPRODUCTCODE": "PUSOY250"
+					},
+					{
+						"PRODUCTNAME": "500",
+						"LCPRODUCTCODE": "PUSOY500"
+					},
+					{
+						"PRODUCTNAME": "1000",
+						"LCPRODUCTCODE": "PUSOY1000"
+					},
+					{
+						"PRODUCTNAME": "2500",
+						"LCPRODUCTCODE": "PUSOY2500"
+					},
+					{
+						"PRODUCTNAME": "TONGITS WARS (OPTIMAL SOLUTION PTE LTD)"
+					},
+					{
+						"PRODUCTNAME": "Tongits Wars 25 ",
+						"LCPRODUCTCODE": "TWGOLD25",
+						"DESCRIPTION_EQUIVALENT": "50 Gold"
+					},
+					{
+						"PRODUCTNAME": "Tongits Wars 50 ",
+						"LCPRODUCTCODE": "TWGOLD50",
+						"DESCRIPTION_EQUIVALENT": "150 Gold"
+					},
+					{
+						"PRODUCTNAME": "Tongits Wars 60 ",
+						"LCPRODUCTCODE": "TWGOLD60",
+						"DESCRIPTION_EQUIVALENT": "250 Gold"
+					},
+					{
+						"PRODUCTNAME": "Tongits Wars 100 ",
+						"LCPRODUCTCODE": "TWGOLD100",
+						"DESCRIPTION_EQUIVALENT": "500 Gold"
+					},
+					{
+						"PRODUCTNAME": "Tongits Wars 200",
+						"LCPRODUCTCODE": "TWGOLD200",
+						"DESCRIPTION_EQUIVALENT": "1250 Gold"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "EX CASH (FOR RAGNAROK PHILIPPINES)",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "EX Cash 20 (for Ragnarok Philippines)",
+						"LCPRODUCTCODE": "EXCASH20",
+						"DESCRIPTION_EQUIVALENT": "200 RP"
+					},
+					{
+						"PRODUCTNAME": "EX Cash 50 (for Ragnarok Philippines)",
+						"LCPRODUCTCODE": "EXCASH50",
+						"DESCRIPTION_EQUIVALENT": "500 RP"
+					},
+					{
+						"PRODUCTNAME": "EX Cash 100 (for Ragnarok Philippines)",
+						"LCPRODUCTCODE": "EXCASH100",
+						"DESCRIPTION_EQUIVALENT": "1000 RP"
+					},
+					{
+						"PRODUCTNAME": "EX Cash 300 (for Ragnarok Philippines)",
+						"LCPRODUCTCODE": "EXCASH300",
+						"DESCRIPTION_EQUIVALENT": "3000 RP"
+					},
+					{
+						"PRODUCTNAME": "EX Cash 500 (for Ragnarok Philippines)",
+						"LCPRODUCTCODE": "EXCASH500",
+						"DESCRIPTION_EQUIVALENT": "5000 RP"
+					},
+					{
+						"PRODUCTNAME": "EX Cash 1000 (for Ragnarok Philippines)",
+						"LCPRODUCTCODE": "EXCASH1000",
+						"DESCRIPTION_EQUIVALENT": "10000 RP"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "MOBILE LEGENDS (RAZER GOLD)",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Mobile Legends P20 (Razer Gold)",
+						"LCPRODUCTCODE": "MLBB20"
+					},
+					{
+						"PRODUCTNAME": "Mobile Legends P50 (Razer Gold)",
+						"LCPRODUCTCODE": "MLBB50"
+					},
+					{
+						"PRODUCTNAME": "Mobile Legends P100 (Razer Gold)",
+						"LCPRODUCTCODE": "MLBB100"
+					},
+					{
+						"PRODUCTNAME": "Mobile Legends P300 (Razer Gold)",
+						"LCPRODUCTCODE": "MLBB300"
+					},
+					{
+						"PRODUCTNAME": "Mobile Legends P500 (Razer Gold)",
+						"LCPRODUCTCODE": "MLBB500"
+					},
+					{
+						"PRODUCTNAME": "Mobile Legends P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "MLBB1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "WARPPORTAL PH: RAGNAROK JOURNEY PHILIPPINES",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "WarpPortal 50 (100 Points Ragnarok Journey)",
+						"LCPRODUCTCODE": "WPPH50"
+					},
+					{
+						"PRODUCTNAME": "WarpPortal 100 (200 Points Ragnarok Journey)",
+						"LCPRODUCTCODE": "WPPH100"
+					},
+					{
+						"PRODUCTNAME": "WarpPortal 250 (500 Points Ragnarok Journey)",
+						"LCPRODUCTCODE": "WPPH250"
+					},
+					{
+						"PRODUCTNAME": "WarpPortal 500 (1k Points Ragnarok Journey)",
+						"LCPRODUCTCODE": "WPPH500"
+					},
+					{
+						"PRODUCTNAME": "WarpPortal 750 (1.5 Points Ragnarok Journey)",
+						"LCPRODUCTCODE": "WPPH750"
+					},
+					{
+						"PRODUCTNAME": "WarpPortal 1000 (2k Points Ragnarok Journey)",
+						"LCPRODUCTCODE": "WPPH1000"
+					},
+					{
+						"PRODUCTNAME": "WarpPortal 1500 (3k Points Ragnarok Journey)",
+						"LCPRODUCTCODE": "WPPH1500"
+					},
+					{
+						"PRODUCTNAME": "WarpPortal 2500 (15k Points Ragnarok Journey)",
+						"LCPRODUCTCODE": "WPPH2500"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "WINTYME (WIFI INTERACTIVE NETWORK, INC.",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "20",
+						"LCPRODUCTCODE": "Wintyme20"
+					},
+					{
+						"PRODUCTNAME": "50",
+						"LCPRODUCTCODE": "Wintyme50"
+					},
+					{
+						"PRODUCTNAME": "100",
+						"LCPRODUCTCODE": "Wintyme100 "
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "RAGNAROK ONLINE MOBILE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Ragnarok Online Mobile P20 (Razer Gold)",
+						"LCPRODUCTCODE": "ROM20",
+						"DESCRIPTION_EQUIVALENT": "EQUIVALENT"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online Mobile P50 (Razer Gold)",
+						"LCPRODUCTCODE": "ROM50",
+						"DESCRIPTION_EQUIVALENT": "Zeny in-game currency",
+						"VALIDITY": "Big Cat Coin in-game currency"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online Mobile P100 (Razer Gold)",
+						"LCPRODUCTCODE": "ROM100",
+						"DESCRIPTION_EQUIVALENT": "2,200 Zeny",
+						"VALIDITY": "2 Big Cat Coins"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online Mobile P300 (Razer Gold)",
+						"LCPRODUCTCODE": "ROM300",
+						"DESCRIPTION_EQUIVALENT": "56,000 Zeny",
+						"VALIDITY": "5 Big Cat Coins"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online Mobile P500 (Razer Gold)",
+						"LCPRODUCTCODE": "ROM500",
+						"DESCRIPTION_EQUIVALENT": "112,000 Zeny",
+						"VALIDITY": "11 Big Cat Coins"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online Mobile P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "ROM1000",
+						"DESCRIPTION_EQUIVALENT": "300,000 + 36,000 Zeny",
+						"VALIDITY": "30 + 3 Big Cat Coins"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online Mobile P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "ROM5000",
+						"DESCRIPTION_EQUIVALENT": "300,000 + 120,000 + 120,000 + 20,000 Zeny",
+						"VALIDITY": "30 + 26 Big Cat Coins"
+					},
+					{
+						"PRODUCTNAME": "",
+						"LCPRODUCTCODE": "",
+						"DESCRIPTION_EQUIVALENT": "600,000 + 300,000 + 120,000 + 100,000 Zeny",
+						"VALIDITY": "30 + 30 + 30 + 22 Big Cat Coins"
+					},
+					{
+						"PRODUCTNAME": "",
+						"LCPRODUCTCODE": "",
+						"DESCRIPTION_EQUIVALENT": "2,980,000 + 1,980,000 + 600,000 + 40,000 Zeny",
+						"VALIDITY": "298 + 120 + 30 + 30 + 30 + 30 + 24 Big Cat Coins"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "DRAGON NEST MOBILE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Dragon Nest M SEA P20 (Razer Gold)",
+						"LCPRODUCTCODE": "DNM20"
+					},
+					{
+						"PRODUCTNAME": "Dragon Nest M SEA P50 (Razer Gold)",
+						"LCPRODUCTCODE": "DNM50"
+					},
+					{
+						"PRODUCTNAME": "Dragon Nest M SEA P100 (Razer Gold)",
+						"LCPRODUCTCODE": "DNM100"
+					},
+					{
+						"PRODUCTNAME": "Dragon Nest M SEA P300 (Razer Gold)",
+						"LCPRODUCTCODE": "DNM300"
+					},
+					{
+						"PRODUCTNAME": "Dragon Nest M SEA P500 (Razer Gold)",
+						"LCPRODUCTCODE": "DNM500"
+					},
+					{
+						"PRODUCTNAME": "Dragon Nest M SEA P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "DNM1000"
+					},
+					{
+						"PRODUCTNAME": "Dragon Nest M SEA P2000 (Razer Gold)",
+						"LCPRODUCTCODE": "DNM2000"
+					},
+					{
+						"PRODUCTNAME": "Dragon Nest M SEA P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "DNM5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "BIGO LIVE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "BIGO Live P20 (Razer Gold)",
+						"LCPRODUCTCODE": "BIGO20"
+					},
+					{
+						"PRODUCTNAME": "BIGO Live P50 (Razer Gold)",
+						"LCPRODUCTCODE": "BIGO50"
+					},
+					{
+						"PRODUCTNAME": "BIGO Live P100 (Razer Gold)",
+						"LCPRODUCTCODE": "BIGO100"
+					},
+					{
+						"PRODUCTNAME": "BIGO Live P300 (Razer Gold)",
+						"LCPRODUCTCODE": "BIGO300"
+					},
+					{
+						"PRODUCTNAME": "BIGO Live P500 (Razer Gold)",
+						"LCPRODUCTCODE": "BIGO500"
+					},
+					{
+						"PRODUCTNAME": "BIGO Live P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "BIGO1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "WAR OF RINGS",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "War of Rings P20 (Razer Gold)",
+						"LCPRODUCTCODE": "WOR20"
+					},
+					{
+						"PRODUCTNAME": "War of Rings P50 (Razer Gold)",
+						"LCPRODUCTCODE": "WOR50"
+					},
+					{
+						"PRODUCTNAME": "War of Rings P100 (Razer Gold)",
+						"LCPRODUCTCODE": "WOR100"
+					},
+					{
+						"PRODUCTNAME": "War of Rings P300 (Razer Gold)",
+						"LCPRODUCTCODE": "WOR300"
+					},
+					{
+						"PRODUCTNAME": "War of Rings P500 (Razer Gold)",
+						"LCPRODUCTCODE": "WOR500"
+					},
+					{
+						"PRODUCTNAME": "War of Rings P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "WOR1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "ROHAN ONLINE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Rohan Online - Playwith P20 (Razer Gold)",
+						"LCPRODUCTCODE": "RHN20"
+					},
+					{
+						"PRODUCTNAME": "Rohan Online - Playwith P50 (Razer Gold)",
+						"LCPRODUCTCODE": "RHN50"
+					},
+					{
+						"PRODUCTNAME": "Rohan Online - Playwith P100 (Razer Gold)",
+						"LCPRODUCTCODE": "RHN100"
+					},
+					{
+						"PRODUCTNAME": "Rohan Online - Playwith P300 (Razer Gold)",
+						"LCPRODUCTCODE": "RHN300"
+					},
+					{
+						"PRODUCTNAME": "Rohan Online - Playwith P500 (Razer Gold)",
+						"LCPRODUCTCODE": "RHN500"
+					},
+					{
+						"PRODUCTNAME": "Rohan Online - Playwith P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "RHN1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "RULES OF SURVIVAL MOBILE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Rules of Survival P20 (Razer Gold)",
+						"LCPRODUCTCODE": "ROS20"
+					},
+					{
+						"PRODUCTNAME": "Rules of Survival P50 (Razer Gold)",
+						"LCPRODUCTCODE": "ROS50"
+					},
+					{
+						"PRODUCTNAME": "Rules of Survival P100 (Razer Gold)",
+						"LCPRODUCTCODE": "ROS100"
+					},
+					{
+						"PRODUCTNAME": "Rules of Survival P300 (Razer Gold)",
+						"LCPRODUCTCODE": "ROS300"
+					},
+					{
+						"PRODUCTNAME": "Rules of Survival P500 (Razer Gold)",
+						"LCPRODUCTCODE": "ROS500"
+					},
+					{
+						"PRODUCTNAME": "Rules of Survival P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "ROS1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "PUBG MOBILE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "PUBG Mobile P20 (Razer Gold)            -             70 + 4 UC Cash",
+						"LCPRODUCTCODE": "PUBGM20"
+					},
+					{
+						"PRODUCTNAME": "PUBG Mobile P50 (Razer Gold)          -             140 + 7 UC Cash",
+						"LCPRODUCTCODE": "PUBGM50"
+					},
+					{
+						"PRODUCTNAME": "PUBG Mobile P100 (Razer Gold)          -            210 + 11 UC Cash",
+						"LCPRODUCTCODE": "PUBGM100"
+					},
+					{
+						"PRODUCTNAME": "PUBG Mobile P300 (Razer Gold)        -            420 + 25 UC Cash",
+						"LCPRODUCTCODE": "PUBGM300"
+					},
+					{
+						"PRODUCTNAME": "PUBG Mobile P500 (Razer Gold)         -            700 + 70 UC Cash",
+						"LCPRODUCTCODE": "PUBGM500"
+					},
+					{
+						"PRODUCTNAME": "PUBG Mobile P1000 (Razer Gold)       -            1400 + 210 UC Cash",
+						"LCPRODUCTCODE": "PUBGM1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "RAZER GOLD",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Razer Gold PIN 20",
+						"LCPRODUCTCODE": "Razer20"
+					},
+					{
+						"PRODUCTNAME": "Razer Gold PIN 50",
+						"LCPRODUCTCODE": "Razer50"
+					},
+					{
+						"PRODUCTNAME": "Razer Gold PIN 100",
+						"LCPRODUCTCODE": "Razer100"
+					},
+					{
+						"PRODUCTNAME": "Razer Gold PIN 150",
+						"LCPRODUCTCODE": "Razer150"
+					},
+					{
+						"PRODUCTNAME": "Razer Gold PIN 250",
+						"LCPRODUCTCODE": "Razer250"
+					},
+					{
+						"PRODUCTNAME": "Razer Gold PIN 300",
+						"LCPRODUCTCODE": "Razer300"
+					},
+					{
+						"PRODUCTNAME": "Razer Gold PIN 500",
+						"LCPRODUCTCODE": "Razer500"
+					},
+					{
+						"PRODUCTNAME": "Razer Gold PIN 1000",
+						"LCPRODUCTCODE": "Razer1000"
+					},
+					{
+						"PRODUCTNAME": "Razer Gold PIN 2000",
+						"LCPRODUCTCODE": "Razer2000"
+					},
+					{
+						"PRODUCTNAME": "Razer Gold PIN 5000",
+						"LCPRODUCTCODE": "Razer5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "LAPLACE MOBILE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Laplace Mobile P50 (Razer Gold) ",
+						"LCPRODUCTCODE": "LAPLACE50"
+					},
+					{
+						"PRODUCTNAME": "Laplace Mobile P100 (Razer Gold) ",
+						"LCPRODUCTCODE": "LAPLACE100"
+					},
+					{
+						"PRODUCTNAME": "Laplace Mobile P150 (Razer Gold) ",
+						"LCPRODUCTCODE": "LAPLACE150"
+					},
+					{
+						"PRODUCTNAME": "Laplace Mobile P300 (Razer Gold)",
+						"LCPRODUCTCODE": "LAPLACE300"
+					},
+					{
+						"PRODUCTNAME": "Laplace Mobile P500 (Razer Gold) ",
+						"LCPRODUCTCODE": "LAPLACE500"
+					},
+					{
+						"PRODUCTNAME": "Laplace Mobile P1000 (Razer Gold) ",
+						"LCPRODUCTCODE": "LAPLACE1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "MU ORIGIN 2",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "MU Origin 2 P50 (Razer Gold)",
+						"LCPRODUCTCODE": "MUO50"
+					},
+					{
+						"PRODUCTNAME": "MU Origin 2 P100 (Razer Gold)",
+						"LCPRODUCTCODE": "MUO100"
+					},
+					{
+						"PRODUCTNAME": "MU Origin 2 P150 (Razer Gold) ",
+						"LCPRODUCTCODE": "MUO150"
+					},
+					{
+						"PRODUCTNAME": "MU Origin 2 P300 (Razer Gold)",
+						"LCPRODUCTCODE": "MUO300"
+					},
+					{
+						"PRODUCTNAME": "MU Origin 2 P500 (Razer Gold) ",
+						"LCPRODUCTCODE": "MUO500"
+					},
+					{
+						"PRODUCTNAME": "MU Origin 2 P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "MUO1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "iTunes",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "iTunes 290 for US account (5 USD)",
+						"LCPRODUCTCODE": "ITUNES290",
+						"DESCRIPTION_EQUIVALENT": "TOP-UP PROCESS:\r\n1.) Change your iTunes account country location to USA.\r\nNOTE: These US Gift Cards are country-specific digital goods. It is only usable for accounts registered under United States. Users are individually responsible to understand the method in using the goods before purchasing.\r\n2.) Open iTunes or App Store then click REDEEM on the right to input CODE."
+					},
+					{
+						"PRODUCTNAME": "iTunes 580 for US account (10 USD) ",
+						"LCPRODUCTCODE": "ITUNES580"
+					},
+					{
+						"PRODUCTNAME": "iTunes 870 for US account (15 USD)",
+						"LCPRODUCTCODE": "ITUNES870"
+					},
+					{
+						"PRODUCTNAME": "iTunes 1160 for US account (20 USD)",
+						"LCPRODUCTCODE": "ITUNES1160"
+					},
+					{
+						"PRODUCTNAME": "iTunes 1450 for US account (25 USD)",
+						"LCPRODUCTCODE": "ITUNES1450"
+					},
+					{
+						"PRODUCTNAME": "iTunes 1740 for US account (30 USD)",
+						"LCPRODUCTCODE": "ITUNES1740"
+					},
+					{
+						"PRODUCTNAME": "iTunes 2900 for US account (50 USD)",
+						"LCPRODUCTCODE": "ITUNES2900"
+					},
+					{
+						"PRODUCTNAME": "iTunes 5800 for US account (100 USD)",
+						"LCPRODUCTCODE": "ITUNES5800"
+					},
+					{
+						"PRODUCTNAME": "iTunes 11600 for US account (200 USD)",
+						"LCPRODUCTCODE": "ITUNES11600"
+					},
+					{
+						"PRODUCTNAME": "iTunes 17400 for US account (300 USD)",
+						"LCPRODUCTCODE": "ITUNES17400"
+					},
+					{
+						"PRODUCTNAME": "iTunes 23200 for US account (400 USD)",
+						"LCPRODUCTCODE": "ITUNES23200"
+					},
+					{
+						"PRODUCTNAME": "iTunes 29000 for US account (500 USD)",
+						"LCPRODUCTCODE": "ITUNES29000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "PLAYSTATION NETWORK",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "PlayStation Network 580 for US account (10 USD)",
+						"LCPRODUCTCODE": "PSN580"
+					},
+					{
+						"PRODUCTNAME": "PlayStation Network 1450 for US account (25 USD)",
+						"LCPRODUCTCODE": "PSN1450"
+					},
+					{
+						"PRODUCTNAME": "PlayStation Network 2900 for US account (50 USD)",
+						"LCPRODUCTCODE": "PSN2900"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "XBOX LIVE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Xbox Live 870 for US account (15 USD)",
+						"LCPRODUCTCODE": "XBOX870"
+					},
+					{
+						"PRODUCTNAME": "Xbox Live 1450 for US account (25 USD)",
+						"LCPRODUCTCODE": "XBOX1450"
+					},
+					{
+						"PRODUCTNAME": "Xbox Live 2900 for US account (50 USD)",
+						"LCPRODUCTCODE": "XBOX2900"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "NINTENDO eSHOP",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Nintendo eShop 580 for US account (10 USD)",
+						"LCPRODUCTCODE": "NINTENDO580"
+					},
+					{
+						"PRODUCTNAME": "Nintendo eShop 1160 for US account (20 USD)",
+						"LCPRODUCTCODE": "NINTENDO1160"
+					},
+					{
+						"PRODUCTNAME": "Nintendo eShop 2030 for US account (35 USD)",
+						"LCPRODUCTCODE": "NINTENDO2030"
+					},
+					{
+						"PRODUCTNAME": "Nintendo eShop 2900 for US account (50 USD)",
+						"LCPRODUCTCODE": "NINTENDO2900"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "MARVEL SUPER WAR",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "MARVEL Super War P20 (Razer Gold)",
+						"LCPRODUCTCODE": "MSW20"
+					},
+					{
+						"PRODUCTNAME": "MARVEL Super War P50 (Razer Gold)",
+						"LCPRODUCTCODE": "MSW50"
+					},
+					{
+						"PRODUCTNAME": "MARVEL Super War P100 (Razer Gold)",
+						"LCPRODUCTCODE": "MSW100"
+					},
+					{
+						"PRODUCTNAME": "MARVEL Super War P300 (Razer Gold)",
+						"LCPRODUCTCODE": "MSW300"
+					},
+					{
+						"PRODUCTNAME": "MARVEL Super War P500 (Razer Gold)",
+						"LCPRODUCTCODE": "MSW500"
+					},
+					{
+						"PRODUCTNAME": "MARVEL Super War P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "MSW1000"
+					},
+					{
+						"PRODUCTNAME": "MARVEL Super War P2000 (Razer Gold)",
+						"LCPRODUCTCODE": "MSW2000"
+					},
+					{
+						"PRODUCTNAME": "MARVEL Super War P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "MSW5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "LIGHT OF THEL",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Light of Thel P50 (Razer Gold)",
+						"LCPRODUCTCODE": "LOT50"
+					},
+					{
+						"PRODUCTNAME": "Light of Thel P250 (Razer Gold)",
+						"LCPRODUCTCODE": "LOT250"
+					},
+					{
+						"PRODUCTNAME": "Light of Thel P500 (Razer Gold)",
+						"LCPRODUCTCODE": "LOT500"
+					},
+					{
+						"PRODUCTNAME": "Light of Thel P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "LOT1000"
+					},
+					{
+						"PRODUCTNAME": "Light of Thel P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "LOT5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "HEARTHSTONE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Hearthstone P50 (Razer Gold)",
+						"LCPRODUCTCODE": "HS50"
+					},
+					{
+						"PRODUCTNAME": "Hearthstone P100 (Razer Gold)",
+						"LCPRODUCTCODE": "HS100"
+					},
+					{
+						"PRODUCTNAME": "Hearthstone P300 (Razer Gold)",
+						"LCPRODUCTCODE": "HS300"
+					},
+					{
+						"PRODUCTNAME": "Hearthstone P500 (Razer Gold)",
+						"LCPRODUCTCODE": "HS500"
+					},
+					{
+						"PRODUCTNAME": "Hearthstone P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "HS1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "OVERWATCH",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Overwatch P50 (Razer Gold)",
+						"LCPRODUCTCODE": "OW50"
+					},
+					{
+						"PRODUCTNAME": "Overwatch P100 (Razer Gold)",
+						"LCPRODUCTCODE": "OW100"
+					},
+					{
+						"PRODUCTNAME": "Overwatch P300 (Razer Gold)",
+						"LCPRODUCTCODE": "OW300"
+					},
+					{
+						"PRODUCTNAME": "Overwatch P500 (Razer Gold)",
+						"LCPRODUCTCODE": "OW500"
+					},
+					{
+						"PRODUCTNAME": "Overwatch P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "OW1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "DIABLO III",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Diablo III P50 (Razer Gold)",
+						"LCPRODUCTCODE": "DIABLOIII50"
+					},
+					{
+						"PRODUCTNAME": "Diablo III P100 (Razer Gold)",
+						"LCPRODUCTCODE": "DIABLOIII100"
+					},
+					{
+						"PRODUCTNAME": "Diablo III P300 (Razer Gold)",
+						"LCPRODUCTCODE": "DIABLOIII300"
+					},
+					{
+						"PRODUCTNAME": "Diablo III P500 (Razer Gold)",
+						"LCPRODUCTCODE": "DIABLOIII500"
+					},
+					{
+						"PRODUCTNAME": "Diablo III P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "DIABLOIII1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "WORLD OF WARCRAFT",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "World of Warcraft P50 (Razer Gold)",
+						"LCPRODUCTCODE": "WOW50"
+					},
+					{
+						"PRODUCTNAME": "World of Warcraft P100 (Razer Gold)",
+						"LCPRODUCTCODE": "WOW100"
+					},
+					{
+						"PRODUCTNAME": "World of Warcraft P300 (Razer Gold)",
+						"LCPRODUCTCODE": "WOW300"
+					},
+					{
+						"PRODUCTNAME": "World of Warcraft P500 (Razer Gold)",
+						"LCPRODUCTCODE": "WOW500"
+					},
+					{
+						"PRODUCTNAME": "World of Warcraft P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "WOW1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "STARCRAFT I",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "StarCraft I P50 (Razer Gold)",
+						"LCPRODUCTCODE": "SCI50"
+					},
+					{
+						"PRODUCTNAME": "StarCraft I P100 (Razer Gold)",
+						"LCPRODUCTCODE": "SCI100"
+					},
+					{
+						"PRODUCTNAME": "StarCraft I P300 (Razer Gold)",
+						"LCPRODUCTCODE": "SCI300"
+					},
+					{
+						"PRODUCTNAME": "StarCraft I P500 (Razer Gold)",
+						"LCPRODUCTCODE": "SCI500"
+					},
+					{
+						"PRODUCTNAME": "StarCraft I P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "SCI1000"
+					}
+
+				]
+			},
+			{
+				"PRODUCTNAME": "STARCRAFT II",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "StarCraft II P50 (Razer Gold)",
+						"LCPRODUCTCODE": "SCII50"
+					},
+					{
+						"PRODUCTNAME": "StarCraft II P100 (Razer Gold)",
+						"LCPRODUCTCODE": "SCII100"
+					},
+					{
+						"PRODUCTNAME": "StarCraft II P300 (Razer Gold)",
+						"LCPRODUCTCODE": "SCII300"
+					},
+					{
+						"PRODUCTNAME": "StarCraft II P500 (Razer Gold)",
+						"LCPRODUCTCODE": "SCII500"
+					},
+					{
+						"PRODUCTNAME": "StarCraft II P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "SCII1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "ROBLOX",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Roblox 580 (10 USD)",
+						"LCPRODUCTCODE": "Roblox580"
+					},
+					{
+						"PRODUCTNAME": "Roblox 1450 (25 USD)",
+						"LCPRODUCTCODE": "Roblox1450"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "MINECRAFT",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Minecraft 1565 (for PC/Mac 26.95 USD)",
+						"LCPRODUCTCODE": "MC1565"
+					},
+					{
+						"PRODUCTNAME": "Minecraft Minecoins 580 (9.99 USD)",
+						"LCPRODUCTCODE": "MC580"
+					},
+					{
+						"PRODUCTNAME": "Minecraft Minecoins 1160 (19.99 USD)",
+						"LCPRODUCTCODE": "MC1160"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "BLIZZARD ENTERTAINMENT  (using RAZER PIN direct top-up)",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Blizzard 50 (Razer Gold)  ",
+						"LCPRODUCTCODE": "BLIZZRG50"
+					},
+					{
+						"PRODUCTNAME": "Blizzard 100 (Razer Gold)  ",
+						"LCPRODUCTCODE": "BLIZZRG100"
+					},
+					{
+						"PRODUCTNAME": "Blizzard 300 (Razer Gold)  ",
+						"LCPRODUCTCODE": "BLIZZRG300"
+					},
+					{
+						"PRODUCTNAME": "Blizzard 500 (Razer Gold)  ",
+						"LCPRODUCTCODE": "BLIZZRG500"
+					},
+					{
+						"PRODUCTNAME": "Blizzard 1000 (Razer Gold)  ",
+						"LCPRODUCTCODE": "BLIZZRG1000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "One Punch Man P20 (Razer Gold)",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "One Punch Man P50 (Razer Gold)",
+						"LCPRODUCTCODE": "OPMAN50"
+					},
+					{
+						"PRODUCTNAME": "One Punch Man P100 (Razer Gold)",
+						"LCPRODUCTCODE": "OPMAN100"
+					},
+					{
+						"PRODUCTNAME": "One Punch Man P300 (Razer Gold)",
+						"LCPRODUCTCODE": "OPMAN300"
+					},
+					{
+						"PRODUCTNAME": "One Punch Man P500 (Razer Gold)",
+						"LCPRODUCTCODE": "OPMAN500"
+					},
+					{
+						"PRODUCTNAME": "One Punch Man P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "OPMAN1000"
+					},
+					{
+						"PRODUCTNAME": "One Punch Man P2000 (Razer Gold)",
+						"LCPRODUCTCODE": "OPMAN2000"
+					},
+					{
+						"PRODUCTNAME": "One Punch Man P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "OPMAN5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "TINDER",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Tinder Gold P325- 1 month",
+						"LCPRODUCTCODE": "TINDERGOLD325",
+						"VALIDITY": "TINDER GOLD\r\n•        See who Likes You before you Like or Nope\r\n•        New Top Picks every day \r\n•        Unlimited Likes \r\n•        Rewind \r\n•        5 Super Likes a day\r\n•        1 Boost a month \r\n•        Passport \r\n•        No ads"
+					},
+					{
+						"PRODUCTNAME": "Tinder Plus P65 - 1 week",
+						"LCPRODUCTCODE": "TINDERPLUS65"
+					},
+					{
+						"PRODUCTNAME": "Tinder Plus P200 - 1 month",
+						"LCPRODUCTCODE": "TINDERPLUS200"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "LOST LINEAGE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Lost Lineage P20 (Razer Gold)",
+						"LCPRODUCTCODE": "LOST20"
+					},
+					{
+						"PRODUCTNAME": "Lost Lineage P50 (Razer Gold)",
+						"LCPRODUCTCODE": "LOST50"
+					},
+					{
+						"PRODUCTNAME": "Lost Lineage P100 (Razer Gold)",
+						"LCPRODUCTCODE": "LOST100"
+					},
+					{
+						"PRODUCTNAME": "Lost Lineage P300 (Razer Gold)",
+						"LCPRODUCTCODE": "LOST300"
+					},
+					{
+						"PRODUCTNAME": "Lost Lineage P500 (Razer Gold)",
+						"LCPRODUCTCODE": "LOST500"
+					},
+					{
+						"PRODUCTNAME": "Lost Lineage P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "LOST1000"
+					},
+					{
+						"PRODUCTNAME": "Lost Lineage P2000 (Razer Gold)",
+						"LCPRODUCTCODE": "LOST2000"
+					},
+					{
+						"PRODUCTNAME": "Lost Lineage P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "LOST5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "ASTRAL FABLE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Astral Fable P20 (Razer Gold) ",
+						"LCPRODUCTCODE": "AF20"
+					},
+					{
+						"PRODUCTNAME": "Astral Fable P50 (Razer Gold)",
+						"LCPRODUCTCODE": "AF50"
+					},
+					{
+						"PRODUCTNAME": "Astral Fable P100 (Razer Gold) ",
+						"LCPRODUCTCODE": "AF100"
+					},
+					{
+						"PRODUCTNAME": "Astral Fable P300 (Razer Gold) ",
+						"LCPRODUCTCODE": "AF300"
+					},
+					{
+						"PRODUCTNAME": "Astral Fable P500 (Razer Gold) ",
+						"LCPRODUCTCODE": "AF500"
+					},
+					{
+						"PRODUCTNAME": "Astral Fable P1000 (Razer Gold) ",
+						"LCPRODUCTCODE": "AF1000"
+					},
+					{
+						"PRODUCTNAME": "Astral Fable P2000 (Razer Gold) ",
+						"LCPRODUCTCODE": "AF2000"
+					},
+					{
+						"PRODUCTNAME": "Astral Fable P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "AF5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "GAIA ODYSSEY",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Gaia Odyssey P20 (Razer Gold)",
+						"LCPRODUCTCODE": "GAIA20"
+					},
+					{
+						"PRODUCTNAME": "Gaia Odyssey P50 (Razer Gold)",
+						"LCPRODUCTCODE": "GAIA50"
+					},
+					{
+						"PRODUCTNAME": "Gaia Odyssey P100 (Razer Gold)",
+						"LCPRODUCTCODE": "GAIA100"
+					},
+					{
+						"PRODUCTNAME": "Gaia Odyssey P300 (Razer Gold)",
+						"LCPRODUCTCODE": "GAIA300"
+					},
+					{
+						"PRODUCTNAME": "Gaia Odyssey P500 (Razer Gold)",
+						"LCPRODUCTCODE": "GAIA500"
+					},
+					{
+						"PRODUCTNAME": "Gaia Odyssey P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "GAIA1000"
+					},
+					{
+						"PRODUCTNAME": "Gaia Odyssey P2000 (Razer Gold)",
+						"LCPRODUCTCODE": "GAIA2000"
+					},
+					{
+						"PRODUCTNAME": "Gaia Odyssey P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "GAIA5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "DRAGON FALL",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Dragon Fall P20 (Razer Gold)",
+						"LCPRODUCTCODE": "DF20"
+					},
+					{
+						"PRODUCTNAME": "Dragon Fall P50 (Razer Gold)  ",
+						"LCPRODUCTCODE": "DF50"
+					},
+					{
+						"PRODUCTNAME": "Dragon Fall P100 (Razer Gold)",
+						"LCPRODUCTCODE": "DF100"
+					},
+					{
+						"PRODUCTNAME": "Dragon Fall P300 (Razer Gold)  ",
+						"LCPRODUCTCODE": "DF300"
+					},
+					{
+						"PRODUCTNAME": "Dragon Fall P500 (Razer Gold) ",
+						"LCPRODUCTCODE": "DF500"
+					},
+					{
+						"PRODUCTNAME": "Dragon Fall P1000 (Razer Gold) ",
+						"LCPRODUCTCODE": "DF1000"
+					},
+					{
+						"PRODUCTNAME": "Dragon Fall P2000 (Razer Gold) ",
+						"LCPRODUCTCODE": "DF2000"
+					},
+					{
+						"PRODUCTNAME": "Dragon Fall P5000 (Razer Gold)   ",
+						"LCPRODUCTCODE": "DF5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "GODDESS MUA",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Goddess MUA P20 (Razer Gold)",
+						"LCPRODUCTCODE": "GMUA20"
+					},
+					{
+						"PRODUCTNAME": "Goddess MUA P50 (Razer Gold) ",
+						"LCPRODUCTCODE": "GMUA50"
+					},
+					{
+						"PRODUCTNAME": "Goddess MUA P100 (Razer Gold)",
+						"LCPRODUCTCODE": "GMUA100"
+					},
+					{
+						"PRODUCTNAME": "Goddess MUA P300 (Razer Gold)",
+						"LCPRODUCTCODE": "GMUA300"
+					},
+					{
+						"PRODUCTNAME": "Goddess MUA P500 (Razer Gold)",
+						"LCPRODUCTCODE": "GMUA500"
+					},
+					{
+						"PRODUCTNAME": "Goddess MUA P1000 (Razer Gold) ",
+						"LCPRODUCTCODE": "GMUA1000"
+					},
+					{
+						"PRODUCTNAME": "Goddess MUA P2000 (Razer Gold) ",
+						"LCPRODUCTCODE": "GMUA2000"
+					},
+					{
+						"PRODUCTNAME": "Goddess MUA P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "GMUA5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "YONG HEROES",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "\tYong Heroes P20 (Razer Gold) ",
+						"LCPRODUCTCODE": "YONG20"
+					},
+					{
+						"PRODUCTNAME": "Yong Heroes P50 (Razer Gold) ",
+						"LCPRODUCTCODE": "YONG50"
+					},
+					{
+						"PRODUCTNAME": "Yong Heroes P100 (Razer Gold)",
+						"LCPRODUCTCODE": "YONG100"
+					},
+					{
+						"PRODUCTNAME": "\tYong Heroes P300 (Razer Gold)",
+						"LCPRODUCTCODE": "YONG300"
+					},
+					{
+						"PRODUCTNAME": "Yong Heroes P500 (Razer Gold)",
+						"LCPRODUCTCODE": "YONG500"
+					},
+					{
+						"PRODUCTNAME": "Yong Heroes P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "YONG1000"
+					},
+					{
+						"PRODUCTNAME": "\tYong Heroes P2000 (Razer Gold)",
+						"LCPRODUCTCODE": "YONG2000"
+					},
+					{
+						"PRODUCTNAME": "Yong Heroes P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "YONG5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "PERFECT WORLD",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Perfect World VNG P20 (Razer Gold)",
+						"LCPRODUCTCODE": "PWVNG20"
+					},
+					{
+						"PRODUCTNAME": "Perfect World VNG P50 (Razer Gold)",
+						"LCPRODUCTCODE": "PWVNG50"
+					},
+					{
+						"PRODUCTNAME": "Perfect World VNG P100 (Razer Gold)",
+						"LCPRODUCTCODE": "PWVNG100"
+					},
+					{
+						"PRODUCTNAME": "Perfect World VNG P300 (Razer Gold)",
+						"LCPRODUCTCODE": "PWVNG300"
+					},
+					{
+						"PRODUCTNAME": "Perfect World VNG P500 (Razer Gold)",
+						"LCPRODUCTCODE": "PWVNG500"
+					},
+					{
+						"PRODUCTNAME": "Perfect World VNG P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "PWVNG1000"
+					},
+					{
+						"PRODUCTNAME": "Perfect World VNG P2000 (Razer Gold)",
+						"LCPRODUCTCODE": "PWVNG2000"
+					},
+					{
+						"PRODUCTNAME": "Perfect World VNG P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "PWVNG5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "GENSHIN IMPACT",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "GENSHIN IMPACT P20 (Razer Gold)",
+						"LCPRODUCTCODE": "GENSHIN20"
+					},
+					{
+						"PRODUCTNAME": "GENSHIN IMPACT P50 (Razer Gold)",
+						"LCPRODUCTCODE": "GENSHIN50"
+					},
+					{
+						"PRODUCTNAME": "GENSHIN IMPACT P100 (Razer Gold)",
+						"LCPRODUCTCODE": "GENSHIN100"
+					},
+					{
+						"PRODUCTNAME": "GENSHIN IMPACT P300 (Razer Gold)",
+						"LCPRODUCTCODE": "GENSHIN300"
+					},
+					{
+						"PRODUCTNAME": "GENSHIN IMPACT P500 (Razer Gold)",
+						"LCPRODUCTCODE": "GENSHIN500"
+					},
+					{
+						"PRODUCTNAME": "GENSHIN IMPACT P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "GENSHIN1000"
+					},
+					{
+						"PRODUCTNAME": "GENSHIN IMPACT P2000 (Razer Gold)",
+						"LCPRODUCTCODE": "GENSHIN2000"
+					},
+					{
+						"PRODUCTNAME": "GENSHIN IMPACT P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "GENSHIN5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "MU ARCHANGEL",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "MU Archangel P20 (Razer Gold)",
+						"LCPRODUCTCODE": "MUARCH20"
+					},
+					{
+						"PRODUCTNAME": "MU Archangel P50 (Razer Gold)",
+						"LCPRODUCTCODE": "MUARCH50"
+					},
+					{
+						"PRODUCTNAME": "MU Archangel P100 (Razer Gold)",
+						"LCPRODUCTCODE": "MUARCH100"
+					},
+					{
+						"PRODUCTNAME": "MU Archangel P300 (Razer Gold)",
+						"LCPRODUCTCODE": "MUARCH300"
+					},
+					{
+						"PRODUCTNAME": "MU Archangel P500 (Razer Gold)",
+						"LCPRODUCTCODE": "MUARCH500"
+					},
+					{
+						"PRODUCTNAME": "MU Archangel P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "MUARCH1000"
+					},
+					{
+						"PRODUCTNAME": "MU Archangel P2000 (Razer Gold)",
+						"LCPRODUCTCODE": "MUARCH2000"
+					},
+					{
+						"PRODUCTNAME": "MU Archangel P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "MUARCH5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "RAGNAROK X",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Ragnarok X P20 (Razer Gold)",
+						"LCPRODUCTCODE": "ROX20"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok X P50 (Razer Gold)",
+						"LCPRODUCTCODE": "ROX50"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok X P100 (Razer Gold)",
+						"LCPRODUCTCODE": "ROX100"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok X P300 (Razer Gold)",
+						"LCPRODUCTCODE": "ROX300"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok X P500 (Razer Gold)",
+						"LCPRODUCTCODE": "ROX500"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok X P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "ROX1000"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok X P2000 (Razer Gold)",
+						"LCPRODUCTCODE": "ROX2000"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok X P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "ROX5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "RAGNAROK ONLINE: ASCENDANCE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Ragnarok Online: Ascendance PC P20 (Razer Gold)",
+						"LCPRODUCTCODE": "ROPC20"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online: Ascendance PC P50 (Razer Gold)",
+						"LCPRODUCTCODE": "ROPC50"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online: Ascendance PC P100 (Razer Gold)",
+						"LCPRODUCTCODE": "ROPC100"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online: Ascendance PC P300 (Razer Gold)",
+						"LCPRODUCTCODE": "ROPC300"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online: Ascendance PC P500 (Razer Gold)",
+						"LCPRODUCTCODE": "ROPC500"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online: Ascendance PC P1000 (Razer Gold)",
+						"LCPRODUCTCODE": "ROPC1000"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online: Ascendance PC P2000 (Razer Gold)",
+						"LCPRODUCTCODE": "ROPC2000"
+					},
+					{
+						"PRODUCTNAME": "Ragnarok Online: Ascendance PC P5000 (Razer Gold)",
+						"LCPRODUCTCODE": "ROPC5000"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "RIOT GAMES - VALORANT",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "",
+						"TOP-UP GUIDE": "HOW TO USE:\r\n1.  Enter Valorant game with your Riot account\r\n2.  Click on the VP button at the upper right corner\r\n3.  Click on the \"Riot PIN and Codes\" button in the \"Select purchase method field\"\r\n4.  Enter the Riot PIN code you purchased in the field at the bottom and click the \"Submit\" button"
+					},
+					{
+						"PRODUCTNAME": "Valorant Points 375 (PHP149)",
+						"LCPRODUCTCODE": "VALORANT149"
+					},
+					{
+						"PRODUCTNAME": "Valorant Points 650 (PHP249)",
+						"LCPRODUCTCODE": "VALORANT249"
+					},
+					{
+						"PRODUCTNAME": "Valorant Points 1,350 (PHP499)",
+						"LCPRODUCTCODE": "VALORANT499"
+					},
+					{
+						"PRODUCTNAME": "Valorant Points 2,100 (PHP749)",
+						"LCPRODUCTCODE": "VALORANT749"
+					},
+					{
+						"PRODUCTNAME": "Valorant Points 3,600 (PHP1250)",
+						"LCPRODUCTCODE": "VALORANT1250"
+					},
+					{
+						"PRODUCTNAME": "Valorant Points 7,500 (PHP2490)",
+						"LCPRODUCTCODE": "VALORANT2490"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "RIOT GAMES - LEGENDS OF RUNETERRA",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Legends of Runeterra Coins 375 (PHP149)",
+						"LCPRODUCTCODE": "RUNETERRA149"
+					},
+					{
+						"PRODUCTNAME": "Legends of Runeterra Coins 650 (PHP249)",
+						"LCPRODUCTCODE": "RUNETERRA249"
+					},
+					{
+						"PRODUCTNAME": "Legends of Runeterra Coins 1,350 (PHP499)",
+						"LCPRODUCTCODE": "RUNETERRA499"
+					},
+					{
+						"PRODUCTNAME": "Legends of Runeterra Coins 2,100 (PHP749)",
+						"LCPRODUCTCODE": "RUNETERRA749"
+					},
+					{
+						"PRODUCTNAME": "Legends of Runeterra Coins 3,600 (PHP1250)",
+						"LCPRODUCTCODE": "RUNETERRA1250"
+					},
+					{
+						"PRODUCTNAME": "Legends of Runeterra Coins 7,500 (PHP2490)",
+						"LCPRODUCTCODE": "RUNETERRA2490"
+					}
+				]
+			}
+		]
+	},
+	{
+		"TYPE": "SATELLITE",
+		"LIST" : [
+			{
+				"PRODUCTNAME": "GLOBAL SATELLITE (GSAT and GPINOY)",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "GPinoy 99",
+						"LCPRODUCTCODE": "GPinoy99",
+						"DESCRIPTION_EQUIVALENT": "34 channels + 10 Radio channels",
+						"VALIDITY": "1 month",
+						"TOP-UP GUIDE": "Gpinoy<space>Your Box Number<space>Pin Code send to 09989751299 for smart/ 09178867360 for globe or 09253330444 for sun"
+					},
+					{
+						"PRODUCTNAME": "GSAT200",
+						"LCPRODUCTCODE": "GSAT200",
+						"DESCRIPTION_EQUIVALENT": "47 Channels + 10 Radio channels",
+						"VALIDITY": "1 month",
+						"TOP-UP GUIDE": "GSAT<space>(Box Number)<space>(Security Code) send to SMART +63908-886-4728   SUN +63922-811-4278 \r\n               GLOBE +63917-811-4728 "
+					},
+					{
+						"PRODUCTNAME": "GSAT 300",
+						"LCPRODUCTCODE": "GSAT300",
+						"DESCRIPTION_EQUIVALENT": "72 Channels + 10 Radio channels",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "GSAT 500",
+						"LCPRODUCTCODE": "GSAT500",
+						"DESCRIPTION_EQUIVALENT": "103 Channels + 10 Radio channels",
+						"VALIDITY": "1 month"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "CIGNAL RELOAD CARDS",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Cignal Reload Card 200",
+						"LCPRODUCTCODE": "CRC200",
+						"DESCRIPTION_EQUIVALENT": "40 SD Channels",
+						"VALIDITY": "1 month",
+						"TOP-UP GUIDE": "Text CIGNAL<space><PIN><space>< Cignal Account no.> and send to 5353 for SMART and SUN subscribers.\r\nHD, 31 channels\r\nText CIGNAL<space><PIN><space>< Cignal Account no.> and send to 5353 for SMART and SUN subscribers.\r\nYou will receive a text message confirming your request."
+					},
+					{
+						"PRODUCTNAME": "Cignal Reload Card 300",
+						"LCPRODUCTCODE": "CRC300",
+						"DESCRIPTION_EQUIVALENT": "Basic sd:25 channels  ; premium sd( cardless):50 channels ; ultimate hd: 55 total channels with 5 hd ",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "Cignal Reload Card 450",
+						"LCPRODUCTCODE": "CRC450",
+						"DESCRIPTION_EQUIVALENT": "5 HD Channels, 59 SD Channels",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "Cignal Reload Card 500",
+						"LCPRODUCTCODE": "CRC500",
+						"DESCRIPTION_EQUIVALENT": "9 HD Channels, 62 SD Channels",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "Cignal Reload Card 600",
+						"LCPRODUCTCODE": "CRC600",
+						"DESCRIPTION_EQUIVALENT": "15 HD Channels, 67 SD Channels",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "Cignal Reload Card 800",
+						"LCPRODUCTCODE": "CRC800",
+						"DESCRIPTION_EQUIVALENT": "18 HD Channels, 73 SD Channels",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "Cignal Reload Card 1000",
+						"LCPRODUCTCODE": "CRC1000",
+						"DESCRIPTION_EQUIVALENT": "21 HD Channels, 80 SD Channels",
+						"VALIDITY": "1 month"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "SATLITE by Cignal",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "SatLite Load 49 (24 Channels for 30 days)",
+						"LCPRODUCTCODE": "SATLITE49",
+						"DESCRIPTION_EQUIVALENT": "24 Channels for 30 days",
+						"VALIDITY": "1 month",
+						"TOP-UP GUIDE": "How to Load:\r\nFor easy loading register your Satlite account to your mobile phone:\r\n• Text SATLITE_SC_CCA Number and SEND TO 5353 for Smart and Sun subscribers.\r\n• The CCA Number can be found under the Satlite Box.\r\n\r\nTo load Satlite account via mobile phone:\r\n•  Text  SATLITE <space> PIN <space> SatLite Account Number and send to 5353 for SMART and SUN subscribers.\r\n•  You will receive a text message confirming your request.\r\n\r\nTo load Satlite account via webtool: http://bit.ly/CignalWebLoadingTool\r\nTo inquire about load expiry:\r\n•  Text  SATLITE <space> EXP <space> SatLite Account Number and send to 5353 for SMART and SUN subscribers\r\n•  You will receive a text message on the expiry date of your load."
+					},
+					{
+						"PRODUCTNAME": "SatLite Load 99 (39 Channels for 30 days)",
+						"LCPRODUCTCODE": "SATLITE99",
+						"DESCRIPTION_EQUIVALENT": "39 Channels for 30 days",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "SatLite Load 199 (46 Channels for 30 days)",
+						"LCPRODUCTCODE": "SATLITE199",
+						"DESCRIPTION_EQUIVALENT": "46 Channels for 30 days",
+						"VALIDITY": "1 month"
+					},
+					{
+						"PRODUCTNAME": "SatLite Load 299 (51 Channels for 30 days)",
+						"LCPRODUCTCODE": "SATLITE299",
+						"DESCRIPTION_EQUIVALENT": "51 Channels for 30 days",
+						"VALIDITY": "1 month"
+					}
+				]
+			}
+		]
+	},
+	{
+		"TYPE": "OTHERS",
+		"LIST" : [
+			{
+				"PRODUCTNAME": "ESET",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "ESET 399 (2021 Mobile Security)",
+						"LCPRODUCTCODE": "ESET399",
+						"DESCRIPTION_EQUIVALENT": "ESET Mobile Security ",
+						"VALIDITY": "1 User 1 Year Subscription",
+						"TOP-UP GUIDE": "• To renew visit: eset.com.ph/renewal \r\n• How to renew tutorial video: https://www.youtube.com/watch?v=I3p6RXZ4Hrc&feature=youtu.be\r\n\r\n• If you forgot your license key, you may find your license username by opening your ESET app installed in your computer and while the ESET software is open in front of you and press CTRL and U on your keyboard visit the link below for visual reference: https://support.eset.com/en/kb2822-locate-my-eset-username-in-the-program-settings-to-contact-technical-support\r\n\r\n• If you did not add a license key during installation, or your ESET product is still not activated, please visit: https://support.eset.com/en/kb2792-activate-my-eset-windows-home-product-using-my-username-password-or-license-key "
+					},
+					{
+						"PRODUCTNAME": "ESET 760 (2021 ESET NOD32 Antivirus)",
+						"LCPRODUCTCODE": "ESET760",
+						"DESCRIPTION_EQUIVALENT": "ESET NOD32",
+						"VALIDITY": "1 User 2 Years Subscription"
+					},
+					{
+						"PRODUCTNAME": "ESET 990 (2021 ESET Internet Security)",
+						"LCPRODUCTCODE": "ESET990",
+						"DESCRIPTION_EQUIVALENT": "ESET Internet Security ",
+						"VALIDITY": "1 User 2 Year Subscription"
+					},
+					{
+						"PRODUCTNAME": "ESET 990 (2021 ESET Cyber Security Pro)",
+						"LCPRODUCTCODE": "ESETCS990",
+						"DESCRIPTION_EQUIVALENT": "ESET Cyber Sec Pro ",
+						"VALIDITY": "1 User 1 Year Subscription"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "WTFAST",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "WTFAST 500",
+						"LCPRODUCTCODE": "WTFAST500",
+						"VALIDITY": "1 Month Subscription Service",
+						"TOP-UP GUIDE": "TOP UP GUIDE\r\n1. Go to https://secure.wtfast.com/Subscription/Index/new\r\n2. Click Activate Key Button on the bottom center of the page\r\n3. Create or Login into your Account\r\n4. Enter your 32 Character Pin.  You’re all set!"
+					},
+					{
+						"PRODUCTNAME": "WTFAST 1425",
+						"LCPRODUCTCODE": "WTFAST1425",
+						"VALIDITY": "3 Months Subscription Service"
+					},
+					{
+						"PRODUCTNAME": "WTFAST 2700",
+						"LCPRODUCTCODE": "WTFAST2700",
+						"VALIDITY": "6 Months Subscription Service"
+					},
+					{
+						"PRODUCTNAME": "WTFAST 4995",
+						"LCPRODUCTCODE": "WTFAST4995",
+						"VALIDITY": "12 Months Subscription Service"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "IFLIX",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "IFLIX129",
+						"LCPRODUCTCODE": "IFLIX129",
+						"DESCRIPTION_EQUIVALENT": "iflix playtime",
+						"VALIDITY": "1 month",
+						"TOP-UP GUIDE": "1. Sign up or Log in at iflix.com\r\n2. Click “MENU”\r\n3. Click “REDEEM VOUCHER”\r\n4. Enter your code, and hit “SUBMIT”"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "VIU (Megamobile)",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "VIU 29 (3 Day Subscription)",
+						"LCPRODUCTCODE": "VIU29",
+						"DESCRIPTION_EQUIVALENT": "Three Day Subscription",
+						"VALIDITY": "3 Days"
+					},
+					{
+						"PRODUCTNAME": "VIU 50 (7 Day Subscription)",
+						"LCPRODUCTCODE": "VIU50",
+						"DESCRIPTION_EQUIVALENT": "Seven Day Subscription",
+						"VALIDITY": "7 Days"
+					},
+					{
+						"PRODUCTNAME": "99",
+						"LCPRODUCTCODE": "VIU99",
+						"DESCRIPTION_EQUIVALENT": "Enjoy unlimited access to all content and unlimited downloads for offline viewing(mobile app) to all the best Asian movies, dramas, and latest variety shows with zero ads valid for 30 days.",
+						"VALIDITY": "1 month"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "FREE BEE",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Free Bee Call the World US, Hawaii & Canada 155",
+						"LCPRODUCTCODE": "FRBUHC155",
+						"DESCRIPTION_EQUIVALENT": "100 minutes ",
+						"VALIDITY": "30 days"
+					},
+					{
+						"PRODUCTNAME": "Free Bee Call the World South Korea 155",
+						"LCPRODUCTCODE": "FRBSK155",
+						"DESCRIPTION_EQUIVALENT": "100 minutes ",
+						"VALIDITY": "30 days"
+					},
+					{
+						"PRODUCTNAME": "Free Bee Call the World India 155",
+						"LCPRODUCTCODE": "FRBI155",
+						"DESCRIPTION_EQUIVALENT": "100 minutes ",
+						"VALIDITY": "30 days"
+					}
+				]
+			},
+			{
+				"PRODUCTNAME": "VIVAMAX",
+				"PRODUCTS" : [
+					{
+						"PRODUCTNAME": "Vivamax 149 One Month plus 3 days/2 shows per week",
+						"LCPRODUCTCODE": "Vivamax149",
+						"DESCRIPTION_EQUIVALENT": "One Month plus 3 days/2 shows per week",
+						"VALIDITY": "30 days"
+					},
+					{
+						"PRODUCTNAME": "Vivamax 399 Three Months plus 5 days/3 shows per week",
+						"LCPRODUCTCODE": "Vivamax399",
+						"DESCRIPTION_EQUIVALENT": "Three Months plus 5 days/3 shows per week",
+						"VALIDITY": "90 days"
+					},
+					{
+						"PRODUCTNAME": "Vivamax 749 Six Months plus 7 days/4 shows per week",
+						"LCPRODUCTCODE": "Vivamax749",
+						"DESCRIPTION_EQUIVALENT": "Six Months plus 7 days/4 shows per week",
+						"VALIDITY": "180 days"
+					},
+					{
+						"PRODUCTNAME": "Vivamax 1399 One Year Plan plus 9 days/5 shows per week",
+						"LCPRODUCTCODE": "Vivamax1399",
+						"DESCRIPTION_EQUIVALENT": "One Year Plan plus 9 days/5 shows per week",
+						"VALIDITY": "1 Year"
+					}
+				]
+			}
+		]
+	}
+
+]
+
