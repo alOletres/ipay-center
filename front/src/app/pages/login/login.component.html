@@ -1,0 +1,38 @@
+<div class="cs-backdrop" *ngIf="progress">
+    <mat-progress-bar mode="query" class="cs-absolute"></mat-progress-bar>
+</div>
+<div class="auth-page">
+	<div class="auth-page__content-block">
+		<div class="auth-page__content-wrapper">
+			<div class="auth-page__group">
+				<div >
+					<h4 class="auth-page__group-title">Good Day! User</h4>
+
+					<form class="form" [formGroup]="loginForm"  (ngSubmit)="login()">
+						<mat-form-field class="form__input" appearance="outline">
+							<mat-label>Username</mat-label>
+							<input matInput placeholder="Placeholder" formControlName="username" autocomplete="off">
+						</mat-form-field>
+
+						<mat-form-field class="form__input" appearance="outline">
+							<mat-label>Password</mat-label>
+							<input matInput placeholder="Password" formControlName="password" type="password">
+						</mat-form-field>
+
+						<div class="form-actions">
+						  <button class="form-actions__login" mat-raised-button type="submit">Login</button>
+						  <button class="form-actions__forget" mat-button type="button">Forget password</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<p class="auth-page__footer-title">© 2021 <a>iPayment Center</a>, LLC. All rights reserved.</p>
+		</div>
+	</div>
+	<div class="auth-page__logo">
+		<div class="auth-page__logo-wrapper">
+			<img class="auth-page__logo-img" src="./assets/img/IPAY_LOGO.png" alt="logo">
+			<h6 class="auth-page__logo-title">Your convenience is our business.</h6>
+		</div>
+	</div>
+</div>

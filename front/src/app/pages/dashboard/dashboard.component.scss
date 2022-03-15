@@ -1,0 +1,33 @@
+@import 'src/app/styles/variables';
+
+.charts-wrapper {
+	display: flex;
+	margin: 0 8px;
+
+	@media (max-width: $normal) {
+		flex-wrap: wrap;
+	}
+}
+
+.chart {
+	width: 100%;
+
+	@media (max-width: $normal) {
+		width: 50%;
+	}
+
+	@media (max-width: $small) {
+		width: 100%;
+	}
+}
+.in_block{
+	padding: 10px;
+}
+.in_blockS{
+	padding: 10px;
+}
+@media only screen and (max-width: 1440px) {
+	.media{
+		font-size: 15px;
+	}
+}

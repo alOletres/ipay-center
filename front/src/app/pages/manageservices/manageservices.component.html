@@ -1,0 +1,69 @@
+<mat-toolbar class="page-header" role="heading">
+	<h1>Notification</h1>
+</mat-toolbar>
+
+<div fxLayout="row wrap" fxLayoutGap="0px grid">
+
+	
+
+	<div fxFlex="100%" fxFlex.md="100%" fxFlex.xs="100%">
+		
+		<mat-card class="card card-wrapper">
+			<mat-card-title class="card__header">
+			  	<h5 class="card__title">
+					<p>
+                        Services
+                        <mat-button-toggle-group style="float: right;" appearance="legacy" name="fontStyle" aria-label="Font Style">
+                            <mat-button-toggle  matTooltip="Back" ><mat-icon>keyboard_arrow_left</mat-icon></mat-button-toggle>
+                            <mat-button-toggle (click) = "function_addServices()" matTooltip="Add Services"><mat-icon>add_circle_outline</mat-icon></mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </p>
+				</h5>
+			</mat-card-title>
+			<mat-card-content class="card__content">
+				<table style="width: 100%;"  class="table__table" mat-table  class="mat-elevation-z8" >
+
+					<ng-container matColumnDef="no">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> No. </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }}. </td>
+					</ng-container>
+
+					<ng-container matColumnDef="image">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> image </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element">  </td>
+					</ng-container>
+
+					<ng-container matColumnDef="name">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> Services Name </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element">  </td>
+					</ng-container>
+
+					<ng-container matColumnDef="charge">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> Services charge</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> </td>
+					</ng-container>
+
+					<ng-container matColumnDef="date_added">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> Date added </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element">  </td>
+					</ng-container>
+
+					<ng-container matColumnDef="action">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> Action </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element">  </td>
+					</ng-container>
+
+					<tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColumn;"></tr>
+			</table>
+			</mat-card-content>
+		</mat-card>
+	</div>
+
+
+	
+
+	<!-- <div fxFlex="100%" fxFlex.md="100%" fxFlex.xs="100%">
+		
+	</div> -->
+</div>

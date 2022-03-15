@@ -1,0 +1,517 @@
+<!-- &nbsp; -->
+
+<div  fxLayout="row wrap">
+	<div fxFlex="100%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-toolbar>
+			<div  [routerLink]="['/tellerdashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%">
+				<button style=" margin-left: 20px; color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+					<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+				</button>
+			</div>
+	
+			<div fxFlex="80%" fxFlex.md="100%" fxFlex.xs="100%">
+				<h1>List of Routes</h1>
+			</div>
+			<div fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%">
+				<mat-button-toggle-group   appearance="legacy" name="fontStyle" aria-label="Font Style">
+					<mat-button-toggle [routerLink]="['/barkotaSettings']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" matTooltip="Settings" > <mat-icon>settings</mat-icon> </mat-button-toggle>
+				</mat-button-toggle-group>
+			</div>
+		</mat-toolbar>
+	</div>
+</div>
+<br><br>
+<!-- 
+  <div hidden="true">
+</div> -->
+
+<mat-card >
+	<!-- <mat-card-title class="card__header">
+		<h5 class="card__title" style="margin-top: 5px;">{{ kindOfRoutes }}</h5>
+	</mat-card-title> -->
+	<mat-card-content >
+        <form [formGroup]="routesForm" >
+			<!-- ticket number here  -->
+			<mat-form-field *ngIf="validateSubmitButton" style="width: 96%;" appearance="outline">
+				<mat-label> Ticket Number</mat-label>
+				<input type="text" matInput class="form__spacing"  [(ngModel)] ="revalidateTicket" [ngModelOptions]="{standalone: true}">
+			</mat-form-field>
+
+
+            <mat-form-field style="width: 45%;" appearance="outline">
+                <mat-label>Select Origin</mat-label>
+                <mat-select  formControlName="origin"  (ngModelChange)="onChange($event)" >
+                    
+                    <mat-option>None</mat-option>
+                    <mat-option   *ngFor="let list of result; let i = index"  [value] = "i" >{{ list.origin.name }}</mat-option>
+            
+                </mat-select>
+            </mat-form-field>
+            &nbsp; &nbsp;
+            <mat-form-field style="width: 50%;" appearance="outline">
+                <mat-label>Select Destination</mat-label>
+                <mat-select  formControlName="destination" >
+                    
+                    <mat-option>Select Origin First</mat-option>
+                    <mat-option  *ngFor="let list of destination" [value]="list.id"> {{ list.name }} </mat-option>
+            
+                </mat-select>
+            </mat-form-field>
+        
+        
+            <mat-form-field color ="accent" appearance="outline" style="width: 45%; ">
+                <mat-label>Date Departure</mat-label>
+                <input matInput [matDatepicker]="dp3" style="color: palevioletred;" [min]="minDate" disabled="true" [(ngModel)] ="bookdate" [ngModelOptions]="{standalone: true}"  autocomplete="off" >
+                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+            </mat-form-field>
+			
+            &nbsp; &nbsp;
+			<mat-form-field color ="accent" appearance="outline" style="width: 50%; ">
+                <mat-label>Return Date</mat-label>
+                <input matInput [matDatepicker]="dp4" style="color: palevioletred;"  [min]="minDate" disabled="true" [(ngModel)] ="returndate" [ngModelOptions]="{standalone: true}"  autocomplete="off" >
+                <mat-datepicker-toggle disabled matSuffix [for]="dp4"></mat-datepicker-toggle>
+                <mat-datepicker #dp4 disabled="false"></mat-datepicker>
+            </mat-form-field>
+        
+            <div  class="formbtn-actions" style="margin-right:55px;">
+				<button class="formbtn-actions_cancel" type="button" mat-raised-button  (click)="function_refresh()"> <mat-icon>settings_backup_restore</mat-icon> Refresh </button>
+				&nbsp;
+                <button class="formbtn-actions__save" type="button" (click)="function_submitRoutes()" mat-raised-button  [disabled]="routesForm.invalid">View Routes</button>
+            </div>
+        </form>
+        <br><br><br><br>
+
+
+        <!-- stepper here -->
+	
+		<mat-stepper [linear]="isLinear" #stepper>
+				<mat-step [stepControl]="firstFormGroup" >
+					<form [formGroup]="firstFormGroup">
+							<ng-template matStepLabel>Available Trips</ng-template>
+						
+		
+							<table style="width: 100%;" [dataSource] ="dataSource" class="table__table" mat-table class="mat-elevation-z8">
+								<ng-container matColumnDef="no">
+									<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> No. </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }}. </td>
+								</ng-container>
+		
+								<ng-container matColumnDef ="image">
+									<th style="background-color: green;color: white;"class="table_table-header" mat-header-cell *matHeaderCellDef></th>
+									<td class="table_table-body" mat-cell *matCellDef="let element">
+										<img style=" height: 50px; width: 50px; padding-top: 30px;" mat-card-image [src]="element.voyage.shippingLine.markImage" > 
+									</td>
+								</ng-container>
+		
+								<ng-container matColumnDef="shippingline">
+									<th style="background-color: green;color: white;"class="table_table-header" mat-header-cell *matHeaderCellDef> Shipping Line </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> <span > {{ element.voyage.shippingLine.name }}  </span></td>
+								</ng-container>
+		
+								<ng-container matColumnDef="vessel">
+									<th style="background-color: green;color: white;"class="table_table-header" mat-header-cell *matHeaderCellDef> Vessel </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.voyage.vessel.name }} </td>
+								</ng-container>
+							
+								<ng-container matColumnDef="departure">
+									<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> Departure </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.voyage.departureDateTime }} </td>
+								</ng-container>
+							
+								<ng-container matColumnDef="duration">
+									<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> Duration </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.voyage.duration }} </td>
+								</ng-container>
+							
+								<ng-container matColumnDef="port">
+									<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> Port </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.voyage.port.destination }} </td>
+								</ng-container>
+		
+								<ng-container matColumnDef="remarks">
+									<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> Remarks </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> <span style="color: red;"> {{ element.passageRemarks  }} </span> </td>
+								</ng-container>
+		
+								<ng-container matColumnDef ="action">
+									<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> Actions </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element; index as i">
+										<button (click)="function_getAccomodation(element, i)" style="background-color: black; color: blanchedalmond;" mat-raised-button matStepperNext > <mat-icon>view_list</mat-icon>View Accomodation</button>
+									</td>
+								</ng-container>
+								<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+								<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+								
+							</table>
+							<br>
+							<p *ngIf ="dataSource === '' " style="text-align: center;"> {{ tablemessage }} </p>
+							
+					</form>
+				</mat-step>
+				<mat-step [stepControl]="secondFormGroup" >
+					<form [formGroup]="secondFormGroup">
+						<ng-template matStepLabel>Accomodation</ng-template>
+						
+						<table style="width: 100%;" [dataSource] ="dataAccomodation" class="table__table" mat-table class="mat-elevation-z8">
+							<ng-container matColumnDef="no">
+								<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> No. </th>
+								<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }}. </td>
+							</ng-container>
+				
+							<ng-container matColumnDef="name">
+								<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Accomodations Name</th>
+								<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.name }} </td>
+							</ng-container>
+				
+							<ng-container matColumnDef="aircon">
+								<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Aircon</th>
+								<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.isAircon }} </td>
+							</ng-container>
+				
+							<ng-container matColumnDef="remaining">
+								<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Remaining</th>
+								<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.remaining }} </td>
+							</ng-container>
+				
+							<ng-container matColumnDef="seatType">
+								<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Seat TYpe</th>
+								<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.seatType }} </td>
+							</ng-container>
+				
+							<ng-container matColumnDef="totalBook">
+								<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Total Book</th>
+								<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.totalBooked }} </td>
+							</ng-container>
+				
+							<ng-container matColumnDef="totalCapacity">
+								<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Total Capacity</th>
+								<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.totalCapacity }} </td>
+							</ng-container>
+
+							<ng-container matColumnDef="action">
+								<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Action</th>
+								<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> 
+									<button (click)="function_selectAccommodation(element, i)" style="background-color: black; color: blanchedalmond;" type="button" mat-raised-button matStepperNext >Select Accomodation</button>
+								</td>
+							</ng-container>
+							
+							
+							<tr mat-header-row *matHeaderRowDef="displayedColumnss"></tr>
+							<tr mat-row *matRowDef="let row; columns: displayedColumnss;"></tr>
+						</table>
+						<br><br>
+						<div  class="formbtn-actions">
+							<button class="formbtn-actions__cancel" type="button" mat-raised-button matStepperPrevious> Back</button>
+							
+						</div>
+
+						<br>
+						<p *ngIf ="dataAccomodation === '' " style="text-align: center;"> NO AVAILABLE ACCOMODATION </p>
+					</form>
+				</mat-step>
+				<mat-step [stepControl]="thirdFormGroup" >
+					<form [formGroup]="thirdFormGroup">
+						<ng-template matStepLabel>Accomodation Type</ng-template>
+					<!-- content here -->
+
+					<table style="width: 100%;" [dataSource] ="dataTicketlist" class="table__table" mat-table class="mat-elevation-z8">
+						
+						<ng-container matColumnDef="no">
+							<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>No</th>
+							<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
+						</ng-container>
+
+						<ng-container matColumnDef="routename">
+							<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Route name</th>
+							<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.routePriceName }} </td>
+						</ng-container>
+
+						<ng-container matColumnDef="type">
+							<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Route type</th>
+							<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.routePriceType.name }} </td>
+						</ng-container>
+
+						
+
+						<ng-container matColumnDef="details">
+							<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Select Accommodation Type</th>
+							<td class="table_table-body" mat-cell *matCellDef="let element"> 
+								<!-- <button style="background-color: black; color: blanchedalmond;" mat-raised-button (click)="function_viewDetails(element)" matStepperNext> <mat-icon>view_list</mat-icon>View Details</button> -->
+								<mat-radio-group
+									aria-labelledby="example-radio-group-label"
+									class="example-radio-group" [(ngModel)]="selectDetail" [ngModelOptions]="{standalone: true}" (click)="function_viewDetails(element)">
+										<mat-radio-button class="example-radio-button"  [value]="element.routePriceName"  ></mat-radio-button>
+									</mat-radio-group>
+							</td>
+						</ng-container>
+
+						
+
+						
+						<tr mat-header-row *matHeaderRowDef="displayedColumnsss"></tr>
+						<tr mat-row *matRowDef="let row; columns: displayedColumnsss;"></tr>
+					</table>
+					<br>
+					<div  class="formbtn-actions">
+						<button class="formbtn-actions__cancel" type="button" mat-raised-button matStepperPrevious > Back</button>
+						<!-- <button mat-button matStepperNext >Next</button> -->
+					</div>
+					</form>
+				</mat-step>
+		  </mat-stepper>
+		  <!---->
+		  <div class="row"  *ngIf="detailsTable" >
+				<mat-card-title class="card__header">
+					<h5 class="card__title">Passenger Contact Person's  Information</h5>
+				</mat-card-title>
+				
+				<form  [formGroup]="contactForm">
+				
+					<mat-form-field class="form_input  col-md-4 col-sm-4 col-xs-4" appearance="outline">
+						<mat-label class="form_label"> Complete name </mat-label>
+						<input  style="text-transform: uppercase;" matInput type="text" class="form_spacing" formControlName="completeName" autocomplete="off">
+					</mat-form-field>
+					<mat-form-field   class="form_input  col-md-4 col-sm-4 col-xs-4" appearance="outline">
+						<mat-label class="form_label"> Email </mat-label>
+						<input matInput type="email" name='none' class="form_spacing" formControlName="email" autocomplete="off">	
+						<mat-error *ngIf="this.contactForm.controls.email.hasError('email') && !this.contactForm.controls.email.hasError('required')">
+							Please enter a valid email address
+						</mat-error>
+						<mat-error *ngIf="this.contactForm.controls.email.hasError('required')">
+							Email is <strong>required</strong>
+						</mat-error>	
+					</mat-form-field>
+
+					<mat-form-field  class="form_input  col-md-4 col-sm-4 col-xs-4" appearance="fill">
+						<mat-label class="form_label"> Mobile Number </mat-label>
+						<span matPrefix>+63 &nbsp;</span>
+						<input matInput type="tel" placeholder="926391123" (keypress)="validateOnlyNumbers($event)" maxlength="10" class="form_spacing" formControlName="mobileNumber" autocomplete="off">
+						<mat-icon matSuffix>mode_edit</mat-icon>
+				
+						<mat-error *ngIf="this.contactForm.controls.mobileNumber.hasError('required') ">
+								<span style="color: red;">Mobile number must be 10 characters <strong>required</strong></span>
+						</mat-error>
+					</mat-form-field>
+					
+					<mat-form-field  class="form_input  col-md-6 col-sm-6 col-xs-6" appearance="outline">
+						<mat-label class="form_label"> Address </mat-label>
+						<input style="text-transform: uppercase;" matInput type="text" class="form_spacing" formControlName="address" autocomplete="off">
+					</mat-form-field>
+
+					<div class="col-md-6 col-sm-6 col-xs-6">
+						<label id="example-radio-group-label">Allow Promotion Notification</label> &nbsp;
+						<mat-radio-group  aria-labelledby="example-radio-group-label" class="example-radio-group " aria-label="Select an option" formControlName="promotion">
+							<mat-radio-button value="0">Notify</mat-radio-button> &nbsp;
+							<mat-radio-button value="1">Not Notify</mat-radio-button>
+						</mat-radio-group>
+					</div>
+					
+				</form>
+		  </div>
+
+		  <!--  -->
+		 
+		 <div class="row" *ngIf="contactForm.valid">
+			<div *ngFor="let data of addPassengerArray">
+				<!-- <form  > -->
+					<ng-template matStepLabel>Customer Details</ng-template>
+		
+					<mat-card-title class="card__header">
+						<h5 class="card__title"> Customer Details </h5>
+					</mat-card-title>
+
+					<mat-form-field  class="form__input col-md-4 col-sm-4 col-xs-4 " appearance="outline">
+						<mat-label class="form__label">Firstname</mat-label>
+						<input style="text-transform: uppercase;" matInput type="text" class="form__spacing" [(ngModel)]="data.firstName" autocomplete="off">
+					</mat-form-field>
+					
+					<mat-form-field  class="form__input col-md-4 col-sm-4 col-xs-4 " appearance="outline">
+						<mat-label class="form__label">Lastname</mat-label>
+						<input style="text-transform: uppercase;" matInput type="text" class="form__spacing" [(ngModel)]="data.lastName" autocomplete="off">
+					</mat-form-field>
+					
+					<mat-form-field  class="form_input col-md-4 col-sm-4 col-xs-4 " appearance="outline">
+						<mat-label class="form_label"> Middle Initial </mat-label>
+						<input style="text-transform: uppercase;" matInput type="text" class="form_spacing" [(ngModel)]="data.middleInitial" maxlength="1" autocomplete="off">
+					</mat-form-field>
+		
+					<mat-form-field class="col-md-4 col-sm-4 col-xs-4" appearance="outline">
+						<mat-label>isDriver</mat-label>
+						<mat-select  [(ngModel)]="data.isDriver" >
+							<mat-option>None</mat-option>
+							<mat-option *ngFor="let item of driverList; index as i "  [value]="i"> {{ item }} </mat-option>
+						</mat-select>
+					</mat-form-field>
+
+					<div class="col-md-4 col-sm-4 col-xs-4">
+						<label  id="example-radio-group-label">Gender:</label> &nbsp;
+						<mat-radio-group   aria-labelledby="example-radio-group-label" class="example-radio-group  " aria-label="Select an option" [(ngModel)]="data.gender">
+							<mat-radio-button value="1">Male</mat-radio-button> &nbsp;
+							<mat-radio-button value="2">Female</mat-radio-button>
+						</mat-radio-group>
+					</div>
+
+					<mat-form-field class="col-md-4 col-sm-4 col-xs-4 "  color ="accent" appearance="outline">
+						<mat-label>Birthdate </mat-label>
+						<input matInput [matDatepicker]="dp4" style="color: palevioletred;" [(ngModel)]="data.birthDate" autocomplete="off" >
+						<mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+						<mat-datepicker #dp4 disabled="false"></mat-datepicker>
+					</mat-form-field>
+					
+					<mat-form-field class="form_input col-md-4 col-sm-4 col-xs-4" appearance="outline">
+						<mat-label class="form_label"> Discount  Type </mat-label>
+						<mat-select [(ngModel)]="data.discount" (ngModelChange)="function_choiceTicket(dataDetails, $event, data.id)">
+							<mat-option *ngFor="let item of dataDetails ; index as i " [value]="i" [disabled]="1 < i"> 
+								{{ item.discountType.name | json }} <span *ngIf="1 < i " > NOT APPLICABLE  </span> 
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+
+					<mat-form-field  class="form_input col-md-8 col-sm-8 col-xs-8" appearance="outline">
+						<mat-label class="form_label"> Nationality </mat-label>
+						<input style="text-transform: uppercase;" matInput type="text" class="form_spacing" [(ngModel)]="data.nationality" autocomplete="off">
+					</mat-form-field>
+
+					<mat-form-field >
+						<mat-label class="form_label"> </mat-label>
+						<input matInput type="text" class="form_spacing" hidden  autocomplete="off">
+					</mat-form-field>
+					<mat-form-field *ngIf="cotsLength !== 0" class="col-md-8 col-sm-8 col-xs-8">
+						<mat-label > Departure Cots </mat-label>
+						<input matInput type="text" disabled="true" [(ngModel)]="data.cots" autocomplete="off">
+					</mat-form-field>
+
+					<button class="col-md-4 col-sm-4 col-xs-4" *ngIf="cotsLength !== 0" mat-raised-button style="background-color: blue; color: white;" (click)="function_showCots(data.id)">Select Departure Cots</button>
+				
+			  </div>
+		 </div>
+		<br><br><br><br>
+		<!-- for total tickets  -->
+
+		<div *ngIf="contactForm.valid" fxLayout="row wrap">
+			<div fxFlex="100%" fxFlex.md="100%" fxFlex.xs="100%">
+				<table fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%" [dataSource] ="dataSelectedVessel" class="table__table" mat-table class="mat-elevation-z0">
+
+					<ng-container matColumnDef ="image">
+						<th style="background-color: green;color: white;"class="table_table-header" mat-header-cell *matHeaderCellDef></th>
+						<td class="table_table-body" mat-cell *matCellDef="let element">
+							<img style=" height: 50px; width: 50px; padding-top: 30px;" mat-card-image [src]="element.voyage.shippingLine.markImage" > 
+						</td>
+					</ng-container>
+		
+					<ng-container matColumnDef="shippingLine">
+						<th style="background-color: green;color: white;"class="table_table-header" mat-header-cell *matHeaderCellDef>Shipping Line </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> <span > {{ element.voyage.shippingLine.name }}  </span></td>
+					</ng-container>
+				
+					<ng-container matColumnDef="departure">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> Departure </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.voyage.departureDateTime }} </td>
+					</ng-container>
+				
+					<ng-container matColumnDef="port">
+						<th style="background-color: green;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> Port </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.voyage.route.origin }}
+							<img style="width: 20px;" src="./../../../assets/img/arrow.png" alt="">
+							{{ element.voyage.route.destination }} </td>
+					</ng-container>
+		
+					<tr mat-header-row *matHeaderRowDef="displayedColum"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColum;"></tr>
+					
+				</table>
+		
+				<mat-card fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+					<mat-card-content>
+						<p> </p>
+						<table style=" width: 100%;">
+							<tbody >
+								<tr >
+									<td > TotalAmount : </td>
+									
+									<td style="float: right;"> {{ total | currency : "&#8369;" }} </td>
+								</tr>
+								
+								<tr>
+									<td> Terminalfee </td>
+									
+									<td style="float: right;"> {{ 0  | currency : "&#8369;" }} </td>
+								</tr>
+								<tr>
+									<td> OutletFee: </td>
+									
+									<td style="float: right;" > {{ outletServices  | currency : "&#8369;" }} </td>
+								</tr>
+								<tr>
+									<td> SystemCharge </td>
+									
+									<td style="float: right;" > {{ serviceCharge  | currency : "&#8369;" }} </td>
+								</tr>
+					
+								<tr style=" font-weight: bold;">
+									<td> Overall Total </td>
+									
+									<td style="float: right;" > {{ ipayTotal  | currency : "&#8369;" }} </td>
+									
+								</tr>
+							</tbody>
+							
+						</table>
+						<br>
+						<hr>
+					</mat-card-content>
+					<button style="float: right;" class="formbtn-actions__save" mat-raised-button type="button" (click)="function_bookNow()"  >Book Now!</button>
+					
+				</mat-card>
+			</div>
+		</div>
+	</mat-card-content>
+</mat-card>
+
+
+<button type="button" hidden="true" printTitle="MyTitle" printSectionId="print-section" ngxPrint #printMe></button>
+
+<div hidden="true" id="print-section" style="padding: 8px 4px;"> 
+	<div style="text-align: center;">
+		<img src="assets/img/IPAY_LOGO.png" style="width: 120px; height: 70px;" alt="">
+		<h4>
+			IPAY Payment Center
+		</h4>
+	</div>
+	<div style="margin: auto;">
+		<table style="border: solid 1px #ccc; padding: 2px;">
+			<thead>
+				<tr>
+					<th style="border: solid 1px #ccc; width:  24rem;"> Fee</th>
+					<th style="border: solid 1px #ccc; width:  15rem;" >Charge </th>
+				</tr>
+			</thead>
+			<tbody style="border: solid 1px #ccc">
+				<tr style="border: solid 1px #ccc">
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> TotalAmount : </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ total | currency : "&#8369;" }} </td>
+				</tr>
+				
+				<tr>
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> Terminalfee </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ 0  | currency : "&#8369;" }} </td>
+				</tr>
+				<tr>
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> OutletFee: </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ outletServices  | currency : "&#8369;" }} </td>
+				</tr>
+				<tr>
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> SystemCharge </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ serviceCharge  | currency : "&#8369;" }} </td>
+				</tr>
+	
+				<tr style=" font-weight: bold;">
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> Overall Total </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ ipayTotal  | currency : "&#8369;" }} </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+ 

@@ -1,0 +1,65 @@
+<mat-stepper linear #stepper>
+	<mat-step [stepControl]="addFranchiseform" [editable]="isEditable">
+		<form [formGroup]="addFranchiseform" (ngSubmit) = "franchiseSave()">
+			<ng-template matStepLabel>Add {{ branch }}</ng-template>
+				<mat-form-field class="form__input example-full-width" appearance="outline" style="width: 50%;">
+					<mat-label class="form__label">Firstname</mat-label>
+					<input style="text-transform: uppercase;" matInput type="text" class="form__spacing" formControlName="firstname" autocomplete="off">
+				</mat-form-field>
+				&nbsp;
+				<mat-form-field class="form__input example-full-width" appearance="outline" style="width: 48%;">
+					<mat-label class="form__label">Lastname</mat-label>
+					<input style="text-transform: uppercase;" matInput type="text" class="" formControlName ="lastname" autocomplete="off">		
+				</mat-form-field>
+				<mat-form-field class="form__input" appearance="fill" style="width: 50%;">
+					<mat-label class="form__label">Contact No.</mat-label>
+					<span matPrefix>+63 &nbsp;</span>
+					<input matInput type="text" class="form__spacing" maxlength="10" formControlName="contactNo"  autocomplete="off">
+				</mat-form-field>
+				&nbsp;
+				<mat-form-field class="form__input" appearance="outline" style="width: 48%;">
+					<mat-label class="form__label">Email Address</mat-label>
+					<input matInput type="email" class="form__spacing" formControlName="email" autocomplete="off">
+				</mat-form-field>
+				
+				<mat-form-field class="form__input" appearance="outline" style="width:100%">
+					<mat-label class="form__label">Branch Name</mat-label>
+					<input style="text-transform: uppercase;" matInput type="email" class="form__spacing" formControlName="branchName" autocomplete="off">
+				</mat-form-field>
+
+				<mat-form-field class="form__input" appearance="outline" style="width:100%">
+					<mat-label class="form__label">Location / Address</mat-label>
+					<textarea style="text-transform: uppercase;" matInput [matTextareaAutosize]="true" formControlName="locationAddress" rows="2" ></textarea>
+				</mat-form-field>
+			<div  class="formbtn-actions">
+				<button class="formbtn-actions__cancel" type="button" (click) = "closeDialog()" mat-raised-button > Cancel</button>
+				&nbsp;&nbsp;
+				<button matStepperNext class="formbtn-actions__save" mat-raised-button type="submit" [disabled]="addFranchiseform.invalid">Next</button>	
+			</div>
+		</form>
+	</mat-step>
+	<mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
+		<form [formGroup]="secondFormGroup" (ngSubmit) = "addWallet()">
+			<ng-template matStepLabel>Add Wallet</ng-template>
+			<div style="text-align: center;">
+				<mat-form-field appearance="outline" style="width: 50%; ">
+					<mat-label class="form__label">Add Load Wallet</mat-label>
+					<input matInput type="text" class="form__spacing" formControlName="wallet" autocomplete="off">
+				</mat-form-field>
+			</div>
+			<br>
+			<div class="formbtn-actions">
+			<!-- <button mat-button matStepperPrevious>Back</button> -->
+			<button mat-button matStepperNext class="formbtn-actions__save" type="submit"[disabled] ="secondFormGroup.invalid " >Next</button>
+			</div>
+		</form>
+	</mat-step>
+	<mat-step>
+		<ng-template matStepLabel>Done</ng-template>
+		<p style="text-align: center">You are now done.</p>
+		<div class="formbtn-actions" >
+			<button class="formbtn-actions__save" mat-button matStepperPrevious  (click) = "closeDialog()">DONE</button>
+			<!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
+		</div>
+	</mat-step>
+  </mat-stepper>

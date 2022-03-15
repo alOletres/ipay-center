@@ -1,0 +1,47 @@
+<div class="cs-backdrop" *ngIf="progress">
+    <mat-progress-bar mode="query" class="cs-absolute"></mat-progress-bar>
+</div>
+<div>
+	<mat-card-title class="card__header">
+		<h5 class="card__title">Branch</h5>
+	</mat-card-title>
+	<form class="form" [formGroup]="addbranchform" (ngSubmit)="save()">
+	
+		<mat-form-field class="form__input" appearance="outline">
+			<mat-label class="form__label">Owner Firstname</mat-label>
+			<input matInput type="text" class="form__spacing"  formControlName="ownerFirstname" value="" autocomplete="off">
+		</mat-form-field>
+	
+		<mat-form-field class="form__input" appearance="outline">
+			<mat-label class="form__label">Owner Lastname</mat-label>
+			<input matInput type="text" class="form__spacing" formControlName="ownerLastname" autocomplete="off">
+		</mat-form-field>
+
+		<mat-form-field class="form__input" appearance="fill" >
+			<mat-label class="form__label">Contact No.</mat-label>
+			<span matPrefix>+63 &nbsp;</span>
+			<input matInput type="text" class="form__spacing" maxlength="10" formControlName="contactNo"  (keypress)="validateOnlyNumbers($event)" autocomplete="off">
+		</mat-form-field>
+		&nbsp;&nbsp;
+		<mat-form-field class="form__input" appearance="outline">
+			<mat-label class="form__label">Email Address</mat-label>
+			<input matInput type="email" class="form__spacing" formControlName="emailAdd" autocomplete="off">
+		</mat-form-field>
+		<mat-form-field class="form__input" appearance="outline">
+			<mat-label class="form__label">Location / Address</mat-label>
+			<textarea matInput [matTextareaAutosize]="true" rows="2" formControlName="address"></textarea>
+		</mat-form-field>
+	
+		<mat-form-field class="form__input" appearance="outline">
+			<mat-label class="form__label">Branch Name</mat-label>
+			<input matInput type="email" class="form__spacing" formControlName="branchName" autocomplete="off">
+		</mat-form-field>
+	
+		<div mat-dialog-actions class="formbtn-actions">
+			<button class="formbtn-actions__cancel" mat-raised-button type="button" (click)="resetForm()">Cancel</button>
+			&nbsp;&nbsp;
+			<button class="formbtn-actions__save" mat-raised-button type="submit" [disabled]="addbranchform.invalid" >{{ btnName }}</button>
+		</div>
+	</form>
+	
+</div>

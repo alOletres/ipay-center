@@ -1,0 +1,163 @@
+<div class="cs-backdrop" *ngIf="progress">
+    <mat-progress-bar mode="query" class="cs-absolute"></mat-progress-bar>
+</div>
+<mat-toolbar class="page-header" role="heading">
+
+	<h1>Notification</h1>
+</mat-toolbar>
+
+<div fxLayout="row wrap" fxLayoutGap="0px grid">
+
+	<div fxFlex="100%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-card class="card card-wrapper">
+			<mat-card-title class="card__header">
+			  	<h5 class="card__title">iBarangay for ApprovaL</h5>
+			</mat-card-title>
+			<mat-card-content class="card__content">
+				<table style="width: 100%;"  class="table__table" mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+					<ng-container matColumnDef="no">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> No. </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }}. </td>
+					</ng-container>
+
+					<ng-container matColumnDef="date added">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> Date Added </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ element.date_added | date:'medium' }} </td>
+					</ng-container>
+
+					<ng-container matColumnDef="name">
+						<th  class="table__table-header"  mat-header-cell *matHeaderCellDef>name</th>
+						<td class="table__table-body" mat-cell *matCellDef="let element">
+							<span> {{ element.firstname }} {{ element.lastname }} </span>
+							<p>{{ element.contactNo }} / {{ element.email }} <br> <i>{{ element.location }}</i> </p>
+						</td>
+					</ng-container>
+					
+					<ng-container matColumnDef="branchtype">
+						<th class="table__table-header" mat-header-cell *matHeaderCellDef> Branch Type </th>
+						<td class="table__table-body" mat-cell *matCellDef="let element"> iBarangay </td>
+					</ng-container>
+			
+					<ng-container matColumnDef="branch code">
+						<th class="table__table-header" mat-header-cell *matHeaderCellDef> Branch Code </th>
+						<td class="table__table-body" mat-cell *matCellDef="let element"> {{ element.ib_ibrgyyCode }} </td>
+					</ng-container>
+			
+					
+					<ng-container matColumnDef="status">
+						<th class="table__table-header" mat-header-cell *matHeaderCellDef> Status </th>
+						<td class="table__table-body" mat-cell *matCellDef="let element"> 
+							
+							<!-- <span *ngIf = "element.status === 0 "> <i style="color: forestgreen;">pending</i> </span>1 -->
+							<span *ngIf = "element.status === 1 "> <i style="color: forestgreen;">pending</i></span>
+							<span *ngIf = "element.status === 2 "> <i style="color: red;">decline</i></span>
+							
+						</td>
+					</ng-container>
+			
+			
+					<ng-container matColumnDef="action">
+						<th  class="table_table-header" mat-header-cell *matHeaderCellDef> Action </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element">
+							<button style="background-color: black; color: blanchedalmond;" mat-raised-button (click) = "viewforApproval(element)"><i class="fa fa-list" aria-hidden="true"></i> &nbsp; View</button>
+						</td>
+					</ng-container>
+			
+					<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+				</table>
+				<div style="text-align: center;" *ngIf="lengthOfBarangay === 0">
+					<br>
+						<p> NO APPROVAL FOUND... </p>
+					<hr>
+				</div>
+			</mat-card-content>
+			<div class="pagination">
+				<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+			</div>
+		</mat-card>
+		<!-- TABLE FOR TOP UPLOADS FOR FRANCHISEE -->
+		<mat-card class="card card-wrapper">
+			<mat-card-title class="card__header">
+			  	<h5 class="card__title">Top-up Load pending</h5>
+			</mat-card-title>
+			<mat-card-content class="card__content">
+				<table style="width: 100%;"  class="table__table" mat-table  class="mat-elevation-z0" [dataSource] = "dataforTopup">
+
+					<ng-container matColumnDef="no">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> No. </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }}. </td>
+					</ng-container>
+
+                    <ng-container matColumnDef="reference number">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Reference Number</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.referenceNumber }} </td>
+					</ng-container>
+
+					<ng-container matColumnDef="image">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Receipt image</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element" (click) = "zoomOut(element)"> 
+							<img class="image zoom-in" src="{{element.image | imgpipe}}" alt="">
+						</td>
+					</ng-container> 
+
+                    <ng-container matColumnDef="transaction date">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Transaction date</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.transaction_date | date: 'medium' }}  </td>
+					</ng-container> 
+
+					<ng-container matColumnDef="remarks">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Remarks</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.remarks }} </td>
+					</ng-container>
+					
+                    <ng-container matColumnDef="payment date">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Payment date</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.payment_date }} </td>
+					</ng-container>
+                    
+                    <ng-container matColumnDef="payment status">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Payment status</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> 
+							
+							<mat-chip-list aria-label="Fish selection">
+								<mat-chip matTooltip="{{ element.transaction_date | date: 'medium' }}" *ngIf = "element.payment_status === 0" color="accent" selected>pending</mat-chip>
+								<mat-chip *ngIf = "element.payment_status === 1" color="primary" selected>paid</mat-chip>
+							</mat-chip-list>
+						</td>
+					</ng-container>
+                    
+                    <ng-container matColumnDef="amount">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Amount</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> &#8369;{{ element.amount | number }} </td>
+					</ng-container>
+
+					<ng-container matColumnDef="action">
+						<th  class="table_table-header" mat-header-cell *matHeaderCellDef> Action </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element">
+							<button style="background-color: black; color: blanchedalmond;" mat-raised-button (click) ="function_viewforTopup(element)"> <i class="fa fa-list" aria-hidden="true"></i> &nbsp; View</button>
+						</td>
+					</ng-container>
+
+					<tr mat-header-row *matHeaderRowDef="displayedColumnss"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColumnss;"></tr>
+					
+			</table>
+			<div style="text-align: center;" *ngIf="topUplength === 0">
+				<br>
+				<p> NO PENDING FOUND... </p>
+				<hr>
+			</div>
+			
+			
+			</mat-card-content>
+			<div class="paginatorOne">
+				<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+			</div>
+		</mat-card>
+	</div>
+</div>
+<ng-template #zoomOutImage>
+    <img [src]="image | imgpipe " style="width: 100%;">
+</ng-template>

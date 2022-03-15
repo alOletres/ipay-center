@@ -1,0 +1,87 @@
+<mat-card class="card card-wrapper">
+	
+	<mat-card-title class="card__header">
+		
+		<h5 class="card__title">Branch List</h5>
+	</mat-card-title>
+	<mat-card-content class="card__content">
+		<div fxLayout="row wrap">
+			<div fxFlex="50%" fxFlex.md="50%" fxFlex.xs="50%"></div>
+			<form class="form" fxFlex="50%" fxFlex.md="50%" fxFlex.xs="50%">
+				<div fxLayout="row wrap">
+					<div  fxFlex="30%" fxFlex.md="30%" fxFlex.xs="30%">
+						<button *ngIf = "types === 'Admin'" style="height: 68%;" class="formbtn-actions__save" mat-raised-button (click)="addBranch()"><mat-icon>add_circle</mat-icon> &nbsp; Add Branch</button>
+					</div>
+					<div fxFlex="70%" fxFlex.md="70%" fxFlex.xs="70%">
+						<mat-form-field class="form__input" appearance="outline">
+							<mat-label class="form__label">Search </mat-label>
+							<input matInput type="email" class="form__spacing" (keyup)="applyFilter($event)" autocomplete="off">
+						</mat-form-field>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<table class="table__table" mat-table [dataSource]="dataSource">
+
+			<ng-container matColumnDef="no">
+				<th class="table__table-header" mat-header-cell *matHeaderCellDef> no </th>
+				<td class="table__table-body" mat-cell *matCellDef="let element; index as i"> {{ i+1 }}. </td>
+			</ng-container>
+
+			<ng-container matColumnDef="name">
+				<th class="table__table-header" mat-header-cell *matHeaderCellDef> name </th>
+				<td class="table__table-body" mat-cell *matCellDef="let element">
+					<span>{{ element.ownerFirstname }} {{ element.ownerLastname }}</span>
+					<p>{{ element.contactNo }} / {{ element.emailAdd }} <br> <i>{{ element.address }}</i> </p>
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="branch code">
+				<th class="table__table-header" mat-header-cell *matHeaderCellDef> branch code </th>
+				<td class="table__table-body" mat-cell *matCellDef="let element"> {{ element.branchCode }} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="branch name">
+				<th class="table__table-header" mat-header-cell *matHeaderCellDef> branch name </th>
+				<td class="table__table-body" mat-cell *matCellDef="let element"> {{ element.branchName }} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="branch type">
+				<th class="table__table-header" mat-header-cell *matHeaderCellDef> branch type </th>
+				<td class="table__table-body" mat-cell *matCellDef="let element"> {{ element.branchType }} </td>
+			</ng-container>
+			<ng-container matColumnDef="status">
+				<th class="table__table-header" mat-header-cell *matHeaderCellDef > <span  *ngIf = "types === 'Admin'">branch Status</span>  </th>
+				<td class="table__table-body" mat-cell   *matCellDef="let element">
+					<div *ngIf = "types === 'Admin' ">
+						<mat-slide-toggle  [checked]="element.branchStatus == 0"  (change)="slideStatus(element)">
+							<div *ngIf="element.branchStatus == 0 ;else elseBlock">Active</div>
+							<ng-template #elseBlock >Inactive</ng-template>
+						</mat-slide-toggle>
+					</div>
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="action">
+				<th class="table__table-header" mat-header-cell *matHeaderCellDef> 	Action  </th>
+				<td class="table__table-body" mat-cell *matCellDef="let element">
+					<button *ngIf="element.branchStatus == 0" class="settings-button" mat-mini-fab [matMenuTriggerFor]="settings">
+						<mat-icon class="settings-button__icon">more_vert</mat-icon>
+					</button>
+					<div class="settings-menu">
+						<mat-menu #settings="matMenu" xPosition="before">
+							<button *ngIf = " types === 'Admin' " class="settings-menu__item" mat-menu-item (click)="editBranch(element)"><mat-icon>create</mat-icon>Edit</button>
+							<button class="settings-menu__item" mat-menu-item (click) = "addFranchise(element.branchCode)"><mat-icon>home</mat-icon>Add Franchise</button>
+						</mat-menu>
+					</div>
+				</td>
+			</ng-container>
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+		</table>
+	</mat-card-content>
+	<div class="pagination">
+		<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+	</div>
+</mat-card>

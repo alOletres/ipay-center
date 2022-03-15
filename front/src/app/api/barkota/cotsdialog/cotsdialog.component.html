@@ -1,0 +1,24 @@
+
+<mat-card-title class="card__header">
+	<h5 class="card__title">Select Available Cots</h5>
+</mat-card-title>
+<mat-tab-group  mat-align-tabs="end">
+    <mat-tab *ngFor="let data of cotsData ; index as i" label=" {{ data.name }}"> 
+        <!-- CONTENT -->
+        <mat-chip-list   aria-label="Fish selection">
+            <mat-chip *ngFor="let data of data.cots; index as i" color="accent" style="width: 15%;"> 
+                <table>
+                    <tr>
+                        <td [mat-dialog-close]="data" >
+                                <span *ngIf="data.disabled === 0" style="color: green;" >  {{ data.name | json }}</span> 
+                        </td>
+
+                        <td (click)="function_takenCots()">
+                                <del  *ngIf="data.disabled === 1" style="color: red;" > {{ data.name | json }}</del> 
+                        </td>
+                    </tr>
+                </table>
+            </mat-chip>
+        </mat-chip-list>
+    </mat-tab>
+</mat-tab-group>
