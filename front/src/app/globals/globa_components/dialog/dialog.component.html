@@ -1,0 +1,35 @@
+<mat-card-title class="card__header">
+	<h5 class="card__title"> Send Load</h5>
+	
+</mat-card-title>
+<span>Available Load: {{ res_wallet | number }}</span>
+<form [formGroup]="sendLoadform" (ngSubmit) = "function_sendLoad()" >
+
+		<mat-form-field *ngIf = "btnName === 'Send' "   style="width: 100%;" class="form__input example-full-width" appearance="outline">
+			<mat-label class="form__label " autocomplete="off" >iBarangay</mat-label>
+            <mat-select formControlName="ib_code" style="text-transform: capitalize;">
+                <mat-option style="text-transform: capitalize;" value="" >None</mat-option>
+                <mat-option *ngFor="let list of result" style="text-transform: capitalize;" [value]="list.ib_ibrgyyCode" > {{ list.ib_ibrgyyCode }} - {{ list.lastname }} {{ list.firstname }} </mat-option>
+            </mat-select>	
+		</mat-form-field>
+
+		<mat-form-field *ngIf = "btnName === 'Send' " style="width: 100%;" class="form__input example-full-width" appearance="outline">
+			<mat-label class="form__label">Credit</mat-label>
+			<input matInput type="number" class="" formControlName ="credit" autocomplete="off" >		
+		</mat-form-field>
+
+		<mat-form-field style="width: 100%;" class="form__input example-full-width" appearance="outline">
+			<mat-label class="form__label" autocomplete="off" >Payment status</mat-label>
+            <mat-select formControlName="paymentStatus" style="text-transform: capitalize;">
+                <mat-option value="0">Paid</mat-option>
+				<mat-option value="1">For Payment</mat-option>
+            </mat-select>	
+		</mat-form-field>
+	<div  class="formbtn-actions">
+		<button class="formbtn-actions__cancel" type="button" mat-raised-button (click) ="closeDialog()" > Close</button>
+		&nbsp;&nbsp;
+		<button  class="formbtn-actions__save" mat-raised-button type="submit" [disabled]="sendLoadform.invalid"> {{btnName}} </button>	
+	</div>
+</form>
+
+  

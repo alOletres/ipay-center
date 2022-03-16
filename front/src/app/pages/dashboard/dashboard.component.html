@@ -1,0 +1,166 @@
+
+<mat-toolbar class="page-header" role="heading">
+	<h1>Dashboard</h1>
+</mat-toolbar>
+<br>
+<div  fxLayout="row wrap">
+
+	<div  fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+
+		<div class="row">
+			<div  style="padding-left: 10px;">
+				<div style="padding-bottom: 12%;">
+					<div class="col-md-6 col-xs-12 col-sm-6 " >
+						<mat-card style="background-color: lightblue;"  class="example-card" >
+							<mat-card-title-group >
+								<mat-card-title > {{ dataHandler | currency : "&#8369;"  }}</mat-card-title>
+								
+								<mat-card-subtitle style="color:white;">  </mat-card-subtitle>
+								<mat-icon   > directions_boat</mat-icon>
+							</mat-card-title-group>
+							<mat-card-content >
+								<p> BARKOTA</p>
+							</mat-card-content>
+						</mat-card>	
+					</div>
+					<div class="col-md-6 col-xs-12 col-sm-6 " >
+						<mat-card style=" background-color:lightsalmon;"  class="example-card" >
+							<mat-card-title-group >
+								<mat-card-title class="font media" > {{ fWallet }}</mat-card-title>
+								
+								<mat-card-subtitle style="color:white;">  </mat-card-subtitle>
+								<mat-icon > wallet</mat-icon>
+							</mat-card-title-group>
+							<mat-card-content >
+								<p>{{ cardName }}</p>
+							</mat-card-content>
+						</mat-card>
+					</div>
+				</div>
+				<div class="col-md-12 " >
+					<mat-card>
+						<mat-card-title style="font-size:15px ; color: gray;"> 
+							<b>Announcement ! </b>
+							<mat-divider  [inset]="false"></mat-divider>	
+						</mat-card-title>
+						<mat-card-content >
+							
+							<mat-list *ngFor="let data of announcementResult; let i = index " dense >
+								
+								<div *ngIf="i < annoucementDisplay">
+									<mat-list-item > 
+										<i style="color: blue;" class="fa fa-bullhorn" aria-hidden="true"></i> &nbsp; 
+										<span class="col-md-8"> {{ data.message }} </span>  
+										<span class="col-md-4" style="color: gray;"> <b>Posted on:</b> {{ data.createdDate | date : 'medium'}} </span>
+									</mat-list-item>
+									<mat-divider  [inset]="true"></mat-divider>
+								</div>
+								
+							</mat-list>
+							<mat-list *ngIf="announcementResult === 0">
+								<mat-list-item>
+									<p style="margin: auto; color: darkgray;" > {{ messageAnnouncement }}.. </p>
+								</mat-list-item>
+							</mat-list>
+							<div style="color: gray; cursor: pointer; padding: 10px;" class="col-md-12">
+								<p (click)="showAllAnnouncement()" style="text-align: right;"> {{ announceBottomMessage }}</p>
+							</div>
+							<br>
+						</mat-card-content>
+					</mat-card>
+				</div>
+				<div class=" col-md-12" >
+					<mat-card>
+						<mat-card-title style="font-size:15px ; color: gray;"> 
+							<b>Activity logs... </b>
+							<mat-divider  [inset]="false"></mat-divider>	
+						</mat-card-title>
+						<mat-card-content>
+							<mat-list dense>
+								<div  *ngFor="let data of activityLogs; let i = index" >
+									<mat-list-item *ngIf="i < logsDisplay"> 
+										<i style="color:darkorange;" class="fa fa-info-circle" aria-hidden="true"></i>
+										<span  class="col-md-8" [appActivitylogs]="data">  </span>  
+										<mat-divider  [inset]="false"></mat-divider>
+									</mat-list-item>
+								</div>
+							</mat-list>
+							<div style=" cursor: pointer; padding: 10px;" class="col-md-12">
+								<p  (click)="showAll()" style="text-align: right;"> {{ bottomMessage }}</p>
+							</div>
+							<br>
+						</mat-card-content>
+					</mat-card>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+
+	<div style="padding-left: 10px;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-accordion [multi]="true">
+			<mat-expansion-panel expanded>
+				<mat-expansion-panel-header>
+				<mat-panel-title class="cs-bold">Branch Profit</mat-panel-title>
+				</mat-expansion-panel-header>
+				<div class="chartjs-container">
+					<canvas baseChart 
+						[datasets]="barChartData" 
+						[labels]="barChartLabels" 
+						[options]="barChartOptions"
+						[plugins]="barChartPlugins" 
+						[legend]="barChartLegend" 
+						[chartType]="barChartType">
+					</canvas>
+				</div>
+				<div class="w3-row cs-padding-small">
+					<button mat-button class="w3-small w3-right" (click)="barYear()">
+						Year
+					</button>
+					<button mat-button class="w3-small w3-right" (click)="barMonth()">
+						Month
+					</button>
+					<button mat-button class="w3-small w3-right" (click)="barWeekly()">
+						Week
+					</button>
+				</div>
+			</mat-expansion-panel>
+		</mat-accordion>
+		<br>
+		<div >
+			<mat-accordion [multi]="true">
+				<mat-expansion-panel expanded>
+					<mat-expansion-panel-header>
+						<mat-panel-title> Analytics </mat-panel-title>
+					</mat-expansion-panel-header>
+					<div style=" margin: auto; width: 60%;" class="chartjs-container">
+						<canvas baseChart 
+						[data]="doughnutChartData" 
+						[labels]="doughnutChartLabels" 
+						[chartType]="doughnutChartType">
+						</canvas>
+					</div>
+					<button mat-button class="w3-small w3-right" >
+						Transactions
+					</button>
+				</mat-expansion-panel>
+				
+			</mat-accordion>
+		</div>	
+	</div>
+</div>
+
+<div *ngIf="customizeToast" class="containerSnackBar">
+	<div class="toasts">
+		<div role="alert" class="fade alert alert-info alert-dismissible show">
+		  <div class="d-flex">
+			<img alt="noti-icon" src="https://brand.workingsolutions.com/components/images/information.svg" width="28" class="me-4">
+			<div>
+			  <div class="alert-heading h4"> {{ headersMessage }} </div>
+			  <p> {{ content }}</p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+</div>

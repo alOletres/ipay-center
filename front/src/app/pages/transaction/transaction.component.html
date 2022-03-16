@@ -1,0 +1,555 @@
+<!-- <div class="cs-backdrop" *ngIf="progress">
+    <mat-progress-bar mode="query" class="cs-absolute"></mat-progress-bar>
+</div> -->
+<div  fxLayout="row wrap">
+	<div *ngIf = "btnBack"  fxFlex="5%" fxFlex.md="100%" fxFlex.xs="100%">
+		<div class="example-button-container">
+			<button (click) = "function_back()" style="margin-top:50%; margin-left: 20px; color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+				<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+			</button>
+		</div>
+	</div>
+	<div  fxFlex="75%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-toolbar class="page-header" role="heading">
+			<h1>Transactions</h1>
+		</mat-toolbar>
+	</div>
+	<div  *ngIf = "showloadTable"  style="margin-top: 3%;" fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%" >
+		<button (click)="print()" mat-raised-button style="background-color:black;color: white;"> <mat-icon>print</mat-icon> Print </button>
+	</div>
+	
+	<div  *ngIf = "showloadTable"  style="margin-top: 3%;" fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%" >
+		<button (click)="exportArrayAsExcel()" mat-raised-button style="background-color:black;color: white;"> <mat-icon>save_alt</mat-icon> Save as Excel</button>
+	</div>
+
+
+	<!-- <div *ngIf="showTable" style="margin-top: 3%;" fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%">
+		<button (click) = "function_openTOpLoad()"  mat-raised-button style="background-color:black;color: white;"> <mat-icon>loupe</mat-icon> Reload </button>
+	</div> -->
+</div>
+
+<div fxLayout="row wrap" fxLayoutGap="0px grid" *ngIf = "hideCards">
+	
+	<div  *ngIf = "type === 'Franchise' || type === 'iBarangay' " [routerLink]="['/topuploadList']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-card style="color: darkgoldenrod;" class="card _card"> 
+			<div class="row">
+				<div class="col-md-1">
+					<b style="font-size: 30px; font-weight: 500;"> 
+						<i class="fa fa-thumbs-up" style=" margin-right: 3px; "></i>
+					</b>
+				</div>
+				<div class="col-md-11">
+					<b>TOP UPLOAD</b> <br>
+					Reload your Wallet
+				</div>
+			</div>
+		</mat-card>
+	</div>
+
+	<div *ngIf = "type === 'Admin' || type === 'Branch Head' " style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-card (click) = "function_walletBranchesMonitoring()" style="color:rgb(49, 13, 78)" class="card _card">
+			<div class="row">
+				<div class="col-md-1">
+					<b style="font-size: 30px; font-weight: 500;">
+						<i class="fa fa-money" aria-hidden="true" style=" margin-right: 3px; "></i>
+					</b>
+				</div>
+				<div class="col-md-11">
+					<b>Monitoring of Wallets</b><br>
+					Franchisee and iBarangay
+				</div>
+			</div>
+		</mat-card>
+	</div>
+
+	<div style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-card (click)="function_walletHistory()" style="color: darkred;" class="_card card">
+			
+			<div class="row">
+				<div class="col-md-1 top:50% display:flex; justify-content: center; align-items: center; ">
+					<b style="font-size: 30px; font-weight: 500;"> 
+						<i class="fa fa-credit-card" style=" margin-right: 3px; "></i>
+					</b>
+				</div>
+				<div class="col-md-11"> 
+					<b>WALLET</b> <br>
+					Summary of my Payment Transactions 
+				</div>
+			</div>
+		</mat-card>
+	</div>
+
+	<div *ngIf = "type === 'Admin' || type === 'Branch Head' "  style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+		
+		<mat-card  (click)="function_topUploadsIbarangayHistory()" style="color: darkred;" class="card _card">
+			<div class="row">
+				<div class="col-md-1">
+					<b style="font-size: 30px; font-weight: 500;"> 
+						<i class="fa fa-thumbs-up" style=" margin-right: 3px; "></i>
+					</b>
+				</div>
+				<div class="col-md-11">
+					<b>TOP UPLOAD HISTORY </b> <br>
+					History of Top uploads
+				</div>
+			</div>
+			
+		</mat-card>
+	</div>
+
+
+</div>
+    <br>
+<div fxLayout="row wrap" fxLayoutGap="0px grid">
+    <!-- table for top up load -->
+    <div  fxFlex="100%" fxFlex.md="100%" fxFlex.xs="100%">
+       
+		<!-- start for sending load -->
+		<mat-card *ngIf = "showloadTable"  class="card card-wrapper">
+			
+			<div  fxLayout="row wrap" >
+				<div fxFlex="65%" fxFlex.md="100%" fxFlex.xs="100%">
+					<mat-card-title class="card__header">
+						<h5  class="card__title">
+							Wallet Transaction History &nbsp;&nbsp; <span style="color: green;">{{ fWallet   }}</span>
+	
+						</h5>
+					</mat-card-title>						
+				
+				</div>
+				<div fxFlex="15%" fxFlex.md="100%" fxFlex.xs="100%">
+					<mat-form-field style="margin-top:1%" appearance="fill">
+						<mat-label> Search Branch </mat-label>
+						<input type="text" matInput [matAutocomplete]="auto" [formControl]="searchControl">
+						<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+							<mat-option  *ngFor="let data of filteredOptions | async" [value]="data">
+								{{ data.tellerCode }}
+							</mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				
+				<div fxFlex="20%" fxFlex.md="100%" fxFlex.xs="100%">
+					<mat-form-field style="margin-top: 1%;" appearance="fill">
+						<mat-label>Enter a date range</mat-label>
+						<mat-date-range-input  [rangePicker]="pickers"  >
+							<input matStartDate [(ngModel)]="start"  [ngModelOptions]="{standalone: true}" placeholder="Start date">
+							<input matEndDate [(ngModel)]="end"  [ngModelOptions]="{standalone: true}" placeholder="End date">
+						</mat-date-range-input>
+						<mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+						<mat-date-range-picker #pickers></mat-date-range-picker>
+					</mat-form-field>
+				</div>
+				
+			</div>
+			
+			<mat-card-content id="print-section"  class="card__content">
+				<table style="width: 100%;"  class="table__table" mat-table [dataSource]="dataWalletHistory | searchByDateAdmin : start : end: this.searchControl " class="mat-elevation-z0">
+
+					<ng-container matColumnDef="no">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> No. </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }}. </td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;background-color: lightgray;"></td>
+					</ng-container>
+					
+					<ng-container matColumnDef="fBranch">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Franchise</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.branchCode }} </td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;background-color: lightgray; ">  </td>
+					</ng-container>
+					
+					<ng-container matColumnDef="teller">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> Teller </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.transacted_by }} </td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder; background-color: lightgray;">  </td>
+					</ng-container>
+
+					<ng-container matColumnDef="transactionId">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> Transaction Id </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.barkota_code }} </td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder; background-color: lightgray;"> TOTAL </td>
+					</ng-container>
+
+					<ng-container matColumnDef="services">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Product/Services</th>
+						<td class="table_table-body" style="text-transform: capitalize;" mat-cell *matCellDef="let element"> 
+							{{ element.shippingLine }}
+						</td> 
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;background-color: lightgray;"></td>
+					</ng-container>
+
+					<ng-container matColumnDef="debit">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Debit</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> - {{ element.ticket_totalPrice | computeDebit : element.ipayService_charge }}</td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;background-color: lightgray;"> - {{ dataWalletHistory | computeTotalDebit : start : end: this.searchControl  | currency : "&#8369;"   }} </td>
+					</ng-container> 
+
+					<ng-container matColumnDef="credit">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Credit</th>
+						
+						<td class="table_table-body" mat-cell *matCellDef="let element">
+							
+							<span *ngIf="userType !== 'admin'; else elseBlock" > {{ element.franchise_charge }} </span>
+							
+							<ng-template #elseBlock> <span> {{ element.ipayService_charge  }} </span> </ng-template>
+						
+						</td>
+						
+						<td mat-footer-cell *matFooterCellDef style="background-color: lightgray;"> 
+							<span style="font-weight: bolder;" *ngIf="userType !== 'admin'; else elseBlock"> {{ dataWalletHistory | computeTotalCreditBranch : start : end: this.searchControl | currency : "&#8369;"}} </span>
+							<ng-template #elseBlock> <span style="font-weight: bolder;"> {{ dataWalletHistory | computeTotalCreditAdmin : start : end: this.searchControl  | currency : "&#8369;"}} </span> </ng-template>
+						</td>
+					</ng-container>
+
+					<ng-container matColumnDef="transaction_date">
+						<th class="table_table-header" mat-header-cell *matHeaderCellDef> Transaction date  </th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.transacted_date | date : 'medium' }} </td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;background-color: lightgray;"></td>
+					</ng-container>
+
+
+					<tr mat-header-row *matHeaderRowDef="displayedColumnsForSendingLoad"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColumnsForSendingLoad;"></tr>
+					<tr mat-footer-row *matFooterRowDef="displayedColumnsForSendingLoad"></tr>
+				</table>
+				
+			</mat-card-content>
+			<div style="text-align: center;" *ngIf=" walletHistoryLength === 0">
+				<br>
+					<p > NO RECORD FOUND.. </p>
+				<hr>
+			</div> 	
+			<div class="pagination">
+				<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+			</div>
+		</mat-card>
+
+		
+
+		<div fxLayout="row wrap">
+			<div style="margin-left: 1.5%;" fxFlex="97%" fxFlex.md="100%" fxFlex.xs="100%">
+				<mat-card *ngIf="showMonitoredBranches" >
+					
+					<mat-tab-group mat-align-tabs="end">
+						<mat-tab >
+							<ng-template  mat-tab-label >
+									<span style="height: 25px;" matBadgeColor="accent" matBadge=" {{ franchiseCount }} " matBadgeOverlap="false">Franchisee</span>
+							</ng-template>
+							<div fxLayout="row wrap">
+								
+								<div fxFlex="80%" fxFlex.md="100%" fxFlex.xs="100%">
+									<mat-card-title class="card__header">
+										<h5  class="card__title">
+											Monitoring of Franchisee Wallet
+										</h5>
+									</mat-card-title>
+								</div>
+
+								<div fxFlex="20%" fxFlex.md="100%" fxFlex.xs="100%">
+									<form action="">
+										
+										<mat-form-field class="example-full-width" appearance="fill">
+											<mat-label>Search</mat-label>
+											<input matInput autocomplete="off" (keyup)="applyFilter($event)">
+										  </mat-form-field>
+									</form>
+								</div>
+							</div>
+							
+						
+							<mat-card-content>
+				
+								<table fxFlex="100%" fxFlex.md="100%" fxFlex.xs="100%"  mat-table class="mat-elevation-z0" [dataSource]="dataBranchesMonitoring">
+		
+									<ng-container matColumnDef="no">
+										<th class="table_table-header" mat-header-cell *matHeaderCellDef> No. </th>
+										<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }}. </td>
+									</ng-container>
+		
+									<ng-container matColumnDef="branchName">
+										<th class="table_table-header" mat-header-cell *matHeaderCellDef> Branch Name </th>
+										<td class="table_table-body" mat-cell *matCellDef="let element" style="text-transform: capitalize;"> {{ element.franchiseName }} </td>
+									</ng-container>
+		
+									<ng-container matColumnDef="type">
+										<th class="table_table-header" mat-header-cell *matHeaderCellDef> Type </th>
+										<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.fbranchType }} </td>
+									</ng-container>
+		
+									<ng-container matColumnDef="approved_wallet">
+										<th class="table_table-header" mat-header-cell *matHeaderCellDef> Approved Wallet </th>
+										<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.approved_wallet }} </td>
+									</ng-container>
+		
+									<ng-container matColumnDef="current_wallet">
+										<th class="table_table-header" mat-header-cell *matHeaderCellDef> Current Wallet </th>
+										<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.current_wallet }}  </td>
+									</ng-container>
+		
+									<tr mat-header-row *matHeaderRowDef="displayWalletMonitoring"></tr>
+									<tr mat-row *matRowDef="let row; columns: displayWalletMonitoring;"></tr>
+								</table>
+							</mat-card-content>
+							<div class="pagination">
+								<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+							</div>
+						</mat-tab>
+						<mat-tab >
+							<ng-template  mat-tab-label >
+								<span style="height: 25px;"  matBadgeColor="accent" matBadge=" {{ dataCount }} " matBadgeOverlap="false">iBarangay</span>
+							</ng-template>
+							<div fxLayout="row wrap">
+								<div fxFlex="80%" fxFlex.md="100%" fxFlex.xs="100%" >
+									<div fxFlex="80%" fxFlex.md="100%" fxFlex.xs="100%">
+										<mat-card-title class="card__header">
+											<h5  class="card__title">
+												Monitoring of iBarangay
+											</h5>
+										</mat-card-title>
+									</div>
+								</div>
+								<div fxFlex="20%" fxFlex.md="100%" fxFlex.xs="100%" >
+									<form action="">
+										<mat-form-field class="example-full-width" appearance="fill">
+											<mat-label>Search</mat-label>
+											<input matInput autocomplete="off" (keyup)="applyFilterOne($event)">
+										  </mat-form-field>
+									</form>
+								</div>
+							</div>
+						
+							<mat-card-content>
+								<table fxFlex="100%" fxFlex.md="100%" fxFlex.xs="100%"  mat-table class="mat-elevation-z0" [dataSource]="dataIbarangayMonitoring">
+		
+									<ng-container matColumnDef="no">
+										<th class="table_table-header" mat-header-cell *matHeaderCellDef> No. </th>
+										<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }}. </td>
+									</ng-container>
+		
+									<ng-container matColumnDef="branchName">
+										<th class="table_table-header" mat-header-cell *matHeaderCellDef> Branch Name </th>
+										<td class="table_table-body" mat-cell *matCellDef="let element" style="text-transform: capitalize;"> {{ element.franchiseName }} </td>
+									</ng-container>
+		
+									<ng-container matColumnDef="type">
+										<th class="table_table-header" mat-header-cell *matHeaderCellDef> Type </th>
+										<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.branchType }} </td>
+									</ng-container>
+		
+									<ng-container matColumnDef="approved_wallet">
+										<th class="table_table-header" mat-header-cell *matHeaderCellDef> Approved Wallet </th>
+										<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.approved_wallet }} </td>
+									</ng-container>
+		
+									<ng-container matColumnDef="current_wallet">
+										<th class="table_table-header" mat-header-cell *matHeaderCellDef> Current Wallet </th>
+										<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.current_wallet }}  </td>
+									</ng-container>
+		
+									<tr mat-header-row *matHeaderRowDef="displayWalletMonitoring"></tr>
+									<tr mat-row *matRowDef="let row; columns: displayWalletMonitoring;"></tr>
+								</table>
+							</mat-card-content>
+							<div class="pagination">
+								<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+							</div>
+						</mat-tab>
+					</mat-tab-group>
+				</mat-card>
+			</div>
+
+			<mat-card *ngIf="showTableForTopUploadHistory" style="margin-left: 20px;" fxFlex="98%" fxFlex.md="100%" fxFlex.xs="100%">
+				
+				<mat-tab-group mat-align-tabs="end">
+					<mat-tab>
+						<ng-template  mat-tab-label  >
+							<span style="height: 25px;" matBadgeColor="accent" matBadge="{{ topUpLength }} " matBadgeOverlap="false">Franchisee</span>
+						</ng-template>
+						<!-- content here -->
+						<!--  -->
+							
+						<div fxLayout="row wrap">
+							<div fxFlex="80%" fxFlex.md="100%" fxFlex.xs="100%" >
+								<mat-card-title class="card__header">
+									<h5  class="card__title">
+										TOP UPLOAD HISTORY
+									</h5>
+								</mat-card-title>
+							</div>
+							<div fxFlex="20%" fxFlex.md="100%" fxFlex.xs="100%" >
+								<form action="">
+									<mat-form-field class="example-full-width" appearance="fill">
+										<mat-label>Search</mat-label>
+										<input matInput autocomplete="off" (keyup)="applyFilterTwo($event)">
+									  </mat-form-field>
+								</form>
+							</div>
+						</div>
+						<mat-card-content>
+							<table fxFlex="100%" fxFlex.md="100%" fxFlex.xs="100%" [dataSource]="dataHandlerforFranchise"  mat-table class="mat-elevation-z0">
+
+								<ng-container matColumnDef="no">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> No. </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }}. </td>
+								</ng-container>
+
+								<ng-container matColumnDef="branchName">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Branch Name </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element" style="text-transform: capitalize;"> {{ element.franchiseName }} </td>
+								</ng-container>
+
+								<ng-container matColumnDef="image">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Image </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element" (click)="zoomOut(element)">
+										<img class="image zoom-in"  src="{{element.image | imgpipe}}" alt="">
+									</td>
+								</ng-container>
+
+								<ng-container matColumnDef="referenceNumber">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Reference Number </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.referenceNumber }} </td>
+								</ng-container>
+
+								<ng-container matColumnDef="transactionDate">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Transaction Date </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.transaction_date }} </td>
+								</ng-container>
+
+								<ng-container matColumnDef="paymentDate">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Payment Date </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.payment_date | date : 'medium' }} </td>
+								</ng-container>
+
+								<ng-container matColumnDef="amount">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Amount </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.amount }} </td>
+								</ng-container>
+
+								<ng-container matColumnDef="status">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Status </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element">
+										<span style="background-color: green;color: white;" *ngIf="element.payment_status === 1; else elseBlock"> paid </span>
+										<ng-template #elseBlock color="warn"> <span> pending... </span></ng-template>
+									</td>
+								</ng-container>
+
+								<ng-container matColumnDef="approved_by">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Approved by </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.approved_by }} </td>
+								</ng-container>
+
+								<tr mat-header-row *matHeaderRowDef="displayTopUploadsHistory"></tr>
+								<tr mat-row *matRowDef="let row; columns: displayTopUploadsHistory;"></tr>
+							</table>
+							
+						</mat-card-content>
+						<div style="text-align: center;" *ngIf="topUpLength === 0">
+							<br>
+								<p> NO RECORD FOUND... </p>
+							<hr>
+						</div>
+						<div class="pagination">
+							<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+						</div>
+					</mat-tab>
+					<mat-tab >
+						<ng-template  mat-tab-label  >
+							<span style="height: 25px;" matBadgeColor="accent" matBadge="{{ topUpLengthIb }} " matBadgeOverlap="false">iBarangay</span>
+						</ng-template>
+						<!-- content here -->
+						
+						<div fxLayout="row wrap">
+							<div fxFlex="80%" fxFlex.md="100%" fxFlex.xs="100%" >
+								<mat-card-title class="card__header">
+									<h5  class="card__title">
+										TOP UPLOAD HISTORY
+									</h5>
+								</mat-card-title>	
+							</div>
+							<div fxFlex="20%" fxFlex.md="100%" fxFlex.xs="100%" >
+								<form action="">
+									<mat-form-field class="example-full-width" appearance="fill">
+										<mat-label>Search</mat-label>
+										<input matInput autocomplete="off" (keyup)="applyFilterThree($event)">
+									  </mat-form-field>
+								</form>
+							</div>
+						</div>
+						<mat-card-content>
+							<table fxFlex="100%" fxFlex.md="100%" fxFlex.xs="100%" [dataSource]="dataHandler"  mat-table class="mat-elevation-z0">
+
+								<ng-container matColumnDef="no">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> No. </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }}. </td>
+								</ng-container>
+
+								<ng-container matColumnDef="branchName">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Branch Name </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element" style="text-transform: capitalize;"> {{ element.franchiseName }} </td>
+								</ng-container>
+
+								<ng-container matColumnDef="image">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Image </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element" (click)="zoomOut(element)">
+										<img class="image zoom-in" src="{{element.image | imgpipe}}" alt="">
+									</td>
+								</ng-container>
+
+								<ng-container matColumnDef="referenceNumber">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Reference Number </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.referenceNumber }} </td>
+								</ng-container>
+
+								<ng-container matColumnDef="transactionDate">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Transaction Date </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.transaction_date }} </td>
+								</ng-container>
+
+								<ng-container matColumnDef="paymentDate">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Payment Date </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.payment_date | date : 'medium' }} </td>
+								</ng-container>
+
+								<ng-container matColumnDef="amount">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Amount </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.amount }} </td>
+								</ng-container>
+
+								<ng-container matColumnDef="status">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Status </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element">
+										<span style="background-color: green;color: white;" *ngIf="element.payment_status === 1; else elseBlock"> paid </span>
+										<ng-template #elseBlock> <span> pending... </span></ng-template>
+									</td>
+								</ng-container>
+
+								<ng-container matColumnDef="approved_by">
+									<th class="table_table-header" mat-header-cell *matHeaderCellDef> Approved by </th>
+									<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.approved_by }} </td>
+								</ng-container>
+
+								<tr mat-header-row *matHeaderRowDef="displayTopUploadsHistory"></tr>
+								<tr mat-row *matRowDef="let row; columns: displayTopUploadsHistory;"></tr>
+							</table>
+							
+						</mat-card-content>
+						<div style="text-align: center;" *ngIf="topUpLengthIb === 0">
+							<br>
+								<p> NO RECORD FOUND... </p>
+							<hr>
+						</div>
+						<div class="pagination">
+							<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+						</div>
+					</mat-tab>
+
+				</mat-tab-group>
+				
+			</mat-card>
+		</div>
+    </div>
+</div>
+
+<ng-template #zoomOutImage>
+	<img [src]="image | imgpipe " style="width: 100%;">
+</ng-template>

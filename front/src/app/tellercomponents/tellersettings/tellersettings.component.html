@@ -1,0 +1,57 @@
+<div class="cs-backdrop" *ngIf="progress">
+    <mat-progress-bar mode="query" class="cs-absolute"></mat-progress-bar>
+</div>
+<div style="margin-left: 1%;">
+	<button [routerLink]="['/tellerdashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" mat-raised-button> Back </button>
+</div>
+<div class="row">
+	<div style="margin: auto;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%" >
+		<mat-card  >
+			<mat-card-title  class="card__header">
+				<h5  class="card__title">
+				Change Password 
+				</h5>
+			</mat-card-title>
+			<mat-divider  [inset]="false"></mat-divider>
+			<br>
+			<mat-card-content>
+				<form [formGroup]="changePasswordForm" class="form" style="margin-left: 2%;" (ngSubmit)="submitChanges()">
+			
+					<mat-form-field appearance="outline" style="width: 100%;">
+						<mat-label>Current Password </mat-label>
+						<input formControlName="currentPassword" matInput [type]="hide ? 'password' : 'text'">
+						<button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+						<mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+						</button>
+					</mat-form-field>
+					&nbsp;&nbsp;
+					<mat-form-field appearance="outline" style="width: 100%;">
+						<mat-label>New Password </mat-label>
+						<input formControlName="newPassword" matInput [type]="hide1 ? 'password' : 'text'">
+						<button mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide1">
+							<mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+						</button>
+					</mat-form-field>
+					&nbsp;&nbsp;
+					<mat-form-field appearance="outline" style="width: 100%;">
+						<mat-label>ReWrite new Password </mat-label>
+						<input formControlName="compareToNewPassword" matInput [type]="hide2 ? 'password' : 'text'">
+						<button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide2">
+							<mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+						</button>
+												
+					</mat-form-field>
+					<div *ngIf="f.compareToNewPassword.touched && f.compareToNewPassword.invalid" style="color: red;">
+						<div *ngIf="f.compareToNewPassword.errors.required">Password is required.</div>
+						<div *ngIf="f.compareToNewPassword.errors.confirmedValidator">Password and Confirm Password must be match.</div>
+					</div>
+					<mat-divider  [inset]="false"></mat-divider>
+					
+					<div align ="end" style="margin-top: 3%;">
+							<button mat-raised-button color="primary" type="submit" [disabled]="changePasswordForm.invalid || f.compareToNewPassword.touched && f.compareToNewPassword.invalid"> Save Changes </button>
+					</div>
+				</form>
+			</mat-card-content>
+		</mat-card>
+	</div>
+</div>

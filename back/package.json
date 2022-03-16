@@ -1,0 +1,47 @@
+{
+	"name": "backend_ipaycenter",
+	"version": "1.0.0",
+	"description": "",
+	"main": "dist/src/app.main.js",
+	"scripts": {
+		"build": "tsc",
+		"start:dev": "tsc && cross-env NODE_ENV=development nodemon --watch './**/*.ts' --exec 'ts-node' src/app.main.ts",
+		"start:prod": "tsc && cross-env NODE_ENV=production forever -w start dist/src/app.main.js",
+		"start:prodcheck": "tsc && cross-env NODE_ENV=production nodemon dist/app.main.js",
+		"start:beta": "tsc && cross-env NODE_ENV=testprod nodemon dist/app.main.js"
+	},
+	"keywords": [],
+	"author": "Adame_Cate",
+	"license": "ISC",
+	"dependencies": {
+		"@rodrigogs/mysql-events": "^0.6.0",
+		"address": "^1.1.2",
+		"axios": "^0.24.0",
+		"bcrypt": "^5.0.1",
+		"body-parser": "^1.19.0",
+		"cookie-parser": "^1.4.5",
+		"cookie-session": "^2.0.0",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"jsonwebtoken": "^8.5.1",
+		"moment": "^2.29.1",
+		"mysql": "^2.18.1",
+		"mysql-events": "0.0.11",
+		"socket.io": "^4.3.2"
+	},
+	"devDependencies": {
+		"@types/bcrypt": "^5.0.0",
+		"@types/cookie-parser": "^1.4.2",
+		"@types/cookie-session": "^2.0.44",
+		"@types/cors": "^2.8.12",
+		"@types/express": "^4.17.13",
+		"@types/mysql": "^2.15.19",
+		"cross-env": "^7.0.3",
+		"dotenv": "^10.0.0",
+		"forever": "^4.0.1",
+		"nodemon": "^2.0.14",
+		"ts-node": "^10.4.0",
+		"tslint": "^6.1.3",
+		"typescript": "^4.4.4"
+	}
+}

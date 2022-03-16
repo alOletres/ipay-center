@@ -1,0 +1,259 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.cs-backdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20000;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.cs-absolute {
+  position: absolute !important;
+}
+.containerSnackBar {
+  position: fixed !important;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  height: 100vh;
+  width: 40%;
+  top: 38%;
+  bottom: 0;
+  left: 58%;
+  right: 0;
+  z-index: 20000;
+  float: right;
+}
+.d-flex {
+  display: flex !important;
+}
+.error-form .error-group.email .d-flex {
+  align-items: center;
+}
+.error-form .error-group.email .d-flex input {
+  max-width: 423px;
+  margin-right: 17px;
+}
+@media (max-width: 768px) {
+  .error-form .d-flex {
+    display: block !important;
+  }
+  .error-form .d-flex input {
+    width: 100%;
+    max-width: 100% !important;
+  }
+  .error-form .d-flex .error-tooltip {
+    margin-left: auto;
+    margin-top: 20px;
+  }
+  .error-form .d-flex button {
+    float: right;
+  }
+  .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+}
+.alert-heading {
+  color: inherit;
+}
+.toasts {
+  width: 100%;
+  max-width: 949px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.toasts .alert {
+  padding: 26px 30px;
+  border-radius: 0px 4px 4px 0px;
+  border-radius: 5px;
+  width: 100%;
+}
+.toasts .alert .alert-heading {
+  text-align: left;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  letter-spacing: 0px;
+  margin-bottom: 1px;
+}
+.toasts .alert p {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+  margin-bottom: 0;
+}
+.toasts .alert .btn-close {
+  background-size: 0.688rem;
+}
+.toasts .alert.alert-warning {
+  background: #fff3cd;
+  border: 1px solid #7c5e1e52;
+  border-left: 5px solid #7c5e1e;
+}
+.toasts .alert.alert-warning .alert-heading {
+  color: #7a4d05;
+}
+.toasts .alert.alert-warning p {
+  color: #7a4d05cc;
+}
+.toasts .alert.alert-info {
+  background: #f8ffff;
+  border: 1px solid #bedfe6;
+  border-left: 5px solid #2185d0;
+}
+.toasts .alert.alert-info .alert-heading {
+  color: #0e566c;
+}
+.toasts .alert.alert-info p {
+  color: #0e566c;
+}
+.toasts .alert.alert-success {
+  background: #f6fff5;
+  border: 1px solid #00cc8836;
+  border-left: 5px solid #4cb748;
+}
+.toasts .alert.alert-success .alert-heading {
+  color: #3c8139;
+}
+.toasts .alert.alert-success p {
+  color: #3c8139;
+}
+.toasts .alert.alert-danger {
+  background: #fff6f6;
+  border: 1px solid #c599998d;
+  border-left: 5px solid #973937;
+}
+.toasts .alert.alert-danger .alert-heading {
+  color: #973937;
+}
+.toasts .alert.alert-danger p {
+  color: #973937;
+}
+.form-alerts {
+  width: 100%;
+  max-width: 949px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form-alerts .alert {
+  width: 100%;
+}
+h4.badge-heading,
+.badge-heading.h4 {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 30px;
+}
+h4.badge-heading .badge,
+.badge-heading.h4 .badge {
+  font-size: 18px;
+}
+.fade {
+  transition: opacity 0.15s linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade {
+    transition: none;
+  }
+}
+.fade:not(.show) {
+  opacity: 0;
+}
+.modal.fade .modal-dialog {
+  transition: -webkit-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
+  -webkit-transform: translate(0, -50px);
+  transform: translate(0, -50px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .modal.fade .modal-dialog {
+    transition: none;
+  }
+}
+.alert-dismissible {
+  padding-right: 3rem;
+}
+.alert-dismissible .btn-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  padding: 1.25rem 1rem;
+}
+.snacks .alert.alert-info {
+  color: #fff;
+  background: #33a1d1;
+  border: 1px solid #2183ad;
+}
+.toasts .alert.alert-info {
+  background: #f8ffff;
+  border: 1px solid #bedfe6;
+  border-left: 5px solid #2185d0;
+}
+.toasts .alert.alert-info .alert-heading {
+  color: #0e566c;
+}
+.toasts .alert.alert-info p {
+  color: #0e566c;
+}
+.show > .btn-primary.dropdown-toggle {
+  color: #000;
+  background-color: #5db5dd;
+  border-color: #48acd8;
+}
+.btn-check:checked + .btn-primary:focus,
+.btn-check:active + .btn-primary:focus,
+.btn-primary:active:focus,
+.btn-primary.active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.25rem rgba(44, 139, 180, 0.5);
+}
+.btn-outline-primary.dropdown-toggle.show {
+  color: #000;
+  background-color: #34a3d4;
+  border-color: #34a3d4;
+}
+.me-4 {
+  margin-right: 1.5rem !important;
+}
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+.myClass .mat-dialog-container {
+	background-color:  transparent !important;
+  box-shadow: none;
+}
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: #039A4D;
+}
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: #5ac28c;
+}.zoom-in {
+  cursor: -moz-zoom-in; 
+  cursor: -webkit-zoom-in;
+  cursor: zoom-in;
+}

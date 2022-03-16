@@ -1,0 +1,37 @@
+<mat-card-title class="card__header">
+
+	<h5 class="card__title">Add Services </h5>
+	
+</mat-card-title>
+
+<mat-form-field style="width: 100%;" class="form__input example-full-width" appearance="outline">
+    <mat-label class="form__label">Services name</mat-label>
+    <input matInput type="text" autocomplete="off" >		
+</mat-form-field>
+
+<mat-form-field style="width: 100%;" class="form__input example-full-width" appearance="outline">
+    <mat-label class="form__label">Services charge</mat-label>
+    <input matInput type="number" autocomplete="off" >		
+</mat-form-field>
+
+<p>Drop Image</p>
+
+<div class="custom-dropzone" ngx-dropzone  [accept]="'image/*'" (change)="onSelect($event)">
+    
+	<ngx-dropzone-label>
+		<div>
+			<span>Drop image here</span>
+		</div>
+	</ngx-dropzone-label>
+	<ngx-dropzone-image-preview  class="image" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true"  (removed)="onRemove(f)">
+		<ngx-dropzone-label >{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+	</ngx-dropzone-image-preview>
+
+</div>
+<br><br>
+<div  class="formbtn-actions">
+	<button class="formbtn-actions__cancel" type="button" mat-raised-button > Close</button>
+	&nbsp;&nbsp;
+	<button  class="formbtn-actions__save" mat-raised-button type="submit" >Save</button>	
+</div>
+

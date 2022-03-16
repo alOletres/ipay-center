@@ -1,0 +1,64 @@
+<div class="cs-backdrop" *ngIf="progress">
+    <mat-progress-bar mode="query" class="cs-absolute"></mat-progress-bar>
+</div>
+<mat-card-title class="card__header">
+	<h5 class="card__title"> Credit Load</h5>
+</mat-card-title>
+<form [formGroup]="creditLoadForm" >
+	<div class="row" >
+		
+		<div  class="col-md-6 col-sm-6">
+			<input  hidden (change)="onSelectFile($event)" #fileInput type="file" class="upload" formControlName="image"/>
+			<button class="col-md-12 col-sm-12" *ngIf = "type !== 'Branch Head' " style="background-color: #039A4D; color: #fff;" type="button" mat-raised-button (click)="fileInput.click()">Upload Receipt File</button>
+			<mat-chip-list *ngIf = "type === 'Branch Head' " aria-label="Fish selection">
+				<mat-chip color="primary" selected>Receipt uploaded</mat-chip>
+			</mat-chip-list>
+
+			<img *ngIf = "type !== 'Branch Head' && type !== 'Admin' " [src]="url" style="width: 100%;">
+			<img *ngIf = "type === 'Branch Head' || type === 'Admin' "[src]="image | imgpipe " style="width: 100%;">
+			
+		</div>
+		<div class="col-md-6 col-sm-6 form">
+			<mat-form-field class="example-full-width" appearance="outline">
+				<mat-label class="form__label">Reference Number</mat-label>
+				<input style="color: midnightblue;" formControlName="reference" matInput type="text"  autocomplete="off" >		
+			</mat-form-field>
+
+			<mat-form-field class="example-full-width" appearance="outline" >
+				<mat-label class="form__label">Credit  load</mat-label>
+				<input style="color: midnightblue;" matInput type="number"  class="form__spacing" formControlName="credit" autocomplete="off" >
+			</mat-form-field>
+
+			<mat-form-field  class="example-full-width" appearance="outline">
+				<mat-label class="form__label">Date transaction</mat-label>
+				<input style="color: midnightblue;" matInput formControlName="date_trans" type="datetime-local" placeholder="start date">
+			</mat-form-field>
+
+			<mat-form-field s class="form__input example-full-width" appearance="outline">
+				<mat-label class="form__label">Name</mat-label>
+				<input matInput type="name" style="text-transform: capitalize; color: midnightblue;" class="form__spacing" formControlName ="name" autocomplete="off" >		
+			</mat-form-field>
+			<mat-form-field class="form__input example-full-width" appearance="outline">
+				<mat-label class="form__label">Email Address</mat-label>
+				<input style="color: midnightblue;"  matInput type="email" class="form__spacing" formControlName ="email" autocomplete="off" >		
+			</mat-form-field>
+	
+			<mat-form-field class="form__input example-full-width" appearance="outline">
+				<mat-label class="form__label">Contact Number</mat-label>
+				<input style="color: midnightblue;" matInput type="number" class="form__spacing" formControlName ="contact" autocomplete="off" >		
+			</mat-form-field>
+			<mat-form-field class="form__input example-full-width" appearance="outline">
+				<mat-label class="form__label">Remarks (Optional) </mat-label>
+				<input style="color: midnightblue;" [disabled] = 'disabletext' [(ngModel)]="remarks" [ngModelOptions]="{standalone: true}" matInput type="text"  autocomplete="off" >		
+			</mat-form-field>
+		</div>
+	</div>
+	
+	<div  class="formbtn-actions">
+		<button class="formbtn-actions__cancel" type="button" mat-raised-button (click) ="closeDialog()" > Close</button>
+		&nbsp;&nbsp;
+		<button *ngIf = "type !== 'Branch Head' && type !== 'Admin' " (click) = "function_saveCredit()" class="formbtn-actions__save" mat-raised-button type="submit" [disabled]="creditLoadForm.invalid">Save</button>	
+		
+		<button *ngIf = "type ===  'Branch Head' || type === 'Admin' " (click) ="function_approved()" style="background-color: black; color: blanchedalmond;" type="button" mat-raised-button  > Approved</button>
+	</div>
+</form>
