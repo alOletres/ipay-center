@@ -28,7 +28,8 @@
 		"moment": "^2.29.1",
 		"mysql": "^2.18.1",
 		"mysql-events": "0.0.11",
-		"socket.io": "^4.3.2"
+		"socket.io": "^4.3.2",
+		"xml2js": "^0.4.23"
 	},
 	"devDependencies": {
 		"@types/bcrypt": "^5.0.0",
@@ -38,6 +39,7 @@
 		"@types/express": "^4.17.13",
 		"@types/md5": "^2.3.2",
 		"@types/mysql": "^2.15.19",
+		"@types/xml2js": "^0.4.9",
 		"cross-env": "^7.0.3",
 		"dotenv": "^10.0.0",
 		"forever": "^4.0.1",

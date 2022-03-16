@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { SnackbarServices } from 'src/app/services/snackbar.service';
+import Swal from 'sweetalert2';
 import { LoadcentralService } from '../../services/loadcentral.service';
 
 import * as data from './../../json/services.json';
@@ -28,6 +31,7 @@ export class LccompntTransComponent implements OnInit {
 	ProductPromo: Array<any>
 	selectedPromoCodes: any = []
 	phoneNumberForm : FormGroup
+	amount : any
 	constructor(
 		private $dialogRef: MatDialogRef<LccompntTransComponent>,
 		private http_load : LoadcentralService,
@@ -56,7 +60,7 @@ export class LccompntTransComponent implements OnInit {
 		const x = this.ProductPromo.filter((a: any) => a.PRODUCTNAME == e)
 		
 		this.selectedPromoCodes = x[0]
-
+		this.amount = ''
 	}
 
 	closeDialog() {
@@ -73,21 +77,110 @@ export class LccompntTransComponent implements OnInit {
 		  	if(theEvent.preventDefault) theEvent.preventDefault();
 		}
 	}
+	markup(...data:any){
+		/***
+		 * 
+		 * ELOAD
+			10-49		2
+			50-99		3
+			100-499		5
+			500-ABOVE	7
 
-	async submitLoad(){
+			GAMES
+			10-99		7
+			100-499		10
+			500-999		20
+			1000-2499	30
+			2500-4999	50
+			5000-ABOVE	70
+
+			SATELLITE
+			GSAT
+			99			3
+			200-500		7
+			CIGNAL
+			200-500		7
+			600-1000	10
+			SATLITE
+			49-199		3
+			299			7
+		 */
 		
-		await this.http_load.sellProduct({
-			data				: this.phoneNumberForm.value,
-			modelType 			: this.modelType,
-			productName 		: this.productName,
-			productPromo 		: this.productPromo,
-			selectedPromoCodes  : this.selectedPromoCodes
-		}).then((response:any)=>{
-			console.log(response);
+		const amount =   data[2] === '' ? data[3].LCPRODUCTCODE.match(/(\d+)/)[1]
+		               : data[2] !== '' ? data[2]
+					   : ''
+		
+		switch(data[0]){
 			
-		}).catch((err:any)=>{
-			this._snackBar._showSnack(err, 'error')
+			case 'ELOAD':
+
+				return   parseInt(amount) === 10  || parseInt(amount) < 50  ? 2 
+					   : parseInt(amount) === 50  || parseInt(amount) < 99  ? 3 
+					   : parseInt(amount) === 100 || parseInt(amount) < 499 ? 5
+					   : parseInt(amount) === 500 || parseInt(amount) > 500 ? 7
+					   : ''
+
+			case 'GAMES':
+
+			case 'SATELLITE':
+			
+			default:
+		}
+		
+		
+
+	}
+	async submitLoad(){
+	
+
+		const MARKUP = this.markup(this.modelType, this.productName, this.amount, this.selectedPromoCodes)
+		
+		 Swal.fire({
+			title:  ` Collect Charge ${MARKUP}`,
+			text: 'Confirm to Proceed',
+			icon: 'info',
+			showCancelButton: true,
+			confirmButtonText: 'Confirm',
+			cancelButtonText: 'Cancel'
+		}).then((result) => {
+			if (result.value) {
+				Swal.fire({
+					title: 'Are you sure want to Continue?',
+					text: '',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonText: 'Yes',
+					cancelButtonText: 'No'
+				}).then((result) => {
+					if (result.value) {
+							
+					} else if (result.dismiss === Swal.DismissReason.cancel) {
+							
+						Swal.fire(
+						'Cancelled',
+						'',
+						'error'
+						)
+					}
+				})
+			}
 		})
+		// this.http_load.sellProduct({
+		// 	data				: this.phoneNumberForm.value,
+		// 	modelType 			: this.modelType,
+		// 	productName 		: this.productName,
+		// 	productPromo 		: this.productPromo,
+		// 	amount 				: this.amount,
+		// 	selectedPromoCodes  : this.selectedPromoCodes,
+		// 	tellerCode 			: atob(sessionStorage.getItem('code'))
+		// }).pipe(
+		// 	catchError(error=>{
+		// 		this._snackBar.showSnack(error, 'error')
+		// 		return of([])
+		// 	})
+		// ).subscribe((data:any)=>{
+		// 	console.log(JSON.parse(data));
+		// })
 	}
 
 }

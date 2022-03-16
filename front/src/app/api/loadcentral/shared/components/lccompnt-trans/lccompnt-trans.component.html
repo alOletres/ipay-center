@@ -11,7 +11,7 @@
 			<mat-form-field class="form__input" appearance="outline" style="width: 100%;">
 				<mat-label>Select Type</mat-label>
 				<mat-select [(ngModel)]="modelType" (ngModelChange)="onselectType($event)" [ngModelOptions]="{standalone: true}">
-					<mat-option *ngFor="let type of types " [value]="type">{{ type }}</mat-option>
+					<mat-option *ngFor="let type of types; index as f " [value]="type">{{ type }} </mat-option>
 				</mat-select>
 			</mat-form-field>
 
@@ -19,9 +19,9 @@
 				<mat-label>Select Product Name</mat-label>
 				<mat-select [(ngModel)]="productName" (ngModelChange)="onselectProduc($event)" [ngModelOptions]="{standalone: true}">
 					<input [(ngModel)]="searchTxt" matInput placeholder="Search" [ngModelOptions]="{standalone: true}" autocomplete="off" autofocus style="width: 100%; padding: 8px 10px">
-					<mat-option *ngFor="let prod of productNames | filter:searchTxt" [value]="prod.PRODUCTNAME">
+					<mat-option *ngFor="let prod of productNames | filter:searchTxt ; index as s" [value]="prod.PRODUCTNAME">
 						<div class="country-container">
-							{{ prod.PRODUCTNAME }}
+							{{ prod.PRODUCTNAME }}  
 						</div>
 					</mat-option>
 				</mat-select>
@@ -31,13 +31,18 @@
 				<mat-label>Select Promo Loads</mat-label>
 				<mat-select [(ngModel)]="productPromo" (ngModelChange)="onselectPromo($event)" [ngModelOptions]="{standalone: true}">
 					<input [(ngModel)]="searchPromo" matInput placeholder="search" [ngModelOptions]="{standalone: true}" autocomplete="off" autofocus style="width: 100%; padding: 8px 10px">
-					<mat-option *ngFor="let prod of ProductPromo | filter:searchPromo" [value]="prod.PRODUCTNAME">
+					<mat-option *ngFor="let prod of ProductPromo | filter:searchPromo ; index as t" [value]="prod.PRODUCTNAME">
 						<div class="country-container">
-							{{ prod.PRODUCTNAME }}
+							{{ prod.PRODUCTNAME }} 
 						</div>
 					</mat-option>
 				</mat-select>
 			</mat-form-field >
+
+			<mat-form-field *ngIf="modelType === 'ELOAD' && productName === 'GLOBE, TOUCH MOBILE & CHERRY PRODUCTS' && productPromo === 'Globe Amax Other (P15 - P150)' || modelType === 'ELOAD' && productName === 'SMART PRODUCTS' && productPromo === 'Smart Flexi Load (P10 - P500)'" class="form__input" appearance="outline" style="width: 100%;">
+				<mat-label> Amount </mat-label>
+				<input type="text" matInput (keypress)="validateOnlyNumbers($event)" [(ngModel)]="amount" [ngModelOptions]="{standalone: true}" autocomplete="off">
+			</mat-form-field>
 
 			<mat-form-field class="form__input" style="width: 100%;" appearance="fill" >
 				<mat-label class="form__label">Contact No.</mat-label>

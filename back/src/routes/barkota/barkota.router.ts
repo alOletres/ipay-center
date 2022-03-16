@@ -67,7 +67,7 @@ class BarkotaController{
 
 			const { access_token, expires_in, token_type } = req.body
 
-			axios.get(`${ BARKOTA_STAGING }/outlet/shipping-lines/getshippinglines`,{
+			await axios.get(`${ BARKOTA_STAGING }/outlet/shipping-lines/getshippinglines`,{
 
 				headers : { Authorization : 'Bearer '.concat(access_token)  }
 			})
