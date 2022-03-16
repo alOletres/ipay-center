@@ -7,17 +7,17 @@
 		<br>
 
 
-		<form >
+		<form [formGroup]="phoneNumberForm" (ngSubmit)="submitLoad()">
 			<mat-form-field class="form__input" appearance="outline" style="width: 100%;">
 				<mat-label>Select Type</mat-label>
-				<mat-select [ngModel]="modelType" (ngModelChange)="onselectType($event)" [ngModelOptions]="{standalone: true}">
+				<mat-select [(ngModel)]="modelType" (ngModelChange)="onselectType($event)" [ngModelOptions]="{standalone: true}">
 					<mat-option *ngFor="let type of types " [value]="type">{{ type }}</mat-option>
 				</mat-select>
 			</mat-form-field>
 
 			<mat-form-field class="form__input" appearance="outline" style="width: 100%;">
 				<mat-label>Select Product Name</mat-label>
-				<mat-select [ngModel]="productName" (ngModelChange)="onselectProduc($event)" [ngModelOptions]="{standalone: true}">
+				<mat-select [(ngModel)]="productName" (ngModelChange)="onselectProduc($event)" [ngModelOptions]="{standalone: true}">
 					<input [(ngModel)]="searchTxt" matInput placeholder="Search" [ngModelOptions]="{standalone: true}" autocomplete="off" autofocus style="width: 100%; padding: 8px 10px">
 					<mat-option *ngFor="let prod of productNames | filter:searchTxt" [value]="prod.PRODUCTNAME">
 						<div class="country-container">
@@ -37,6 +37,12 @@
 						</div>
 					</mat-option>
 				</mat-select>
+			</mat-form-field >
+
+			<mat-form-field class="form__input" style="width: 100%;" appearance="fill" >
+				<mat-label class="form__label">Contact No.</mat-label>
+				<span matPrefix>+63 &nbsp;</span>
+				<input matInput type="text" class="form__spacing" maxlength="10" formControlName="contactNo"  (keypress)="validateOnlyNumbers($event)" autocomplete="off">
 			</mat-form-field>
 
 			<div style="width: 100%; background:#f0f0f0; padding: 4px 3px; color: rgb(24, 24, 109)">
@@ -45,19 +51,21 @@
 				Promo Code: <b style="font-weight: 500; color: black;">{{ selectedPromoCodes.LCPRODUCTCODE }}</b><br>
 				Validity: <b style="font-weight: 500; color: black;">{{ selectedPromoCodes.VALIDITY }}</b><br>
 			</div>
+
+			<div mat-dialog-actions align="end">
+
+				<button type="submit" mat-raised-button color="primary" [disabled]="phoneNumberForm.invalid" >
+					Continue
+				</button>
+		
+				<button type="button" (click)="closeDialog()" mat-raised-button color="accent">
+					Close
+				</button>
+		
+			</div>
 		</form>
 	</div>
 
-    <div mat-dialog-actions align="end">
-
-		<button type="submit" mat-raised-button color="primary" >
-			Save
-		</button>
-
-		<button type="button" (click)="closeDialog()" mat-raised-button color="accent">
-			Close
-		</button>
-
-	</div>
+    
 
 </div>

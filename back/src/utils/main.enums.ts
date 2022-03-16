@@ -31,5 +31,9 @@ export enum barkotaCredential {
     username = "btr_IPAYCENTER",
     password = "BTR1641445726807YIIP"
 }
+export enum LoadCentralCredential {
+    LOADCENTRAL_USERNAME= 'masterpay_test',
+    LOADCENTRAL_PASSWORD= '123456'
+}
 
 
