@@ -41,6 +41,9 @@ const parseXML = async (xml:any) => {
 	}
 
  }
+ const markUP = async (...data:any)=>{
+
+ }
 class EloadsController {
 
     private router: Router
@@ -81,7 +84,7 @@ class EloadsController {
 			console.log(req.body);
 			
 			// const MARKUP = 
-			// console.log(selectedPromoCodes.LCPRODUCTCODE.match(/(\d+)/)[1], modelType);
+			// console.log(selectedPromoCodes.LCPRODUCTCODE.match(/(\d+)/)[1], amount modelType, productName);
 			
 			
 			// try{

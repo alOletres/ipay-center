@@ -105,29 +105,41 @@ export class LccompntTransComponent implements OnInit {
 			49-199		3
 			299			7
 		 */
-		
+
+		/**
+		 * GLOBAL SATELLITE (GSAT and GPINOY)
+		 * CIGNAL RELOAD CARDS'
+		 * SATLITE by Cignal
+		 */		
 		const amount =   data[2] === '' ? data[3].LCPRODUCTCODE.match(/(\d+)/)[1]
 		               : data[2] !== '' ? data[2]
 					   : ''
-		
 		switch(data[0]){
 			
-			case 'ELOAD':
-
-				return   parseInt(amount) === 10  || parseInt(amount) < 50  ? 2 
-					   : parseInt(amount) === 50  || parseInt(amount) < 99  ? 3 
-					   : parseInt(amount) === 100 || parseInt(amount) < 499 ? 5
-					   : parseInt(amount) === 500 || parseInt(amount) > 500 ? 7
-					   : ''
-
-			case 'GAMES':
-
-			case 'SATELLITE':
-			
+			case 'ELOAD': return  parseInt(amount) === 10  || parseInt(amount) < 50  ? 2 
+								: parseInt(amount) === 50  || parseInt(amount) < 99  ? 3 
+								: parseInt(amount) === 100 || parseInt(amount) < 499 ? 5
+								: parseInt(amount) === 500 || parseInt(amount) > 500 ? 7
+								: ''
+			case 'GAMES': return  parseInt(amount) === 10  || parseInt(amount) < 100  ? 7 
+								: parseInt(amount) === 100 || parseInt(amount) < 500  ? 10
+								: parseInt(amount) === 500 || parseInt(amount) < 1000 ? 20
+								: parseInt(amount) === 1000 || parseInt(amount) < 2500 ? 30
+								: parseInt(amount) === 2500 || parseInt(amount) < 5000 ? 50
+								: parseInt(amount) === 5000 || parseInt(amount) > 5000 ? 70
+								: '' 
+			case 'SATELLITE': return  data[1] === 'GLOBAL SATELLITE (GSAT and GPINOY)' ? parseInt(amount) === 99 ? 3 
+																					   : parseInt(amount) === 200 || parseInt(amount) <= 500 ? 7
+																					   :'' 
+									: data[1] === 'CIGNAL RELOAD CARDS' ? parseInt(amount) === 200 || parseInt(amount) <= 500 ? 7
+																		: parseInt(amount) === 600 || parseInt(amount) <= 1000 ? 10
+																		: ''
+									: data[1] === 'SATLITE by Cignal'   ? parseInt(amount) === 49 || parseInt(amount) <= 199 ? 3 
+																		: parseInt(amount) === 299 ? 7 
+																		: '' 
+									: ''
 			default:
 		}
-		
-		
 
 	}
 	async submitLoad(){
