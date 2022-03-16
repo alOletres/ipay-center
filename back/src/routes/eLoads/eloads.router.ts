@@ -76,7 +76,7 @@ class EloadsController {
 
         this.router.post('/sellProduct',async (req, res) => {
             
-			const { data, modelType, productName , productPromo, amount, selectedPromoCodes, tellerCode } = req.body
+			const { data, modelType, productName , productPromo, amount, markup, selectedPromoCodes, tellerCode } = req.body
 			
 			const { contactNo } = data
 			

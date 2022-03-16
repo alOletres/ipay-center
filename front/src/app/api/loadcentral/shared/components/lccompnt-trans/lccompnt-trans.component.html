@@ -59,7 +59,7 @@
 
 			<div mat-dialog-actions align="end">
 
-				<button type="submit" mat-raised-button color="primary" [disabled]="phoneNumberForm.invalid" >
+				<button type="submit" mat-raised-button color="primary" [mat-dialog-close]="true" [disabled]="phoneNumberForm.invalid" >
 					Continue
 				</button>
 		

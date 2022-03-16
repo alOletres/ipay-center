@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { LoadingDialogComponent } from 'src/app/components/loading-dialog/loading-dialog.component';
 import { SnackbarServices } from 'src/app/services/snackbar.service';
 import Swal from 'sweetalert2';
 import { LoadcentralService } from '../../services/loadcentral.service';
@@ -35,7 +36,8 @@ export class LccompntTransComponent implements OnInit {
 	constructor(
 		private $dialogRef: MatDialogRef<LccompntTransComponent>,
 		private http_load : LoadcentralService,
-		private _snackBar : SnackbarServices
+		private _snackBar : SnackbarServices,
+		private dialog : MatDialog
 	) {
 		this.phoneNumberForm = new FormBuilder().group({
 			contactNo : new FormControl('', [Validators.required, Validators.maxLength(10)])
@@ -105,12 +107,6 @@ export class LccompntTransComponent implements OnInit {
 			49-199		3
 			299			7
 		 */
-
-		/**
-		 * GLOBAL SATELLITE (GSAT and GPINOY)
-		 * CIGNAL RELOAD CARDS'
-		 * SATLITE by Cignal
-		 */		
 		const amount =   data[2] === '' ? data[3].LCPRODUCTCODE.match(/(\d+)/)[1]
 		               : data[2] !== '' ? data[2]
 					   : ''
@@ -144,11 +140,10 @@ export class LccompntTransComponent implements OnInit {
 	}
 	async submitLoad(){
 	
-
 		const MARKUP = this.markup(this.modelType, this.productName, this.amount, this.selectedPromoCodes)
-		
+
 		 Swal.fire({
-			title:  ` Collect Charge ${MARKUP}`,
+			title:  ` Collect Charge &#8369;${MARKUP}.00`,
 			text: 'Confirm to Proceed',
 			icon: 'info',
 			showCancelButton: true,
@@ -157,42 +152,50 @@ export class LccompntTransComponent implements OnInit {
 		}).then((result) => {
 			if (result.value) {
 				Swal.fire({
-					title: 'Are you sure want to Continue?',
+					title: 'Are you sure to Continue?',
 					text: '',
 					icon: 'warning',
 					showCancelButton: true,
 					confirmButtonText: 'Yes',
 					cancelButtonText: 'No'
 				}).then((result) => {
+					const dialogRef = this.dialog.open(LoadingDialogComponent,{disableClose:true})
 					if (result.value) {
+						
+						this.http_load.sellProduct({
+							data				: this.phoneNumberForm.value,
+							modelType 			: this.modelType,
+							productName 		: this.productName,
+							productPromo 		: this.productPromo,
+							amount 				: this.amount,
+							markup              : MARKUP,
+							selectedPromoCodes  : this.selectedPromoCodes,
+							tellerCode 			: atob(sessionStorage.getItem('code'))
+						}).pipe(
+							catchError(error=>{
+								dialogRef.close()
+								this._snackBar.showSnack(error, 'error')
+								return of([])
+							})
+						).subscribe((data:any)=>{
 							
+							console.log(data);
+							dialogRef.close()
+						})
+
 					} else if (result.dismiss === Swal.DismissReason.cancel) {
-							
+						dialogRef.close()	
+						
 						Swal.fire(
 						'Cancelled',
 						'',
 						'error'
 						)
+						
 					}
 				})
 			}
 		})
-		// this.http_load.sellProduct({
-		// 	data				: this.phoneNumberForm.value,
-		// 	modelType 			: this.modelType,
-		// 	productName 		: this.productName,
-		// 	productPromo 		: this.productPromo,
-		// 	amount 				: this.amount,
-		// 	selectedPromoCodes  : this.selectedPromoCodes,
-		// 	tellerCode 			: atob(sessionStorage.getItem('code'))
-		// }).pipe(
-		// 	catchError(error=>{
-		// 		this._snackBar.showSnack(error, 'error')
-		// 		return of([])
-		// 	})
-		// ).subscribe((data:any)=>{
-		// 	console.log(JSON.parse(data));
-		// })
 	}
 
 }
