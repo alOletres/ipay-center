@@ -16,8 +16,78 @@
 			  	<h5 class="card__title">Load Central</h5>
 			</mat-card-title>
 			<mat-card-content class="card__content">
+				<table [dataSource] = "dataSource" class="table__table" mat-table class="mat-elevation-z0" style="width: 100%;">
+					<ng-container matColumnDef="no">
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>No.</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
+						<td mat-footer-cell *matFooterCellDef></td>
+					</ng-container>
 
+					<ng-container matColumnDef="reference_id">
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Rereference Id</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.reference_id }} </td>
+						<td mat-footer-cell *matFooterCellDef></td>
+					</ng-container>
+
+					<ng-container matColumnDef="TransId">
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Transaction Id</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.TransId }} </td>
+						<td mat-footer-cell *matFooterCellDef></td>
+					</ng-container>
+
+					<ng-container matColumnDef="mobileNo">
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Mobile Number</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.mobileNo }} </td>
+						<td mat-footer-cell *matFooterCellDef></td>
+					</ng-container>
+
+					<ng-container matColumnDef="productCode">
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Product Code</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.productCode }} </td>
+						<td mat-footer-cell *matFooterCellDef></td>
+					</ng-container>
+					<ng-container matColumnDef="amount">
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Amount</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.amount }} </td>
+						<td mat-footer-cell *matFooterCellDef></td>
+					</ng-container>
+					<ng-container matColumnDef="markUp">
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Mark Up</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.markUp }} </td>
+						<td mat-footer-cell *matFooterCellDef></td>
+					</ng-container>
+					<ng-container matColumnDef="ePIN">
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>EPIN</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.ePIN }} </td>
+						<td mat-footer-cell *matFooterCellDef></td>
+					</ng-container>
+					<ng-container matColumnDef="createdBy">
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Created By</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> <span style="text-transform: uppercase;"> {{ element.createdBy }} </span> </td>
+						<td mat-footer-cell *matFooterCellDef></td>
+					</ng-container>
+					<ng-container matColumnDef="createdDate">
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Created Date</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.createdDate | date : 'medium' }} </td>
+						<td mat-footer-cell *matFooterCellDef></td>
+					</ng-container>
+					<ng-container matColumnDef="status">
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Status</th>
+						<td class="table_table-body" mat-cell *matCellDef="let element"> 
+							<span *ngIf = "element.status === 0" style="color:#039A4D;"> success</span>
+							<span *ngIf = "element.status === 1" style="color:red;"> cancel </span>
+						</td>
+						<td mat-footer-cell *matFooterCellDef></td>
+					</ng-container>
+
+					<tr mat-header-row *matHeaderRowDef="displayedColums"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColums;"></tr>
+					<tr mat-footer-row *matFooterRowDef="displayedColums"></tr>
+				</table>				
 			</mat-card-content>
+			<div class="pagination">
+				<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+			</div>
 		</mat-card>
 	</div>
 </div>

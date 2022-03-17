@@ -56,4 +56,13 @@ export class LoadcentralService {
 
         }
     }
+
+	getLoadCentralTransactions(){
+		try{
+			return this.http.get(`${ EndPoint.endpoint }/eload/eloads/getLoadCentralTransactions`).toPromise()
+		}catch(err){
+			throw err
+		}
+	}
+
 }
