@@ -5,7 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SnackbarServices } from 'src/app/services/snackbar.service';
 import { LoadcentralService } from '../../services/loadcentral.service';
 import { LccompntTransComponent } from '../lccompnt-trans/lccompnt-trans.component';
-
+import SocketService from 'src/app/services/socket.service';
+import moment from 'moment';
 @Component({
 	selector: 'app-lc-trans',
 	templateUrl: './lc-trans.component.html',
@@ -18,8 +19,11 @@ export class LcTransComponent implements OnInit {
 	constructor(
 		private $dialog: MatDialog,
 		private http_load : LoadcentralService,
-		private _snackBar : SnackbarServices
-	) { }
+		private _snackBar : SnackbarServices,
+		private socketService : SocketService
+	) {
+		this.socketService.eventListener("response_sucessfullyLoaded").subscribe(()=> { this.getLoadCentralTransiactions() })
+	}
 
 	async ngOnInit(){
 		await this.getLoadCentralTransiactions()
@@ -35,8 +39,10 @@ export class LcTransComponent implements OnInit {
 	async getLoadCentralTransiactions(){
 		await this.http_load.getLoadCentralTransactions()
 		.then((result:any)=>{
-			
-			const res = result.filter((x:any)=>{ return x.tellerCode === atob(sessionStorage.getItem('code')) }).map((y:any)=>y)
+
+			const res = result.filter((x:any)=>{ return x.tellerCode === atob(sessionStorage.getItem('code')) 
+														&& moment(x.createdDate).format("YYYY-MM-DD") + "00:00:00" === moment(new Date()).format("YYYY-MM-DD") + "00:00:00"})
+			.map((y:any)=>y)
 
 			this.dataSource = new MatTableDataSource<any>(res)// display for log user franchise 
 			this.dataSource.paginator = this.paginator

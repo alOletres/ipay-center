@@ -7,9 +7,8 @@ import { LoadingDialogComponent } from 'src/app/components/loading-dialog/loadin
 import { SnackbarServices } from 'src/app/services/snackbar.service';
 import Swal from 'sweetalert2';
 import { LoadcentralService } from '../../services/loadcentral.service';
-
 import * as data from './../../json/services.json';
-
+import SocketService from 'src/app/services/socket.service';
 
 @Component({
 	selector: 'app-lccompnt-trans',
@@ -37,7 +36,8 @@ export class LccompntTransComponent implements OnInit {
 		private $dialogRef: MatDialogRef<LccompntTransComponent>,
 		private http_load : LoadcentralService,
 		private _snackBar : SnackbarServices,
-		private dialog : MatDialog
+		private dialog : MatDialog,
+		private socketService : SocketService
 	) {
 		this.phoneNumberForm = new FormBuilder().group({
 			contactNo : new FormControl('', [Validators.required, Validators.maxLength(10)])
@@ -185,6 +185,10 @@ export class LccompntTransComponent implements OnInit {
 							
 							if(response === 'ok'){
 								this._snackBar._showSnack('Successfully Loaded', 'success')
+
+								this.socketService.sendEvent("eventSent", {data: "response_sucessfullyLoaded"})/**SOCKET SEND EVENT */
+								this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
+								
 							}else if(response === 'low_wallet'){
 								this._snackBar._showSnack('Your wallet has reached the 5000 system limit, Please reload to Continue', 'error')
 							}else if(response === 'lackFunds'){

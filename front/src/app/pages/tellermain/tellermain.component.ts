@@ -19,9 +19,9 @@ import moment from 'moment';
 export class TellermainComponent implements OnInit {
 
 
-	doughnutChartLabels: Label[] = [];
-	doughnutChartData: MultiDataSet = [ [] ];
-	doughnutChartType: ChartType = 'doughnut';
+	doughnutChartLabels: Label[] = ['Bakota', 'Load Central'];
+  doughnutChartData: MultiDataSet = [ [53, 30] ];
+  doughnutChartType: ChartType = 'doughnut';
 	@Input() isMenuOpened: boolean | undefined;
 	@Output() isShowSidebar = new EventEmitter<boolean>();
 
@@ -34,7 +34,8 @@ export class TellermainComponent implements OnInit {
 	message: string;
 	barkotaLength: any;
 	bottomMessage: string = 'see more...'
-	logsDisplay: any = 5
+	logsDisplay: any = 3
+	eloadsIncome: number;
 	
 	constructor(
 		private router: Router,
@@ -77,6 +78,7 @@ export class TellermainComponent implements OnInit {
 		this.activitylog()
 		this.barkotaTrans()
 		this.currentDate = new Date ()
+		this.eloads()
 	}
 
 
@@ -164,6 +166,17 @@ export class TellermainComponent implements OnInit {
 		}
 	}
 
-	
+	async eloads(){
+		let dailyIncome = 0
+		
+		const object = await this.http_teller.getLoadCentralTransactions()
+		const res = Object.values(object)
+		res.filter((x:any)=>{
+			return x.tellerCode === atob(sessionStorage.getItem('code')) && moment(x.createdDate).format("YYYY-MM-DD") + "00:00:00" === moment(this.currentDate).format("YYYY-MM-DD") + "00:00:00"
+		}).map((y:any)=>{
+			dailyIncome += y.markUp
+		})
+		this.eloadsIncome = dailyIncome	
+	}
 	
 }

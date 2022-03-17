@@ -24,5 +24,12 @@ export class ServiceService {
 		}
 	}
 
+	async getLoadCentralTransactions(){
+		try{
+			return await this.http.get(`${ EndPoint.endpoint }/eload/eloads/getLoadCentralTransactions`).toPromise()
+		}catch(err){
+			throw err
+		}
+	}
 	
 }

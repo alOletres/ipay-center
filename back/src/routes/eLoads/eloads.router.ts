@@ -144,16 +144,27 @@ const parseXML = async (xml:any) => {
 						if(err) throw err
 						result
 					})
-				),
-				Promise.resolve(
-					connection.query("UPDATE mother_wallet SET wallet=? WHERE api_name=?", [data[6], 'LOADCENTRAL'], (err, result)=>{
-						if(err) throw err
-						result
-					})
 				)
 			])
 			connection.commit()
 			return 'ok'
+		})
+	}catch(err){
+		connection.rollback()
+		return err
+	}
+ }
+ const updateLCWALLET = async (data:any) =>{
+	try{
+		connection.beginTransaction()
+		return await new Promise((resolve, reject)=>{
+			connection.query("UPDATE mother_wallet SET wallet=? WHERE api_name=?", [data[6], 'LOADCENTRAL'], (err, result)=>{
+				if(err) return reject(err)
+				resolve(result)
+			})
+		}).then(( response : any )=>{
+			connection.commit()
+			return response
 		})
 	}catch(err){
 		connection.rollback()
@@ -242,14 +253,15 @@ class EloadsController {
 										/**
 										 * check if there's a error or not
 										 */
+										await updateLCWALLET(ress)
+
 										const lc_response =   xml.data.ERR[0] === 'Insufficient Funds' ? 'lackFunds' 
 															: xml.data.ERR[0] === 'LC API System Error' ? 'systemError' 
 															: await getBranchCode(ress)
-										
 										res.status(Codes.SUCCESS).send(lc_response)	
-
 									}
 								}).catch((err:any) => {
+
 									res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 									connection.rollback()
 								})

@@ -166,3 +166,58 @@ export class ComputeCollectionPipe implements PipeTransform {
 	}
 
 }
+
+@Pipe({
+	name: 'eloadsDailyTotal'
+  })
+  export class EloadDailtyTotalPipe implements PipeTransform {
+	
+	transform(data : any ): any {
+		
+		try{
+			const payload = data.filteredData.filter((x: any) => {
+				return x.amount 
+
+			}).reduce((a:any , b:any)=>{
+
+				let st = b.amount 
+			
+				return st += a
+			}, 0)
+			
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+@Pipe({
+	name: 'eloadsDailyMarkUp'
+  })
+  export class eloadsDailyMarkUpPipe implements PipeTransform {
+	
+	transform(data : any ): any {
+		
+		try{
+			const payload = data.filteredData.filter((x: any) => {
+				return x.markUp 
+
+			}).reduce((a:any , b:any)=>{
+
+				let st = b.markUp 
+			
+				return st += a
+			}, 0)
+			
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
