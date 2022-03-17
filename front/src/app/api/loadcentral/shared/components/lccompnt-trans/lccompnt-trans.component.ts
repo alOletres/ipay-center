@@ -141,7 +141,7 @@ export class LccompntTransComponent implements OnInit {
 	async submitLoad(){
 	
 		const MARKUP = this.markup(this.modelType, this.productName, this.amount, this.selectedPromoCodes)
-
+		
 		 Swal.fire({
 			title:  ` Collect Charge &#8369;${MARKUP}.00`,
 			text: 'Confirm to Proceed',
@@ -159,6 +159,8 @@ export class LccompntTransComponent implements OnInit {
 					confirmButtonText: 'Yes',
 					cancelButtonText: 'No'
 				}).then((result) => {
+
+					
 					const dialogRef = this.dialog.open(LoadingDialogComponent,{disableClose:true})
 					if (result.value) {
 						
@@ -170,20 +172,26 @@ export class LccompntTransComponent implements OnInit {
 							amount 				: this.amount,
 							markup              : MARKUP,
 							selectedPromoCodes  : this.selectedPromoCodes,
-							tellerCode 			: atob(sessionStorage.getItem('code'))
+							tellerCode 			: atob(sessionStorage.getItem('code')),
+							createdBy			: atob(sessionStorage.getItem('tN'))
 						}).pipe(
 							catchError(error=>{
 								dialogRef.close()
 								this._snackBar.showSnack(error, 'error')
 								return of([])
 							})
-						).subscribe((data:any)=>{
+						).subscribe((response:any)=>{
 							
-							console.log(data);
+							if(response === 'ok'){
+								this._snackBar._showSnack('Successfully Loaded', 'success')
+							}else{
+								this._snackBar._showSnack('Try Again', 'error')
+							}
 							dialogRef.close()
 						})
 
 					} else if (result.dismiss === Swal.DismissReason.cancel) {
+						
 						dialogRef.close()	
 						
 						Swal.fire(
