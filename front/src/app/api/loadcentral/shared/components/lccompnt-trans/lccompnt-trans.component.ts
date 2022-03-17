@@ -160,7 +160,7 @@ export class LccompntTransComponent implements OnInit {
 					cancelButtonText: 'No'
 				}).then((result) => {
 
-					
+
 					const dialogRef = this.dialog.open(LoadingDialogComponent,{disableClose:true})
 					if (result.value) {
 						
@@ -181,9 +181,16 @@ export class LccompntTransComponent implements OnInit {
 								return of([])
 							})
 						).subscribe((response:any)=>{
+							console.log(response);
 							
 							if(response === 'ok'){
 								this._snackBar._showSnack('Successfully Loaded', 'success')
+							}else if(response === 'low_wallet'){
+								this._snackBar._showSnack('Your wallet has reached the 5000 system limit, Please reload to Continue', 'error')
+							}else if(response === 'lackFunds'){
+								this._snackBar._showSnack('Insufficient Funds, Please contact technical support', 'error')
+							}else if(response === 'systemError'){
+								this._snackBar._showSnack('Load Central API System Error', 'error')
 							}else{
 								this._snackBar._showSnack('Try Again', 'error')
 							}

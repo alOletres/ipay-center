@@ -60,8 +60,7 @@ const parseXML = async (xml:any) => {
 		return err
 	}
  }
- const insertLoad = async (data:any)=>{
-	 
+ const getBranchCode = async (data:any)=>{
 	try{
 		connection.beginTransaction()
 		return await new Promise((resolve, reject)=>{
@@ -70,12 +69,9 @@ const parseXML = async (xml:any) => {
 				if(err) return reject(err)
 				resolve(result)
 			})
-			// connection.query("INSERT INTO loadcentral (reference_id, TransId, mobileNo, productCode, amount, markUp, walletBalance, ePIN, tellerCode, createdBy, LC_response) VALUES (?,?,?,?,?,?,?,?,?,?,?)", 
-			// [data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10]],(err, result)=>{
-			// 	if(err) return reject(err)
-			// 	resolve(result)
-			// })
+			
 		}).then(async (response:any)=>{
+			connection.commit()
 			if(!response.length){
 				return 'notfound'
 			}else{
@@ -85,17 +81,79 @@ const parseXML = async (xml:any) => {
 				if(data[8].slice(0,3) === 'FRT'){
 
 					const res = await checkWallet(response[0].fiB_Code)
-					console.log(res[0].current_wallet);
+					
+					if(res[0].current_wallet === 5000 || res[0].current_wallet < 5000){
+						return 'low_wallet'
+					}else{
+						/**
+						 * proceed to insert
+						 */
+						const resulta = await insertLoad(data, response[0].fiB_Code, res[0].current_wallet)
+						return resulta
+					}
 					
 				}else{
 					const res = await checkWallet(response[0].ibrgy_code)
-					console.log(res);
+					if(res[0].current_wallet === 5000 || res[0].current_wallet < 5000){
+						return 'low_wallet'
+					}else{
+						/**
+						 * proceed to insert
+						 */
+						 const resulta = await insertLoad(data, response[0].ibrgy_code, res[0].current_wallet)
+						 return resulta
+					}
 					
 				}
 			}
-			connection.commit()
-			// return 'ok'
 			
+		})
+	}catch(err){
+		connection.rollback()
+		return err
+	}
+ }
+ const insertLoad = async (data:any, BRANCHCODE :any, CURRENT_WALLET:any)=>{
+	 
+	try{
+		connection.beginTransaction()
+		return await new Promise((resolve, reject)=>{
+			connection.query("INSERT INTO loadcentral (reference_id, TransId, mobileNo, productCode, amount, markUp, walletBalance, ePIN, tellerCode, createdBy, LC_response) VALUES (?,?,?,?,?,?,?,?,?,?,?)", 
+			[data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10]],(err, result)=>{
+				if(err) return reject(err)
+				resolve(result)
+			})
+		}).then(async()=>{
+			/**
+			 * minus [4]
+			 */
+			let wallet_deducted = CURRENT_WALLET - data[4]
+			let collection = data[4] + data[5]
+			console.log(data[6]);
+			
+			await Promise.all([
+				Promise.resolve(
+					connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [wallet_deducted, BRANCHCODE], (err,result)=>{
+						if(err) throw err
+						result
+					})
+				),
+				Promise.resolve(
+					connection.query("INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?)",
+					[BRANCHCODE, data[8], collection, data[4], data[5], data[0], 'Confirm'], (err, result)=>{
+						if(err) throw err
+						result
+					})
+				),
+				Promise.resolve(
+					connection.query("UPDATE mother_wallet SET wallet=? WHERE api_name=?", [data[6], 'LOADCENTRAL'], (err, result)=>{
+						if(err) throw err
+						result
+					})
+				)
+			])
+			connection.commit()
+			return 'ok'
 		})
 	}catch(err){
 		connection.rollback()
@@ -138,83 +196,74 @@ class EloadsController {
 			
 			const { contactNo } = data
 			
+			const PCODE = await pCODE( selectedPromoCodes.LCPRODUCTCODE, amount )
+
 			try{
-				const PCODE = await pCODE( selectedPromoCodes.LCPRODUCTCODE, amount )
+				connection.beginTransaction()
+				return await new Promise((resolve, reject)=>{
+					connection.query("SELECT * FROM branch_count WHERE type=?", ['IPC'], (err,result)=>{
+						if(err) return reject(err)
+						resolve(result)
+					})
+				}).then(async(response:any)=>{
+					const series = response[0].count + 1
+					const rrn = `${ response[0].type }${String(series).padStart(10,"0")}`
 
-				const request = '<RRN>ABC5203432373</RRN><RESP>0</RESP><TID>WB2764871028</TID><BAL>1000.00</BAL><EPIN>CARD #: 0000100022 PIN: BOYDRG</EPIN><ERR>Success</ERR>'
+					const hashed = md5(md5(rrn) + md5(LOADCENTRAL_PROD_USERNAME + LOADCENTRAL_PROD_PASSWORD ))
 				
-				const xml = await parseXML(`<data>${ request }</data>`)
-				// const ress = xml
-				const ress = [ xml.data.RRN[0], xml.data.TID[0], contactNo, PCODE, PCODE.match(/(\d+)/)[1], markup, xml.data.BAL[0], xml.data.EPIN[0], tellerCode, createdBy, xml.data.ERR[0] ]	
-											
-				const respons = await insertLoad(ress)	
-				// console.log(respons);
-			}catch(err){
-				console.log(err);
-				
-			}
-				
-			// try{
-			// 	connection.beginTransaction()
-			// 	return await new Promise((resolve, reject)=>{
-			// 		connection.query("SELECT * FROM branch_count WHERE type=?", ['IPC'], (err,result)=>{
-			// 			if(err) return reject(err)
-			// 			resolve(result)
-			// 		})
-			// 	}).then(async(response:any)=>{
-			// 		const series = response[0].count + 1
-			// 		const rrn = `${ response[0].type }${String(series).padStart(10,"0")}`
-
-			// 		const hashed = md5(md5(rrn) + md5(LOADCENTRAL_PROD_USERNAME + LOADCENTRAL_PROD_PASSWORD ))
-				
-			// 		if(!response.length){
-			// 			res.status(Codes.SUCCESS).send({ message : 'tryAgain' })
-			// 		}else{
+					if(!response.length){
+						res.status(Codes.SUCCESS).send({ message : 'tryAgain' })
+					}else{
 
 						
-			// 			await Promise.all([
-			// 				Promise.resolve(
-			// 					connection.query("UPDATE branch_count SET count=? WHERE type=?", [series, 'IPC'], (err,result)=>{
-			// 						if(err) throw err
-			// 						return result
-			// 					})
-			// 				), Promise.resolve(
+						await Promise.all([
+							Promise.resolve(
+								connection.query("UPDATE branch_count SET count=? WHERE type=?", [series, 'IPC'], (err,result)=>{
+									if(err) throw err
+									return result
+								})
+							), Promise.resolve(
 
-			// 					await axios.post(`${ LOADCENTRAL_SELL_PRODUCT }?uid=${ LOADCENTRAL_PROD_USERNAME }&auth=${ hashed }&pcode=${ PCODE }&to=63${ contactNo }&rrn=${ rrn }` )
-			// 					.then(async(result:any) => {
+								await axios.post(`${ LOADCENTRAL_SELL_PRODUCT }?uid=${ LOADCENTRAL_PROD_USERNAME }&auth=${ hashed }&pcode=${ PCODE }&to=63${ contactNo }&rrn=${ rrn }` )
+								.then(async(result:any) => {
 									
-			// 						if(!result.data.length){
-			// 							res.status(Codes.SUCCESS).send({ message : 'notFound' })
+									if(!result.data.length){
+										res.status(Codes.SUCCESS).send({ message : 'notFound' })
 									
-			// 						}else{
+									}else{
 
-			// 							/**
-			// 							 * save in database
-			// 							*/
-			// 							const xml = await parseXML(`<data>${ result.data }</data>`)
+										/**
+										 * save in database
+										*/
+									
+										const xml = await parseXML(`<data>${ result.data }</data>`)
 
-			// 							const ress = [ xml.data.RRN[0], xml.data.TID[0], contactNo, PCODE, PCODE.match(/(\d+)/)[1], markup, xml.data.BAL[0], xml.data.EPIN[0], tellerCode, createdBy, xml.data.ERR[0] ]	
+										const ress = [ xml.data.RRN[0], xml.data.TID[0], contactNo, PCODE, PCODE.match(/(\d+)/)[1], markup, xml.data.BAL[0], xml.data.EPIN[0], tellerCode, createdBy, xml.data.ERR[0] ]	
+										/**
+										 * check if there's a error or not
+										 */
+										const lc_response =   xml.data.ERR[0] === 'Insufficient Funds' ? 'lackFunds' 
+															: xml.data.ERR[0] === 'LC API System Error' ? 'systemError' 
+															: await getBranchCode(ress)
 										
-			// 							const respons = await insertLoad(ress)			
-										
-			// 							res.status(Codes.SUCCESS).send(respons)	
+										res.status(Codes.SUCCESS).send(lc_response)	
 
-			// 						}
-			// 					}).catch((err:any) => {
-			// 						res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-			// 						connection.rollback()
-			// 					})
+									}
+								}).catch((err:any) => {
+									res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+									connection.rollback()
+								})
 
-			// 				)
-			// 			])
+							)
+						])
 
-			// 		}
-			// 		connection.commit()
-			// 	})
-			// }catch(err:any){
-			// 	res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-			// 	connection.rollback()
-			// }
+					}
+					connection.commit()
+				})
+			}catch(err:any){
+				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+				connection.rollback()
+			}
         })
 
 		this.router.get('/getLoadCentralTransactions',async (req, res) => {
