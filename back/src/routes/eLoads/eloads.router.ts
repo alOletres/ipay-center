@@ -67,7 +67,7 @@ const parseXML = async (xml:any) => {
 	const { contactNo } = data
 		
 	const PCODE = await pCODE( selectedPromoCodes.LCPRODUCTCODE, amount )
-
+	
 	try{
 		connection.beginTransaction()
 		return await new Promise((resolve, reject)=>{
@@ -108,7 +108,7 @@ const parseXML = async (xml:any) => {
 								/**
 								 * save in database
 								*/
-							
+								
 								const xml = await parseXML(`<data>${ result.data }</data>`)
 
 								const ress = [ xml.data.RRN[0], xml.data.TID[0], contactNo, PCODE, PCODE.match(/(\d+)/)[1], markup, xml.data.BAL[0], xml.data.EPIN[0], tellerCode, createdBy, xml.data.ERR[0] ]	
@@ -117,18 +117,21 @@ const parseXML = async (xml:any) => {
 								 */
 								await updateLCWALLET(ress)
 
-								const lc_response =   xml.data.ERR[0] === 'Insufficient Funds' ? 'lackFunds' 
-													: xml.data.ERR[0] === 'LC API System Error' ? 'systemError' 
-													: await insertLoad(ress, object[1], object[2])
-								return lc_response
+								return 	  await xml.data.ERR[0] === 'Insufficient Funds' ? 'lackFunds' 
+										: await xml.data.ERR[0] === 'LC API System Error' ? 'systemError' 
+										: await insertLoad(ress, object[1], object[2]) === 'ok' ? 'ok'
+										: ''
+										
 							}
+							
 						})
 
 					)
+					
 				])
-
+				connection.commit()
 			}
-			connection.commit()
+			
 		})
 		
 	}catch(err){
@@ -142,8 +145,8 @@ const parseXML = async (xml:any) => {
 	try{
 		connection.beginTransaction()
 		return await new Promise((resolve, reject)=>{
-			connection.query("INSERT INTO loadcentral (reference_id, TransId, mobileNo, productCode, amount, markUp, walletBalance, ePIN, tellerCode, createdBy, LC_response) VALUES (?,?,?,?,?,?,?,?,?,?,?)", 
-			[data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10]],(err, result)=>{
+			connection.query("INSERT INTO loadcentral (reference_id, TransId, mobileNo, productCode, amount, markUp, walletBalance, ePIN, branchCode, tellerCode, createdBy, LC_response) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", 
+			[data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], BRANCHCODE, data[8], data[9], data[10]],(err, result)=>{
 				if(err) return reject(err)
 				resolve(result)
 			})
@@ -153,7 +156,6 @@ const parseXML = async (xml:any) => {
 			 */
 			let wallet_deducted = CURRENT_WALLET - data[4]
 			let collection = data[4] + data[5]
-			console.log(data[6]);
 			
 			await Promise.all([
 				Promise.resolve(
@@ -171,7 +173,7 @@ const parseXML = async (xml:any) => {
 				)
 			])
 			connection.commit()
-			return 'ok'
+			// return 'ok'
 		})
 	}catch(err){
 		connection.rollback()
@@ -258,6 +260,9 @@ class EloadsController {
 								 * proceed to insert
 								 */
 								 const resss = await LoadCentralApi(req.body, response[0].fiB_Code, result[0].current_wallet)
+									
+								 console.log(resss);
+								 
 								 res.status(Codes.SUCCESS).send({ message : resss })
 							
 							}
@@ -300,6 +305,20 @@ class EloadsController {
 			}catch(err:any){
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}		
+		})
+
+		this.router.post('/getTransactionLoadCentralByBranch',async (req, res) => {
+			
+			const { code } = req.body
+
+			try{
+				connection.query("SELECT * FROM loadcentral WHERE branchCode=?", [code], (err, result)=>{
+					if(err) throw err
+					res.status(Codes.SUCCESS).send(result)
+				})
+			}catch(err:any){
+				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+			}
 		})
 
     }

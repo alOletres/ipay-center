@@ -200,7 +200,10 @@ export class LccompntTransComponent implements OnInit {
 							}else if(JSON.parse(response).message === 'systemError'){
 								this._snackBar._showSnack('Load Central API System Error', 'error')
 							}else{
-								this._snackBar._showSnack('Try Again', 'error')
+								this._snackBar._showSnack('Successfully Loaded', 'success')
+								this.socketService.sendEvent("eventSent", {data: "response_sucessfullyLoaded"})/**SOCKET SEND EVENT */
+								this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
+								
 							}
 							dialogRef.close()
 						})

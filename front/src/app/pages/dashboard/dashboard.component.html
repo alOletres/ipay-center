@@ -11,7 +11,7 @@
 			<div  style="padding-left: 10px;">
 				<div style="padding-bottom: 12%;">
 					<div class="col-md-6 col-xs-12 col-sm-6 " >
-						<mat-card style="background-color: lightblue;"  class="example-card" >
+						<mat-card style="background-color: rgb(45, 150, 219)"  class="example-card" >
 							<mat-card-title-group >
 								<mat-card-title > {{ dataHandler | currency : "&#8369;"  }}</mat-card-title>
 								
@@ -33,6 +33,19 @@
 							</mat-card-title-group>
 							<mat-card-content >
 								<p>{{ cardName }}</p>
+							</mat-card-content>
+						</mat-card>
+					</div>
+					<div class="col-md-6 col-xs-12 col-sm-6 " style="margin-top: 30px;margin-bottom: 30px;">
+						<mat-card style=" background-color:rgb(241, 178, 106)"  class="example-card" >
+							<mat-card-title-group >
+								<mat-card-title class="font media" > {{ totalMarkUp | currency : "&#8369;"}}</mat-card-title>
+								
+								<mat-card-subtitle style="color:white;">  </mat-card-subtitle>
+								<mat-icon>phone_iphone</mat-icon>
+							</mat-card-title-group>
+							<mat-card-content >
+								<p> LOAD CENTRAL </p>
 							</mat-card-content>
 						</mat-card>
 					</div>

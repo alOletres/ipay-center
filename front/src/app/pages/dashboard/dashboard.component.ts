@@ -19,7 +19,7 @@ import { of } from 'rxjs';
 })
 
 export class DashboardComponent implements OnInit {
-
+	
 
 	dateNow = new Date()
 	/**
@@ -47,11 +47,9 @@ export class DashboardComponent implements OnInit {
 	/**
 	 * @donutGraph
 	 */
-	doughnutChartLabels: Label[] = [];
+	doughnutChartLabels: Label[] = ['BARKOTA', 'LOAD CENTRAL'];
 
-	doughnutChartData: MultiDataSet = [
-		[]
-	];
+	doughnutChartData: MultiDataSet = [ [] ];
 	
 	doughnutChartType: ChartType = 'doughnut';
 	@Input() isMenuOpened: boolean | undefined;
@@ -76,6 +74,9 @@ export class DashboardComponent implements OnInit {
 	walletHistoryLength: number;
 	fWallet: any;
 	cardName: string;
+	totalMarkUp: any;
+	barkotaLength: any
+	eloadsDailyTransactions :any
   	constructor( private _route : ActivatedRoute, private http_dash : DashboardService, private _snackBar : SnackbarServices,
 				 private socketService :SocketService,
 				 private http_wallet : WalletService) {
@@ -112,15 +113,19 @@ export class DashboardComponent implements OnInit {
 	  }
 
 	async ngOnInit(){
+		
 		this.currentDate = new Date()
 		this.bottomMessage = 'see more...'
 		this.announceBottomMessage = 'see more...'
 
-		await this.barYear()
-		await this.barkotaTrans()
-		await this.getActiveAnnouncement()
+		this.barYear()
+		this.getTransactionLoadCentralByBranch()
+		this.barkotaTrans()
+		
+		this.getActiveAnnouncement()
 		this.checkFranchiseWallet()
-		await this.getLogs()
+		this.getLogs()
+		this.numberofTransactions()
 	}
 
 	async barYear(){
@@ -663,17 +668,16 @@ export class DashboardComponent implements OnInit {
 		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
 
 			
-			this.doughnutChartLabels = ['Barkota']
-			this.doughnutChartData = [ [dataHandler.length] ]
 			let t_charge = 0
 			dataHandler.map((charge:any)=>{
 				t_charge += charge.ipayService_charge
 			})
 			this.dataHandler = t_charge
-
+			this.barkotaLength = JSON.parse(res).length
+			
+			this.numberofTransactions()
 		}else{
 
-			this.doughnutChartLabels = ['Barkota']
 			let t_charge = 0
 
 			let result  = dataHandler.filter((x:any)=> {
@@ -683,7 +687,9 @@ export class DashboardComponent implements OnInit {
 			})
 			this.dataHandler = t_charge
 			
-			this.doughnutChartData = [ [result.length] ]
+			this.barkotaLength = result.length
+			this.numberofTransactions()
+			
 			
 		}
 	}
@@ -752,5 +758,49 @@ export class DashboardComponent implements OnInit {
 			})
 		}
    }
+
+   async getTransactionLoadCentralByBranch(){
+	  
+		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
+			let total = 0
+			this.http_dash.getLoadCentralTransactions()
+
+			.then((response:any)=>{
+
+				this.eloadsDailyTransactions = response.length
+
+				response.map((x:any)=>{
+
+					total += x.markUp
+				})
+				this.totalMarkUp = total
+				
+			}).catch(()=>{
+				this._snackBar._showSnack('Failed to Fetch', 'error')
+			})
+		}else{
+			let total = 0
+			await this.http_dash.getTransactionLoadCentralByBranch({code : atob(sessionStorage.getItem('code'))})
+			.then((response:any)=>{
+				
+				this.eloadsDailyTransactions = JSON.parse(response).length
+
+				JSON.parse(response).map((x:any)=>{
+
+					total += x.markUp
+				})
+				this.totalMarkUp = total
+				
+				this.numberofTransactions()
+			}).catch(()=>{
+				this._snackBar._showSnack('Failed to Fetch', 'error')
+			})
+		}
+   }
+
+    numberofTransactions(){
+		this.doughnutChartData = [[this.barkotaLength, this.eloadsDailyTransactions]]
+		// this.doughnutChartData = [[12, 12]]
+	}
 
 }
