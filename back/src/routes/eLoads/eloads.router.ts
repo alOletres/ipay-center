@@ -44,6 +44,7 @@ const parseXML = async (xml:any) => {
 
  const checkWallet = async (branchCode:any)=>{
 	try{
+		
 		connection.beginTransaction()
 		return await new Promise((resolve ,reject)=>{
 			connection.query("SELECT * FROM wallet WHERE branchCode=?", [branchCode], (err, result)=>{
@@ -60,61 +61,84 @@ const parseXML = async (xml:any) => {
 		return err
 	}
  }
- const getBranchCode = async (data:any)=>{
+ const LoadCentralApi = async ( ...object:any)=>{
+	const { data, modelType, productName , productPromo, amount, markup, selectedPromoCodes, tellerCode , createdBy } = object[0]
+			
+	const { contactNo } = data
+		
+	const PCODE = await pCODE( selectedPromoCodes.LCPRODUCTCODE, amount )
+
 	try{
 		connection.beginTransaction()
 		return await new Promise((resolve, reject)=>{
-
-			connection.query("SELECT * FROM teller_list WHERE tellerCode=?", [data[8]], (err, result)=>{
+			connection.query("SELECT * FROM branch_count WHERE type=?", ['IPC'], (err,result)=>{
 				if(err) return reject(err)
 				resolve(result)
 			})
-			
-		}).then(async (response:any)=>{
-			connection.commit()
-			if(!response.length){
-				return 'notfound'
-			}else{
-				/**
-				 * check wallet of branch 
-				 */
-				if(data[8].slice(0,3) === 'FRT'){
+		}).then(async(response:any)=>{
 
-					const res = await checkWallet(response[0].fiB_Code)
-					
-					if(res[0].current_wallet === 5000 || res[0].current_wallet < 5000){
-						return 'low_wallet'
-					}else{
-						/**
-						 * proceed to insert
-						 */
-						const resulta = await insertLoad(data, response[0].fiB_Code, res[0].current_wallet)
-						return resulta
-					}
-					
-				}else{
-					const res = await checkWallet(response[0].ibrgy_code)
-					if(res[0].current_wallet === 5000 || res[0].current_wallet < 5000){
-						return 'low_wallet'
-					}else{
-						/**
-						 * proceed to insert
-						 */
-						 const resulta = await insertLoad(data, response[0].ibrgy_code, res[0].current_wallet)
-						 return resulta
-					}
-					
-				}
+
+			const series = response[0].count + 1
+			const rrn = `${ response[0].type }${String(series).padStart(10,"0")}`
+
+			const hashed = md5(md5(rrn) + md5(LOADCENTRAL_PROD_USERNAME + LOADCENTRAL_PROD_PASSWORD ))
+		
+			if(!response.length){
+				return 'tryAgain'
+			}else{
+
+				
+				await Promise.all([
+					Promise.resolve(
+						connection.query("UPDATE branch_count SET count=? WHERE type=?", [series, 'IPC'], (err,result)=>{
+							if(err) throw err
+							result
+						})
+					),Promise.resolve(
+
+						await axios.post(`${ LOADCENTRAL_SELL_PRODUCT }?uid=${ LOADCENTRAL_PROD_USERNAME }&auth=${ hashed }&pcode=${ PCODE }&to=63${ contactNo }&rrn=${ rrn }` )
+						.then(async(result:any) => {
+							
+							if(!result.data.length){
+								
+								return 'notFound'
+							
+							}else{
+
+								/**
+								 * save in database
+								*/
+							
+								const xml = await parseXML(`<data>${ result.data }</data>`)
+
+								const ress = [ xml.data.RRN[0], xml.data.TID[0], contactNo, PCODE, PCODE.match(/(\d+)/)[1], markup, xml.data.BAL[0], xml.data.EPIN[0], tellerCode, createdBy, xml.data.ERR[0] ]	
+								/**
+								 * check if there's a error or not
+								 */
+								await updateLCWALLET(ress)
+
+								const lc_response =   xml.data.ERR[0] === 'Insufficient Funds' ? 'lackFunds' 
+													: xml.data.ERR[0] === 'LC API System Error' ? 'systemError' 
+													: await insertLoad(ress, object[1], object[2])
+								return lc_response
+							}
+						})
+
+					)
+				])
+
 			}
-			
+			connection.commit()
 		})
+		
 	}catch(err){
 		connection.rollback()
 		return err
 	}
  }
  const insertLoad = async (data:any, BRANCHCODE :any, CURRENT_WALLET:any)=>{
-	 
+	
+	
 	try{
 		connection.beginTransaction()
 		return await new Promise((resolve, reject)=>{
@@ -203,75 +227,63 @@ class EloadsController {
 
         this.router.post('/sellProduct',async (req, res) => {
             
-			const { data, modelType, productName , productPromo, amount, markup, selectedPromoCodes, tellerCode , createdBy} = req.body
+			const {  tellerCode } = req.body
 			
-			const { contactNo } = data
 			
-			const PCODE = await pCODE( selectedPromoCodes.LCPRODUCTCODE, amount )
-
 			try{
 				connection.beginTransaction()
 				return await new Promise((resolve, reject)=>{
-					connection.query("SELECT * FROM branch_count WHERE type=?", ['IPC'], (err,result)=>{
+
+					connection.query("SELECT * FROM teller_list WHERE tellerCode=?", [tellerCode], (err, result)=>{
 						if(err) return reject(err)
 						resolve(result)
 					})
-				}).then(async(response:any)=>{
-					const series = response[0].count + 1
-					const rrn = `${ response[0].type }${String(series).padStart(10,"0")}`
-
-					const hashed = md5(md5(rrn) + md5(LOADCENTRAL_PROD_USERNAME + LOADCENTRAL_PROD_PASSWORD ))
-				
+					
+				}).then(async (response:any)=>{
+					
 					if(!response.length){
-						res.status(Codes.SUCCESS).send({ message : 'tryAgain' })
+						res.status(Codes.SUCCESS).send({ message : 'notfound' })
 					}else{
+						/**
+						 * check wallet of branch 
+						 */
+						if(tellerCode.slice(0,3) === 'FRT'){
 
-						
-						await Promise.all([
-							Promise.resolve(
-								connection.query("UPDATE branch_count SET count=? WHERE type=?", [series, 'IPC'], (err,result)=>{
-									if(err) throw err
-									return result
-								})
-							), Promise.resolve(
+							const result :any = await checkWallet(response[0].fiB_Code)
+							
+							if(result[0].current_wallet === 5000 || result[0].current_wallet < 5000){
+								res.status(Codes.SUCCESS).send({ message : 'low_wallet' })
+							}else{
+								/**
+								 * proceed to insert
+								 */
+								 const resss = await LoadCentralApi(req.body, response[0].fiB_Code, result[0].current_wallet)
+								 res.status(Codes.SUCCESS).send({ message : resss })
+							
+							}
+							
+						}else{
+							const result = await checkWallet(response[0].ibrgy_code)
+							
+							if(result[0].current_wallet === 5000 || result[0].current_wallet < 5000){
+							
+								res.status(Codes.SUCCESS).send({ message : 'low_wallet' })
 
-								await axios.post(`${ LOADCENTRAL_SELL_PRODUCT }?uid=${ LOADCENTRAL_PROD_USERNAME }&auth=${ hashed }&pcode=${ PCODE }&to=63${ contactNo }&rrn=${ rrn }` )
-								.then(async(result:any) => {
-									
-									if(!result.data.length){
-										res.status(Codes.SUCCESS).send({ message : 'notFound' })
-									
-									}else{
-
-										/**
-										 * save in database
-										*/
-									
-										const xml = await parseXML(`<data>${ result.data }</data>`)
-
-										const ress = [ xml.data.RRN[0], xml.data.TID[0], contactNo, PCODE, PCODE.match(/(\d+)/)[1], markup, xml.data.BAL[0], xml.data.EPIN[0], tellerCode, createdBy, xml.data.ERR[0] ]	
-										/**
-										 * check if there's a error or not
-										 */
-										await updateLCWALLET(ress)
-
-										const lc_response =   xml.data.ERR[0] === 'Insufficient Funds' ? 'lackFunds' 
-															: xml.data.ERR[0] === 'LC API System Error' ? 'systemError' 
-															: await getBranchCode(ress)
-										res.status(Codes.SUCCESS).send(lc_response)	
-									}
-								}).catch((err:any) => {
-
-									res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-									connection.rollback()
-								})
-
-							)
-						])
-
+							}else{
+								/**
+								 * proceed to insert
+								 */
+								const resss = await LoadCentralApi(req.body, response[0].ibrgy_code, result[0].current_wallet)
+							
+								res.status(Codes.SUCCESS).send({ message : resss })
+							}
+							
+						}
 					}
 					connection.commit()
+					
 				})
+				
 			}catch(err:any){
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 				connection.rollback()
