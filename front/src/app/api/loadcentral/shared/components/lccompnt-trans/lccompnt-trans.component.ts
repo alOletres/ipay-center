@@ -181,9 +181,9 @@ export class LccompntTransComponent implements OnInit {
 								return of([])
 							})
 						).subscribe((response:any)=>{
-							console.log(response);
+							console.log(JSON.parse(response));
 							
-							if(JSON.parse(response).message === 'ok'){
+							if(JSON.parse(response).message === 'ok' || JSON.parse(response) === '' ){
 
 								this._snackBar._showSnack('Successfully Loaded', 'success')
 								this.socketService.sendEvent("eventSent", {data: "response_sucessfullyLoaded"})/**SOCKET SEND EVENT */
@@ -200,10 +200,7 @@ export class LccompntTransComponent implements OnInit {
 							}else if(JSON.parse(response).message === 'systemError'){
 								this._snackBar._showSnack('Load Central API System Error', 'error')
 							}else{
-								this._snackBar._showSnack('Successfully Loaded', 'success')
-								this.socketService.sendEvent("eventSent", {data: "response_sucessfullyLoaded"})/**SOCKET SEND EVENT */
-								this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
-								
+								this._snackBar._showSnack('Try Again', 'error')
 							}
 							dialogRef.close()
 						})

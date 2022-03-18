@@ -63,8 +63,42 @@
 	</div>
 
 	<div style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
-		<mat-card (click)="function_walletHistory()" style="color: darkred;" class="_card card">
+		<mat-card (click)="function_walletHistory()" style="color: rgb(45, 150, 219);" class="_card card">
 			
+			<div class="row">
+				<div class="col-md-1 top:50% display:flex; justify-content: center; align-items: center; ">
+					<b style="font-size: 30px; font-weight: 500;"> 
+						<!-- <i class="fa fa-credit-card" style=" margin-right: 3px; "></i> -->
+						<mat-icon  style=" margin-right: 3px; "> directions_boat </mat-icon>
+					</b>
+				</div>
+				<div class="col-md-11"> 
+					<b>BARKOTA TRANSACTION HISTORY</b> <br>
+					Summary of my Payment Transactions 
+				</div>
+			</div>
+		</mat-card>
+	</div>
+	<div style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-card  style="color: rgb(160, 107, 46);" class="_card card" [routerLink]="['/loadcentralHistory']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+
+			<div class="row">
+				<div class="col-md-1 top:50% display:flex; justify-content: center; align-items: center; ">
+					<b style="font-size: 30px; font-weight: 500;"> 
+						<!-- <i class="fa fa-credit-card"></i> -->
+						<mat-icon  style=" margin-right: 3px; "> phone_iphone </mat-icon>
+					</b>
+				</div>
+				<div class="col-md-11"> 
+					<b>LOAD CENTRAL TRANSACTION HISTORY</b> <br>
+					Summary of my Payment Transactions 
+				</div>
+			</div>
+		</mat-card>
+	</div>
+	<div style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-card  style="color: rgb(20, 141, 51);" class="_card card" [routerLink]="['/walletHistory']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >
+			<!--  -->
 			<div class="row">
 				<div class="col-md-1 top:50% display:flex; justify-content: center; align-items: center; ">
 					<b style="font-size: 30px; font-weight: 500;"> 
@@ -72,13 +106,12 @@
 					</b>
 				</div>
 				<div class="col-md-11"> 
-					<b>WALLET</b> <br>
+					<b>OVERALL WALLET TRANSACTION HISTORY</b> <br>
 					Summary of my Payment Transactions 
 				</div>
 			</div>
 		</mat-card>
 	</div>
-
 	<div *ngIf = "type === 'Admin' || type === 'Branch Head' "  style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
 		
 		<mat-card  (click)="function_topUploadsIbarangayHistory()" style="color: darkred;" class="card _card">
@@ -111,7 +144,7 @@
 				<div fxFlex="65%" fxFlex.md="100%" fxFlex.xs="100%">
 					<mat-card-title class="card__header">
 						<h5  class="card__title">
-							Wallet Transaction History &nbsp;&nbsp; <span style="color: green;">{{ fWallet   }}</span>
+							Barkota Transactions &nbsp;&nbsp; <span style="color: green;">{{ fWallet   }}</span>
 	
 						</h5>
 					</mat-card-title>						

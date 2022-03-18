@@ -1,0 +1,25 @@
+<div  fxLayout="row wrap">
+    <div fxFlex="5%" fxFlex.md="100%" fxFlex.xs="100%" class="example-button-container" >
+        <button [routerLink]="['/transactions']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="margin-top:50%; margin-left: 20px; color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+            <i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+        </button>
+    </div>
+	<div  fxFlex="80%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-toolbar class="page-header" role="heading">
+			<h1>Transactions</h1>
+		</mat-toolbar>
+	</div>
+</div>
+<br>
+<div fxLayout="row wrap">
+    <div fxFlex="98%" fxFlex.md="100%" fxFlex.xs="100%">
+        <mat-card style="margin-left: 2%;" class="card card-wrapper">
+            <mat-card-title class="card__header">
+                <h5  class="card__title"> Load Central Transaction History </h5>
+            </mat-card-title>
+            <mat-card-content  class="card__content">
+                
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

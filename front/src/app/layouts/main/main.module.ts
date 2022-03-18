@@ -71,6 +71,8 @@ import { MacsettingsComponent } from './../../pages/macsettings/macsettings.comp
 import { SettingsComponent } from './../../globals/globa_components/settings/settings.component';
 import { IbarangayComponent } from 'src/app/pages/ibarangay/ibarangay.component';
 
+import { WalletHistoryComponent } from './../../pages/transaction/wallet-history/wallet-history.component';
+import { LoadCentralHistoryComponent } from './../../pages/transaction/load-central-history/load-central-history.component';
 import { TopuploadListComponent } from './../../pages/transaction/topupload-list/topupload-list.component';
 import { TellerComponent } from './../../pages/teller/teller.component';
 /**
@@ -128,8 +130,9 @@ import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, C
 		TellerComponent,
 		ActivitylogsDirective,
 		BranchCodeDirective,
-		TopuploadListComponent
-		
+		TopuploadListComponent,
+		LoadCentralHistoryComponent,
+		WalletHistoryComponent
 	],
 	imports: [
 		CommonModule,
