@@ -181,8 +181,6 @@ export class LccompntTransComponent implements OnInit {
 								return of([])
 							})
 						).subscribe((response:any)=>{
-							console.log(JSON.parse(response));
-							
 							if(JSON.parse(response).message === 'ok' || JSON.parse(response) === '' ){
 
 								this._snackBar._showSnack('Successfully Loaded', 'success')

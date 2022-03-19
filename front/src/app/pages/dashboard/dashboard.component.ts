@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
 	/**
 	 * @donutGraph
 	 */
-	doughnutChartLabels: Label[] = ['BARKOTA', 'LOAD CENTRAL'];
+	doughnutChartLabels: Label[] = ['LOAD CENTRAL', 'BARKOTA'];
 
 	doughnutChartData: MultiDataSet = [ [] ];
 	
@@ -799,7 +799,7 @@ export class DashboardComponent implements OnInit {
    }
 
     numberofTransactions(){
-		this.doughnutChartData = [[this.barkotaLength, this.eloadsDailyTransactions]]
+		this.doughnutChartData = [[this.eloadsDailyTransactions, this.barkotaLength]]
 		// this.doughnutChartData = [[12, 12]]
 	}
 

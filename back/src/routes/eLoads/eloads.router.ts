@@ -62,12 +62,16 @@ const parseXML = async (xml:any) => {
 	}
  }
  const LoadCentralApi = async ( ...object:any)=>{
+
+	const html = '<RRN>ABC5203432373</RRN><RESP>0</RESP><TID>WB2764871028</TID><BAL>1000.00</BAL><EPIN>CARD #: 0000100022 PIN: BOYDRG</EPIN><ERR>Success</ERR>'
 	const { data, modelType, productName , productPromo, amount, markup, selectedPromoCodes, tellerCode , createdBy } = object[0]
 			
 	const { contactNo } = data
 		
 	const PCODE = await pCODE( selectedPromoCodes.LCPRODUCTCODE, amount )
-	
+
+	var returnResponse :any 
+								
 	try{
 		connection.beginTransaction()
 		return await new Promise((resolve, reject)=>{
@@ -87,51 +91,47 @@ const parseXML = async (xml:any) => {
 				return 'tryAgain'
 			}else{
 
-				
-				await Promise.all([
-					Promise.resolve(
-						connection.query("UPDATE branch_count SET count=? WHERE type=?", [series, 'IPC'], (err,result)=>{
-							if(err) throw err
-							result
-						})
-					),Promise.resolve(
+				await new Promise((resolve, reject)=>{
+					connection.query("UPDATE branch_count SET count=? WHERE type=?", [series, 'IPC'], (err,result)=>{
+						if(err) return reject (err)
+						resolve(result)
+					})
+				}).then(async()=>{
 
-						await axios.post(`${ LOADCENTRAL_SELL_PRODUCT }?uid=${ LOADCENTRAL_PROD_USERNAME }&auth=${ hashed }&pcode=${ PCODE }&to=63${ contactNo }&rrn=${ rrn }` )
-						.then(async(result:any) => {
-							
-							if(!result.data.length){
-								
-								return 'notFound'
-							
-							}else{
+					await axios.post(`${ LOADCENTRAL_SELL_PRODUCT }?uid=${ LOADCENTRAL_PROD_USERNAME }&auth=${ hashed }&pcode=${ PCODE }&to=63${ contactNo }&rrn=${ rrn }` )
+					.then(async(result:any) => {
+						
+						/**
+						 * save in database
+						*/
+						
+						const xml = await parseXML(`<data>${ result.data }</data>`)
+						// const xml = await parseXML(`<data>${ html }</data>`)
 
-								/**
-								 * save in database
-								*/
-								
-								const xml = await parseXML(`<data>${ result.data }</data>`)
 
-								const ress = [ xml.data.RRN[0], xml.data.TID[0], contactNo, PCODE, PCODE.match(/(\d+)/)[1], markup, xml.data.BAL[0], xml.data.EPIN[0], tellerCode, createdBy, xml.data.ERR[0] ]	
-								/**
-								 * check if there's a error or not
-								 */
-								await updateLCWALLET(ress)
+						const ress = [ xml.data.RRN[0], xml.data.TID[0], contactNo, PCODE, PCODE.match(/(\d+)/)[1], markup, xml.data.BAL[0], xml.data.EPIN[0], tellerCode, createdBy, xml.data.ERR[0] ]	
+						/**
+						 * check if there's a error or not
+						 */
+						
+						await updateLCWALLET(ress)
 
-								return 	  xml.data.ERR[0] === 'Insufficient Funds' ? 'lackFunds' 
+						
+						returnResponse =  xml.data.ERR[0] === 'Insufficient Funds' ? 'lackFunds' 
 										: xml.data.ERR[0] === 'LC API System Error' ? 'systemError' 
-										: await insertLoad(ress, object[1], object[2]) ? 'ok'
-										: ''
-										
-							}
-							
-						})
-
-					)
+										:  await insertLoad(ress, object[1], object[2])
+						
+					})
 					
-				])
-				connection.commit()
+				})
+				
 			}
+			connection.commit()
+			return returnResponse
 			
+		}).catch((err:any)=>{
+			connection.rollback()
+			return err
 		})
 		
 	}catch(err){
@@ -168,10 +168,11 @@ const parseXML = async (xml:any) => {
 					connection.query("INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?)",
 					[BRANCHCODE, data[8], collection, data[4], data[5], data[0], 'Confirm'], (err, result)=>{
 						if(err) throw err
-						result
+						
 					})
 				)
 			])
+			
 			connection.commit()
 			return 'ok'
 		})
@@ -260,9 +261,6 @@ class EloadsController {
 								 * proceed to insert
 								 */
 								 const resss = await LoadCentralApi(req.body, response[0].fiB_Code, result[0].current_wallet)
-									
-								 console.log(resss);
-								 
 								 res.status(Codes.SUCCESS).send({ message : resss })
 							
 							}

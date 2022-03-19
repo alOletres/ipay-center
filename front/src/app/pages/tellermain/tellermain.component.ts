@@ -19,7 +19,7 @@ import moment from 'moment';
 export class TellermainComponent implements OnInit {
 
 
-	doughnutChartLabels: Label[] = ['BARKOTA', 'LOAD CENTRAL'];
+	doughnutChartLabels: Label[] = ['LOAD CENTRAL', 'BARKOTA'];
 	doughnutChartData: MultiDataSet = [
 	  []
 	];
@@ -157,7 +157,7 @@ export class TellermainComponent implements OnInit {
 		
 		this.dataHandler = t_charge
 		this.barkotaLength = data.length
-		
+		this.numberofTransactions()
 		
 	}
 	showAll(){
@@ -183,11 +183,11 @@ export class TellermainComponent implements OnInit {
 		this.eloadsIncome = dailyIncome
 		this.eloadsDailyTransactions = data.length 
 
-		this.ngOnInit()
+		this.numberofTransactions()
 	}
 
 	numberofTransactions(){
-		this.doughnutChartData = [[this.barkotaLength, this.eloadsDailyTransactions]]
+		this.doughnutChartData = [[this.eloadsDailyTransactions,this.barkotaLength]]
 	}
 	
 }

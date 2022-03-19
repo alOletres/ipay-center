@@ -15,11 +15,11 @@
 		</mat-toolbar>
 	</div>
 	<div  *ngIf = "showloadTable"  style="margin-top: 3%;" fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%" >
-		<button (click)="print()" mat-raised-button style="background-color:black;color: white;"> <mat-icon>print</mat-icon> Print </button>
+		<button (click)="print()" mat-raised-button style="background-color:black;color: white;"> <i class="fa fa-print" aria-hidden="true"></i> Print </button>
 	</div>
 	
 	<div  *ngIf = "showloadTable"  style="margin-top: 3%;" fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%" >
-		<button (click)="exportArrayAsExcel()" mat-raised-button style="background-color:black;color: white;"> <mat-icon>save_alt</mat-icon> Save as Excel</button>
+		<button (click)="exportArrayAsExcel()" mat-raised-button style="background-color:black;color: white;"> <i class="fa fa-download" aria-hidden="true"></i> Save as Excel</button>
 	</div>
 
 
@@ -144,7 +144,7 @@
 				<div fxFlex="65%" fxFlex.md="100%" fxFlex.xs="100%">
 					<mat-card-title class="card__header">
 						<h5  class="card__title">
-							Barkota Transactions &nbsp;&nbsp; <span style="color: green;">{{ fWallet   }}</span>
+							Barkota Transactions 
 	
 						</h5>
 					</mat-card-title>						
@@ -152,7 +152,7 @@
 				</div>
 				<div fxFlex="15%" fxFlex.md="100%" fxFlex.xs="100%">
 					<mat-form-field style="margin-top:1%" appearance="fill">
-						<mat-label> Search Branch </mat-label>
+						<mat-label> Search Teller Code </mat-label>
 						<input type="text" matInput [matAutocomplete]="auto" [formControl]="searchControl">
 						<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
 							<mat-option  *ngFor="let data of filteredOptions | async" [value]="data">
@@ -180,45 +180,45 @@
 				<table style="width: 100%;"  class="table__table" mat-table [dataSource]="dataWalletHistory | searchByDateAdmin : start : end: this.searchControl " class="mat-elevation-z0">
 
 					<ng-container matColumnDef="no">
-						<th class="table_table-header" mat-header-cell *matHeaderCellDef> No. </th>
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> No. </th>
 						<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }}. </td>
-						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;background-color: lightgray;"></td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;"></td>
 					</ng-container>
 					
 					<ng-container matColumnDef="fBranch">
-						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Franchise</th>
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Franchise</th>
 						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.branchCode }} </td>
-						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;background-color: lightgray; ">  </td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder; ">  </td>
 					</ng-container>
 					
 					<ng-container matColumnDef="teller">
-						<th class="table_table-header" mat-header-cell *matHeaderCellDef> Teller </th>
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> Teller </th>
 						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.transacted_by }} </td>
-						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder; background-color: lightgray;">  </td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder; ">  </td>
 					</ng-container>
 
 					<ng-container matColumnDef="transactionId">
-						<th class="table_table-header" mat-header-cell *matHeaderCellDef> Transaction Id </th>
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> Transaction Id </th>
 						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.barkota_code }} </td>
-						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder; background-color: lightgray;"> TOTAL </td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder; "> TOTAL </td>
 					</ng-container>
 
 					<ng-container matColumnDef="services">
-						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Product/Services</th>
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Product/Services</th>
 						<td class="table_table-body" style="text-transform: capitalize;" mat-cell *matCellDef="let element"> 
 							{{ element.shippingLine }}
 						</td> 
-						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;background-color: lightgray;"></td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;"></td>
 					</ng-container>
 
 					<ng-container matColumnDef="debit">
-						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Debit</th>
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Debit</th>
 						<td class="table_table-body" mat-cell *matCellDef="let element"> - {{ element.ticket_totalPrice | computeDebit : element.ipayService_charge }}</td>
-						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;background-color: lightgray;"> - {{ dataWalletHistory | computeTotalDebit : start : end: this.searchControl  | currency : "&#8369;"   }} </td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;"> - {{ dataWalletHistory | computeTotalDebit : start : end: this.searchControl  | currency : "&#8369;"   }} </td>
 					</ng-container> 
 
 					<ng-container matColumnDef="credit">
-						<th class="table_table-header" mat-header-cell *matHeaderCellDef>Credit</th>
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Credit</th>
 						
 						<td class="table_table-body" mat-cell *matCellDef="let element">
 							
@@ -228,16 +228,16 @@
 						
 						</td>
 						
-						<td mat-footer-cell *matFooterCellDef style="background-color: lightgray;"> 
+						<td mat-footer-cell *matFooterCellDef > 
 							<span style="font-weight: bolder;" *ngIf="userType !== 'admin'; else elseBlock"> {{ dataWalletHistory | computeTotalCreditBranch : start : end: this.searchControl | currency : "&#8369;"}} </span>
 							<ng-template #elseBlock> <span style="font-weight: bolder;"> {{ dataWalletHistory | computeTotalCreditAdmin : start : end: this.searchControl  | currency : "&#8369;"}} </span> </ng-template>
 						</td>
 					</ng-container>
 
 					<ng-container matColumnDef="transaction_date">
-						<th class="table_table-header" mat-header-cell *matHeaderCellDef> Transaction date  </th>
+						<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef> Transaction date  </th>
 						<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.transacted_date | date : 'medium' }} </td>
-						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;background-color: lightgray;"></td>
+						<td mat-footer-cell *matFooterCellDef style="font-weight: bolder;"></td>
 					</ng-container>
 
 

@@ -80,7 +80,7 @@ import { TellerComponent } from './../../pages/teller/teller.component';
  */
 import { ImgPipe } from './../../pipes/img.pipe';
 import { imgpipes } from './../../pipes/img.pipe';
-import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, ComputeTotalCreditBranchPipe, SearchByDateAdminPipe} from './../../pipes/admin/compute-debit.pipe'
+import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, ComputeTotalCreditBranchPipe, SearchByDateAdminPipe, eloadsDailyMarkUpPipe, EloadDailtyTotalPipe, SearchByDatePipe } from './../../pipes/admin/compute-debit.pipe'
 /**
  * directives
  */
@@ -132,7 +132,10 @@ import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, C
 		BranchCodeDirective,
 		TopuploadListComponent,
 		LoadCentralHistoryComponent,
-		WalletHistoryComponent
+		WalletHistoryComponent,
+		eloadsDailyMarkUpPipe,
+		EloadDailtyTotalPipe,
+		SearchByDatePipe
 	],
 	imports: [
 		CommonModule,

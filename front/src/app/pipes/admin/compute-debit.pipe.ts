@@ -20,7 +20,7 @@ export class ComputeDebitPipe implements PipeTransform {
   export class ComputeTotalDebitPipe implements PipeTransform {
   
 	transform(data : any ,start? : any, end? : any, code? : any): any {
-
+		
 		try{
 			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
 			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
@@ -29,16 +29,16 @@ export class ComputeDebitPipe implements PipeTransform {
 		
 				const fdate = moment(x.transacted_date).format("YYYY-MM-DD") + "00:00:00"
 				
-				return `${x.transacted_by} ${x.branchCode}` === `${code.value.transacted_by} ${code.value.branchCode}` && fdate >= sdate && fdate <= edate
+				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
 						
 			}).reduce((a: number, b: any) =>  {
-				
 				let st = b.ipayService_charge + parseInt(b.ticket_totalPrice)
 				
 				return st += a
 				
 			}, 0)
-			
 			return total 
 		
 		}catch(err){
@@ -65,7 +65,9 @@ export class ComputeDebitPipe implements PipeTransform {
 		
 				const fdate = moment(x.transacted_date).format("YYYY-MM-DD") + "00:00:00"
 				
-				return `${x.transacted_by} ${x.branchCode}` === `${code.value.transacted_by} ${code.value.branchCode}` && fdate >= sdate && fdate <= edate
+				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
 						
 			}).reduce((a: number, b: any) =>  {
 				
@@ -101,7 +103,9 @@ export class ComputeDebitPipe implements PipeTransform {
 		
 				const fdate = moment(x.transacted_date).format("YYYY-MM-DD") + "00:00:00"
 				
-				return `${x.transacted_by} ${x.branchCode}` === `${code.value.transacted_by} ${code.value.branchCode}` && fdate >= sdate && fdate <= edate
+				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
 						
 			}).reduce((a: number, b: any) =>  {
 				
@@ -131,18 +135,117 @@ export class ComputeDebitPipe implements PipeTransform {
 	transform(data : any ,start? : any, end? : any, code? : any): any {
 		
 		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+			const payload:any[] = data.filteredData.filter((x: any) => {
+				
+				
+				const fdate = moment(x.transacted_date).format("YYYY-MM-DD") + "00:00:00"
+				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+			})
+			return payload
 			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+
+
+@Pipe({
+	name: 'eloadsDailyTotal'
+  })
+  export class EloadDailtyTotalPipe implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any ,code? : any): any {
+		
+		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+			const payload = data.filteredData.filter((x: any) => {
+				const fdate = moment(x.createdDate).format("YYYY-MM-DD") + "00:00:00"
+				
+				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+
+			}).reduce((a:any , b:any)=>{
+
+				let st = b.amount 
+			
+				return st += a
+			}, 0)
+			
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+@Pipe({
+	name: 'eloadsDailyMarkUp'
+  })
+  export class eloadsDailyMarkUpPipe implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any, code? : any ): any {
+
+		
+		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+			
+			const payload = data.filteredData.filter((x: any) => {
+				const fdate = moment(x.createdDate).format("YYYY-MM-DD") + "00:00:00"
+
+				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+
+			}).reduce((a:any , b:any)=>{
+
+				let st = b.markUp 
+			
+				return st += a
+			}, 0)
+			
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+@Pipe({
+	name: 'searchByDate'
+  })
+  export class SearchByDatePipe implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any, code? : any): any {
+		
+		try{
 			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
 			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
 
-			
-			const payload:any[] = data.filteredData.filter((x: any) => {
-				
-				const fdate = moment(x.transacted_date).format("YYYY-MM-DD") + "00:00:00"
-				
-				return x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate
+
+			const payload = data.filteredData.filter((x: any) => {
+
+				const fdate = moment(x.createdDate).format("YYYY-MM-DD") + "00:00:00"
+
+				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
 
 			})
+
 			return payload
 			
 		}catch(e){
