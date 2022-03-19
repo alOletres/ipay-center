@@ -14,7 +14,6 @@ import { BarkotaService } from './../../../services/barkota.service'
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ExcelService } from 'src/app/services/excel.service';
 // pipes
-import { ComputeSalesPipe, ComputeCollectionPipe } from './../../../pipes/compute.pipe';
 import { SearchByDatePipe } from './../../../pipes/compute.pipe';
 @Component({
   selector: 'app-settings',

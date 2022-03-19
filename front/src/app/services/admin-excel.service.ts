@@ -78,7 +78,7 @@ export class AdminExcelService {
 			cell.fill = {
 				type: 'pattern',
 				pattern: 'solid',
-				fgColor: { argb: 'FFFFFF00' },
+				fgColor: { argb: '00cc00' },
 				bgColor: { argb: '#208000' },
 				
 			};
@@ -137,8 +137,6 @@ export class AdminExcelService {
 
 		const rowsS = worksheet.getColumn(1);
 		const lastrow = rowsS.worksheet.rowCount
-
-		console.log(lastrow);
 		
 		worksheet.mergeCells(`A${lastrow + 1}:E${lastrow + 1}`);
 		

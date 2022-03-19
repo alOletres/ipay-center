@@ -91,7 +91,7 @@ import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, C
 
  import { NgxLoadingModule } from 'ngx-loading';
  import { ngxLoadingAnimationTypes } from 'ngx-loading';
-
+ import { NgxPrintModule } from 'ngx-print';
 @NgModule({
 	declarations: [
 		HeaderComponent,
@@ -186,13 +186,14 @@ import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, C
 			tertiaryColour: '#ffffff',
 			fullScreenBackdrop: false,
 		  }),
-		
+		NgxPrintModule
 	],
 	entryComponents: [
 		SnackbarComponent
 	],
 	providers: [
-		SearchByDateAdminPipe
+		SearchByDateAdminPipe,
+		SearchByDatePipe
 	]
 })
 export class MainModule { }

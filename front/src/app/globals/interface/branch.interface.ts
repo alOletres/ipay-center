@@ -40,3 +40,7 @@ export interface barkotaReports{
 	status : string
 	transacted_by : string
 }
+
+export interface headerss {
+	headers : object
+}

@@ -1,12 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { LoadcentralService } from 'src/app/api/loadcentral/shared/services/loadcentral.service';
+import { SearchByDatePipe } from 'src/app/pipes/admin/compute-debit.pipe';
 import { BranchService } from 'src/app/services/branch.service';
 import { SnackbarServices } from 'src/app/services/snackbar.service';
+import { LcExcelService } from './lc-excel.service';
 
 	@Component({
 	selector: 'app-load-central-history',
@@ -24,9 +26,12 @@ export class LoadCentralHistoryComponent implements OnInit {
 	tellerList: any;
 	searchControl = new FormControl();
 	filteredOptions: Observable<any[]>
+	@ViewChild("printMe") printTheDiv!: ElementRef
 	constructor(private http_load : LoadcentralService,
 				private http_branch : BranchService,
-				private _snackBar : SnackbarServices) { }
+				private _snackBar : SnackbarServices,
+				private pipeData : SearchByDatePipe,
+				private http_excel : LcExcelService) { }
 
 	ngOnInit() {
 		this.loadCentralHistory()
@@ -39,13 +44,8 @@ export class LoadCentralHistoryComponent implements OnInit {
 	private _filter(value:any) : any[]{
 
 		try{
-
 			const filterValue = value.toLowerCase()
-
-			return this.tellerList.filter((option:any)=>
-				option.tellerCode.toLowerCase().includes(filterValue)
-			)
-		
+			return this.tellerList.filter((option:any)=> option.tellerCode.toLowerCase().includes(filterValue) )
 		}catch(e){
 			return undefined
 		}
@@ -89,5 +89,19 @@ export class LoadCentralHistoryComponent implements OnInit {
 			this._snackBar._showSnack('Failed to Fetch', 'error')
 		}
 	}
+
+	exportAsExcel(){
+		
+		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
+			alert('buhaton pani ')
+		}else{
+			const result = this.pipeData.transform(this.dataSource, this.start, this.end, this.searchControl)
+			this.http_excel.exportAsExcelFile(result)
+		}
+	}
+
+	print(){
+		this.printTheDiv.nativeElement.click()
+    }
 
 }
