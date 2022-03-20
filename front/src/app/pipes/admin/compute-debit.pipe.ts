@@ -139,11 +139,11 @@ export class ComputeDebitPipe implements PipeTransform {
 			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
 			const payload:any[] = data.filteredData.filter((x: any) => {
 				
-				
-				const fdate = moment(x.transacted_date).format("YYYY-MM-DD") + "00:00:00"
+			const fdate = moment(x.transacted_date).format("YYYY-MM-DD") + "00:00:00"
 				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
-					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
-
+						: code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+						: x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+			
 			})
 			return payload
 			

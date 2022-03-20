@@ -86,8 +86,8 @@ import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, C
  */
 
  import { ActivitylogsDirective } from './../../components/directive/activitylogs.directive';
-
  import { BranchCodeDirective } from './../../components/directive/branch-code.directive';
+ import { TransactionnameDirective } from './../../components/directive/transactionname.directive';
 
  import { NgxLoadingModule } from 'ngx-loading';
  import { ngxLoadingAnimationTypes } from 'ngx-loading';
@@ -135,7 +135,8 @@ import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, C
 		WalletHistoryComponent,
 		eloadsDailyMarkUpPipe,
 		EloadDailtyTotalPipe,
-		SearchByDatePipe
+		SearchByDatePipe,
+		TransactionnameDirective
 	],
 	imports: [
 		CommonModule,

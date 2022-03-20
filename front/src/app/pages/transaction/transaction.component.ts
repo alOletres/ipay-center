@@ -84,6 +84,7 @@ export class TransactionComponent implements OnInit {
 
 		await this.function_topUpList()
 		await this.getTellerlist()
+		this.function_walletHistory()
 		this.filteredOptions = this.searchControl.valueChanges.pipe(
 			startWith(''),
 			map(value=>  this._filter(value))
@@ -203,9 +204,10 @@ export class TransactionComponent implements OnInit {
 		})
 	}
 
-	function_walletHistory(){
+	async function_walletHistory(){
 
-		this.function_checkFranchiseWallet()
+		 this.function_checkFranchiseWallet()
+
 		this.showMonitoredBranches= false
 		this.btnBack = true
 		this.showTable = false
@@ -226,7 +228,6 @@ export class TransactionComponent implements OnInit {
 			this.userType = atob(sessionStorage.getItem('code'))
 			this.dataWalletHistory = new MatTableDataSource<any>(data)
 			this.dataWalletHistory.paginator = this.paginator	
-			
 			this.autoCompleteData = this.dataWalletHistory.filteredData 
 			
 			

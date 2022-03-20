@@ -154,8 +154,9 @@ const parseXML = async (xml:any) => {
 			/**
 			 * minus [4]
 			 */
+			let collection = 0
 			let wallet_deducted = CURRENT_WALLET - data[4]
-			let collection = data[4] + data[5]
+			collection  = parseInt(data[4]) + parseInt(data[5])
 			
 			await Promise.all([
 				Promise.resolve(
