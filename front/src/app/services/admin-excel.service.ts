@@ -171,30 +171,30 @@ export class AdminExcelService {
 		date.alignment = { vertical: 'middle', horizontal: 'center' }
 		
 			
-		/**
-		 * @footer 
-		 * @name of teller
-		 */
-		worksheet.mergeCells(`G${lastrow + 3}:H${lastrow + 3}`);
-		worksheet.mergeCells(`G${lastrow + 4}:H${lastrow + 4}`);
+		// /**
+		//  * @footer 
+		//  * @name of teller
+		//  */
+		// worksheet.mergeCells(`G${lastrow + 3}:H${lastrow + 3}`);
+		// worksheet.mergeCells(`G${lastrow + 4}:H${lastrow + 4}`);
 
-		if(type === 'Admin'){
+		// if(type === 'Admin'){
 			
-			const admin = worksheet.getCell(`G${lastrow + 4}`);
-			admin.value = 'Prepared by: ADMIN';
-			admin.alignment = { vertical: 'middle', horizontal: 'center' };
-			admin.font = { bold : true };
-			admin.border = { top: { style: 'thin' } };
+		// 	const admin = worksheet.getCell(`G${lastrow + 4}`);
+		// 	admin.value = 'Prepared by: ADMIN';
+		// 	admin.alignment = { vertical: 'middle', horizontal: 'center' };
+		// 	admin.font = { bold : true };
+		// 	admin.border = { top: { style: 'thin' } };
 
-		}else{
+		// }else{
 
-			const branchName = worksheet.getCell(`G${lastrow + 4}`);
-			branchName.value = `Prepared by:${name.charAt(0).toUpperCase() + name.slice(1)}` ;
-			branchName.alignment = { vertical: 'middle', horizontal: 'center' };
-			branchName.font = { bold : true };
-			branchName.border = { top: { style: 'thin' } };
+		// 	const branchName = worksheet.getCell(`G${lastrow + 4}`);
+		// 	branchName.value = `Prepared by:${name.charAt(0).toUpperCase() + name.slice(1)}` ;
+		// 	branchName.alignment = { vertical: 'middle', horizontal: 'center' };
+		// 	branchName.font = { bold : true };
+		// 	branchName.border = { top: { style: 'thin' } };
 
-		}
+		// }
 			 	
 
 		worksheet.getColumn(2).width = 20;

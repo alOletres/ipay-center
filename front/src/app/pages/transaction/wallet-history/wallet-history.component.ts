@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { WalletService } from 'src/app/services/wallet.service';
@@ -14,14 +14,31 @@ export class WalletHistoryComponent implements OnInit {
 	start:any
 	end : any
 	dataSource :any
+	@ViewChild("printMe") printTheDiv!: ElementRef
 	displayColumns :any = ['no', 'transaction_name', 'tellerCode', 'collection', 'sales', 'income', 'dateTransacted', 'status']
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+	fullname: string;
+	email: any;
+	contactNo: any;
+	branchName: any;
+	address: any;
 	constructor(private http_wallet : WalletService,
 				private http_walletExcel : WalletExcelService,
 				private pipeData : SearchByDateWalletHistoryPipe) { }
 
 	async ngOnInit(){
 		await this.getOverallWallet()
+		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
+			/** Branch head and Admin data here */
+		}else{
+			const { firstname, lastname, email, contactNo, franchiseName, location } = JSON.parse(atob(sessionStorage.getItem('d')))[0]
+			this.fullname = `${firstname} ${lastname}`.toUpperCase()
+			this.email = email
+			this.contactNo = contactNo
+			this.branchName = franchiseName.toUpperCase()
+			this.address = location.toUpperCase()
+		}
+		
 	}
 
 	async getOverallWallet(){
@@ -48,6 +65,10 @@ export class WalletHistoryComponent implements OnInit {
 			this.http_walletExcel.exportAsExcelFile(this.pipeData.transform(this.dataSource , this.start, this.end ))
 
 		}
+	}
+
+	print(){
+		this.printTheDiv.nativeElement.click()
 	}
 
 }

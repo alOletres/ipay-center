@@ -133,6 +133,16 @@ class DashboardController {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}
 		})
+		this.router.get('/getMotherWallet',async (req, res) => {
+			try {
+				connection.query("SELECT * FROM mother_wallet", (err, result)=>{
+					if(err) throw err
+					res.status(Codes.SUCCESS).send(result)
+				})
+			} catch (err:any) {
+				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+			}		
+		})
     }
     /**
 	*@endOfWatchList

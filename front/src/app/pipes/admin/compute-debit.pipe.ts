@@ -29,9 +29,17 @@ export class ComputeDebitPipe implements PipeTransform {
 		
 				const fdate = moment(x.transacted_date).format("YYYY-MM-DD") + "00:00:00"
 				
-				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
-					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+				return atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+						code.value === null && start === undefined && end === undefined ? code.value === null && start === undefined && end === undefined
+					:  	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
 
+				: atob(sessionStorage.getItem('type')) !== 'Admin' || atob(sessionStorage.getItem('type')) !== 'Branch Head' ?
+						code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					: 	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+				:	''
 						
 			}).reduce((a: number, b: any) =>  {
 				let st = b.ipayService_charge + parseInt(b.ticket_totalPrice)
@@ -65,9 +73,17 @@ export class ComputeDebitPipe implements PipeTransform {
 		
 				const fdate = moment(x.transacted_date).format("YYYY-MM-DD") + "00:00:00"
 				
-				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
-					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+				return atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+						code.value === null && start === undefined && end === undefined ? code.value === null && start === undefined && end === undefined
+					:  	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
 
+				: atob(sessionStorage.getItem('type')) !== 'Admin' || atob(sessionStorage.getItem('type')) !== 'Branch Head' ?
+						code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					: 	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+				:	''
 						
 			}).reduce((a: number, b: any) =>  {
 				
@@ -140,9 +156,18 @@ export class ComputeDebitPipe implements PipeTransform {
 			const payload:any[] = data.filteredData.filter((x: any) => {
 				
 			const fdate = moment(x.transacted_date).format("YYYY-MM-DD") + "00:00:00"
-				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
-						: code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
-						: x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+			
+		return atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+						code.value === null && start === undefined && end === undefined ? code.value === null && start === undefined && end === undefined
+					:  	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+				: atob(sessionStorage.getItem('type')) !== 'Admin' || atob(sessionStorage.getItem('type')) !== 'Branch Head' ?
+						code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					: 	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+				:	''
 			
 			})
 			return payload
@@ -169,9 +194,17 @@ export class ComputeDebitPipe implements PipeTransform {
 			const payload = data.filteredData.filter((x: any) => {
 				const fdate = moment(x.createdDate).format("YYYY-MM-DD") + "00:00:00"
 				
-				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
-					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+				return atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+						code.value === null && start === undefined && end === undefined ? code.value === null && start === undefined && end === undefined
+					:  	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
 
+				: atob(sessionStorage.getItem('type')) !== 'Admin' || atob(sessionStorage.getItem('type')) !== 'Branch Head' ?
+						code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					: 	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+				:	''
 
 			}).reduce((a:any , b:any)=>{
 
@@ -204,9 +237,17 @@ export class ComputeDebitPipe implements PipeTransform {
 			const payload = data.filteredData.filter((x: any) => {
 				const fdate = moment(x.createdDate).format("YYYY-MM-DD") + "00:00:00"
 
-				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
-					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+				return atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+								code.value === null && start === undefined && end === undefined ? code.value === null && start === undefined && end === undefined
+							:  	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+							: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
 
+						: atob(sessionStorage.getItem('type')) !== 'Admin' || atob(sessionStorage.getItem('type')) !== 'Branch Head' ?
+								code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+							: 	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+							: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+						:	''
 
 			}).reduce((a:any , b:any)=>{
 
@@ -239,9 +280,21 @@ export class ComputeDebitPipe implements PipeTransform {
 			const payload = data.filteredData.filter((x: any) => {
 
 				const fdate = moment(x.createdDate).format("YYYY-MM-DD") + "00:00:00"
+				
+				return atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+						code.value === null && start === undefined && end === undefined ? code.value === null && start === undefined && end === undefined
+					:  	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
 
-				return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
-					   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+				: atob(sessionStorage.getItem('type')) !== 'Admin' || atob(sessionStorage.getItem('type')) !== 'Branch Head' ?
+						code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					: 	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+				:	''
+				// return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+				// 	   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+				// 	   :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
 
 
 			})

@@ -181,7 +181,9 @@ export class LccompntTransComponent implements OnInit {
 								return of([])
 							})
 						).subscribe((response:any)=>{
-							if(JSON.parse(response).message === 'ok' || JSON.parse(response) === '' ){
+							console.log(JSON.parse(response));
+							
+							if(JSON.parse(response).message === 'ok' ){
 
 								this._snackBar._showSnack('Successfully Loaded', 'success')
 								this.socketService.sendEvent("eventSent", {data: "response_sucessfullyLoaded"})/**SOCKET SEND EVENT */

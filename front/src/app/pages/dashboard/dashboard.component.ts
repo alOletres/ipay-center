@@ -77,6 +77,8 @@ export class DashboardComponent implements OnInit {
 	totalMarkUp: any;
 	barkotaLength: any
 	eloadsDailyTransactions :any
+	loadcentralWallet: any;
+	type: string;
   	constructor( private _route : ActivatedRoute, private http_dash : DashboardService, private _snackBar : SnackbarServices,
 				 private socketService :SocketService,
 				 private http_wallet : WalletService) {
@@ -107,12 +109,14 @@ export class DashboardComponent implements OnInit {
 					this.checkFranchiseWallet()
 					this.barYear()
 					this.barkotaTrans()
+					this.motherWallet()
 				})
 				
 		
 	  }
 
 	async ngOnInit(){
+		this.type = atob(sessionStorage.getItem('type')) 
 		
 		this.currentDate = new Date()
 		this.bottomMessage = 'see more...'
@@ -125,6 +129,7 @@ export class DashboardComponent implements OnInit {
 		this.getActiveAnnouncement()
 		this.checkFranchiseWallet()
 		this.getLogs()
+		this.motherWallet()
 		this.numberofTransactions()
 	}
 
@@ -800,7 +805,13 @@ export class DashboardComponent implements OnInit {
 
     numberofTransactions(){
 		this.doughnutChartData = [[this.eloadsDailyTransactions, this.barkotaLength]]
-		// this.doughnutChartData = [[12, 12]]
 	}
+
+	async motherWallet(){
+		const result : any = await this.http_dash.getMotherWallet()
+		const { api_name, wallet } = JSON.parse(result)[0]
+		this.loadcentralWallet = wallet
+	}
+
 
 }

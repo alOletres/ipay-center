@@ -61,4 +61,11 @@ import { EndPoint } from "./../../globals/endpoints";
 			return err
 		}
 	}
+	async getMotherWallet(){
+		try{
+			return await this.http.get(`${ EndPoint.endpoint }/admin/admins/getMotherWallet`, {responseType : 'text'}).toPromise()
+		}catch(err){
+			return err
+		}
+	}
 }

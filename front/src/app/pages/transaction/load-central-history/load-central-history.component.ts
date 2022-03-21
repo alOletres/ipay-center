@@ -27,6 +27,11 @@ export class LoadCentralHistoryComponent implements OnInit {
 	searchControl = new FormControl();
 	filteredOptions: Observable<any[]>
 	@ViewChild("printMe") printTheDiv!: ElementRef
+	fullname: string;
+	email: any;
+	address: any;
+	contactNo: any;
+	branchName: any;
 	constructor(private http_load : LoadcentralService,
 				private http_branch : BranchService,
 				private _snackBar : SnackbarServices,
@@ -40,6 +45,16 @@ export class LoadCentralHistoryComponent implements OnInit {
 			startWith(''),
 			map(value=>  this._filter(value))
 		)
+		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
+			/**admin and branch head is here */
+		}else{
+			const { firstname, lastname, email, contactNo, franchiseName, location } = JSON.parse(atob(sessionStorage.getItem('d')))[0]
+			this.fullname = `${firstname} ${lastname}`.toUpperCase()
+			this.email = email
+			this.contactNo = contactNo
+			this.branchName = franchiseName.toUpperCase()
+			this.address = location.toUpperCase()
+		}
 	}
 	private _filter(value:any) : any[]{
 
@@ -76,15 +91,24 @@ export class LoadCentralHistoryComponent implements OnInit {
 	async getTellerlist(){
 		try{
 			const result : any = await this.http_branch.getTellerlist()
+
+			if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
+				this.tellerList = result
 			
-			const data = result.filter((x:any)=>{
 				
-				return    x.tellerCode.slice(0,3) === 'FRT' && x.fiB_Code === atob(sessionStorage.getItem('code')) ? x.tellerCode
-						: x.tellerCode.slice(0,3) === 'BRT' && x.ibrgy_code === atob(sessionStorage.getItem('code')) ? x.tellerCode 
-						: '' 
+			}else{
+				/**for branches tellers  */
+				const data = result.filter((x:any)=>{
 				
-			}).map((y:any)=>y)
-			this.tellerList = data
+					return    x.tellerCode.slice(0,3) === 'FRT' && x.fiB_Code === atob(sessionStorage.getItem('code')) ? x.tellerCode
+							: x.tellerCode.slice(0,3) === 'BRT' && x.ibrgy_code === atob(sessionStorage.getItem('code')) ? x.tellerCode 
+							: '' 
+					
+				}).map((y:any)=>y)
+				this.tellerList = data
+			}
+			
+			
 		}catch(err){
 			this._snackBar._showSnack('Failed to Fetch', 'error')
 		}
