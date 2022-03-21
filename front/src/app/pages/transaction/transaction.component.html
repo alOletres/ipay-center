@@ -130,6 +130,23 @@
 		</mat-card>
 	</div>
 
+	<div *ngIf = "type === 'Admin' || type === 'Branch Head' || type === 'Franchise'"  style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+		
+		<mat-card style="color: rgb(37, 150, 97);" class="card _card">
+			<div class="row">
+				<div class="col-md-1">
+					<b style="font-size: 30px; font-weight: 500;"> 
+						<i class="fa fa-credit-card-alt" style=" margin-right: 3px; "></i>
+					</b>
+				</div>
+				<div class="col-md-11">
+					<b>SHARED COMMISSION</b> <br>
+					Commission under your Branch
+				</div>
+			</div>
+			
+		</mat-card>
+	</div>
 
 </div>
     <br>

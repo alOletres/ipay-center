@@ -20,6 +20,7 @@ class WalletsController {
             const { data, img, remarks} = req.body
 			
             try{
+
 				if(remarks === '' || remarks === null || remarks === undefined){
 
 					connection.beginTransaction()
@@ -31,15 +32,17 @@ class WalletsController {
 							resolve(result) 
 						})
 					}).then((response:any)=>{
-						if(!response.length){
-							res.status(Codes.SUCCESS).send( { message : 'again'} )
-							connection.commit()
-						}else{
+						if(response.affectedRows === 1){
 							res.status(Codes.SUCCESS).send( { message : 'ok'} )
-							connection.commit()
+							
+						}else{
+							res.status(Codes.SUCCESS).send( { message : 'again'} )
+							
 						}
+						connection.commit()
 						
 					})
+
 					
 				}else{
 					connection.beginTransaction()
@@ -50,16 +53,16 @@ class WalletsController {
 							resolve(result)
 						})
 					}).then((response:any)=>{
-						if(!response.length){
-							res.status(Codes.SUCCESS).send( { message : 'again'} )
-							connection.commit()
-						}else{
+						if(response.affectedRows === 1){
 							res.status(Codes.SUCCESS).send( { message : 'ok'} )
-							connection.commit()
+							
+						}else{
+							res.status(Codes.SUCCESS).send( { message : 'again'} )
+							
 						}
+						connection.commit()
 						
 					})
-					
 				}
 				
 			}catch(err:any){

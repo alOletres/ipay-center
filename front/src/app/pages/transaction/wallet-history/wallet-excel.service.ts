@@ -175,7 +175,6 @@ export class WalletExcelService {
 			const blob = new Blob([_buffer], { type: EXCEL_TYPE });
 			FileSaver.saveAs(blob, `${ fileName } Load Central Reports Exported - ${ moment().format('ll') }`+ EXCEL_EXTENSION);
 		});
-		console.log(w);
 		
 	}
 	global(params:any) {

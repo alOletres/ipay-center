@@ -115,7 +115,8 @@ export class GlobalDialogComponent implements OnInit {
 			
 
 			try{
-				  await this.httpBranch.addTellerAdminFranchise({data: this.editForm.value, barangayCode: this.barangayCode, fbranchCode : this.franchiseCode, branchCode : this.branchCode, ib_franchiseCode : this.ib_franchiseCode})
+				await this.httpBranch.addTellerAdminFranchise({data: this.editForm.value, barangayCode: this.barangayCode, fbranchCode : this.franchiseCode, branchCode : this.branchCode, ib_franchiseCode : this.ib_franchiseCode})
+				
 				this._snackBar._showSnack(`Successfully Added`, 'success')
 				this.dialogRef.close();
 			}catch(err){
@@ -141,6 +142,7 @@ export class GlobalDialogComponent implements OnInit {
 				const date :any = new Date() 
 				const dateApproved : any = moment(date).format() //date approved
 				await this.httpBranch.approvedIBstatus({id : this.id, code : this.codeforNotify, wallet: this.wallet, dateApproved : dateApproved});
+				this.socketService.sendEvent("eventSent", {data: "response_ibarangay"})/**SOCKET SEND EVENT */
 				this._snackBar._showSnack(`Successfully Added`, 'success')
 				this.dialogRef.close();
 
