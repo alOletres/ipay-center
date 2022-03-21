@@ -325,9 +325,16 @@ export class ComputeDebitPipe implements PipeTransform {
 				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
 				
 				/**return the data for branches in overall wallet monitoring  */
-				return   start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
-					   : atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
-					   :''
+				return  atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+							start === undefined && end === undefined  ? x
+							: fdate >= sdate && fdate <= edate 
+							
+						: atob(sessionStorage.getItem('type')) !== 'Admin' && atob(sessionStorage.getItem('type')) !== 'Branch Head' ? 
+							start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
+							: atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
+							:''
+						: ''
+				 
 
 
 			})
@@ -358,9 +365,15 @@ export class ComputeDebitPipe implements PipeTransform {
 
 				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
 
-				return   start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
-					   : atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
-					   :''
+				return  atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+							start === undefined && end === undefined  ? x
+							: fdate >= sdate && fdate <= edate 
+							
+						: atob(sessionStorage.getItem('type')) !== 'Admin' && atob(sessionStorage.getItem('type')) !== 'Branch Head' ? 
+							start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
+							: atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
+							:''
+						: ''
 
 			}).reduce((a:any , b:any)=>{
 				let st = b.collection 
@@ -428,9 +441,15 @@ export class ComputeDebitPipe implements PipeTransform {
 
 				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
 
-				return   start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
-					   : atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
-					   :''
+				return  atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+							start === undefined && end === undefined  ? x
+							: fdate >= sdate && fdate <= edate 
+							
+						: atob(sessionStorage.getItem('type')) !== 'Admin' && atob(sessionStorage.getItem('type')) !== 'Branch Head' ? 
+							start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
+							: atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
+							:''
+						: ''
 
 			}).reduce((a:any , b:any)=>{
 				let st = b.sales 
@@ -439,7 +458,7 @@ export class ComputeDebitPipe implements PipeTransform {
 			}, 0)
 			
 			return payload
-			
+						
 		}catch(e){
 			return undefined
 		}
@@ -464,9 +483,15 @@ export class ComputeDebitPipe implements PipeTransform {
 
 				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
 
-				return   start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
-					   : atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
-					   :''
+				return  atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+							start === undefined && end === undefined  ? x
+							: fdate >= sdate && fdate <= edate 
+							
+						: atob(sessionStorage.getItem('type')) !== 'Admin' && atob(sessionStorage.getItem('type')) !== 'Branch Head' ? 
+							start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
+							: atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
+							:''
+						: ''
 
 			}).reduce((a:any , b:any)=>{
 				let st = b.income 

@@ -20,9 +20,12 @@ export class WalletExcelService {
     constructor() { }
 	exportAsExcelFile(...data:any){
 
-		const { firstname, lastname, email, contactNo, franchiseName, location } = JSON.parse(atob(sessionStorage.getItem('d')))[0]
 		
-		const fileName = franchiseName
+
+	
+		
+		const fileName = atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'? ''
+						: ''
 		this.workbook.creator = 'alOletres';
 		this.workbook.lastModifiedBy = 'Me';
 		this.workbook.created = new Date();
@@ -58,14 +61,26 @@ export class WalletExcelService {
 		});	
 
 		worksheet.addImage(companyLogo, 'A1:C6')//adding image
-		const subSeaders = [[franchiseName], [location], [email], [`+63${contactNo}`], [`${firstname}  ${lastname}`]]
-		subSeaders.forEach(d => {	
-						
-			const x = worksheet.addRow([])
-			worksheet.getCell(`D${ x.number }`).value = d[0].toUpperCase()
-			worksheet.getCell(`D${ x.number }`).alignment = { vertical: 'middle', horizontal: 'left' }
-			
-		})
+
+		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
+			/**wla koy e display bayot */
+			worksheet.addRow([])
+			worksheet.addRow([])
+			worksheet.addRow([])
+			worksheet.addRow([])
+			worksheet.addRow([])
+		}else{
+			const { firstname, lastname, email, contactNo, franchiseName, location } = JSON.parse(atob(sessionStorage.getItem('d')))[0]
+			const subSeaders = [[franchiseName], [location], [email], [`+63${contactNo}`], [`${firstname}  ${lastname}`]]
+			subSeaders.forEach(d => {	
+							
+				const x = worksheet.addRow([])
+				worksheet.getCell(`D${ x.number }`).value = d[0].toUpperCase()
+				worksheet.getCell(`D${ x.number }`).alignment = { vertical: 'middle', horizontal: 'left' }
+				
+			})
+		}
+		
 
 		/**
 		 * @dateDownloaded
@@ -97,7 +112,7 @@ export class WalletExcelService {
 		 let rows :any [] = []
 		
 		 data[0].forEach((d:any, index:any) => {
-			 
+
 			const transactionName = d.transaction_id.slice(0, 3) === 'BRK' ? 'BARKOTA' 
 									: d.transaction_id.slice(0, 3) === 'IPC' ? 'LOAD CENTRAL' 
 									: ''

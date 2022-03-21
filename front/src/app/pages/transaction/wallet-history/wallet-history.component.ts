@@ -45,8 +45,8 @@ export class WalletHistoryComponent implements OnInit {
 
 		const result : any = await this.http_wallet.getOverallWallet()
 		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
-			console.log('wla pani ako pani buhaton ');
-			
+			this.dataSource = new MatTableDataSource<any>(result)
+			this.dataSource.paginator = this.paginator
 		}else{
 			/**this condition will display the data for different branches */
 			const res :any = result.filter((x:any)=>{ return x.branchCode === atob(sessionStorage.getItem('code')) }).map((y:any)=>y)
@@ -58,7 +58,8 @@ export class WalletHistoryComponent implements OnInit {
 
 	exportAsExcel(){
 		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
-			console.log('buhaton pa ni nako sa admin');
+			
+			this.http_walletExcel.exportAsExcelFile(this.pipeData.transform(this.dataSource , this.start, this.end ))
 			
 		}else{
 			/** data export to excel for branches */
