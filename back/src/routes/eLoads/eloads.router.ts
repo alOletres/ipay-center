@@ -64,6 +64,7 @@ const parseXML = async (xml:any) => {
  const LoadCentralApi = async ( ...object:any)=>{
 
 	const html = '<RRN>ABC5203432373</RRN><RESP>0</RESP><TID>WB2764871028</TID><BAL>1000.00</BAL><EPIN>CARD #: 0000100022 PIN: BOYDRG</EPIN><ERR>Success</ERR>'
+	
 	const { data, modelType, productName , productPromo, amount, markup, selectedPromoCodes, tellerCode , createdBy } = object[0]
 			
 	const { contactNo } = data
@@ -256,13 +257,15 @@ class EloadsController {
 							const result :any = await checkWallet(response[0].fiB_Code)
 							
 							if(result[0].current_wallet === 5000 || result[0].current_wallet < 5000){
+
 								res.status(Codes.SUCCESS).send({ message : 'low_wallet' })
 							}else{
 								/**
 								 * proceed to insert
 								 */
-								 const resss = await LoadCentralApi(req.body, response[0].fiB_Code, result[0].current_wallet)
-								 res.status(Codes.SUCCESS).send({ message : resss })
+								const resss = await LoadCentralApi(req.body, response[0].fiB_Code, result[0].current_wallet)
+							
+								res.status(Codes.SUCCESS).send({ message : resss })
 							
 							}
 							
