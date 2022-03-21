@@ -14,12 +14,10 @@ import { headerss } from 'src/app/globals/interface/branch.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class LcExcelService {
+export class WalletExcelService {
 	workbook = new Workbook();
 
-
-	constructor() { }
-
+    constructor() { }
 	exportAsExcelFile(...data:any){
 
 		const { firstname, lastname, email, contactNo, franchiseName, location } = JSON.parse(atob(sessionStorage.getItem('d')))[0]
@@ -52,7 +50,7 @@ export class LcExcelService {
 			header: 0.3, footer: 0.3
 		};
 
-
+		
 		const companyLogo = this.workbook.addImage({
 
 			base64: bs64image,
@@ -68,89 +66,92 @@ export class LcExcelService {
 			worksheet.getCell(`D${ x.number }`).alignment = { vertical: 'middle', horizontal: 'left' }
 			
 		})
+
 		/**
 		 * @dateDownloaded
 		 */
-		const datenow = new Date()
-		const date = worksheet.getCell('I2')
-		date.value = `${'LOAD CENTRAL REPORTS'} ${moment(datenow).format('LLL')}`
-		date.alignment = { vertical: 'middle', horizontal: 'center' }
-		worksheet.addRow([]);
+		 const datenow = new Date()
+		 const date = worksheet.getCell('I2')
+		 date.value = `${'LOAD CENTRAL REPORTS'} ${moment(datenow).format('LLL')}`
+		 date.alignment = { vertical: 'middle', horizontal: 'center' }
+		 worksheet.addRow([]);
+ 
+		 const tableHeaders : headerss = {
+			 headers : [ 'NO', 'TRANSACTION NAME', 'TELLER', 'COLLECTION', 'SALES', 'INCOME', 'DATE TRANSACTED', 'STATUS']
+		 }
+ 
+		 const headerRow = worksheet.addRow(tableHeaders.headers)
+ 
+		 headerRow.eachCell((cell, column)=>{
+			 cell.fill = {
+				 type: 'pattern',
+				 pattern: 'solid',
+				 fgColor: { argb: '00cc00' },
+				 bgColor: { argb: '#208000' },
+				 
+			 };
+			 cell.alignment = { vertical: 'middle', horizontal: 'center' };
+			 cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+		 })
 
-		const tableHeaders : headerss = {
-			headers : [ 'NO', 'REFERENCE NO.', 'TRANSACTION ID', 'MOBILE NUMBER', 'PRODUCT CODE', 'AMOUNT', 'MARKUP', 'EPIN', 'CREATED BY', 'CREATED DATE', 'STATUS']
-		}
-
-		const headerRow = worksheet.addRow(tableHeaders.headers)
-
-		headerRow.eachCell((cell, column)=>{
-			cell.fill = {
-				type: 'pattern',
-				pattern: 'solid',
-				fgColor: { argb: '00cc00' },
-				bgColor: { argb: '#208000' },
-				
-			};
-			cell.alignment = { vertical: 'middle', horizontal: 'center' };
-			cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-		})
-		let rows :any [] = []
+		 let rows :any [] = []
 		
-		data[0].forEach((d:any, index:any) => {
+		 data[0].forEach((d:any, index:any) => {
+			 
+			const transactionName = d.transaction_id.slice(0, 3) === 'BRK' ? 'BARKOTA' 
+									: d.transaction_id.slice(0, 3) === 'IPC' ? 'LOAD CENTRAL' 
+									: ''
+			 const i = index + 1
+			 rows = [i , transactionName, d.tellerCode, d.collection, d.sales, d.income, moment(d.transacted_date).format('LLL'), 'Success']
+			 const x = worksheet.addRow(rows)
+ 
+			 x.eachCell((cell, number) => {		
+				 
+				 cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+				 cell.alignment = { vertical: 'middle', horizontal: 'center' };
+			 
+			 });	
+		 });
 
-			const i = index + 1
-			const status = d.status === 0 ? 'Success' : 'Cancelled'
-			rows = [i, d.reference_id, d.TransId, `+63${d.mobileNo}`, d.productCode, d.amount, d.markUp, d.ePIN, d.createdBy.toUpperCase(), moment(d.createdDate).format('LLL'), status ]
-			const x = worksheet.addRow(rows)
-
-			x.eachCell((cell, number) => {		
-				
-				cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-				cell.alignment = { vertical: 'middle', horizontal: 'center' };
-			
-			});	
-		});
-
-		/**
+		 	/**
 		 * @FOOTER
 		 */
 		const rowsS = worksheet.getColumn(1);
 		const lastrow = rowsS.worksheet.rowCount
 
-		worksheet.mergeCells(`D${lastrow + 1}:E${lastrow + 1}`);
+		worksheet.mergeCells(`B${lastrow + 1}:C${lastrow + 1}`);
 		
-		const totalWord = worksheet.getCell(`D${lastrow + 1}`)
+		const totalWord = worksheet.getCell(`B${lastrow + 1}`)
 		totalWord.value = 'TOTAL'	
 		totalWord.alignment = { vertical: 'middle', horizontal: 'center' }
 		totalWord.font = { bold : true }
 		totalWord.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
 
 		/**
-		 * @AMOUNT_TOTAL
+		 * @COLLECTION_TOTAL
 		 */
 
-		 const totalAmount = worksheet.getCell(`F${lastrow + 1}`)
-		 totalAmount.value = { formula: `=SUM(F8 :F${lastrow})`, date1904: false };	
+		 const totalAmount = worksheet.getCell(`D${lastrow + 1}`)
+		 totalAmount.value = { formula: `=SUM(D8 :D${lastrow})`, date1904: false };	
 		 this.global(totalAmount)
 
-		/**
-		 * @MARKUP_TOTAL
-		 */
-		
-		const totalMarkUp = worksheet.getCell(`G${lastrow + 1}`)
-		totalMarkUp.value = { formula: `=SUM(G8 :G${lastrow})`, date1904: false };	
-		this.global(totalMarkUp)
+		 /**TOTAL SALES */
+		 const totalsales = worksheet.getCell(`E${lastrow + 1}`)
+		 totalsales.value = { formula: `=SUM(E8 :E${lastrow})`, date1904: false };	
+		 this.global(totalsales)
 
-		worksheet.getColumn(2).width = 20;
-		worksheet.getColumn(3).width = 20;
-		worksheet.getColumn(4).width = 20;
-		worksheet.getColumn(5).width = 15;
-		
-		worksheet.getColumn(9).width = 15;
-		worksheet.getColumn(10).width = 15;
+		 /**TOTAL INCOME */
+		 const totalIncome = worksheet.getCell(`F${lastrow + 1}`)
+		 totalIncome.value = { formula: `=SUM(F8 :F${lastrow})`, date1904: false };	
+		 this.global(totalIncome)
 
+		 worksheet.getColumn(2).width = 20;
+		 worksheet.getColumn(3).width = 20;
+		 worksheet.getColumn(4).width = 15;
+		 worksheet.getColumn(5).width = 15;
+		 worksheet.getColumn(6).width = 15;
+		 worksheet.getColumn(7).width = 30;
 		this.saveAsExcelFile(data, fileName)
-		
 	}
 
 	private saveAsExcelFile(_buffer: any, fileName: string): void {
@@ -162,7 +163,6 @@ export class LcExcelService {
 		console.log(w);
 		
 	}
-
 	global(params:any) {
 		params.alignment = { vertical: 'middle', horizontal: 'left' }
 		params.font = { bold : true }

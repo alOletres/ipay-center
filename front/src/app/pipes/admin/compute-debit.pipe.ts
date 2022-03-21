@@ -255,3 +255,178 @@ export class ComputeDebitPipe implements PipeTransform {
 	}
 
 }
+@Pipe({
+	name: 'searchByWalletHistoryDate'
+  })
+  export class SearchByDateWalletHistoryPipe implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any): any {
+		
+		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+
+
+			const payload = data.filteredData.filter((x: any) => {
+
+				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
+				
+				/**return the data for branches in overall wallet monitoring  */
+				return   start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
+					   : atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
+					   :''
+
+
+			})
+
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+
+@Pipe({
+	name: 'totalCollectionWalletHistory'
+  })
+  export class TotalCollectionWalletHistory implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any): any {
+
+		
+		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+			
+			const payload = data.filteredData.filter((x: any) => {
+
+				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
+
+				return   start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
+					   : atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
+					   :''
+
+			}).reduce((a:any , b:any)=>{
+				let st = b.collection 
+			
+				return st += a
+			}, 0)
+			
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+@Pipe({
+	name: 'totalCollectionWalletHistory'
+  })
+  export class TotalCollectioWalletHistory implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any): any {
+
+		
+		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+			
+			const payload = data.filteredData.filter((x: any) => {
+
+				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
+
+				return   start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
+					   : atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
+					   :''
+
+			}).reduce((a:any , b:any)=>{
+				let st = b.collection 
+			
+				return st += a
+			}, 0)
+			
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+@Pipe({
+	name: 'totalSalesWalletHistory'
+  })
+  export class TotalSalesWalletHistoryPipe implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any): any {
+
+		
+		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+			
+			const payload = data.filteredData.filter((x: any) => {
+
+				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
+
+				return   start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
+					   : atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
+					   :''
+
+			}).reduce((a:any , b:any)=>{
+				let st = b.sales 
+			
+				return st += a
+			}, 0)
+			
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+
+@Pipe({
+	name: 'totalIncomeWalletHistory'
+  })
+  export class TotalIncomeWalletHistoryPipe implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any): any {
+
+		
+		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+			
+			const payload = data.filteredData.filter((x: any) => {
+
+				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
+
+				return   start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.branchCode 
+					   : atob(sessionStorage.getItem('code')) === x.branchCode ? fdate >= sdate && fdate <= edate 
+					   :''
+
+			}).reduce((a:any , b:any)=>{
+				let st = b.income 
+			
+				return st += a
+			}, 0)
+			
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}

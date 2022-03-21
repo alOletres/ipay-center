@@ -1,13 +1,7 @@
-.table, .td, .th {  
-    border: 1px solid #ddd;
-    text-align: left;
-  }
-  
-  .table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  .th, .td {
-    padding: 15px;
-  }
+
+
+@media print {
+	#id {
+		background-color: red; /* more specific style to override color to red */
+	}
+}

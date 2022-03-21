@@ -27,7 +27,7 @@ const parseXML = async (xml:any) => {
  const pCODE = async (Pcode:any, amount:any) =>{
 
 	try{
-		switch(Pcode){
+		 switch(Pcode){
 
 			case 'GMXMAX': return `${ Pcode }${ amount }`;
 

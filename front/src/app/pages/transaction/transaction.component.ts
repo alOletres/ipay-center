@@ -84,7 +84,8 @@ export class TransactionComponent implements OnInit {
 
 		await this.function_topUpList()
 		await this.getTellerlist()
-		this.function_walletHistory()
+		// this.function_walletHistory()
+		this.showloadTable = false
 		this.filteredOptions = this.searchControl.valueChanges.pipe(
 			startWith(''),
 			map(value=>  this._filter(value))
@@ -206,7 +207,7 @@ export class TransactionComponent implements OnInit {
 
 	async function_walletHistory(){
 
-		 this.function_checkFranchiseWallet()
+		this.function_checkFranchiseWallet()
 
 		this.showMonitoredBranches= false
 		this.btnBack = true

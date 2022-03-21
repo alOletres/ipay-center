@@ -80,7 +80,7 @@ import { TellerComponent } from './../../pages/teller/teller.component';
  */
 import { ImgPipe } from './../../pipes/img.pipe';
 import { imgpipes } from './../../pipes/img.pipe';
-import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, ComputeTotalCreditBranchPipe, SearchByDateAdminPipe, eloadsDailyMarkUpPipe, EloadDailtyTotalPipe, SearchByDatePipe } from './../../pipes/admin/compute-debit.pipe'
+import { TotalIncomeWalletHistoryPipe, TotalSalesWalletHistoryPipe, TotalCollectionWalletHistory, SearchByDateWalletHistoryPipe, ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, ComputeTotalCreditBranchPipe, SearchByDateAdminPipe, eloadsDailyMarkUpPipe, EloadDailtyTotalPipe, SearchByDatePipe } from './../../pipes/admin/compute-debit.pipe'
 /**
  * directives
  */
@@ -136,7 +136,11 @@ import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, C
 		eloadsDailyMarkUpPipe,
 		EloadDailtyTotalPipe,
 		SearchByDatePipe,
-		TransactionnameDirective
+		TransactionnameDirective,
+		SearchByDateWalletHistoryPipe,
+		TotalCollectionWalletHistory,
+		TotalSalesWalletHistoryPipe,
+		TotalIncomeWalletHistoryPipe
 	],
 	imports: [
 		CommonModule,
@@ -194,7 +198,8 @@ import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, C
 	],
 	providers: [
 		SearchByDateAdminPipe,
-		SearchByDatePipe
+		SearchByDatePipe,
+		SearchByDateWalletHistoryPipe
 	]
 })
 export class MainModule { }
