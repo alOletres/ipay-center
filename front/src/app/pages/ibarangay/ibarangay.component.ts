@@ -34,7 +34,7 @@ export class IbarangayComponent implements OnInit {
 				 private socketService : SocketService ) {
 
 		this.socketService.eventListener("response_addiBarangay").subscribe(()=> { this.ngOnInit() })
-		
+		this.socketService.eventListener("response_ibarangay").subscribe(()=> { this.ngOnInit() })
 		this.ibarangayForm = new FormBuilder().group({
 			firstname 		: new FormControl('', 	  [Validators.required]),
 			lastname 		: new FormControl('', 	  [Validators.required]),

@@ -109,14 +109,14 @@ export class GlobalDialogComponent implements OnInit {
 		
 	}
 	async updateFbranch(){
-
+		
 		
 		if(this.btnName == 'Save'){
 			
 
 			try{
 				await this.httpBranch.addTellerAdminFranchise({data: this.editForm.value, barangayCode: this.barangayCode, fbranchCode : this.franchiseCode, branchCode : this.branchCode, ib_franchiseCode : this.ib_franchiseCode})
-				
+				this.socketService.sendEvent("eventSent", {data: "response_ibarangay"})/**SOCKET SEND EVENT */
 				this._snackBar._showSnack(`Successfully Added`, 'success')
 				this.dialogRef.close();
 			}catch(err){
@@ -127,8 +127,6 @@ export class GlobalDialogComponent implements OnInit {
 
 			await this.httpBranch.saveIbarangayForapproval({data : this.editForm.value, franchiseCode : this.franchiseCode, branchCode : this.branchCode})
 		
-			this.socketService.sendEvent("eventSent", {data: "response_ibarangay"})/**SOCKET SEND EVENT */
-			
 			this._snackBar._showSnack(`Successfully Added`, 'success')
 			this.dialogRef.close();
 
