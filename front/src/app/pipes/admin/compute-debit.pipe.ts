@@ -528,7 +528,7 @@ export class ComputeDebitPipe implements PipeTransform {
 				
 				/**return the data for branches in overall wallet monitoring  */
 				return  atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
-							start === undefined && end === undefined  ? x
+							start === undefined && end === undefined  ? atob(sessionStorage.getItem('type')) === 'Admin'
 							: fdate >= sdate && fdate <= edate 
 							
 						: atob(sessionStorage.getItem('type')) !== 'Admin' && atob(sessionStorage.getItem('type')) !== 'Branch Head' ? 
@@ -536,7 +536,6 @@ export class ComputeDebitPipe implements PipeTransform {
 							: atob(sessionStorage.getItem('code')) === x.franchise ? fdate >= sdate && fdate <= edate 
 							:''
 						: ''
-				 
 
 
 			})

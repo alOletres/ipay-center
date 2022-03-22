@@ -40,7 +40,7 @@ export class CommissionComponent implements OnInit {
 		const result :any = await this.http_dash.commission()
 		
 		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){ 
-			this.dataSource = new MatTableDataSource<any>(result)
+			this.dataSource = new MatTableDataSource<any>(JSON.parse(result))
 			this.dataSource.paginator = this.paginator
 		}else{
 

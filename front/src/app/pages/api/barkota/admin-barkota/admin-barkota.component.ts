@@ -40,8 +40,10 @@ export class AdminBarkotaComponent implements OnInit {
 		})
 
 		this.voidTicketForm = this.fb.group({
-			ticketId : new FormControl('', [Validators.required]),
-			remarks : new FormControl('', [Validators.required])
+			branchCode 	: new FormControl('', [Validators.required]),
+			tellerCode 	: new FormControl('', [Validators.required]),
+			ticketId 	: new FormControl('', [Validators.required]),
+			remarks 	: new FormControl('', [Validators.required])
 		})
 
 		if(this.cookieService.get('token') === ''){
@@ -51,34 +53,6 @@ export class AdminBarkotaComponent implements OnInit {
 			// BOOLEAN HERE
 		}
 	}
-
-	// function_submitRefundTicket(){
-
-	// 	const token = this.cookieService.get('token')
-	// 	try{
-	// 		this.http_barko.function_refundTicket({
-
-	// 			data : this.refundTicketForm.value,
-	// 			token : JSON.parse(token)
-
-	// 		}).pipe(
-	// 			catchError(error=>{
-
-	// 				this._snackBar._showSnack(error, 'error');
-	// 				return of([]);
-
-	// 			})
-	// 		).subscribe(data=>{
-	// 			console.log(JSON.parse(data));
-				
-	// 		})
-	// 	}catch(e){
-	// 		console.log(e);
-			
-	// 	}
-	// 	console.log(this.token);
-		
-	// }
 
 	async function_getToken(){
 
