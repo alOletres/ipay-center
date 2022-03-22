@@ -12,8 +12,11 @@
 <div class="inline-block" (click)="ubx()">
     <mat-card style="cursor: pointer;" class="card credentialing">
         <div class="overlay"></div>
-        <img mat-card-image src="./../../../assets/img/i2i.png" alt="Photo of a Shiba Inu">
+        <div style="padding: 20px;">
+            <img mat-card-image src="assets/img/remittance.png" alt="Photo of a Shiba Inu">
+        </div>
         <mat-card-content>
+            <h4 style="color: darkgray; font-size: 13px;"> Remittance & ATM Withdrawal </h4>
         </mat-card-content>
 
     </mat-card>
@@ -32,8 +35,11 @@
 <div class="inline-block" (click)="biyahe_Ko()">
     <mat-card style="cursor: pointer;" class="card credentialing">
         <div class="overlay"></div>
-        <img mat-card-image src="./../../../assets/img/biyaheko.png" alt="Photo of a Shiba Inu">
+            <div style="padding:20px">
+                <img mat-card-image src="assets/img/airlines.png" alt="Photo of a Shiba Inu">
+            </div>
         <mat-card-content>
+            <h4 style="color:darkgray;font-size: 14px;"> Airlines & Bill payments  </h4>
         </mat-card-content>
 
     </mat-card>
@@ -42,8 +48,11 @@
 <div class="inline-block">
     <mat-card [routerLink]="['/loadcentralComponnt']" style="cursor: pointer;" class="card credentialing">
         <div class="overlay"></div>
-        <img mat-card-image src="./../../../assets/img/loadcentral.png" alt="Photo of a Shiba Inu">
+        <div style="padding: 20px;">
+            <img mat-card-image src="assets/img/eloads.png" alt="Photo of a Shiba Inu">
+        </div>
         <mat-card-content>
+            <h4 style="color:darkgray;"> Eloads </h4>
         </mat-card-content>
 
     </mat-card>
@@ -52,8 +61,11 @@
 <div class="inline-block">
     <mat-card (click)="function_getToken()" [routerLink]="['/barkotadashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="cursor: pointer;" class="card credentialing">
         <div class="overlay"></div>
-        <img mat-card-image src="./../../../assets/img/barkota.png" alt="Photo of a Shiba Inu">
+        <div style="padding:20px;">
+            <img mat-card-image src="assets/img/ferries.png" alt="Photo of a Shiba Inu">
+        </div>
         <mat-card-content>
+            <h4 style="color: darkgray;" > Ferries </h4>
         </mat-card-content>
 
     </mat-card>

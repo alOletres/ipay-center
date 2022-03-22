@@ -23,6 +23,7 @@ import { IbarangayComponent } from 'src/app/pages/ibarangay/ibarangay.component'
 import { LoadCentralHistoryComponent } from './../../pages/transaction/load-central-history/load-central-history.component';
 import { TopuploadListComponent } from './../../pages/transaction/topupload-list/topupload-list.component';
 import { WalletHistoryComponent } from './../../pages/transaction/wallet-history/wallet-history.component';
+import { CommissionComponent } from './../../pages/transaction/commission/commission.component';
 const routes: Routes = [
 	{
 		path: '',
@@ -76,6 +77,9 @@ const routes: Routes = [
 			}, {
 				path : 'walletHistory',
 				component : WalletHistoryComponent
+			}, {
+				path : 'commisionpage',
+				component :  CommissionComponent
 			}
 		]
 	}

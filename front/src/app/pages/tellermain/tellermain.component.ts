@@ -19,7 +19,7 @@ import moment from 'moment';
 export class TellermainComponent implements OnInit {
 
 
-	doughnutChartLabels: Label[] = ['LOAD CENTRAL', 'BARKOTA'];
+	doughnutChartLabels: Label[] = ['ELOADS', 'FERRIES'];
 	doughnutChartData: MultiDataSet = [
 	  []
 	];

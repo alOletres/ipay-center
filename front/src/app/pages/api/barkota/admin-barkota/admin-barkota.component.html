@@ -16,7 +16,10 @@
 <div *ngIf="barkotaApiCard" class="inline-block">
     <mat-card [routerLink]="['/']" (click) ="function_getToken()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="cursor: pointer;" class="card credentialing">
         <div class="overlay"></div>
-        <img mat-card-image src="./../../../assets/img/barkota.png" alt="Photo of a Shiba Inu">  
+        <div style="padding: 10px;">
+            <img  mat-card-image src="assets/img/ferries.png" alt="Photo of a Shiba Inu">  
+        </div>
+        <h4 style="color: darkgray;">Ferries</h4>
     </mat-card>
 </div>
 

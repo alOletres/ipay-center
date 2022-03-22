@@ -71,6 +71,7 @@ import { MacsettingsComponent } from './../../pages/macsettings/macsettings.comp
 import { SettingsComponent } from './../../globals/globa_components/settings/settings.component';
 import { IbarangayComponent } from 'src/app/pages/ibarangay/ibarangay.component';
 
+import { CommissionComponent } from './../../pages/transaction/commission/commission.component';
 import { WalletHistoryComponent } from './../../pages/transaction/wallet-history/wallet-history.component';
 import { LoadCentralHistoryComponent } from './../../pages/transaction/load-central-history/load-central-history.component';
 import { TopuploadListComponent } from './../../pages/transaction/topupload-list/topupload-list.component';
@@ -80,7 +81,7 @@ import { TellerComponent } from './../../pages/teller/teller.component';
  */
 import { ImgPipe } from './../../pipes/img.pipe';
 import { imgpipes } from './../../pipes/img.pipe';
-import { TotalIncomeWalletHistoryPipe, TotalSalesWalletHistoryPipe, TotalCollectionWalletHistory, SearchByDateWalletHistoryPipe, ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, ComputeTotalCreditBranchPipe, SearchByDateAdminPipe, eloadsDailyMarkUpPipe, EloadDailtyTotalPipe, SearchByDatePipe } from './../../pipes/admin/compute-debit.pipe'
+import { TotalIncomeCommissionPipe, SearchByCommissionPipe, TotalIncomeWalletHistoryPipe, TotalSalesWalletHistoryPipe, TotalCollectionWalletHistory, SearchByDateWalletHistoryPipe, ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, ComputeTotalCreditBranchPipe, SearchByDateAdminPipe, eloadsDailyMarkUpPipe, EloadDailtyTotalPipe, SearchByDatePipe } from './../../pipes/admin/compute-debit.pipe'
 /**
  * directives
  */
@@ -140,7 +141,10 @@ import { TotalIncomeWalletHistoryPipe, TotalSalesWalletHistoryPipe, TotalCollect
 		SearchByDateWalletHistoryPipe,
 		TotalCollectionWalletHistory,
 		TotalSalesWalletHistoryPipe,
-		TotalIncomeWalletHistoryPipe
+		TotalIncomeWalletHistoryPipe,
+		CommissionComponent,
+		SearchByCommissionPipe,
+		TotalIncomeCommissionPipe
 	],
 	imports: [
 		CommonModule,

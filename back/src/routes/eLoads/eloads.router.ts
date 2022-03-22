@@ -118,9 +118,10 @@ const parseXML = async (xml:any) => {
 						await updateLCWALLET(ress)
 
 						
-						returnResponse =  xml.data.ERR[0] === 'Insufficient Funds' ? 'lackFunds' 
-										: xml.data.ERR[0] === 'LC API System Error' ? 'systemError' 
-										:  await insertLoad(ress, object[1], object[2])
+						returnResponse =  xml.data.ERR[0] === 'Insufficient Funds' ? 'Insufficient Funds contact technical support' 
+										: xml.data.ERR[0] === 'LC API System Error' ? 'System error contact technical support' 
+										: xml.data.ERR[0] === 'Invalid Mobile No.'   ? 'Invalid Mobile No.' 
+										: await insertLoad(ress, object[1], object[2])
 						
 					})
 					
@@ -176,7 +177,7 @@ const parseXML = async (xml:any) => {
 			])
 			
 			connection.commit()
-			return 'ok'
+			return 'Successfully Sent'
 		})
 	}catch(err){
 		connection.rollback()

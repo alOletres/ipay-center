@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
 	/**
 	 * @donutGraph
 	 */
-	doughnutChartLabels: Label[] = ['LOAD CENTRAL', 'BARKOTA'];
+	doughnutChartLabels: Label[] = ['ELOADS', 'FERRIES'];
 
 	doughnutChartData: MultiDataSet = [ [] ];
 	

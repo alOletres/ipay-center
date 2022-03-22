@@ -68,4 +68,11 @@ import { EndPoint } from "./../../globals/endpoints";
 			return err
 		}
 	}
+	async commission(){
+		try{
+			return await this.http.get(`${ EndPoint.endpoint }/admin/admins/getCommission`, {responseType : 'text'}).toPromise()
+		}catch(err){
+			return err
+		}
+	}
 }

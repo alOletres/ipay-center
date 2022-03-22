@@ -8,7 +8,8 @@
 		"start:dev": "tsc && cross-env NODE_ENV=development nodemon --watch './**/*.ts' --exec 'ts-node' src/app.main.ts",
 		"start:prod": "tsc && cross-env NODE_ENV=production forever -w start dist/src/app.main.js",
 		"start:prodcheck": "tsc && cross-env NODE_ENV=production nodemon dist/app.main.js",
-		"start:beta": "tsc && cross-env NODE_ENV=testprod nodemon dist/app.main.js"
+		"start:beta": "tsc && cross-env NODE_ENV=testprod nodemon dist/app.main.js",
+		"watch" : "tsc && cross-env NODE_ENV=production node dist/src/app.main.js"
 	},
 	"keywords": [],
 	"author": "Adame_Cate",

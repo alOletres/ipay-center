@@ -42,59 +42,74 @@
                </form>
             </div>
             <mat-card-content>
-               <table [dataSource] = "dataSource | searchByWalletHistoryDate : start : end" class="table__table" mat-table class="mat-elevation-z0" style="width: 100%;">
-                <ng-container matColumnDef="no">
-                    <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>No.</th>
-                    <td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
-                    <td mat-footer-cell *matFooterCellDef></td>
-                </ng-container>
-
-                <ng-container matColumnDef="transaction_name">
-                    <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Transaction</th>
-                    <td class="table_table-body" mat-cell *matCellDef="let element"  > <span [appTransactionname] = "element.transaction_id"> </span>  </td>
-                    <td mat-footer-cell *matFooterCellDef>  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="tellerCode">
-                    <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Teller</th>
-                    <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.tellerCode }} </td>
-                    <td mat-footer-cell *matFooterCellDef> <span style="font-weight: bold;"> TOTAL </span> </td>
-                </ng-container>
-
-                <ng-container matColumnDef="collection">
-                    <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Collection</th>
-                    <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.collection }} </td>
-                    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{ dataSource | totalCollectionWalletHistory: start : end | currency : "&#8369;" }} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="sales">
-                    <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Sales</th>
-                    <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.sales }} </td>
-                    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{ dataSource | totalSalesWalletHistory : start : end | currency : "&#8369;" }} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="income">
-                    <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Income</th>
-                    <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.income }} </td>
-                    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{ dataSource | totalIncomeWalletHistory : start : end | currency : "&#8369;"}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="dateTransacted">
-                    <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Date transacted</th>
-                    <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.date_transacted | date : 'medium' }} </td>
-                    <td mat-footer-cell *matFooterCellDef></td>
-                </ng-container>
-
-                <ng-container matColumnDef="status">
-                    <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Status</th>
-                    <td class="table_table-body" mat-cell *matCellDef="let element" style="color: #039A4D"> success </td>
-                    <td mat-footer-cell *matFooterCellDef></td>
-                </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
-                    <tr mat-footer-row *matFooterRowDef="displayColumns"></tr>
-               </table>
+                <div  id="print-section">
+                    <div id="showOnPrnt" >
+                        <div class="row">
+                            <div class="col-md-1">
+                                <img src="assets/img/IPAY_LOGO.png" style="width: 120px; height: 70px;" alt="">
+                            </div>
+                            <div class="col-md-11">
+                                <p> {{ fullname }} <br> {{ email }} <br> {{ contactNo }} <br> {{ address }}  </p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!-- table here -->
+                    <table [dataSource] = "dataSource | searchByWalletHistoryDate : start : end" class="table__table" mat-table class="mat-elevation-z0" style="width: 100%;">
+                        <ng-container matColumnDef="no">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>No.</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="transaction_name">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Transaction</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"  > <span [appTransactionname] = "element.transaction_id"> </span>  </td>
+                            <td mat-footer-cell *matFooterCellDef>  </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="tellerCode">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Teller</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.tellerCode }} </td>
+                            <td mat-footer-cell *matFooterCellDef> <span style="font-weight: bold;"> TOTAL </span> </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="collection">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Collection</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.collection }} </td>
+                            <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{ dataSource | totalCollectionWalletHistory: start : end | currency : "&#8369;" }} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="sales">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Sales</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.sales }} </td>
+                            <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{ dataSource | totalSalesWalletHistory : start : end | currency : "&#8369;" }} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="income">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Income</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.income }} </td>
+                            <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{ dataSource | totalIncomeWalletHistory : start : end | currency : "&#8369;"}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="dateTransacted">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Date transacted</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.date_transacted | date : 'medium' }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="status">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Status</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element" style="color: #039A4D"> success </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+        
+                            <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+                            <tr mat-footer-row *matFooterRowDef="displayColumns"></tr>
+                    </table>
+                </div>
+               
             </mat-card-content>
             <div class="pagination">
                 <mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
@@ -106,67 +121,4 @@
 <button type="button" hidden="true" printTitle="MyTitle" printSectionId="print-section" [useExistingCss]="true" ngxPrint #printMe></button>
 
 <!-- hidden="true" id="print-section" -->
-<div  hidden="true" id="print-section">
-    <div style="text-align: center;">
-        <img src="assets/img/IPAY_LOGO.png" style="width: 120px; height: 70px;" alt="">
-        <h4>
-            IPAY Payment Center
-        </h4>
 
-        <p> {{ fullname }} <br> {{ email }} <br> {{ contactNo }} <br> {{ address }}  </p>
-    </div>
-    
-    <table [dataSource] = "dataSource | searchByWalletHistoryDate : start : end" class="table__table" mat-table class="mat-elevation-z0" style="width: 100%;">
-        <ng-container matColumnDef="no">
-            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>No.</th>
-            <td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
-            <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-    
-        <ng-container matColumnDef="transaction_name">
-            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Transaction</th>
-            <td class="table_table-body" mat-cell *matCellDef="let element"  > <span [appTransactionname] = "element.transaction_id"> </span>  </td>
-            <td mat-footer-cell *matFooterCellDef>  </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="tellerCode">
-            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Teller</th>
-            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.tellerCode }} </td>
-            <td mat-footer-cell *matFooterCellDef> <span style="font-weight: bold;"> TOTAL </span> </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="collection">
-            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Collection</th>
-            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.collection }} </td>
-            <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{ dataSource | totalCollectionWalletHistory: start : end | currency : "&#8369;" }} </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="sales">
-            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Sales</th>
-            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.sales }} </td>
-            <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{ dataSource | totalSalesWalletHistory : start : end | currency : "&#8369;" }} </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="income">
-            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Income</th>
-            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.income }} </td>
-            <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{ dataSource | totalIncomeWalletHistory : start : end | currency : "&#8369;"}} </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="dateTransacted">
-            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Date transacted</th>
-            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.date_transacted | date : 'medium' }} </td>
-            <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-    
-        <ng-container matColumnDef="status">
-            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Status</th>
-            <td class="table_table-body" mat-cell *matCellDef="let element" style="color: #039A4D"> success </td>
-            <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-    
-            <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
-            <tr mat-footer-row *matFooterRowDef="displayColumns"></tr>
-       </table>
-</div>

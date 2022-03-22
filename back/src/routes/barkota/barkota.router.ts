@@ -8,7 +8,30 @@ import moment from 'moment';
 import { ticketPrices, walletCollection } from './../../utils/main.interfaces'
 const { BARKOTA_STAGING } = Endpoints
 const { username, password } = barkotaCredential
+const updateWallet = async(data:any) => {
+	try{
+		connection.beginTransaction()
+		return await new Promise((resolve, reject)=>{
+			connection.query("SELECT * FROM wallet WHERE branchCode=?", [data], (err, result)=>{
+				if(err) return reject(err)
+				resolve(result)
+			})
+		}).then(async(response:any)=>{
+			const walletAdded = response[0].current_wallet + 5
 
+			await Promise.resolve(
+				connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [walletAdded, data], (err, result)=>{
+					if(err) throw err;
+					return result
+				})
+			)
+			connection.commit()
+		})
+	}catch(err:any){
+		connection.rollback()
+		return err
+	}
+}
 class BarkotaController{
 
     private router: Router
@@ -706,6 +729,8 @@ class BarkotaController{
 												if(err) throw err
 												return result
 											})
+										), Promise.resolve(
+											await updateWallet(result[0].ib_fbranchCode)
 										)
 										
 									])

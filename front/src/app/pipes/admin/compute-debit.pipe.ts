@@ -508,3 +508,87 @@ export class ComputeDebitPipe implements PipeTransform {
 	}
 
 }
+
+@Pipe({
+	name: 'searchByCommissionDate'
+  })
+  export class SearchByCommissionPipe implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any): any {
+		
+		try{
+			
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+
+
+			const payload = data.filteredData.filter((x: any) => {
+
+				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
+				
+				/**return the data for branches in overall wallet monitoring  */
+				return  atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+							start === undefined && end === undefined  ? x
+							: fdate >= sdate && fdate <= edate 
+							
+						: atob(sessionStorage.getItem('type')) !== 'Admin' && atob(sessionStorage.getItem('type')) !== 'Branch Head' ? 
+							start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.franchise ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.franchise 
+							: atob(sessionStorage.getItem('code')) === x.franchise ? fdate >= sdate && fdate <= edate 
+							:''
+						: ''
+				 
+
+
+			})
+
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+
+@Pipe({
+	name: 'totalIncomeCommission'
+  })
+  export class TotalIncomeCommissionPipe implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any): any {
+
+		
+		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+			
+			const payload = data.filteredData.filter((x: any) => {
+
+				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
+
+				return  atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+							start === undefined && end === undefined  ? x
+							: fdate >= sdate && fdate <= edate 
+							
+						: atob(sessionStorage.getItem('type')) !== 'Admin' && atob(sessionStorage.getItem('type')) !== 'Branch Head' ? 
+							start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.franchise ? start === undefined && end === undefined && atob(sessionStorage.getItem('code')) === x.franchise 
+							: atob(sessionStorage.getItem('code')) === x.franchise ? fdate >= sdate && fdate <= edate 
+							:''
+						: ''
+
+			}).reduce((a:any , b:any)=>{
+				
+				let st = parseInt(b.income )
+			
+				return st += a
+			}, 0)
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
