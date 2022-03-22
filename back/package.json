@@ -12,7 +12,7 @@
 		"watch" : "tsc && cross-env NODE_ENV=production node dist/src/app.main.js"
 	},
 	"keywords": [],
-	"author": "Adame_Cate",
+	"author": "Adame_Cate and Al_Oletres",
 	"license": "ISC",
 	"dependencies": {
 		"@rodrigogs/mysql-events": "^0.6.0",
