@@ -5,10 +5,12 @@ import { EndPoint } from "./../../globals/endpoints";
   providedIn: 'root'
 })
 export class ServiceService {
+	
 
-  constructor(private http : HttpClient) { }
+    
+	constructor(private http : HttpClient) { }
 
-  async getLogs(){
+ 	async getLogs(){
 		try{
 			return this.http.get(`${ EndPoint.endpoint }/admin/admins/getActivityLogs`, {responseType : 'text'}).toPromise()
 		}catch(err){
@@ -24,5 +26,11 @@ export class ServiceService {
 		}
 	}
 
-	
+	async getLoadCentralTransactions(){
+		try{
+			return await this.http.get(`${ EndPoint.endpoint }/eload/eloads/getLoadCentralTransactions`).toPromise()
+		}catch(err){
+			throw err
+		}
+	}
 }

@@ -93,6 +93,9 @@ export class ModalComponent implements OnInit {
 
 		.then((response:any)=>{
 
+			console.log(response);
+			
+
 			if(JSON.parse(response).message === 'ok'){
 				this.socketService.sendEvent("eventSent", { data : "response_topUpload" })
 				this._snackBar._showSnack(`Success Change`, 'success')

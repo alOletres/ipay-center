@@ -13,7 +13,7 @@ export default class MainModule {
 	private wallet = 'wallet'
 	private barkota = 'barkota'
 	private admin = 'admin'
-	private eloads = 'eloads'
+	private eloads = 'eload'
     constructor(private app : Express) {
 		// this.branch = 'branch'
 		// this.user = 'user'

@@ -8,7 +8,97 @@ import moment from 'moment';
 import { ticketPrices, walletCollection } from './../../utils/main.interfaces'
 const { BARKOTA_STAGING } = Endpoints
 const { username, password } = barkotaCredential
+const updateWallet = async(data:any) => {
+	try{
+		connection.beginTransaction()
+		return await new Promise((resolve, reject)=>{
+			connection.query("SELECT * FROM wallet WHERE branchCode=?", [data], (err, result)=>{
+				if(err) return reject(err)
+				resolve(result)
+			})
+		}).then(async(response:any)=>{
+			const walletAdded = response[0].current_wallet + 5
 
+			await Promise.resolve(
+				connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [walletAdded, data], (err, result)=>{
+					if(err) throw err;
+					return result
+				})
+			)
+			connection.commit()
+		})
+	}catch(err:any){
+		connection.rollback()
+		return err
+	}
+}
+const voidTicket = async(BRANCHCODE:any, BARKOTACODE:any) =>{
+	try{
+		return await new Promise((resolve, reject)=>{
+			connection.query("SELECT * FROM barkota WHERE barkota_code=? AND branchCode=?", [BARKOTACODE, BRANCHCODE], (err,result)=>{
+				if(err) return reject(err)
+				resolve(result)
+			})
+		}).then(async(response:any)=>{
+
+			if(!response.length){
+				return 'again'
+			}else{
+				await new Promise((resolve,reject)=>{
+					/**get the current wallet to be update in wallet table */
+					connection.query("SELECT * FROM wallet WHERE branchCode=?", [BRANCHCODE], (err, result)=>{
+						if(err) return reject(err)
+						resolve(result)
+					})
+				}).then(async(wallet:any)=>{
+
+					if(!wallet.length){
+						return 'again'
+					}else{
+
+						const voidedTransaction = wallet[0].current_wallet + parseInt(response[0].ticket_totalPrice)
+	
+						/***UDPATE WALLET FIRST AND STATUS OF 
+						 * wallet
+						 * wallet history
+						 * barkota table
+						 */
+		
+						await Promise.all([
+							Promise.resolve(
+								connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [voidedTransaction, BRANCHCODE], (err, result)=>{
+									if(err) throw err
+									return result
+								})
+							),
+							Promise.resolve(
+								connection.query("UPDATE wallet_historytransaction SET status=? WHERE transaction_id=?", ['Void', BARKOTACODE], (err,result)=>{
+									if(err) throw err
+									return result
+								})
+							),
+							Promise.resolve(
+								connection.query("UPDATE barkota SET status=? WHERE barkota_code=?", ['Void', BARKOTACODE], (err, result)=>{
+									if(err) throw err
+									return result
+								})
+							)
+						])
+
+					}
+
+				})
+				
+				connection.commit()
+				return 'ok'
+			}
+		})
+
+	}catch(err){
+		connection.rollback()
+		return err
+	}
+}
 class BarkotaController{
 
     private router: Router
@@ -67,7 +157,7 @@ class BarkotaController{
 
 			const { access_token, expires_in, token_type } = req.body
 
-			axios.get(`${ BARKOTA_STAGING }/outlet/shipping-lines/getshippinglines`,{
+			await axios.get(`${ BARKOTA_STAGING }/outlet/shipping-lines/getshippinglines`,{
 
 				headers : { Authorization : 'Bearer '.concat(access_token)  }
 			})
@@ -491,27 +581,36 @@ class BarkotaController{
 				ticketId : data.ticketId,
 				remarks : data.remarks
 			}
+			const responses :any = await voidTicket(data.branchCode, data.transactionCode)
 
-			await axios.post(`${ BARKOTA_STAGING }/outlet/ticket/void/ticket`,payload,{
+			if(responses === 'ok'){
 
-				headers : {'Content-Type' : 'application/json',
-				Authorization : 'Bearer '.concat(token.access_token)}
+				await axios.post(`${ BARKOTA_STAGING }/outlet/ticket/void/ticket`,payload,{
 
-			}).then(response=>{
-				
-				res.status(Codes.SUCCESS).send(JSON.stringify(response.data))
-			}).catch(err=>{
+					headers : {'Content-Type' : 'application/json',
+					Authorization : 'Bearer '.concat(token.access_token)}
 
-				if(err.response.data.detail !== null){
+				}).then(async(response)=>{
+					res.status(Codes.SUCCESS).send(JSON.stringify(response.data))
+				}).catch(err=>{
 
-					res.status(500).send(err.response.data.detail)
+					if(err.response.data.detail !== null){
+						
+						res.status(500).send(err.response.data.detail)
 
-				}else{
+					}else{
 
-					res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+						res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 
-				}
-			})
+					}
+				})
+
+			}else if(responses === 'again'){
+				res.status(Codes.SUCCESS).send({ success :  'again' })
+			}else{
+				res.status(Codes.SUCCESS).send({ success :  'again' })
+			}
+			
 		})
 
 		this.router.post('/revalidateTicket',async (req, res) => {
@@ -706,6 +805,8 @@ class BarkotaController{
 												if(err) throw err
 												return result
 											})
+										), Promise.resolve(
+											await updateWallet(result[0].ib_fbranchCode)
 										)
 										
 									])

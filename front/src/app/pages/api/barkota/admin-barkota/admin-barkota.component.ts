@@ -5,6 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { BarkotaService } from 'src/app/services/barkota.service';
+import { ResetformService } from 'src/app/services/resetform.service';
 import { SnackbarServices } from 'src/app/services/snackbar.service';
 
 @Component({
@@ -30,7 +31,8 @@ export class AdminBarkotaComponent implements OnInit {
 				private http_barko : BarkotaService,
 				private cookieService : CookieService,
 				private _snackBar : SnackbarServices,
-				private router : Router) { }
+				private router : Router,
+				private resetForm :ResetformService) { }
 
 	ngOnInit(){
 		this.refundTicketForm = this.fb.group({
@@ -40,8 +42,10 @@ export class AdminBarkotaComponent implements OnInit {
 		})
 
 		this.voidTicketForm = this.fb.group({
-			ticketId : new FormControl('', [Validators.required]),
-			remarks : new FormControl('', [Validators.required])
+			branchCode 	: new FormControl('', [Validators.required]),
+			transactionCode 	: new FormControl('', [Validators.required]),
+			ticketId 	: new FormControl('', [Validators.required]),
+			remarks 	: new FormControl('', [Validators.required])
 		})
 
 		if(this.cookieService.get('token') === ''){
@@ -51,34 +55,6 @@ export class AdminBarkotaComponent implements OnInit {
 			// BOOLEAN HERE
 		}
 	}
-
-	// function_submitRefundTicket(){
-
-	// 	const token = this.cookieService.get('token')
-	// 	try{
-	// 		this.http_barko.function_refundTicket({
-
-	// 			data : this.refundTicketForm.value,
-	// 			token : JSON.parse(token)
-
-	// 		}).pipe(
-	// 			catchError(error=>{
-
-	// 				this._snackBar._showSnack(error, 'error');
-	// 				return of([]);
-
-	// 			})
-	// 		).subscribe(data=>{
-	// 			console.log(JSON.parse(data));
-				
-	// 		})
-	// 	}catch(e){
-	// 		console.log(e);
-			
-	// 	}
-	// 	console.log(this.token);
-		
-	// }
 
 	async function_getToken(){
 
@@ -152,17 +128,18 @@ export class AdminBarkotaComponent implements OnInit {
 					return of([]);
 				})
 			).subscribe(data=>{
-				
+
 				if(JSON.parse(data).success === false){
 					this._snackBar._showSnack('Please your credentials', 'error')
+				}else if(JSON.parse(data).success === 'again'){
+					this._snackBar._showSnack('Please check Barkota code or BranchCode', 'error')
 				}else{
-					this._snackBar._showSnack('Successfully Void your Ticket', 'success')
-					this.ngOnInit();
+					this._snackBar._showSnack('Successfully Voided', 'success')
+					this.resetForm.reset(this.voidTicketForm)
 				}
 				
 			})
 		}catch(e){
-			console.log(e);
 			
 		}
 	}

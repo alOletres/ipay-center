@@ -122,7 +122,7 @@ export class ExcelService {
 				cell.fill = {
 					type: 'pattern',
 					pattern: 'solid',
-					fgColor: { argb: 'FFFFFF00' },
+					fgColor: { argb: '00cc00' },
 					bgColor: { argb: '#208000' },
 					
 				};
@@ -233,7 +233,6 @@ export class ExcelService {
 			const blob = new Blob([_buffer], { type: EXCEL_TYPE });
 			FileSaver.saveAs(blob, `${ fileName } Brk Reports Exported - ${ moment().format('ll') }`+ EXCEL_EXTENSION);
 		});
-		console.log(w);
 		
 	}
 

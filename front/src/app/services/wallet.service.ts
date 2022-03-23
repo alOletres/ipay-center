@@ -39,6 +39,15 @@ export class WalletService {
 		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/updateLoadstatus`, data, {responseType: 'text'}).toPromise()
 	}
 
+
+	getOverallWallet(){
+		try{
+			return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/getOverallWallet`).toPromise()
+		}catch(err){
+
+		}
+	}
+
 	function_checkAvailableWallet(data:any):Observable<any>{
 		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/checkAvailableWallet`, data, {responseType: 'text'})
 		.pipe(

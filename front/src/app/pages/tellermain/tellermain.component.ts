@@ -19,9 +19,12 @@ import moment from 'moment';
 export class TellermainComponent implements OnInit {
 
 
-	doughnutChartLabels: Label[] = [];
-	doughnutChartData: MultiDataSet = [ [] ];
+	doughnutChartLabels: Label[] = ['ELOADS', 'FERRIES'];
+	doughnutChartData: MultiDataSet = [
+	  []
+	];
 	doughnutChartType: ChartType = 'doughnut';
+
 	@Input() isMenuOpened: boolean | undefined;
 	@Output() isShowSidebar = new EventEmitter<boolean>();
 
@@ -34,7 +37,9 @@ export class TellermainComponent implements OnInit {
 	message: string;
 	barkotaLength: any;
 	bottomMessage: string = 'see more...'
-	logsDisplay: any = 5
+	logsDisplay: any = 3
+	eloadsIncome: number;
+	eloadsDailyTransactions: any;
 	
 	constructor(
 		private router: Router,
@@ -45,18 +50,29 @@ export class TellermainComponent implements OnInit {
 		private socketService : SocketService){ 
 		
 		// process here
-		this.socketService.eventListener("decreased_wallet").subscribe(()=> { this.current_wallet()})
+		this.socketService.eventListener("decreased_wallet").subscribe(()=> { 
+			this.current_wallet()
+			this.barkotaTrans()
+			this.eloads()	
+		})
+		this.barkotaTrans()
+		this.eloads()
 	}
 
-	async ngOnInit(){
+	async ngOnInit(){ 
+
+		this.numberofTransactions()
 		
+		this.tellerName()
+		this.current_wallet()
+		this.activitylog()
+		
+		this.currentDate = new Date ()
+		
+	}
+	async tellerName(){
 		try{
-
-			const name : accountName = {
-				firstName : '',
-				lastName : ''
-			}
-
+			const name : accountName = { firstName : '', lastName : '' }		
 			const type :any = atob(sessionStorage.getItem('type'))
 			const type_code : any = atob(sessionStorage.getItem('code'))
 			const data: any = await this.http_auth.getUser({type: type, type_code: type_code});
@@ -71,12 +87,6 @@ export class TellermainComponent implements OnInit {
 		}catch(err){
 			this._snackBar._showSnack(err, 'error')
 		}
-		
-
-		this.current_wallet()
-		this.activitylog()
-		this.barkotaTrans()
-		this.currentDate = new Date ()
 	}
 
 
@@ -124,35 +134,31 @@ export class TellermainComponent implements OnInit {
 
 	async activitylog (){
 		const result:any =	await this.http_teller.getLogs()
-		
+
 		const data :any = JSON.parse(result).filter((x:any)=>{ return x.reference === atob(sessionStorage.getItem('code')) }).map((res:any)=>res) 
 
 		this.activityLogs = data
 		
-		
 	}
 
 	async barkotaTrans(){
+
 		let dateNow = new Date()
 		let t_charge = 0
 		//  
-		const res : any = await this.http_teller.getBarkotaTransactions()
-		// 
+		
+		const res :any =  await this.http_teller.getBarkotaTransactions()
+		
 		const data :any = JSON.parse(res).filter((x:any)=> { 
 			return x.transacted_by === atob(sessionStorage.getItem('code')) && moment(x.transacted_date).format("YYYY-MM-DD") + "00:00:00" === moment(dateNow).format("YYYY-MM-DD") + "00:00:00"
 		}).map((z:any)=>{
 			t_charge += z.franchise_charge	
 		})
-
-		this.barkotaLength = data.length
-		if(this.barkotaLength === 0){
-			this.message = 'NO TRANSACTION TODAY...'
-		}else{
-			this.doughnutChartLabels = ['Barkota']
-			this.doughnutChartData = [ [data.length] ]	
-		}
-
+		
 		this.dataHandler = t_charge
+		this.barkotaLength = data.length
+		this.numberofTransactions()
+		
 	}
 	showAll(){
 		if(this.bottomMessage === 'see more...'){
@@ -164,6 +170,24 @@ export class TellermainComponent implements OnInit {
 		}
 	}
 
-	
+	async eloads(){
+		let dailyIncome = 0
+		
+		const object = await this.http_teller.getLoadCentralTransactions()
+		const res = Object.values(object)
+		const data :any = res.filter((x:any)=>{
+			return x.tellerCode === atob(sessionStorage.getItem('code')) && moment(x.createdDate).format("YYYY-MM-DD") + "00:00:00" === moment(this.currentDate).format("YYYY-MM-DD") + "00:00:00"
+		}).map((y:any)=>{
+			dailyIncome += y.markUp
+		})
+		this.eloadsIncome = dailyIncome
+		this.eloadsDailyTransactions = data.length 
+
+		this.numberofTransactions()
+	}
+
+	numberofTransactions(){
+		this.doughnutChartData = [[this.eloadsDailyTransactions,this.barkotaLength]]
+	}
 	
 }

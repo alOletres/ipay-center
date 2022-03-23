@@ -1,0 +1,16 @@
+
+
+// @media print {
+// 	#id {
+// 		background-color: red; /* more specific style to override color to red */
+// 	}
+// }
+#showOnPrnt {
+    display: none;
+}
+
+@media print {
+    #showOnPrnt {
+        display: block;
+    }   
+}

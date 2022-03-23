@@ -11,7 +11,7 @@
 		</button>
 		<mat-menu #userMenu="matMenu" xPosition="before">
 			<div class="user-menu-title">
-				<h4 class="user-menu-title__name">{{ fullname }}</h4>
+				<h4 class="user-menu-title__name" style="text-transform: uppercase;">{{ fullname }}</h4>
 			</div>
 			<button mat-menu-item class="user-menu__item-title">
 				<mat-icon class="user-menu-icon">person</mat-icon>Profile
@@ -23,7 +23,7 @@
 				<button class="sign-button" mat-flat-button (click)="signOutEmit()">Sign out</button>
 			</div>
 		</mat-menu>
-		 <span class="username">hi Teller, <b> {{ fullname }} </b></span>
+		 <span class="username">hi Teller, <b style="text-transform: uppercase;"> {{ fullname }} </b></span>
 	</div>
 
 </mat-toolbar>
@@ -55,7 +55,7 @@
 				<br>
 				<div class="row">
 					<div class="col-md-12" >
-						<mat-card style="background-color: rgb(241, 178, 106); margin: 1px;">
+						<mat-card style=" margin: 1px;">
 							<mat-card-title-group >
 								<mat-card-title > {{ c_wallet }}</mat-card-title>
 								
@@ -71,7 +71,7 @@
 				<br>
 				<div class="row">
 					<div class="col-md-12" >
-						<mat-card style="background-color: lightblue; margin: 1px;">
+						<mat-card style="background-color: rgb(45, 150, 219); margin: 1px;">
 							<mat-card-title-group >
 								<mat-card-title > {{ dataHandler | currency : "&#8369;"  }}</mat-card-title>
 								
@@ -79,7 +79,23 @@
 								<mat-icon   > directions_boat</mat-icon>
 							</mat-card-title-group>
 							<mat-card-content >
-								<p> BARKOTA</p>
+								<p> FERRIES</p>
+							</mat-card-content>
+						</mat-card>	
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-md-12" >
+						<mat-card style="background-color: rgb(241, 178, 106); margin: 1px;">
+							<mat-card-title-group >
+								<mat-card-title > {{ eloadsIncome | currency : "&#8369;"  }}</mat-card-title>
+								
+								<mat-card-subtitle style="color:white;">  </mat-card-subtitle>
+								<mat-icon>phone_iphone</mat-icon>
+							</mat-card-title-group>
+							<mat-card-content >
+								<p> ELOADS</p>
 							</mat-card-content>
 						</mat-card>	
 					</div>
@@ -87,7 +103,7 @@
 				<br>
 				<div class="row">	
 					<div class="col-md-12">
-						<mat-card>
+						<mat-card style="height: 230px; overflow-y: scroll;">
 							<mat-card-title style="font-size:15px ; color: gray;"> 
 								<b>Activity logs... </b>
 								<mat-divider  [inset]="false"></mat-divider>	

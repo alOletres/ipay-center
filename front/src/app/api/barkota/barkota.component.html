@@ -20,7 +20,6 @@
 		</mat-toolbar>
 	</div>
 </div>
-<br><br>
 <!-- 
   <div hidden="true">
 </div> -->
@@ -80,12 +79,10 @@
                 <button class="formbtn-actions__save" type="button" (click)="function_submitRoutes()" mat-raised-button  [disabled]="routesForm.invalid">View Routes</button>
             </div>
         </form>
-        <br><br><br><br>
-
-
+		<br><br><br>
         <!-- stepper here -->
 	
-		<mat-stepper [linear]="isLinear" #stepper>
+		<mat-stepper [linear]="isLinear" #stepper style="width:100%;">
 				<mat-step [stepControl]="firstFormGroup" >
 					<form [formGroup]="firstFormGroup">
 							<ng-template matStepLabel>Available Trips</ng-template>
@@ -242,12 +239,9 @@
 									aria-labelledby="example-radio-group-label"
 									class="example-radio-group" [(ngModel)]="selectDetail" [ngModelOptions]="{standalone: true}" (click)="function_viewDetails(element)">
 										<mat-radio-button class="example-radio-button"  [value]="element.routePriceName"  ></mat-radio-button>
-									</mat-radio-group>
+								</mat-radio-group>
 							</td>
 						</ng-container>
-
-						
-
 						
 						<tr mat-header-row *matHeaderRowDef="displayedColumnsss"></tr>
 						<tr mat-row *matRowDef="let row; columns: displayedColumnsss;"></tr>
@@ -386,7 +380,6 @@
 				
 			  </div>
 		 </div>
-		<br><br><br><br>
 		<!-- for total tickets  -->
 
 		<div *ngIf="contactForm.valid" fxLayout="row wrap">
@@ -458,11 +451,10 @@
 							</tbody>
 							
 						</table>
-						<br>
-						<hr>
 					</mat-card-content>
 					<button style="float: right;" class="formbtn-actions__save" mat-raised-button type="button" (click)="function_bookNow()"  >Book Now!</button>
-					
+					<br>
+
 				</mat-card>
 			</div>
 		</div>
@@ -480,7 +472,7 @@
 		</h4>
 	</div>
 	<div style="margin: auto;">
-		<table style="border: solid 1px #ccc; padding: 2px;">
+		<table style="border: solid 1px #ccc; padding: 2px;margin: auto; width: 100%;">
 			<thead>
 				<tr>
 					<th style="border: solid 1px #ccc; width:  24rem;"> Fee</th>

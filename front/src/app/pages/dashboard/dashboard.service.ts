@@ -47,4 +47,32 @@ import { EndPoint } from "./../../globals/endpoints";
 			return err
 		}
 	}
+	async getTransactionLoadCentralByBranch(data:any){
+		try{
+			return await this.http.post(`${ EndPoint.endpoint }/eload/eloads/getTransactionLoadCentralByBranch`, data, {responseType : 'text'}).toPromise()
+		}catch(err){
+			return err
+		}
+	}
+	async getLoadCentralTransactions(){
+		try{
+			return await this.http.get(`${ EndPoint.endpoint }/eload/eloads/getLoadCentralTransactions`).toPromise()
+		}catch(err){
+			return err
+		}
+	}
+	async getMotherWallet(){
+		try{
+			return await this.http.get(`${ EndPoint.endpoint }/admin/admins/getMotherWallet`, {responseType : 'text'}).toPromise()
+		}catch(err){
+			return err
+		}
+	}
+	async commission(){
+		try{
+			return await this.http.get(`${ EndPoint.endpoint }/admin/admins/getCommission`, {responseType : 'text'}).toPromise()
+		}catch(err){
+			return err
+		}
+	}
 }
