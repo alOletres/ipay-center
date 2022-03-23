@@ -1,0 +1,56 @@
+<div>
+	<div style="text-align: center; color: #6E6E6E; border-bottom: 1px solid #E8EAFC">
+		<h4 >Bills Payment</h4>
+	</div>
+
+	<div >
+		<br>
+
+
+		<form [formGroup]="billingForm">
+
+			<mat-form-field class="form__input" style="width: 100%;"  appearance="outline">
+				<mat-label>Costumers Name</mat-label>
+				<input type="text" matInput formControlName="CostumersName" >
+			</mat-form-field>
+
+			<mat-form-field class="form__input" style="width: 100%;"  appearance="outline">
+				<mat-label>Contact No.</mat-label>
+				<input type="" matInput formControlName="contactNo" (keypress)="validateOnlyNumbers($event)">
+			</mat-form-field>
+
+			<mat-form-field class="form__input" style="width: 100%;"  appearance="outline">
+				<mat-label>Reference Number</mat-label>
+				<input type="text" matInput formControlName="RefNo" >
+			</mat-form-field>
+
+			<mat-form-field class="form__input" style="width: 100%;"  appearance="outline">
+				<mat-label>Amount</mat-label>
+				<input type="text" matInput formControlName="Amount" (keypress)="validateOnlyNumbers($event)">
+			</mat-form-field>
+
+			<div style="width: 100%; background:#f0f0f0; padding: 4px 3px; color: rgb(24, 24, 109)">
+				Costumers Name: <b style="font-weight: 500; color: black;">{{ billingForm.value.CostumersName }}</b><br>
+				Contact No.: <b style="font-weight: 500; color: black;">{{ billingForm.value.contactNo }}</b><br>
+				Reference No.: <b style="font-weight: 500; color: black;">{{ billingForm.value.RefNo }}</b><br>
+				Amount: <b style="font-weight: 500; color: black;">{{ billingForm.value.Amount | number:'1.2-2' }}</b><br>
+				Transactions Type: <b style="font-weight: 500; color: black;">NBI Clerance</b><br>
+			</div>
+
+			<div mat-dialog-actions align="end">
+
+				<button type="submit" mat-raised-button color="primary" >
+					Continue
+				</button>
+
+				<button type="button" (click)="closeDialog()" mat-raised-button color="accent">
+					Close
+				</button>
+
+			</div>
+		</form>
+	</div>
+
+
+
+</div>

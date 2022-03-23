@@ -1,2 +1,14 @@
-<p>multisys works!</p>
-<p>hello world</p>
+<mat-toolbar class="page-header" role="heading">
+	<div  [routerLink]="['/tellerdashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  fxFlex="10%" fxFlex.md="10%" fxFlex.xs="10%">
+		<button style=" margin-left: 20px; color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+			<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+		</button>
+	</div>
+	<div fxFlex="40%" fxFlex.md="40%" fxFlex.xs="40%">
+		<h1>Gov't Bill Payments</h1>
+	</div>
+	<div fxFlex="50%" fxFlex.md="50%" fxFlex.xs="50%" style="text-align: right">
+		<button mat-raised-button style="font-size: 15px; background-color:#039A4D; color: white" (click)="openDialogMltsis()">Bills & Payments</button>
+	</div>
+
+</mat-toolbar>
