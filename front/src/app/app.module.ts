@@ -17,6 +17,8 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LOADING_BAR_CONFIG } from '@ngx-loading-bar/core';
 
+import { StoreModule } from "@ngrx/store";
+import { reducers } from "./store/reducer";
 
 const config: SocketIoConfig = {
 	url: 'http://192.168.1.53:7000',
@@ -29,6 +31,8 @@ const config: SocketIoConfig = {
 	],
 	imports: [
 		BrowserModule,
+		
+		StoreModule.forRoot(reducers),
 		BrowserAnimationsModule,
 		AppRoutingModule,
 		AuthModule,

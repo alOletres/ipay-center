@@ -140,12 +140,12 @@ export class AdminBarkotaComponent implements OnInit {
 				
 			})
 		}catch(e){
-			
+			this._snackBar._showSnack(e, 'error')
 		}
 	}
 
 	function_back(){
-		this.ticketTableTransactions = false
+		this.ticketTableTransactions = false 
 		this.barkotaApiCard = true
 		this.btnBack = false
 	}
