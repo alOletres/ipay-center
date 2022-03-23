@@ -64,6 +64,12 @@ import { NgxPrintModule } from 'ngx-print';
  import { FilterPipe } from "./../../api/loadcentral/shared/pipe/filter.pipe";
 
 
+ /**
+  * Multysis
+  */
+import { MultisysComponent } from "./../../api/multisys/multisys.component";
+import { MultysiscompComponent } from "./../../api/multisys/shared/multysiscomp/multysiscomp.component";
+
 @NgModule({
 	declarations: [
 		BarkotaComponent,
@@ -88,7 +94,9 @@ import { NgxPrintModule } from 'ngx-print';
 		LclistTransComponent,
 		FilterPipe,
 		EloadDailtyTotalPipe,
-		eloadsDailyMarkUpPipe
+		eloadsDailyMarkUpPipe,
+		MultisysComponent,
+		MultysiscompComponent
 	],
 	imports: [
 		CommonModule,

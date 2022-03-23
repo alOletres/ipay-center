@@ -3,10 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SnackbarServices } from 'src/app/services/snackbar.service';
-import { LoadcentralService } from '../../services/loadcentral.service';
-import { LccompntTransComponent } from '../lccompnt-trans/lccompnt-trans.component';
 import SocketService from 'src/app/services/socket.service';
 import moment from 'moment';
+
+import { LoadcentralService } from '../../services/loadcentral.service';
+import { LccompntTransComponent } from '../lccompnt-trans/lccompnt-trans.component';
+
 @Component({
 	selector: 'app-lc-trans',
 	templateUrl: './lc-trans.component.html',
@@ -40,11 +42,10 @@ export class LcTransComponent implements OnInit {
 		await this.http_load.getLoadCentralTransactions()
 		.then((result:any)=>{
 
-			const res = result.filter((x:any)=>{ return x.tellerCode === atob(sessionStorage.getItem('code')) 
-														&& moment(x.createdDate).format("YYYY-MM-DD") + "00:00:00" === moment(new Date()).format("YYYY-MM-DD") + "00:00:00"})
+			const res = result.filter((x:any)=>{ return x.tellerCode === atob(sessionStorage.getItem('code'))  && moment(x.createdDate).format("YYYY-MM-DD") + "00:00:00" === moment(new Date()).format("YYYY-MM-DD") + "00:00:00"})
 			.map((y:any)=>y)
 
-			this.dataSource = new MatTableDataSource<any>(res)// display for log user franchise 
+			this.dataSource = new MatTableDataSource<any>(res)// display for log user franchise
 			this.dataSource.paginator = this.paginator
 
 		}).catch(()=>{
