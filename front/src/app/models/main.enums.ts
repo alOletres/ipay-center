@@ -3,5 +3,10 @@ export enum companyLog {
 
    
 } 
+export enum Stores {
+    USERCODES = "UserCodes",
+    USERDETAILS = "UserDetails"
+}
+ 
 
 // export const ROOT_PATH = environment.production ? "https://ipaypaymentcenter.com:3000" : "http://192.168.1.53:3000"

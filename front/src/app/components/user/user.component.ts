@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { SnackbarServices } from 'src/app/services/snackbar.service';
 import { AuthenticationService } from './../../services/authentication.service'
+/**STATE MANAGEMENT */
+import { Store } from '@ngrx/store';
+import { UserCodeState } from 'src/app/store/reducer/user.reducer';
+// import { UserDetailsState } from 'src/app/store/reducer/userdetails.reducer';
+import { RemoveUser, RemoveUserDetails } from 'src/app/store/actions/action.actions';
 @Component({
 	selector: 'app-user',
 	templateUrl: './user.component.html',
@@ -9,7 +14,12 @@ import { AuthenticationService } from './../../services/authentication.service'
 })
 export class UserComponent implements OnInit {
 	fullname:any
-	constructor(private router: Router, private http_auth: AuthenticationService, private _snackBar : SnackbarServices) { }
+	constructor(private router: Router,
+				private http_auth: AuthenticationService,
+				private _snackBar : SnackbarServices,
+				private UserStore : Store<UserCodeState>,
+				// private UserDetailsStore: Store<UserDetailsState> 
+				) { }
 
 	async ngOnInit(){
 		if(atob(sessionStorage.getItem('type')) == 'Admin'){
@@ -27,10 +37,14 @@ export class UserComponent implements OnInit {
 		* offline
 		*/
 
+
 		await this.http_auth.signOut({
 			type : atob(sessionStorage.getItem('type')),
 			code : atob(sessionStorage.getItem('code'))
 		}).then((response : any)=>{
+
+			this.UserStore.dispatch(new RemoveUser())
+			// this.UserDetailsStore.dispatch(new RemoveUserDetails())			
 			if(response.message === 'ok'){
 				window.sessionStorage.clear();
 				this.router.navigate(['/login']);
@@ -41,7 +55,7 @@ export class UserComponent implements OnInit {
 			this._snackBar._showSnack(err, 'error')
 		})
 
-
+		
 
 	}
 }

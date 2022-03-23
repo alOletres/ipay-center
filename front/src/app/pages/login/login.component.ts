@@ -5,6 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from './../../services/authentication.service'
 import { SnackbarServices } from './../../services/snackbar.service';
 import { NgToastService } from 'ng-angular-popup';
+import { StoreService } from 'src/app/store/store.service';
+import { Stores } from 'src/app/models/main.enums';
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
@@ -19,10 +21,8 @@ export class LoginComponent implements OnInit {
 		private httpAuthentication: AuthenticationService,
 		private _snackBar: SnackbarServices,
 		private router: Router,
-		private toast : NgToastService
-		
-		
-		
+		private toast : NgToastService	,	
+		private methodStore : StoreService
     ) {
         this.loginForm = this.fb.group({
             username: ['', [Validators.required]],
@@ -42,7 +42,9 @@ export class LoginComponent implements OnInit {
 		const checkUser:any = await this.httpAuthentication.checkuserAccount(this.loginForm.value)
 		
 		this._snackBar._showSnack(`Success`, 'success')
-		
+
+		this.methodStore.addToStore(Stores.USERCODES,  {data : checkUser })		
+
 		sessionStorage.setItem('userLog', btoa(checkUser.id));
 		sessionStorage.setItem('type', btoa(checkUser.user_type));
 		sessionStorage.setItem('code', btoa(checkUser.username)); //decript atob

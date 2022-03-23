@@ -3,19 +3,20 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/app.state';
 
-import { USERCodes } from 'src/app/store/selectors/selector.selectors';
-import { UserCodeState } from 'src/app/store/reducer/user.reducer';
 
 import { ViewdialogComponent } from 'src/app/globals/globa_components/viewdialog/viewdialog.component';
 import { BranchService } from 'src/app/services/branch.service';
 import { ResetformService } from 'src/app/services/resetform.service';
 import { SnackbarServices } from 'src/app/services/snackbar.service';
 import SocketService from 'src/app/services/socket.service';
-// import { UserCodes } from 'src/app/models/interfaces';
-import { Observable } from 'rxjs';
+/**STATE MANAGEMENT */
+import { Store } from '@ngrx/store';
+import { UserCodes,
+	//  UserDetails
+	 } from 'src/app/store/selectors/selector.selectors';
+import { UserCodeState } from 'src/app/store/reducer/user.reducer';
+// import { UserDetailsState } from 'src/app/store/reducer/userdetails.reducer';
 
 @Component({
 selector: 'app-ibarangay',
@@ -40,7 +41,9 @@ export class IbarangayComponent implements OnInit {
 				 private dialog : MatDialog,
 				 private resetForm : ResetformService,
 				 private socketService : SocketService,
-				 private store : Store<UserCodeState> ) {
+				 private UserStore : Store<UserCodeState>,
+				//  private UserDetailsStore : Store<UserDetailsState>
+				  ) {
 
 		this.socketService.eventListener("response_addiBarangay").subscribe(()=> { this.ngOnInit() })
 		this.socketService.eventListener("response_ibarangay").subscribe(()=> { this.ngOnInit() })
@@ -54,10 +57,15 @@ export class IbarangayComponent implements OnInit {
 		})
 
 		this.btnName = "Save"
-		this.store.select(USERCodes).subscribe((data:any)=>{
+		
+		this.UserStore.select(UserCodes).subscribe((data:any)=>{
 			console.log(data);
 			/**to read the data */
 		})
+		// this.UserDetailsStore.select(UserDetails).subscribe((data:any)=>{
+		// 	console.log(data);
+			
+		// })
 	}
 
 	async ngOnInit() {
@@ -228,6 +236,7 @@ export class IbarangayComponent implements OnInit {
 
 	reset(){
 		this.resetForm.reset(this.ibarangayForm)
+		
 	}
 
 	

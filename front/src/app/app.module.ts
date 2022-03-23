@@ -18,7 +18,10 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LOADING_BAR_CONFIG } from '@ngx-loading-bar/core';
 
 import { StoreModule } from "@ngrx/store";
-import { reducers } from "./store/reducer";
+import { reducers, metaReducers } from "./store/reducer";
+
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment'; // Angular CLI environemnt
 
 const config: SocketIoConfig = {
 	url: 'http://192.168.1.53:7000',
@@ -31,8 +34,6 @@ const config: SocketIoConfig = {
 	],
 	imports: [
 		BrowserModule,
-		
-		StoreModule.forRoot(reducers),
 		BrowserAnimationsModule,
 		AppRoutingModule,
 		AuthModule,
@@ -40,9 +41,12 @@ const config: SocketIoConfig = {
 		TellerModule,
 		ChartsModule,
 		SocketIoModule.forRoot(config),
+		StoreModule.forRoot(reducers),
 		LoadingBarHttpClientModule,
 		LoadingBarRouterModule,
-		LoadingBarModule
+		LoadingBarModule,
+		StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+		!environment.production ? StoreDevtoolsModule.instrument() : [],
 		
 	],
 	
