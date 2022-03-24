@@ -35,9 +35,12 @@
 		<mat-icon>notifications_none</mat-icon> <span matBadgeColor="accent" matBadge=" {{ datalenght }}" matBadgeOverlap="false"> Notification</span>
 	</mat-list-item>
 
+	<mat-list-item [routerLink]="['/SERVICES']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+		<mat-icon>view_list</mat-icon> <span>Services</span>
+	</mat-list-item>
 </mat-list>
 
-
+<!-- 
 <mat-list>
 	<mat-list-item (click)="openUiElements_()">
 		<mat-icon>view_list</mat-icon> <span>Services</span>
@@ -45,7 +48,7 @@
 	</mat-list-item>
 	
 	<div *ngIf="isOpenSubMenu_">
-		<!-- <mat-list-item class="ui-element" routerLink="" routerLinkActive="">
+		<mat-list-item class="ui-element" routerLink="" routerLinkActive="">
 			<mat-icon>airplanemode_active</mat-icon> <span> Airlines </span>
 		</mat-list-item>
 		<mat-list-item class="ui-element" routerLink="" routerLinkActive="">
@@ -56,21 +59,21 @@
 		</mat-list-item>
 		<mat-list-item class="ui-element" routerLink="" routerLinkActive="">
 			<mat-icon>save_alt</mat-icon><span>Eloads</span>
-		</mat-list-item> -->
+		</mat-list-item>
 		<mat-list-item class="ui-element" [routerLink]="['/barkota']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
 			<mat-icon> directions_boat</mat-icon><span>Ferries</span>
 		</mat-list-item>
 		<mat-list-item class="ui-element" [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
 			<mat-icon> phone_iphone</mat-icon><span>ELOADS</span>
 		</mat-list-item>
-		<!-- <mat-list-item class="ui-element" routerLink="" routerLinkActive="">
+		<mat-list-item class="ui-element" routerLink="" routerLinkActive="">
 			<mat-icon> attach_money</mat-icon><span>Remittance</span>
 		</mat-list-item>
 		<mat-list-item class="ui-element" routerLink="" routerLinkActive="">
 			<mat-icon> money_off</mat-icon><span>Withdrawal</span>
-		</mat-list-item> -->
+		</mat-list-item>
 	</div>
-</mat-list>
+</mat-list> -->
 
 <p class="sidebar-title">Others</p>
 

@@ -76,6 +76,7 @@ import { WalletHistoryComponent } from './../../pages/transaction/wallet-history
 import { LoadCentralHistoryComponent } from './../../pages/transaction/load-central-history/load-central-history.component';
 import { TopuploadListComponent } from './../../pages/transaction/topupload-list/topupload-list.component';
 import { TellerComponent } from './../../pages/teller/teller.component';
+import { ServicesListComponent } from './../../pages/services-list/services-list.component';
 /**
  * pipes
  */
@@ -144,7 +145,8 @@ import { TotalIncomeCommissionPipe, SearchByCommissionPipe, TotalIncomeWalletHis
 		TotalIncomeWalletHistoryPipe,
 		CommissionComponent,
 		SearchByCommissionPipe,
-		TotalIncomeCommissionPipe
+		TotalIncomeCommissionPipe,
+		ServicesListComponent
 	],
 	imports: [
 		CommonModule,

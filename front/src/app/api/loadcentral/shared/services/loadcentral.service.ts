@@ -65,4 +65,12 @@ export class LoadcentralService {
 		}
 	}
 
+	async eLoadCheckStatus(data:any){
+		try{
+			return await this.http.post(`${ EndPoint.endpoint }/eload/eloads/eLoadCheckStatus`, data, {responseType: 'text'}).toPromise()
+		}catch(err){
+			throw err
+		}
+	}
+
 }

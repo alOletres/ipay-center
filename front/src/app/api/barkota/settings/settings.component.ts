@@ -108,7 +108,6 @@ export class SettingsComponent implements OnInit {
 				
 			
 			).subscribe(data => {
-				// console.log(JSON.parse(data));
 				
 				if(JSON.parse(data).length === 0 ){
 					this._snackBar._showSnack('No available data', 'error');

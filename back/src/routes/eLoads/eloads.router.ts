@@ -324,6 +324,32 @@ class EloadsController {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}
 		})
+		/**inquire status */
+		/**
+		 * Sell Product Request Status
+         *    : https://loadcentral.net/sellapiinq.do
+         *    ?uid=63xxxxxxxxxx
+         *    &auth=6cfa21290ed4f9cac5f366aaf2889526
+         *    &rrn=ABC5203432373
+		 */
+		this.router.post('/eLoadCheckStatus',async (req, res) => {
+			const { reference_id } = req.body
+
+			try{
+				const hashed = md5(md5(reference_id) + md5(LOADCENTRAL_PROD_USERNAME + LOADCENTRAL_PROD_PASSWORD ))
+				
+				await axios.post(`${LOADCENTRAL_SELL_PRODUCT_STATUS}?uid=${LOADCENTRAL_PROD_USERNAME}&auth=${ hashed }&rrn=${ reference_id }`)
+				.then(async(result:any)=>{
+					const xml = await parseXML(`<data>${ result.data }</data>`)
+
+					console.log(xml);
+					
+				})
+			}catch(err:any){
+				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+			}
+			
+		})
 
     }
     get routerObject() { return this.router }

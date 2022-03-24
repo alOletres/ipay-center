@@ -22,9 +22,9 @@ export class LcExcelService {
 
 	exportAsExcelFile(...data:any){
 
-		const { firstname, lastname, email, contactNo, franchiseName, location } = JSON.parse(atob(sessionStorage.getItem('d')))[0]
 		
-		const fileName = franchiseName
+		
+		const fileName = ''
 		this.workbook.creator = 'alOletres';
 		this.workbook.lastModifiedBy = 'Me';
 		this.workbook.created = new Date();
@@ -60,14 +60,24 @@ export class LcExcelService {
 		});	
 
 		worksheet.addImage(companyLogo, 'A1:C6')//adding image
-		const subSeaders = [[franchiseName], [location], [email], [`+63${contactNo}`], [`${firstname}  ${lastname}`]]
-		subSeaders.forEach(d => {	
-						
-			const x = worksheet.addRow([])
-			worksheet.getCell(`D${ x.number }`).value = d[0].toUpperCase()
-			worksheet.getCell(`D${ x.number }`).alignment = { vertical: 'middle', horizontal: 'left' }
-			
-		})
+		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
+			/**ADMIN  */
+			worksheet.addRow([])
+			worksheet.addRow([])
+			worksheet.addRow([])
+			worksheet.addRow([])
+			worksheet.addRow([])
+		}else{
+			const { firstname, lastname, email, contactNo, franchiseName, location } = JSON.parse(atob(sessionStorage.getItem('d')))[0]
+			const subSeaders = [[franchiseName], [location], [email], [`+63${contactNo}`], [`${firstname}  ${lastname}`]]
+			subSeaders.forEach(d => {	
+							
+				const x = worksheet.addRow([])
+				worksheet.getCell(`D${ x.number }`).value = d[0].toUpperCase()
+				worksheet.getCell(`D${ x.number }`).alignment = { vertical: 'middle', horizontal: 'left' }
+				
+			})
+		}
 		/**
 		 * @dateDownloaded
 		 */
@@ -159,8 +169,6 @@ export class LcExcelService {
 			const blob = new Blob([_buffer], { type: EXCEL_TYPE });
 			FileSaver.saveAs(blob, `${ fileName } Load Central Reports Exported - ${ moment().format('ll') }`+ EXCEL_EXTENSION);
 		});
-		console.log(w);
-		
 	}
 
 	global(params:any) {

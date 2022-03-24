@@ -37,5 +37,8 @@ export enum LoadCentralCredential {
     LOADCENTRAL_PROD_USERNAME =  'masterpayavenue2016',
     LOADCENTRAL_PROD_PASSWORD =  '7654321'
 }
+export enum MultisysCredentials {
+    XMECOM_PARTNER_SECRET = 'qWe4a2yc5w3qs6TufOeC009Wdtpky00wlqY9p8hi0n7OF5WJy1mlrUmTLs1MOwSpBqsWSj15gt539ygmbW7g8j97L0MYXo4ouSCNFmwpmQBj4MdWVnPaINam4L3PzD43'
+}
 
 

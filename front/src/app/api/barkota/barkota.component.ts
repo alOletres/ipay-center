@@ -146,7 +146,6 @@ export class BarkotaComponent implements OnInit {
 				private http_excel : ExcelService,
 				private socketService : SocketService) 
 		{
-			console.log(atob(sessionStorage.getItem('tN')));
 			this.routesForm = this.fb.group({
 				origin : ['', [Validators.required]],
 				destination : ['', [Validators.required]],
@@ -155,10 +154,6 @@ export class BarkotaComponent implements OnInit {
 		}
 
 	ngOnInit(){
-
-		console.log(atob(sessionStorage.getItem('code')));
-		
-		
 
 		if(this.addPassengerArray === undefined){
 			this.passengerLength = 0
@@ -331,12 +326,10 @@ export class BarkotaComponent implements OnInit {
 		dialog.close()
 	}
 	 function_selectAccommodation(data : any, i:any){
-		// console.log(data, i);
 		
 		const dialog = this.dialog.open(LoadingDialogComponent,{disableClose:true})
 
 		this.accomodationId = data.id
-		console.log(this.dataSource);
 		
 		this.getAccomodation.subscribe((index :any)=>{
 			
@@ -370,9 +363,7 @@ export class BarkotaComponent implements OnInit {
 	function_viewDetails(data:any){
 		this.detailsTable = true
 		this.routeName = data.routePriceName
-		this.routeType = data.routePriceType.name
-		console.log(data.details);
-		
+		this.routeType = data.routePriceType.fileName
 		this.dataDetails = data.details
 		
 	}
@@ -408,10 +399,9 @@ export class BarkotaComponent implements OnInit {
 			this.discountType = i
 			
 			this.cotsLength = JSON.parse(data).length
-			// console.log(this.cotsLength);
 			
 				if(this.cotsLength === this.compareValue ){
-					console.log('true');
+
 				}else{
 					JSON.parse(data).forEach((element: any) => {
 						
@@ -474,7 +464,6 @@ export class BarkotaComponent implements OnInit {
 					total 				: JSON.parse(response).total
 				})
 			}
-			console.log(this.displayTicketTotal);
 			var ticketTotal = 0
 			var terminalFee = 0
 			var outletServiceFee  = 0
@@ -514,7 +503,7 @@ export class BarkotaComponent implements OnInit {
 
 
 	 function_revalidateTicket (){
-		console.log(this.priceDetailId, this.voyageId, this.revalidateTicket, this.departureCotId);
+
 		const token : any = this.cookieService.get('token')
 		try{
 			 this.barkotaService.function_revalidateTicket({
@@ -559,13 +548,12 @@ export class BarkotaComponent implements OnInit {
 		const dialogRef = this.dialog.open(CotsdialogComponent,{
 			width : '800px',
 			// disableClose : true,
+			autoFocus: false,
 			data : {
 				cots : this.cotsName
 			}
 		})
 		dialogRef.afterClosed().subscribe(result=>{
-			// console.log(result);
-			
 			this.addPassengerArray[this.addPassengerArray.findIndex(item => item.id === id)].cots = result.name
 			this.addPassengerArray[this.addPassengerArray.findIndex(item => item.id === id)].departureCotId = result.id
 			
@@ -706,7 +694,6 @@ export class BarkotaComponent implements OnInit {
 								}
 							})
 						} else if (data[0].current_wallet <= 1000){
-							console.log('wallet <= 5000');
 							// cant transact snack bar will appear
 							this._snackBar._showSnack('Cant Proceed Transaction Please Reload before to Continue', 'error')
 							dialogref.close()

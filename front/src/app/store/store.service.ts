@@ -17,8 +17,6 @@ export class StoreService {
 				  ) { }
 
 	addToStore(storeName:any, data:any){
-		console.log(storeName);
-		
 		switch(storeName){
 			case Stores.USERCODES:
 				this.STORE_USERCODES.dispatch( new AddUser(data) )

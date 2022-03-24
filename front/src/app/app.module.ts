@@ -21,7 +21,8 @@ import { StoreModule } from "@ngrx/store";
 import { reducers, metaReducers } from "./store/reducer";
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment'; // Angular CLI environemnt
+import { environment } from '../environments/environment';
+ // Angular CLI environemnt
 
 const config: SocketIoConfig = {
 	url: 'http://192.168.1.53:7000',

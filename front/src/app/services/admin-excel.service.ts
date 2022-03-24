@@ -21,11 +21,6 @@ export class AdminExcelService {
 	constructor() { }
 	
 	async exportAsExcelFile(data:any, type:any, name:any) {
-
-		console.log(data);
-		console.log(type);
-		console.log(name);
-		
 		const worksheet = this.workbook.addWorksheet('My Sheet', {
 
 			pageSetup:{paperSize: 5, orientation:'landscape'},
@@ -195,8 +190,6 @@ export class AdminExcelService {
 		// 	branchName.border = { top: { style: 'thin' } };
 
 		// }
-			 	
-
 		worksheet.getColumn(2).width = 20;
 		worksheet.getColumn(3).width = 20;
 		worksheet.getColumn(4).width = 25;
@@ -214,8 +207,6 @@ export class AdminExcelService {
 			const blob = new Blob([_buffer], { type: EXCEL_TYPE });
 			FileSaver.saveAs(blob, `${ fileName } Reports Exported - ${ moment().format('ll') }`+ EXCEL_EXTENSION);
 		});
-		console.log(w);
-		
 	}
 
 	global(params:any) {

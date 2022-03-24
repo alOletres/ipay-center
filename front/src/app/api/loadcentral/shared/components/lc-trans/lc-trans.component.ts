@@ -45,11 +45,19 @@ export class LcTransComponent implements OnInit {
 			const res = result.filter((x:any)=>{ return x.tellerCode === atob(sessionStorage.getItem('code'))  && moment(x.createdDate).format("YYYY-MM-DD") + "00:00:00" === moment(new Date()).format("YYYY-MM-DD") + "00:00:00"})
 			.map((y:any)=>y)
 
-			this.dataSource = new MatTableDataSource<any>(res)// display for log user franchise
+			this.dataSource = new MatTableDataSource<any>(result)// display for log user franchise
 			this.dataSource.paginator = this.paginator
 
 		}).catch(()=>{
 			this._snackBar._showSnack('Failed to Fetch', 'error')
+		})
+	}
+
+	async eLoadsCheckStatus(data:any){
+		await this.http_load.eLoadCheckStatus(data)
+		.then((response:any)=>{
+			console.log(response);
+			
 		})
 	}
 

@@ -117,7 +117,8 @@ export class LoadCentralHistoryComponent implements OnInit {
 	exportAsExcel(){
 		
 		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
-			alert('buhaton pani ')
+			const result = this.pipeData.transform(this.dataSource, this.start, this.end, this.searchControl)
+			this.http_excel.exportAsExcelFile(result)
 		}else{
 			const result = this.pipeData.transform(this.dataSource, this.start, this.end, this.searchControl)
 			this.http_excel.exportAsExcelFile(result)

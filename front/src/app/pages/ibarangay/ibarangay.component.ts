@@ -59,7 +59,6 @@ export class IbarangayComponent implements OnInit {
 		this.btnName = "Save"
 		
 		this.UserStore.select(UserCodes).subscribe((data:any)=>{
-			console.log(data);
 			/**to read the data */
 		})
 		// this.UserDetailsStore.select(UserDetails).subscribe((data:any)=>{
@@ -71,14 +70,6 @@ export class IbarangayComponent implements OnInit {
 	async ngOnInit() {
 		await this.ibarangay()
 		this.type = atob(sessionStorage.getItem('type'))
-
-		// console.log(atob(sessionStorage.getItem('code')));
-		// console.log(atob(sessionStorage.getItem('type')));
-		// console.log(JSON.parse(atob(sessionStorage.getItem('d'))));
-		// console.log(atob(sessionStorage.getItem('userLog')));
-		
-		
-		
 	}
 
 	async ibarangay(){

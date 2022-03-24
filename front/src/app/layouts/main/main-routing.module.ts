@@ -24,6 +24,7 @@ import { LoadCentralHistoryComponent } from './../../pages/transaction/load-cent
 import { TopuploadListComponent } from './../../pages/transaction/topupload-list/topupload-list.component';
 import { WalletHistoryComponent } from './../../pages/transaction/wallet-history/wallet-history.component';
 import { CommissionComponent } from './../../pages/transaction/commission/commission.component';
+import { ServicesListComponent } from './../../pages/services-list/services-list.component';
 const routes: Routes = [
 	{
 		path: '',
@@ -80,6 +81,9 @@ const routes: Routes = [
 			}, {
 				path : 'commisionpage',
 				component :  CommissionComponent
+			}, {
+				path :'SERVICES',
+				component : ServicesListComponent
 			}
 		]
 	}

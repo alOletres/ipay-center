@@ -40,9 +40,6 @@ export class SettingsComponent implements OnInit {
 	async ngOnInit(){
 		const type :any = atob(sessionStorage.getItem('type'))
 		const type_code : any = atob(sessionStorage.getItem('code'))
-		console.log(type);
-		
-		
 		await this.http_auth.getUser({
 			type: type, type_code: type_code
 		}).then((response: any)=>{

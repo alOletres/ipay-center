@@ -1,30 +1,25 @@
 <!-- &nbsp; -->
-
-<div  fxLayout="row wrap">
-	<div fxFlex="100%" fxFlex.md="100%" fxFlex.xs="100%">
-		<mat-toolbar>
-			<div  [routerLink]="['/tellerdashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%">
-				<button style=" margin-left: 20px; color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
-					<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
-				</button>
-			</div>
-	
-			<div fxFlex="80%" fxFlex.md="100%" fxFlex.xs="100%">
-				<h1>List of Routes</h1>
-			</div>
-			<div fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%">
-				<mat-button-toggle-group   appearance="legacy" name="fontStyle" aria-label="Font Style">
-					<mat-button-toggle [routerLink]="['/barkotaSettings']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" matTooltip="Settings" > <mat-icon>settings</mat-icon> </mat-button-toggle>
-				</mat-button-toggle-group>
-			</div>
-		</mat-toolbar>
+<mat-toolbar class="page-header" role="heading">
+	<div  [routerLink]="['/tellerdashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%">
+		<button style=" margin-left: 20px; color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+			<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+		</button>
 	</div>
-</div>
+	<div fxFlex="40%" fxFlex.md="40%" fxFlex.xs="40%">
+		<h1>List of Routes</h1>
+	</div>
+	<div fxFlex="50%" fxFlex.md="50%" fxFlex.xs="50%" style="text-align: right">
+		<mat-button-toggle-group   appearance="legacy" name="fontStyle" aria-label="Font Style">
+			<mat-button-toggle style="background-color:#039A4D;" [routerLink]="['/barkotaSettings']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" matTooltip="Settings" > <i  style="font-size: 20px; color: white;" class="fa fa-cog" aria-hidden="true"></i> </mat-button-toggle>
+		</mat-button-toggle-group>
+	</div>
+
+</mat-toolbar>
 <!-- 
   <div hidden="true">
 </div> -->
 
-<mat-card >
+<mat-card>
 	<!-- <mat-card-title class="card__header">
 		<h5 class="card__title" style="margin-top: 5px;">{{ kindOfRoutes }}</h5>
 	</mat-card-title> -->
@@ -454,11 +449,14 @@
 					</mat-card-content>
 					<button style="float: right;" class="formbtn-actions__save" mat-raised-button type="button" (click)="function_bookNow()"  >Book Now!</button>
 					<br>
-
+					<br>
+					<br>
 				</mat-card>
+				<br><br><br>
 			</div>
 		</div>
 	</mat-card-content>
+	<br><br><br>
 </mat-card>
 
 
