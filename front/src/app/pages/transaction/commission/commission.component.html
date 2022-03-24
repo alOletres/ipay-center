@@ -1,17 +1,17 @@
 <div  fxLayout="row wrap">
-    <div fxFlex="5%" fxFlex.md="5%" fxFlex.xs="5%" class="example-button-container" >
-        <button [routerLink]="['/transactions']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="margin-top:50%; margin-left: 20px; color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
-            <i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
-        </button>
-    </div>
-	<div  fxFlex="78%" fxFlex.md="78%" fxFlex.xs="78%">
-		<mat-toolbar class="page-header" role="heading">
-			<h1>Transactions</h1>
-		</mat-toolbar>
-	</div>
-    <div style=" margin-top: 3%;" fxFlex="3%" fxFlex.md="3%" fxFlex.xs="3%">
-        <button (click)="print()"  mat-raised-button style="background-color:black;color: white;"> <i class="fa fa-print" aria-hidden="true" ></i>Print</button> 
-    </div>
+    <mat-toolbar class="page-header" role="heading">
+        <div fxFlex="5%" fxFlex.md="5%" fxFlex.xs="5%" class="example-button-container" >
+            <button [routerLink]="['/transactions']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style=" color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+                <i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div fxFlex="78%" fxFlex.md="78%" fxFlex.xs="78%">
+            <h1>Transactions</h1>
+        </div>
+        <div style=" margin-top: 3%;" fxFlex="3%" fxFlex.md="3%" fxFlex.xs="3%" style="padding-right:  10%;">
+            <button (click)="print()"  mat-raised-button style="background-color:black;color: white;"> <i class="fa fa-print" aria-hidden="true" ></i>Print</button> 
+        </div>
+    </mat-toolbar>
 </div>
 <br>
 <div fxLayout="row wrap">

@@ -2,26 +2,31 @@
     <mat-progress-bar mode="query" class="cs-absolute"></mat-progress-bar>
 </div> -->
 <div  fxLayout="row wrap">
-	<div *ngIf = "btnBack"  fxFlex="5%" fxFlex.md="100%" fxFlex.xs="100%">
-		<div class="example-button-container">
-			<button (click) = "function_back()" style="margin-top:50%; margin-left: 20px; color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
-				<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
-			</button>
-		</div>
-	</div>
-	<div  fxFlex="75%" fxFlex.md="100%" fxFlex.xs="100%">
-		<mat-toolbar class="page-header" role="heading">
-			<h1>Transactions</h1>
-		</mat-toolbar>
-	</div>
-	<div  *ngIf = "showloadTable"  style="margin-top: 3%;" fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%" >
-		<button (click)="print()" mat-raised-button style="background-color:black;color: white;"> <i class="fa fa-print" aria-hidden="true"></i> Print </button>
-	</div>
-	
-	<div  *ngIf = "showloadTable"  style="margin-top: 3%;" fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%" >
-		<button (click)="exportArrayAsExcel()" mat-raised-button style="background-color:black;color: white;"> <i class="fa fa-download" aria-hidden="true"></i> Save as Excel</button>
-	</div>
 
+	<mat-toolbar class="page-header" role="heading">
+
+		<div *ngIf = "btnBack"  fxFlex="5%" fxFlex.md="100%" fxFlex.xs="100%">
+			<div class="example-button-container">
+				<button (click) = "function_back()" style=" color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+					<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+				</button>
+			</div>
+		</div>
+
+		<div fxFlex="89%" fxFlex.md="89%" fxFlex.xs="89%">
+			<h1>Transactions</h1>
+		</div>
+
+		<div  *ngIf = "showloadTable"  fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%" >
+			<button (click)="print()" mat-raised-button style="background-color:black;color: white;"> <i class="fa fa-print" aria-hidden="true"></i> Print </button>
+		</div>
+		
+		<div  *ngIf = "showloadTable"   fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%" >
+			<button (click)="exportArrayAsExcel()" mat-raised-button style="background-color:black;color: white;"> <i class="fa fa-download" aria-hidden="true"></i> Save as Excel</button>
+		</div>
+	
+	</mat-toolbar>
+	
 
 	<!-- <div *ngIf="showTable" style="margin-top: 3%;" fxFlex="10%" fxFlex.md="100%" fxFlex.xs="100%">
 		<button (click) = "function_openTOpLoad()"  mat-raised-button style="background-color:black;color: white;"> <mat-icon>loupe</mat-icon> Reload </button>
