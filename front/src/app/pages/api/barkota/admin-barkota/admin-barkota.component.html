@@ -20,7 +20,7 @@
        
     </mat-toolbar>
 </div>
-<div *ngIf="barkotaApiCard" class="inline-block">
+<!-- <div *ngIf="barkotaApiCard" class="inline-block">
     <mat-card [routerLink]="['/']" (click) ="function_getToken()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="cursor: pointer;" class="card credentialing">
         <div class="overlay"></div>
         <div style="padding: 10px;">
@@ -28,11 +28,11 @@
         </div>
         <h4 style="color: darkgray;">Ferries</h4>
     </mat-card>
-</div>
+</div> -->
 
 <div fxLayout="row wrap" fxLayoutGap="0px grid">
     <div fxFlex="40%" fxFlex.md="40%" fxFlex.xs="40%" style="margin-top: 50px;margin: auto;">
-        <mat-card *ngIf="ticketTableTransactions">
+        <mat-card >
             <mat-card-title class="card__header" >
                 <h5 class="card__title"> Void Ticket Form</h5>
             </mat-card-title>

@@ -1,4 +1,6 @@
-
+<mat-toolbar class="page-header" role="heading">
+    <h1>Services</h1>
+</mat-toolbar>
 <div style="width: 90%; margin: auto;">
 	<div style="margin: auto;">
 		<div class="inline-block">
@@ -54,7 +56,7 @@
 		</div>
 
 		<div class="inline-block">
-			<mat-card  style="cursor: pointer;" class="card credentialing">
+			<mat-card  style="cursor: pointer;" (click) ="router()" class="card credentialing">
 				<div class="overlay"></div>
 				<div style="padding:20px;">
 					<img mat-card-image src="assets/img/ferries.png" alt="Photo of a Shiba Inu">

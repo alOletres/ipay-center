@@ -116,31 +116,35 @@ export class AdminBarkotaComponent implements OnInit {
 	}
 	function_submitVoidTicket(){
 
-		const token = this.cookieService.get('token')
+		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
+			const token = this.cookieService.get('token')
 
-		try{
-			this.http_barko.function_voidTicket({
-				data : this.voidTicketForm.value,
-				token : JSON.parse(token)
-			}).pipe(
-				catchError(error=>{
-					this._snackBar._showSnack(error, 'error');
-					return of([]);
+			try{
+				this.http_barko.function_voidTicket({
+					data : this.voidTicketForm.value,
+					token : JSON.parse(token)
+				}).pipe(
+					catchError(error=>{
+						this._snackBar._showSnack(error, 'error');
+						return of([]);
+					})
+				).subscribe(data=>{
+
+					if(JSON.parse(data).success === false){
+						this._snackBar._showSnack('Please your credentials', 'error')
+					}else if(JSON.parse(data).success === 'again'){
+						this._snackBar._showSnack('Please check Barkota code or BranchCode', 'error')
+					}else{
+						this._snackBar._showSnack('Successfully Voided', 'success')
+						this.resetForm.reset(this.voidTicketForm)
+					}
+					
 				})
-			).subscribe(data=>{
-
-				if(JSON.parse(data).success === false){
-					this._snackBar._showSnack('Please your credentials', 'error')
-				}else if(JSON.parse(data).success === 'again'){
-					this._snackBar._showSnack('Please check Barkota code or BranchCode', 'error')
-				}else{
-					this._snackBar._showSnack('Successfully Voided', 'success')
-					this.resetForm.reset(this.voidTicketForm)
-				}
-				
-			})
-		}catch(e){
-			this._snackBar._showSnack(e, 'error')
+			}catch(e){
+				this._snackBar._showSnack(e, 'error')
+			}
+		}else{
+			this._snackBar._showSnack('Admin Controlled', 'error')
 		}
 	}
 
