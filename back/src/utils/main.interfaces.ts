@@ -20,3 +20,7 @@ export interface LoadCentralCredentials {
 	user? : string,
 	password? : string
 }
+
+export interface MUTISYS_PARTNER_SECRET  {
+	SECRET?: string
+}

@@ -18,8 +18,11 @@ export enum Codes {
 
 export enum Endpoints {
     BARKOTA_STAGING = "https://barkota-reseller-php-staging-4kl27j34za-uc.a.run.app",
+    
     LOADCENTRAL_SELL_PRODUCT = "https://loadcentral.net/sellapi.do",
-    LOADCENTRAL_SELL_PRODUCT_STATUS = "https://loadcentral.net/sellapiinq.do"
+    LOADCENTRAL_SELL_PRODUCT_STATUS = "https://loadcentral.net/sellapiinq.do",
+
+    HTTP_MULTISYS = 'https://uat-partners2.multipay.ph/api/v3/billers/inquire'
 }
 
 export enum staticPassword {
