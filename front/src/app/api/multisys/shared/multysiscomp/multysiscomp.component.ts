@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
+import { catchError } from 'rxjs/operators';
+import { SnackbarServices } from 'src/app/services/snackbar.service';
 import { MultisysService } from '../../multisys.service';
-
+import SocketService from 'src/app/services/socket.service';
+import { of } from 'rxjs';
 @Component({
 	selector: 'app-multysiscomp',
 	templateUrl: './multysiscomp.component.html',
@@ -17,12 +20,14 @@ export class MultysiscompComponent implements OnInit {
 	constructor(
 		private $dialogRef: MatDialogRef<MultysiscompComponent>,
 		private $formGroup: FormBuilder,
-		private http_multisys : MultisysService
+		private http_multisys : MultisysService,
+		private _snackBar : SnackbarServices,
+		private socketService :SocketService
 	) {
 		this.billingForm = this.$formGroup.group({
 			CostumersName: ['', Validators.required],
 			contactNo: [''],
-			RefNo: ['', Validators.required],
+			account_number: ['', Validators.required],
 			Amount: ['', Validators.required],
 
 		})
@@ -50,13 +55,17 @@ export class MultysiscompComponent implements OnInit {
 
 	async inquire(){
 		
-		await this.http_multisys.mutisysInquire(this.billingForm.value)
-		.then((response:any)=>{
-			console.log(response);
+		this.http_multisys.mutisysInquire(this.billingForm.value)
+		.pipe(
+			catchError((error:any)=>{
+				this._snackBar._showSnack(error, 'error')
+				return of([])
+			})
+		).subscribe((data:any)=>{
+			console.log(data);
 			
-		}).catch((err:any)=>{
-			console.log(err);
-			
+			this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
+
 		})
 	}
 	

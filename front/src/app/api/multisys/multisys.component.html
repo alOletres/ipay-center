@@ -4,11 +4,55 @@
 			<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
 		</button>
 	</div>
-	<div fxFlex="40%" fxFlex.md="40%" fxFlex.xs="40%">
+	<div fxFlex="90%" fxFlex.md="90%" fxFlex.xs="90%">
 		<h1>Gov't Bill Payments</h1>
 	</div>
-	<div fxFlex="50%" fxFlex.md="50%" fxFlex.xs="50%" style="text-align: right">
+	<!-- <div fxFlex="50%" fxFlex.md="50%" fxFlex.xs="50%" style="text-align: right">
 		<button mat-raised-button style="font-size: 15px; background-color:#039A4D; color: white" (click)="openDialogMltsis()">Bills & Payments</button>
-	</div>
-
+	</div> -->
 </mat-toolbar>
+
+<mat-card  class="card card-wrapper">
+	<mat-card-title class="card__header">
+		<h5 class="card__title">Mutisys</h5>
+  </mat-card-title>
+	<mat-card-content style="overflow-x: hidden;" class="card__content">
+		<div >
+			<form [formGroup]="billingForm" >
+				<div class=" row " >
+					<mat-form-field  class=" col-md-6" appearance="outline">
+						<mat-label>Costumers Name</mat-label>
+						<input type="text" matInput formControlName="CostumersName" autocomplete="off">
+					</mat-form-field>
+					<mat-form-field class=" col-md-6"  appearance="fill" >
+						<mat-label class="">Contact No.</mat-label>
+						<span matPrefix>+63 &nbsp;</span>
+						<input matInput type="text"  maxlength="10" formControlName="contactNo"  (keypress)="validateOnlyNumbers($event)" autocomplete="off">
+					</mat-form-field>
+				</div>
+				<div class="row">
+					<mat-form-field  class=" col-md-6"   appearance="outline">
+						<mat-label>Reference Number</mat-label>
+						<input type="text" matInput formControlName="account_number" autocomplete="off">
+					</mat-form-field>
+		
+					<mat-form-field  class=" col-md-6 "   appearance="outline">
+						<mat-label>Amount</mat-label>
+						<input type="text" matInput formControlName="Amount" (keypress)="validateOnlyNumbers($event)" autocomplete="off">
+					</mat-form-field>
+				</div>
+				<!-- <div style="width: 100%; background:#f0f0f0; padding: 4px 3px; color: rgb(24, 24, 109)">
+					Costumers Name: <b style="font-weight: 500; color: black;">{{ billingForm.value.CostumersName }}</b><br>
+					Contact No.: <b style="font-weight: 500; color: black;">{{ billingForm.value.contactNo }}</b><br>
+					Reference No.: <b style="font-weight: 500; color: black;">{{ billingForm.value.RefNo }}</b><br>
+					Amount: <b style="font-weight: 500; color: black;">{{ billingForm.value.Amount | number:'1.2-2' }}</b><br>
+					Transactions Type: <b style="font-weight: 500; color: black;">NBI Clerance</b><br>
+				</div> -->
+	
+				<div align="end">
+					<button type="submit" mat-raised-button [disabled]="billingForm.invalid" style="background-color:#039A4D;"  (click)="inquire()"> {{ btnName }} </button>
+				</div>
+			</form>
+		</div>
+	</mat-card-content>
+</mat-card>

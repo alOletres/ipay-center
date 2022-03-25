@@ -22,5 +22,12 @@ export interface LoadCentralCredentials {
 }
 
 export interface MUTISYS_PARTNER_SECRET  {
-	SECRET?: string
+	SECRET?: string;
+}
+export interface MultisysPayload {
+	account_number : string, 
+	amount : number,
+	contact_number : number,
+	biller : string,
+	channel : string
 }

@@ -2,28 +2,92 @@ import express, { response } from 'express'
 import { Router } from 'express-serve-static-core'
 import axios from "axios";
 
-import { MUTISYS_PARTNER_SECRET } from '../../utils/main.interfaces';
+import { MUTISYS_PARTNER_SECRET, MultisysPayload } from '../../utils/main.interfaces';
 import moment from 'moment';
+import { connection } from '../../configs/database.config';
 
-var JulianDate = require('julian-date');
+import { Codes, Message, MultisysCredentials } from '../../utils/main.enums';
 
-const calculateJulianDate = async() => {
-	
-	var today :any = new Date();
-	var onejan:any = new Date(today.getFullYear(),0,1);
-	const j :any = Math.ceil((today - onejan) / 86400000);
+import { Endpoints } from '../../utils/main.enums';
+/**
+ * Multi sys Credentials 
+ *  
+ *
+ *  
+*/
 
-	switch(String(j).length){
-		case 1 : return `00${j}`
-		
-		case 2 : return `0${j}`
-		
-		default: return j
-	}
-}
+const { HTTP_MULTISYS } = Endpoints
+const { BILLER, CHANNEL, XMECOM_PARTNER_SECRET } = MultisysCredentials
+
 const secret : MUTISYS_PARTNER_SECRET ={
     SECRET : process.env.X_MECOM_PARTNER_SECRET
 }
+
+const calculateJulianDate = async() => {
+
+	let today :any = new Date();
+	let onejan:any = new Date(today.getFullYear(),0,1);
+	let j :any = Math.ceil((today - onejan) / 86400000);
+	let year = today.getFullYear()
+
+	
+	switch(String(j).length){
+		case 1 : return `${ year }00${ j }`
+		
+		case 2 : return `${ year }0${ j }`
+		
+		default: return `${ year }${ j }`
+	}
+}
+const generateMultisysNumbers = async() =>{
+	try{
+		let series :any
+		connection.beginTransaction()
+		return await new Promise((resolve, reject)=>{
+			connection.query("SELECT * FROM branch_count WHERE type=?", ['IPY'], (err, result)=>{
+				if(err) return reject(err)
+				resolve(result)
+			})
+		}).then(async(response : any )=>{
+			if(!response.length){
+				return 'again'
+			}else{
+				let count = response[0].count + 1
+				series = `${response[0].type}${String(count).padStart(4, '0')}`
+
+				await Promise.resolve(
+					connection.query("Update branch_count SET count=? WHERE type=?", [count, 'IPY'], (err, result)=>{
+						if(err) throw err
+						return result
+					})
+				)
+			
+			}
+			connection.commit()
+			return series
+		})
+	}catch(err:any){
+		connection.rollback()
+
+	}
+}
+
+const insertMultisys = async(...data:any) =>{
+	try{
+		connection.beginTransaction()
+		return await new Promise((resolve, reject)=>{
+
+		}).then((response:any)=>{
+
+			connection.commit()
+		})
+
+	}catch(err:any){
+		connection.rollback()
+		return err
+	}
+}
+
 class MultisysController {
     private router: Router
     constructor() {
@@ -33,10 +97,40 @@ class MultisysController {
         /***PROCESS IS HERE */
 
         this.router.post('/inquireMultisys',async (req, res) => {
-        
 			
-			const julianDate = await calculateJulianDate()
-			console.log(julianDate);
+			const { CostumersName, contactNo, account_number, Amount } = req.body
+
+			const payload : MultisysPayload = {
+				account_number : account_number,
+				amount : Amount,
+				contact_number : contactNo,
+				biller : BILLER,
+				channel : CHANNEL
+			}
+			try{
+				const julianDate = await calculateJulianDate()
+				
+				const seriesNumber = await generateMultisysNumbers()
+				
+				await axios.post(`${ HTTP_MULTISYS }`,payload, {
+					/**headers is here */
+					headers : {
+						accept: "application/json",
+						'X-MECOM-PARTNER-SECRET' : XMECOM_PARTNER_SECRET,
+						'X-MECOM-PARTNER-REFNO'  : `${ julianDate }${ seriesNumber }`
+					}
+				}).then((response:any)=>{
+					if(response.data.status === 200 && response.data.reason === 'OK'){
+						/**insert in database */
+						res.status(200).send(response.data.data)
+					}else{
+						res.status(Codes.SUCCESS).send('again')
+					}
+				})
+
+			}catch(err:any){
+				res.status(err.status || Codes.INTERNAL).send(err.response.data.reason)
+			}
 			
 		})
 

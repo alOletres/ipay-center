@@ -18,7 +18,7 @@ export enum Codes {
 
 export enum Endpoints {
     BARKOTA_STAGING = "https://barkota-reseller-php-staging-4kl27j34za-uc.a.run.app",
-    
+
     LOADCENTRAL_SELL_PRODUCT = "https://loadcentral.net/sellapi.do",
     LOADCENTRAL_SELL_PRODUCT_STATUS = "https://loadcentral.net/sellapiinq.do",
 
@@ -41,7 +41,9 @@ export enum LoadCentralCredential {
     LOADCENTRAL_PROD_PASSWORD =  '7654321'
 }
 export enum MultisysCredentials {
-    XMECOM_PARTNER_SECRET = 'qWe4a2yc5w3qs6TufOeC009Wdtpky00wlqY9p8hi0n7OF5WJy1mlrUmTLs1MOwSpBqsWSj15gt539ygmbW7g8j97L0MYXo4ouSCNFmwpmQBj4MdWVnPaINam4L3PzD43'
+    XMECOM_PARTNER_SECRET = 'qWe4a2yc5w3qs6TufOeC009Wdtpky00wlqY9p8hi0n7OF5WJy1mlrUmTLs1MOwSpBqsWSj15gt539ygmbW7g8j97L0MYXo4ouSCNFmwpmQBj4MdWVnPaINam4L3PzD43',
+    BILLER = 'MULTIPAY',
+    CHANNEL = '1A85'
 }
 
 
