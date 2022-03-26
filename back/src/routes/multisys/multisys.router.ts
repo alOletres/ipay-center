@@ -165,8 +165,8 @@ class MultisysController {
 					}
 				}).then((response:any)=>{
 					if(response.data.status === 200){
+						/**ready to save in database */
 						res.status(200).send(response.data)
-						
 					}else{
 						res.status(Codes.SUCCESS).send('again')
 					}

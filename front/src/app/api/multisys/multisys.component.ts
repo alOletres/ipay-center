@@ -61,7 +61,7 @@ export class MultisysComponent implements OnInit {
 				this.amount = amount
 				this.biller = biller
 				this.btnName = 'Proceed'
-				this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
+				
 				dialogRef.close()
 			})
 		}else if(this.btnName === 'Proceed'){
@@ -74,7 +74,8 @@ export class MultisysComponent implements OnInit {
 					return of([])
 				})
 			).subscribe((response:any)=>{
-				console.log(response);
+				this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
+				this._snackBar._showSnack(JSON.parse(response).reason, 'success')
 				dialogRef.close()
 			})
 		}
