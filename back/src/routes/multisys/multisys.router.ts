@@ -154,40 +154,51 @@ const insertMultisys = async(...data:any) =>{
 	 * income === outletCharge
 	 */
 
-	// try{
+	try{
 
-	// 	connection.beginTransaction()
-	// 	return await new Promise((resolve, reject)=>{
-	// 		connection.query("INSERT INTO multisys (partner_refNo, branchCode, tellerCode, customer_name, account_number, amount, contact_number, channel, refno, txnid, biller, meta, collections, sales, income ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-	// 		[data[5], data[3], data[4], data[0], data[1].account_number, data[1].amount, data[1].contact_number, data[1].channel, data[2].data.refno, data[2].data.txnid, data[2].data.biller, data[2].data.meta, collection, sales, outletCharge ], (err, result)=>{
-	// 			if(err) return reject(err)
-	// 			resolve(result)
-	// 		})
-	// 	}).then(async(response:any)=>{
-	// 		/**
-	// 		 * table affected wallet update wallet	
-	// 		 * wallet transacions
-	// 		 */
-	// 		 connection.commit()
+		connection.beginTransaction()
+		return await new Promise((resolve, reject)=>{
+			connection.query("INSERT INTO multisys (partner_refNo, branchCode, tellerCode, customer_name, account_number, amount, contact_number, channel, refno, txnid, biller, meta, collections, sales, income ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+			[data[5], data[3], data[4], data[0], data[1].account_number, data[1].amount, data[1].contact_number, data[1].channel, data[2].data.refno, data[2].data.txnid, data[2].data.biller, data[2].data.meta, collection, sales, outletCharge ], (err, result)=>{
+				if(err) return reject(err)
+				resolve(result)
+			})
+		}).then(async(response:any)=>{
+			/**
+			 * table affected wallet update wallet	
+			 * wallet transacions
+			 */
+			 connection.commit()
 
-	// 		if(!response.length){
-	// 			const data = { reason : 'again' }
-	// 			return data
-	// 		}else{
-	// 			await Promise.all([
-	// 				Promise.resolve(
-	// 					connection.query("UPDATE wallet SET current_wallet")
-	// 				)
-	// 			])
-	// 			return data[1]
-	// 		}
+			if(!response.length){
+				const data = { reason : 'again' }
+				return data
+			}else{
+				await Promise.all([
+					Promise.resolve(
+						connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [updatedWallet, data[3] ], (err, result)=>{
+							if(err) throw err
+							return result
+						})
+					),
+					Promise.resolve(
+						connection.query("INSERT INTO wallet_historytransaction () VALUES () ", [], (err, result)=>{
+
+						})
+					),
+					Promise.resolve(
+						/**condition tellercode */
+					)
+				])
+				return data[1]
+			}
 			
-	// 	})
+		})
 
-	// }catch(err:any){
-	// 	connection.rollback()
-	// 	return err
-	// }
+	}catch(err:any){
+		connection.rollback()
+		return err
+	}
 }
 const checkWallet = async (branchCode:any)=>{
 	try{
