@@ -1,5 +1,5 @@
 
-import dotenv from 'dotenv'
+import dotenv, { parse } from 'dotenv'
 dotenv.config()
 import express, { response } from 'express'
 import { Router } from 'express-serve-static-core'
@@ -72,25 +72,145 @@ const generateMultisysNumbers = async() =>{
 		})
 	}catch(err:any){
 		connection.rollback()
-
+		return err
 	}
 }
 
-const insertMultisys = async(...data:any) =>{
+const multisysApi = async(customerName:any, payload:any, BRANCHCODE:any, TELLERCODE:any, CURRENT_WALLET:any) =>{
 	try{
+		const julianDate = await calculateJulianDate()
+		
+		const seriesNumber = await generateMultisysNumbers()
+
+		const response = {
+			status : '200',
+			reason : 'You have successfully proccessed',
+			datas : {
+				refno : 'MADSFLASDF',
+				txnid : 'TEST-XSLADDF',
+				biller : 'DFA_DEV',
+				meta : []
+			}
+		}
+		// connection.beginTransaction()
+		const results = await insertMultisys(customerName, payload, response, BRANCHCODE, TELLERCODE, `${ julianDate }${ seriesNumber }`, CURRENT_WALLET)
+		return results
+		// connection.commit()
+		
+		// await axios.post(`${ HTTP_MULTISYS }/process`,payload, {
+		// 	/**headers is here */
+		// 	headers : {
+		// 		accept: "application/json",
+		// 		'X-MECOM-PARTNER-SECRET' : XMECOM_PARTNER_SECRET,
+		// 		'X-MECOM-PARTNER-REFNO'  : `${ julianDate }${ seriesNumber }`
+		// 	}
+		// }).then(async(response:any)=>{
+		// 	if(response.data.status === 200){
+		// 		/**ready to save in database */
+		// 		/**
+		// 		 * table affected 
+		// 		 * wallet historytransaction
+		// 		 * wallet
+		// 		 * multisys
+		// 		 */
+				
+		// 		// return response.data
+		// 		const results = await insertMultisys(response.data, payload, BRANCHCODE, TELLERCODE)
+		// 		return results
+		// 	}else{
+		// 		return 'again'
+		// 	}
+		// 	connection.commit()
+		// })
+
+	}catch(err:any){
+		connection.rollback()
+		return err.response.data.reason
+	}	
+}
+const insertMultisys = async(...data:any) =>{
+	// console.log(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
+	/**
+	 * payment charge 
+	 * system fee = 10
+	 * outlet fee = 15
+	 * ibarangay 10
+	 * franchise return 5
+	 */
+	let systemfee = 10
+	let franchiseReturn = 5
+
+	const outletCharge =  data[4].slice(0,3) === 'FRT' ? 15
+				 		: data[4].slice(0,3) === 'BRT' ? 10 
+				 		: ''
+	let collection :any = data[1].amount + outletCharge + systemfee /**total colletion */
+	let sales :any = data[1].amount + systemfee /** deduct your wallet */
+	
+	let updatedWallet :any = data[6] - sales
+
+	console.log(collection, sales, outletCharge, updatedWallet);
+	
+	/**
+	 * income === outletCharge
+	 */
+
+	// try{
+
+	// 	connection.beginTransaction()
+	// 	return await new Promise((resolve, reject)=>{
+	// 		connection.query("INSERT INTO multisys (partner_refNo, branchCode, tellerCode, customer_name, account_number, amount, contact_number, channel, refno, txnid, biller, meta, collections, sales, income ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+	// 		[data[5], data[3], data[4], data[0], data[1].account_number, data[1].amount, data[1].contact_number, data[1].channel, data[2].data.refno, data[2].data.txnid, data[2].data.biller, data[2].data.meta, collection, sales, outletCharge ], (err, result)=>{
+	// 			if(err) return reject(err)
+	// 			resolve(result)
+	// 		})
+	// 	}).then(async(response:any)=>{
+	// 		/**
+	// 		 * table affected wallet update wallet	
+	// 		 * wallet transacions
+	// 		 */
+	// 		 connection.commit()
+
+	// 		if(!response.length){
+	// 			const data = { reason : 'again' }
+	// 			return data
+	// 		}else{
+	// 			await Promise.all([
+	// 				Promise.resolve(
+	// 					connection.query("UPDATE wallet SET current_wallet")
+	// 				)
+	// 			])
+	// 			return data[1]
+	// 		}
+			
+	// 	})
+
+	// }catch(err:any){
+	// 	connection.rollback()
+	// 	return err
+	// }
+}
+const checkWallet = async (branchCode:any)=>{
+	try{
+		
 		connection.beginTransaction()
-		return await new Promise((resolve, reject)=>{
-
+		return await new Promise((resolve ,reject)=>{
+			connection.query("SELECT * FROM wallet WHERE branchCode=?", [branchCode], (err, result)=>{
+				if(err) return reject(err)
+				resolve(result)
+			})
 		}).then((response:any)=>{
-
 			connection.commit()
+			
+			return response
 		})
-
+		
 	}catch(err:any){
 		connection.rollback()
 		return err
 	}
-}
+ }
+
+
 
 class MultisysController {
     private router: Router
@@ -141,40 +261,81 @@ class MultisysController {
 
 		this.router.post('/proceedTransaction',async (req, res) => {
 			
-			const { CostumersName, contactNo, account_number, Amount } = req.body
+			const { data, amount, tellerCode } = req.body
 
 			const payload : MultisysPayload = {
-				account_number : account_number,
-				amount : Amount,
-				contact_number : contactNo,
+				account_number : data.account_number,
+				amount : 12,
+				contact_number : data.contactNo,
 				biller : BILLER,
 				channel : CHANNEL
 			}
-			
 			try{
-				const julianDate = await calculateJulianDate()
-				
-				const seriesNumber = await generateMultisysNumbers()
-				
-				await axios.post(`${ HTTP_MULTISYS }/process`,payload, {
-					/**headers is here */
-					headers : {
-						accept: "application/json",
-						'X-MECOM-PARTNER-SECRET' : XMECOM_PARTNER_SECRET,
-						'X-MECOM-PARTNER-REFNO'  : `${ julianDate }${ seriesNumber }`
-					}
-				}).then((response:any)=>{
-					if(response.data.status === 200){
-						/**ready to save in database */
-						res.status(200).send(response.data)
-					}else{
-						res.status(Codes.SUCCESS).send('again')
-					}
-				})
+				connection.beginTransaction()
+				return await new Promise((resolve, reject)=>{
 
+					connection.query("SELECT * FROM teller_list WHERE tellerCode=?", [tellerCode], (err, result)=>{
+						if(err) return reject(err)
+						resolve(result)
+					})
+					
+				}).then(async (response:any)=>{
+					
+					if(!response.length){
+						res.status(Codes.SUCCESS).send({ message : 'notfound' })
+					}else{
+						/**
+						 * check wallet of branch 
+						 */
+						if(tellerCode.slice(0,3) === 'FRT'){
+
+							const result :any = await checkWallet(response[0].fiB_Code)
+							
+							if(result[0].current_wallet === 5000 || result[0].current_wallet < 5000){
+
+								res.status(Codes.SUCCESS).send({ message : 'low_wallet' })
+								console.log('low wallet');
+								
+							}else{
+								/**
+								 * proceed to insert
+								 */
+								const results = await multisysApi(data.CostumersName, payload, response[0].fiB_Code, tellerCode, result[0].current_wallet)
+								
+								res.status(Codes.SUCCESS).send(results)
+							
+							}
+							
+						}else{
+							const result = await checkWallet(response[0].ibrgy_code)
+							
+							if(result[0].current_wallet === 5000 || result[0].current_wallet < 5000){
+							
+								res.status(Codes.SUCCESS).send({ message : 'low_wallet' })
+
+							}else{
+								/**
+								 * proceed to insert
+								 */
+								// const resss = await LoadCentralApi(req.body, response[0].ibrgy_code, result[0].current_wallet)
+							
+								// res.status(Codes.SUCCESS).send({ message : resss })
+								const results = await multisysApi(data.CostumersName, payload, response[0].ibrgy_code, tellerCode, result[0].current_wallet)
+								
+								res.status(Codes.SUCCESS).send(results)
+							}
+							
+						}
+					}
+					connection.commit()
+					
+				})
+				
 			}catch(err:any){
-				res.status(err.status || Codes.INTERNAL).send(err.response.data.reason)
-			}	
+				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+				connection.rollback()
+			}
+			
 		})
 
     }
