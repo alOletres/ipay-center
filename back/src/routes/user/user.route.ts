@@ -1,11 +1,37 @@
 import express, { response } from 'express'
 import { Router } from 'express-serve-static-core'
-
 import { connection } from './../../configs/database.config'
-
 import { Message, Codes } from '../../utils/main.enums'
-import address from 'address'
 import bcrypt from 'bcrypt'
+
+const saltRounds : any = process.env.SALT_ROUNDS
+const password : any = process.env.STAT_PASSWORD
+const salt = bcrypt.genSaltSync(parseInt(saltRounds));
+const savePassword = bcrypt.hashSync(password, salt)
+
+const resetPassword = async(BRANCHCODE:any) => {
+	try{
+		connection.beginTransaction()
+		return await new Promise((resolve, reject)=>{
+			connection.query("UPDATE user_account SET password=? WHERE username=?", [savePassword, BRANCHCODE], (err, result)=>{
+				if(err) return reject(err)
+				resolve(result)
+			})
+		}).then((response:any)=>{
+			
+			connection.commit()
+			if(response.affectedRows !== 1){
+				return 'again'
+			}else{
+				return 'ok'
+			}
+		})
+	}catch(err:any){
+		connection.rollback()
+		return err
+	}
+}
+
 class UserController {
     private router: Router
     constructor() {
@@ -176,8 +202,7 @@ class UserController {
             const { code, data} = req.body
 			
 
-			const saltRounds = 10;
-			const salt = bcrypt.genSaltSync(saltRounds);
+			
 			const newPassword = bcrypt.hashSync(data.newPassword, salt)
 
 			try{
@@ -573,8 +598,6 @@ class UserController {
 			
 			const { data, user } = req.body
 
-			const saltRounds = 10;
-			const salt = bcrypt.genSaltSync(saltRounds);
 			const newPassword = bcrypt.hashSync(data.newPassword, salt)
 
 			try{
@@ -615,7 +638,32 @@ class UserController {
 			
 		})
 
-		
+		this.router.post('/resetPassword',async (req, res) => {
+			
+			const { branchCode, ib_fbranchCode, fbranchCode, ib_ibrgyyCode, tellerCode } = req.body
+			
+			if(branchCode !== null && fbranchCode === null && tellerCode === null && ib_fbranchCode === null || branchCode !== undefined && fbranchCode === undefined && tellerCode === undefined && ib_fbranchCode === undefined){
+				/** reset branchCode */
+				const response :any = await resetPassword(branchCode)
+				res.status(Codes.SUCCESS).send({ message : response })
+				
+			}else if(branchCode !== null && fbranchCode !== null && tellerCode === null || branchCode !== undefined && fbranchCode !== undefined && tellerCode === undefined ){
+				/**reset franchise */
+				const response :any = await resetPassword(branchCode)
+				res.status(Codes.SUCCESS).send({ message : response })
+				
+			}else if(branchCode !== null && ib_fbranchCode !== null && ib_ibrgyyCode !== null && tellerCode === null || branchCode !== undefined && ib_fbranchCode !== undefined && ib_ibrgyyCode !== undefined && tellerCode === undefined) {
+				/** reset ibarangay */
+				const response :any = await resetPassword(branchCode)
+				res.status(Codes.SUCCESS).send({ message : response })
+				
+			}else if(tellerCode !== null || tellerCode !== undefined){
+				/**reset teller */
+				const response :any = await resetPassword(branchCode)
+				res.status(Codes.SUCCESS).send({ message : response })
+			}
+			
+		})
 	}/**
 	*@ENDoFWatchRequest
 	 */

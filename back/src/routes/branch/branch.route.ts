@@ -6,6 +6,10 @@ import { Message, Codes } from '../../utils/main.enums'
 
 import bcrypt from 'bcrypt'
 
+const saltRounds : any = process.env.SALT_ROUNDS
+const password : any = process.env.STAT_PASSWORD
+const salt = bcrypt.genSaltSync(parseInt(saltRounds));
+const savePassword = bcrypt.hashSync(password, salt)
 interface data {
 	res : Array<object>
 }
@@ -41,10 +45,6 @@ class BranchController {
 					
 					const i = parseInt(responce[0].count)+1
 					const type = 'BH'
-					const saltRounds : any = process.env.SALT_ROUNDS
-					const password : any = process.env.STAT_PASSWORD
-					const salt = bcrypt.genSaltSync(parseInt(saltRounds));
-					const savePassword = bcrypt.hashSync(password, salt)
 					
 					
 					await Promise.all([
@@ -204,10 +204,7 @@ class BranchController {
 
 					const i = parseInt(responce[0].count)+1
 
-					const saltRounds : any = process.env.SALT_ROUNDS
-					const password : any = process.env.STAT_PASSWORD
-					const salt = bcrypt.genSaltSync(parseInt(saltRounds));
-					const savePassword = bcrypt.hashSync(password, salt)
+				
 					
 					await Promise.all([
 						Promise.resolve(
@@ -391,11 +388,6 @@ class BranchController {
 				})
 				.then(async (responce: any) => {
 					const i = parseInt(responce[0].count)+1
-
-					const saltRounds : any = process.env.SALT_ROUNDS
-					const password : any = process.env.STAT_PASSWORD
-					const salt = bcrypt.genSaltSync(parseInt(saltRounds));
-					const savePassword = bcrypt.hashSync(password, salt)
 				
 					await Promise.all([
 						Promise.resolve(
@@ -529,10 +521,6 @@ class BranchController {
 				.then(async (responce: any) => {
 
 					const i = parseInt(responce[0].count)+1
-					const saltRounds : any = process.env.SALT_ROUNDS
-					const password : any = process.env.STAT_PASSWORD
-					const salt = bcrypt.genSaltSync(parseInt(saltRounds));
-					const savePassword = bcrypt.hashSync(password, salt)
 
 					await Promise.all([
 						Promise.resolve(
@@ -588,11 +576,6 @@ class BranchController {
 					
 					const i = parseInt(response[0].count)+1
 					
-					
-					const saltRounds : any = process.env.SALT_ROUNDS
-					const password : any = process.env.STAT_PASSWORD
-					const salt = bcrypt.genSaltSync(parseInt(saltRounds));
-					const savePassword = bcrypt.hashSync(password, salt)
 
 					await new Promise((resolve)=>{
 						connection.query('SELECT branchCode FROM  franchise_list WHERE fbranchCode=?', [fcode], (err, result)=>{
@@ -848,10 +831,6 @@ class BranchController {
 		this.router.post('/approvedIBstatus',async (req, res) => {
 			const { id, code, wallet, dateApproved } = req.body
 
-			const saltRounds : any = process.env.SALT_ROUNDS
-			const password : any = process.env.STAT_PASSWORD
-			const salt = bcrypt.genSaltSync(parseInt(saltRounds));
-			const savePassword = bcrypt.hashSync(password, salt)
 
 			try{
 				connection.beginTransaction()
@@ -982,10 +961,6 @@ class BranchController {
 					}else{
 
 						const i = parseInt(response[0].count)+1
-						const saltRounds : any = process.env.SALT_ROUNDS
-						const password : any = process.env.STAT_PASSWORD
-						const salt = bcrypt.genSaltSync(parseInt(saltRounds));
-						const savePassword = bcrypt.hashSync(password, salt)
 
 						await new Promise((resolve, reject)=>{
 							connection.query("SELECT * FROM ibrgy_list WHERE ib_ibrgyyCode=?", [ibCode], (err, result)=>{

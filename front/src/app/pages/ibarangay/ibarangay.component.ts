@@ -226,10 +226,19 @@ export class IbarangayComponent implements OnInit {
 	}
 
 	reset(){
-		this.resetForm.reset(this.ibarangayForm)
-		
+		this.resetForm.reset(this.ibarangayForm)		
 	}
 
-	
-
+	async resetPassword(data:any){
+		await this.http_branch.resetPassword(data)
+		.then((response:any)=>{		
+			if(JSON.parse(response).message === 'ok'){
+				this._snackBar._showSnack('Successfully Reset', 'success')
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
+		}).catch((err:any)=>{
+			this._snackBar._showSnack(err, 'error')
+		})
+	}
 }

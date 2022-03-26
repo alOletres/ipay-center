@@ -127,4 +127,12 @@ export class BranchService {
 			throw err
 		}
 	}
+
+	async resetPassword(data:any){
+		try{
+			return await this.http.post(`${ EndPoint.endpoint }/user/users/resetPassword`, data, {responseType: 'text'}).toPromise()
+		}catch(err){
+			throw err
+		}
+	}
 }

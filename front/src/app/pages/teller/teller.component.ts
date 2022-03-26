@@ -26,8 +26,11 @@ import SocketService from 'src/app/services/socket.service';
 	type: string;
 	tellerData: number;
 	progress : boolean =false
-    constructor(private http_branch : BranchService, private _snackBar : SnackbarServices, 
-				private dialog : MatDialog, private fb : FormBuilder, private resetForm : ResetformService,
+    constructor(private http_branch : BranchService,
+				private _snackBar : SnackbarServices, 
+				private dialog : MatDialog,
+				private fb : FormBuilder,
+				private resetForm : ResetformService,
 				private socketService : SocketService ) {
 		this.tellerForm = this.fb.group({
 			firstname : new FormControl('', 			[Validators.required]),
@@ -212,5 +215,16 @@ import SocketService from 'src/app/services/socket.service';
 		  	if(theEvent.preventDefault) theEvent.preventDefault();
 		}
 	}
-
+	async resetPassword(data:any){
+		await this.http_branch.resetPassword(data)
+		.then((response:any)=>{		
+			if(JSON.parse(response).message === 'ok'){
+				this._snackBar._showSnack('Successfully Reset', 'success')
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
+		}).catch((err:any)=>{
+			this._snackBar._showSnack(err, 'error')
+		})
+	}
 }
