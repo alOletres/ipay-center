@@ -25,7 +25,7 @@ import { environment } from '../environments/environment';
  // Angular CLI environemnt
 
 const config: SocketIoConfig = {
-	url: 'http://192.168.1.53:7000',
+	url: 'http://192.168.1.37:7000',
 	// url: 'https://ippctransaction.com:3000',
 	options: {}
 }

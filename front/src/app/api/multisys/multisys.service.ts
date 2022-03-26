@@ -30,6 +30,25 @@ export class MultisysService {
 				
 			)
 	}
+
+	proceedTransaction(data:any):Observable<any>{
+		return this.http.post(`${ EndPoint.endpoint }/multisy/mutisys/proceedTransaction`, data, {responseType : 'text'})
+			.pipe(
+				catchError(error => {
+					
+					if (error.error instanceof ErrorEvent) {
+	
+						this.errorMsg = `Error: ${error.error.message}`;
+	
+					} else {
+						this.errorMsg = this.getServerErrorMessage(error);
+						
+					}
+					return throwError(this.errorMsg);
+				}),
+				
+			)
+	}
 	private getServerErrorMessage(error: HttpErrorResponse): string {
 		
 		switch (error.status) {

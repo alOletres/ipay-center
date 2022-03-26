@@ -27,28 +27,31 @@
 					<mat-form-field class=" col-md-6"  appearance="fill" >
 						<mat-label class="">Contact No.</mat-label>
 						<span matPrefix>+63 &nbsp;</span>
-						<input matInput type="text"  maxlength="10" formControlName="contactNo"  (keypress)="validateOnlyNumbers($event)" autocomplete="off">
+						<input matInput type="number"  maxlength="10" formControlName="contactNo"  (keypress)="validateOnlyNumbers($event)" autocomplete="off">
 					</mat-form-field>
 				</div>
 				<div class="row">
 					<mat-form-field  class=" col-md-6"   appearance="outline">
-						<mat-label>Reference Number</mat-label>
+						<mat-label>Account Number</mat-label>
 						<input type="text" matInput formControlName="account_number" autocomplete="off">
 					</mat-form-field>
 		
 					<mat-form-field  class=" col-md-6 "   appearance="outline">
 						<mat-label>Amount</mat-label>
-						<input type="text" matInput formControlName="Amount" (keypress)="validateOnlyNumbers($event)" autocomplete="off">
+						<input type="number" matInput formControlName="Amount" (keypress)="validateOnlyNumbers($event)" autocomplete="off">
 					</mat-form-field>
 				</div>
-				<!-- <div style="width: 100%; background:#f0f0f0; padding: 4px 3px; color: rgb(24, 24, 109)">
-					Costumers Name: <b style="font-weight: 500; color: black;">{{ billingForm.value.CostumersName }}</b><br>
-					Contact No.: <b style="font-weight: 500; color: black;">{{ billingForm.value.contactNo }}</b><br>
-					Reference No.: <b style="font-weight: 500; color: black;">{{ billingForm.value.RefNo }}</b><br>
-					Amount: <b style="font-weight: 500; color: black;">{{ billingForm.value.Amount | number:'1.2-2' }}</b><br>
-					Transactions Type: <b style="font-weight: 500; color: black;">NBI Clerance</b><br>
-				</div> -->
-	
+				<div *ngIf="hideResponse" >
+					<span> RESPONSE </span>
+					<div style="width: 100%; background:#f0f0f0; padding: 4px 3px; color: rgb(24, 24, 109)">
+						Costumers Name: <b style="font-weight: 500; color: black;">{{ billingForm.value.CostumersName }}</b><br>
+						Contact No.: <b style="font-weight: 500; color: black;">{{ billingForm.value.contactNo }}</b><br>
+						Account Number No.: <b style="font-weight: 500; color: black;">{{ account_number }}</b><br>
+						Amount: <b style="font-weight: 500; color: black;">{{ amount | number:'1.2-2' }}</b><br>
+						Transactions Type: <b style="font-weight: 500; color: black;"> {{ biller }} </b><br>
+					</div>
+				</div>
+				<br>
 				<div align="end">
 					<button type="submit" mat-raised-button [disabled]="billingForm.invalid" style="background-color:#039A4D;"  (click)="inquire()"> {{ btnName }} </button>
 				</div>

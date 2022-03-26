@@ -117,7 +117,7 @@ class MultisysController {
 				
 				const seriesNumber = await generateMultisysNumbers()
 				
-				await axios.post(`${ HTTP_MULTISYS }`,payload, {
+				await axios.post(`${ HTTP_MULTISYS }/inquire`,payload, {
 					/**headers is here */
 					headers : {
 						accept: "application/json",
@@ -137,6 +137,44 @@ class MultisysController {
 				res.status(err.status || Codes.INTERNAL).send(err.response.data.reason)
 			}
 			
+		})
+
+		this.router.post('/proceedTransaction',async (req, res) => {
+			
+			const { CostumersName, contactNo, account_number, Amount } = req.body
+
+			const payload : MultisysPayload = {
+				account_number : account_number,
+				amount : Amount,
+				contact_number : contactNo,
+				biller : BILLER,
+				channel : CHANNEL
+			}
+			
+			try{
+				const julianDate = await calculateJulianDate()
+				
+				const seriesNumber = await generateMultisysNumbers()
+				
+				await axios.post(`${ HTTP_MULTISYS }/process`,payload, {
+					/**headers is here */
+					headers : {
+						accept: "application/json",
+						'X-MECOM-PARTNER-SECRET' : XMECOM_PARTNER_SECRET,
+						'X-MECOM-PARTNER-REFNO'  : `${ julianDate }${ seriesNumber }`
+					}
+				}).then((response:any)=>{
+					if(response.data.status === 200){
+						res.status(200).send(response.data)
+						
+					}else{
+						res.status(Codes.SUCCESS).send('again')
+					}
+				})
+
+			}catch(err:any){
+				res.status(err.status || Codes.INTERNAL).send(err.response.data.reason)
+			}	
 		})
 
     }

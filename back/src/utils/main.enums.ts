@@ -22,7 +22,7 @@ export enum Endpoints {
     LOADCENTRAL_SELL_PRODUCT = "https://loadcentral.net/sellapi.do",
     LOADCENTRAL_SELL_PRODUCT_STATUS = "https://loadcentral.net/sellapiinq.do",
 
-    HTTP_MULTISYS = 'https://uat-partners2.multipay.ph/api/v3/billers/inquire'
+    HTTP_MULTISYS = 'https://uat-partners2.multipay.ph/api/v3/billers'
 }
 
 export enum staticPassword {

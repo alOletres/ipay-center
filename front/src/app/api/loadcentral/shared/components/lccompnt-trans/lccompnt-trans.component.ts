@@ -192,25 +192,6 @@ export class LccompntTransComponent implements OnInit {
 								this._snackBar._showSnack(`${JSON.parse(response).message}`, 'error')
 							}
 							
-							// if(JSON.parse(response).message === 'ok' ){
-
-							// 	this._snackBar._showSnack('Successfully Loaded', 'success')
-							// 	this.socketService.sendEvent("eventSent", {data: "response_sucessfullyLoaded"})/**SOCKET SEND EVENT */
-							// 	this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
-								
-							// }else if(JSON.parse(response).message === 'low_wallet'){
-								
-							// 	this._snackBar._showSnack('Your wallet has reached the 5000 system limit, Please reload to Continue', 'error')
-							
-							// }else if(JSON.parse(response).message === 'lackFunds'){
-							
-							// 	this._snackBar._showSnack('Insufficient Funds, Please contact technical support', 'error')
-							
-							// }else if(JSON.parse(response).message === 'systemError'){
-							// 	this._snackBar._showSnack('Load Central API System Error', 'error')
-							// }else{
-							// 	this._snackBar._showSnack('Try Again', 'error')
-							// }
 							dialogRef.close()
 						})
 
