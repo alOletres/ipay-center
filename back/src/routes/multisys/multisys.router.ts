@@ -78,50 +78,35 @@ const generateMultisysNumbers = async() =>{
 
 const multisysApi = async(customerName:any, payload:any, BRANCHCODE:any, TELLERCODE:any, CURRENT_WALLET:any) =>{
 	try{
+		let results :any
+		
 		const julianDate = await calculateJulianDate()
-		
 		const seriesNumber = await generateMultisysNumbers()
-
-		const response = {
-			status : '200',
-			reason : 'You have successfully proccessed',
-			datas : {
-				refno : 'MADSFLASDF',
-				txnid : 'TEST-XSLADDF',
-				biller : 'DFA_DEV',
-				meta : []
+		await axios.post(`${ HTTP_MULTISYS }/process`,payload, {
+			/**headers is here */
+			headers : {
+				accept: "application/json",
+				'X-MECOM-PARTNER-SECRET' : XMECOM_PARTNER_SECRET,
+				'X-MECOM-PARTNER-REFNO'  : `${ julianDate }${ seriesNumber }`
 			}
-		}
-		// connection.beginTransaction()
-		const results = await insertMultisys(customerName, payload, response, BRANCHCODE, TELLERCODE, `${ julianDate }${ seriesNumber }`, CURRENT_WALLET)
-		return results
-		// connection.commit()
-		
-		// await axios.post(`${ HTTP_MULTISYS }/process`,payload, {
-		// 	/**headers is here */
-		// 	headers : {
-		// 		accept: "application/json",
-		// 		'X-MECOM-PARTNER-SECRET' : XMECOM_PARTNER_SECRET,
-		// 		'X-MECOM-PARTNER-REFNO'  : `${ julianDate }${ seriesNumber }`
-		// 	}
-		// }).then(async(response:any)=>{
-		// 	if(response.data.status === 200){
-		// 		/**ready to save in database */
-		// 		/**
-		// 		 * table affected 
-		// 		 * wallet historytransaction
-		// 		 * wallet
-		// 		 * multisys
-		// 		 */
+		}).then(async(response:any)=>{
+			if(response.data.status === 200){
+				/**ready to save in database */
+				/**
+				 * table affected 
+				 * wallet historytransaction
+				 * wallet
+				 * multisys
+				 */
+				 results = await insertMultisys(customerName, payload, response, BRANCHCODE, TELLERCODE, `${ julianDate }${ seriesNumber }`, CURRENT_WALLET)
 				
-		// 		// return response.data
-		// 		const results = await insertMultisys(response.data, payload, BRANCHCODE, TELLERCODE)
-		// 		return results
-		// 	}else{
-		// 		return 'again'
-		// 	}
-		// 	connection.commit()
-		// })
+			}else{
+				const res = { reason : 'Try Again' }
+				return res
+			}
+			connection.commit()
+			return results
+		})
 
 	}catch(err:any){
 		connection.rollback()
@@ -138,8 +123,6 @@ const insertMultisys = async(...data:any) =>{
 	 * franchise return 5
 	 */
 	let systemfee = 10
-	let franchiseReturn = 5
-
 	const outletCharge =  data[4].slice(0,3) === 'FRT' ? 15
 				 		: data[4].slice(0,3) === 'BRT' ? 10 
 				 		: ''
@@ -147,15 +130,10 @@ const insertMultisys = async(...data:any) =>{
 	let sales :any = data[1].amount + systemfee /** deduct your wallet */
 	
 	let updatedWallet :any = data[6] - sales
-
-	console.log(collection, sales, outletCharge, updatedWallet);
-	
 	/**
 	 * income === outletCharge
 	 */
-
 	try{
-
 		connection.beginTransaction()
 		return await new Promise((resolve, reject)=>{
 			connection.query("INSERT INTO multisys (partner_refNo, branchCode, tellerCode, customer_name, account_number, amount, contact_number, channel, refno, txnid, biller, meta, collections, sales, income ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -168,7 +146,7 @@ const insertMultisys = async(...data:any) =>{
 			 * table affected wallet update wallet	
 			 * wallet transacions
 			 */
-			 connection.commit()
+			 
 
 			if(!response.length){
 				const data = { reason : 'again' }
@@ -182,19 +160,60 @@ const insertMultisys = async(...data:any) =>{
 						})
 					),
 					Promise.resolve(
-						connection.query("INSERT INTO wallet_historytransaction () VALUES () ", [], (err, result)=>{
-
+						connection.query("INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?) ",
+						[data[3], data[4], collection, sales, outletCharge, data[5], 'Confirm' ], (err, result)=>{
+							if(err) throw err
+							return result
 						})
 					),
 					Promise.resolve(
-						/**condition tellercode */
+						/**ibarangay  teller */
+						data[4].slice(0,3) === 'BRT' ? await commision(data) 
+						:''
 					)
 				])
-				return data[1]
+				
 			}
-			
+			connection.commit()
+			return data[1]
 		})
 
+	}catch(err:any){
+		connection.rollback()
+		return err
+	}
+}
+const commision = async(data:any)=>{
+	
+	let systemfee = 10
+	let franchiseReturn = 5
+
+	const outletCharge =  data[4].slice(0,3) === 'FRT' ? 15
+				 		: data[4].slice(0,3) === 'BRT' ? 10 
+				 		: ''
+	let collection :any = data[1].amount + outletCharge + systemfee /**total colletion */
+	let sales :any = data[1].amount + systemfee /** deduct your wallet */
+	
+	
+	try{
+		connection.beginTransaction()
+		return await new Promise((resolve, reject)=>{
+			/**select ibrgy table to get the franchise code */
+			connection.query("SELECT ib_fbranchCode FROM ibrgy_list WHERE ib_ibrgyyCode=?", [ data[3] ], (err, result)=>{
+				if (err) return reject(err)
+				resolve(result)
+			})
+		}).then(async(response:any)=>{
+
+			await Promise.resolve(
+				connection.query("INSERT INTO f_commission (franchise, ibarangay, teller, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?,?) ",
+				[response[0].ib_fbranchCode, data[3], data[4], collection, sales, franchiseReturn, data[5], 'Confirm' ], (err, result)=>{
+					if(err) throw err
+					return result
+				})
+			)
+			connection.commit()
+		})
 	}catch(err:any){
 		connection.rollback()
 		return err
