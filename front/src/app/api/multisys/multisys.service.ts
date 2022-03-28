@@ -68,5 +68,12 @@ export class MultisysService {
 
         }
     }
+	async multisys(){
+		try{
+			return this.http.get(`${ EndPoint.endpoint }/multisy/mutisys/getMultisysTransaction`).toPromise()
+		}catch(err:any){
+			throw err
+		}
+	}
 
 }

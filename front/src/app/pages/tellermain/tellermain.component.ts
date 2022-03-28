@@ -19,7 +19,7 @@ import moment from 'moment';
 export class TellermainComponent implements OnInit {
 
 
-	doughnutChartLabels: Label[] = ['ELOADS', 'FERRIES'];
+	doughnutChartLabels: Label[] = ['ELOADS', 'FERRIES', 'Govt Bill Payments'];
 	doughnutChartData: MultiDataSet = [
 	  []
 	];
@@ -40,6 +40,7 @@ export class TellermainComponent implements OnInit {
 	logsDisplay: any = 3
 	eloadsIncome: number;
 	eloadsDailyTransactions: any;
+	multisysLength: number;
 	
 	constructor(
 		private router: Router,
@@ -66,7 +67,7 @@ export class TellermainComponent implements OnInit {
 		this.tellerName()
 		this.current_wallet()
 		this.activitylog()
-		
+		this.multisys()
 		this.currentDate = new Date ()
 		
 	}
@@ -186,8 +187,24 @@ export class TellermainComponent implements OnInit {
 		this.numberofTransactions()
 	}
 
-	numberofTransactions(){
-		this.doughnutChartData = [[this.eloadsDailyTransactions,this.barkotaLength]]
+
+	async multisys(){
+		try{
+			const data = await this.http_teller.multisys()
+			const result = Object.values(data)
+			const dataHandler = result.filter((x:any)=> {
+				return x.tellerCode === atob(sessionStorage.getItem('code')) && moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00" === moment(this.currentDate).format("YYYY-MM-DD") + "00:00:00"
+			})
+			this.multisysLength = dataHandler.length
+			this.numberofTransactions()
+		}catch(err:any){
+			this._snackBar._showSnack('Failed to Fetch', 'error' )
+		}
 	}
+	numberofTransactions(){
+		this.doughnutChartData = [[this.eloadsDailyTransactions,this.barkotaLength, this.multisysLength]]
+	}
+
+
 	
 }

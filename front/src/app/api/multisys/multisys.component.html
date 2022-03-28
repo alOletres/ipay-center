@@ -57,5 +57,77 @@
 				</div>
 			</form>
 		</div>
+		<table [dataSource] = "dataSource" class="table__table" mat-table class="mat-elevation-z0" style="width: 100%;">
+			<ng-container matColumnDef="no">
+				<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>No.</th>
+				<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+
+			<ng-container matColumnDef="customer_name">
+				<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Customer Name</th>
+				<td class="table_table-body" mat-cell *matCellDef="let element" style="text-transform :uppercase;"> {{ element.customer_name }} </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+
+			<ng-container matColumnDef="account_number">
+				<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Account number</th>
+				<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.account_number }} </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+
+			<ng-container matColumnDef="amount">
+				<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Amount</th>
+				<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.amount }} </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+
+			<ng-container matColumnDef="contact_number">
+				<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Contact Number</th>
+				<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.contact_number }} </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+
+			<ng-container matColumnDef="refno">
+				<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Ref No.</th>
+				<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.refno }} </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+
+			<ng-container matColumnDef="biller">
+				<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Biller</th>
+				<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.biller }} </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+			
+			
+			<ng-container matColumnDef="collections">
+				<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Collections</th>
+				<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.collections }} </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+
+			<ng-container matColumnDef="sales">
+				<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Sales</th>
+				<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.sales }} </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+
+			<ng-container matColumnDef="income">
+				<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Income</th>
+				<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.income }} </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+
+			<ng-container matColumnDef="status">
+				<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Status</th>
+				<td class="table_table-body" mat-cell *matCellDef="let element"> <span style="color: #039A4D;"> Success </span> </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedColums"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColums;"></tr>
+			<tr mat-footer-row *matFooterRowDef="displayedColums"></tr>
+		</table>
 	</mat-card-content>
 </mat-card>

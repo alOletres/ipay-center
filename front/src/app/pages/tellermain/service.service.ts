@@ -33,4 +33,7 @@ export class ServiceService {
 			throw err
 		}
 	}
+	async multisys(){
+		return this.http.get(`${ EndPoint.endpoint }/multisy/mutisys/getMultisysTransaction`).toPromise()
+	}
 }

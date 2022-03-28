@@ -9,6 +9,7 @@ import SocketService from 'src/app/services/socket.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { LoadingDialogComponent } from 'src/app/components/loading-dialog/loading-dialog.component';
+import moment from 'moment';
 @Component({
 	selector: 'app-multisys',
 	templateUrl: './multisys.component.html',
@@ -23,12 +24,15 @@ export class MultisysComponent implements OnInit {
 	amount: any;
 	biller: any;
 	hideResponse : boolean = false
+	displayedColums : any = ['no', 'customer_name', 'account_number', 'amount', 'contact_number', 'refno', 'biller', 'collections', 'sales', 'income', 'status']
+	dataSource: any[];
 	constructor(
 		private $formGroup: FormBuilder,
 		private http_multisys : MultisysService,
 		private _snackBar : SnackbarServices,
 		private socketService :SocketService,
-		private dialog : MatDialog
+		private dialog : MatDialog,
+		private http_teller : MultisysService
 	) {
 		this.billingForm = this.$formGroup.group({
 			CostumersName: ['', Validators.required],
@@ -39,8 +43,8 @@ export class MultisysComponent implements OnInit {
 		})
 	}
 
-	ngOnInit(): void {
-
+	ngOnInit(){
+		this.multisys()
 	}
 	async inquire(){
 		const dialogRef = this.dialog.open(LoadingDialogComponent,{disableClose:true})
@@ -80,8 +84,6 @@ export class MultisysComponent implements OnInit {
 					return of([])
 				})
 			).subscribe((response:any)=>{
-				console.log(response);
-				
 				if(JSON.parse(response).status === 400 || JSON.parse(response).status === 401 ){
 					
 					this._snackBar._showSnack(`${JSON.parse(response).reason}`, 'error')
@@ -92,6 +94,20 @@ export class MultisysComponent implements OnInit {
 				}	
 				dialogRef.close()
 			})
+		}
+	}
+	async multisys(){
+		try{
+			const data = await this.http_teller.multisys()
+			const result = Object.values(data)
+			const dataHandler = result.filter((x:any)=> {
+				return x.tellerCode === atob(sessionStorage.getItem('code')) && moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00" === moment(new Date()).format("YYYY-MM-DD") + "00:00:00"
+			})
+			this.dataSource = dataHandler
+			console.log(this.dataSource);
+			
+		}catch(err:any){
+			this._snackBar._showSnack('Failed to Fetch', 'error' )
 		}
 	}
 	validateOnlyNumbers(evt: any) {
@@ -108,4 +124,5 @@ export class MultisysComponent implements OnInit {
 			throw err
 		}
 	}
+
 }

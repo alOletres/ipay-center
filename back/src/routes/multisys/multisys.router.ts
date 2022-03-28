@@ -357,7 +357,18 @@ class MultisysController {
 			
 		})
 
-    }
+		this.router.get('/getMultisysTransaction',async (req, res) => {
+			try{
+				connection.query("SELECT * FROM multisys", (err, result)=>{
+					if(err) throw err
+					res.status(Codes.SUCCESS).send(result)
+				})
+
+			}catch(err:any){
+				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+			}			
+		})
+    } /**end of wacth function */
   get routerObject() { return this.router }
 
 }
