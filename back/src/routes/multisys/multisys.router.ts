@@ -78,10 +78,11 @@ const generateMultisysNumbers = async() =>{
 
 const multisysApi = async(customerName:any, payload:any, BRANCHCODE:any, TELLERCODE:any, CURRENT_WALLET:any) =>{
 	try{
-		let results :any
+		var results :any
 		
 		const julianDate = await calculateJulianDate()
 		const seriesNumber = await generateMultisysNumbers()
+
 		await axios.post(`${ HTTP_MULTISYS }/process`,payload, {
 			/**headers is here */
 			headers : {
@@ -90,31 +91,18 @@ const multisysApi = async(customerName:any, payload:any, BRANCHCODE:any, TELLERC
 				'X-MECOM-PARTNER-REFNO'  : `${ julianDate }${ seriesNumber }`
 			}
 		}).then(async(response:any)=>{
-			if(response.data.status === 200){
-				/**ready to save in database */
-				/**
-				 * table affected 
-				 * wallet historytransaction
-				 * wallet
-				 * multisys
-				 */
-				 results = await insertMultisys(customerName, payload, response, BRANCHCODE, TELLERCODE, `${ julianDate }${ seriesNumber }`, CURRENT_WALLET)
-				
-			}else{
-				const res = { reason : 'Try Again' }
-				return res
-			}
-			connection.commit()
-			return results
+			
+			results = await insertMultisys(customerName, payload, response.data, BRANCHCODE, TELLERCODE, `${ julianDate }${ seriesNumber }`, CURRENT_WALLET)
 		})
+		return results
+			
 
 	}catch(err:any){
-		connection.rollback()
-		return err.response.data.reason
+		return err.response.data
 	}	
 }
 const insertMultisys = async(...data:any) =>{
-	// console.log(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
+	
 	/**
 	 * payment charge 
 	 * system fee = 10
@@ -136,20 +124,20 @@ const insertMultisys = async(...data:any) =>{
 	try{
 		connection.beginTransaction()
 		return await new Promise((resolve, reject)=>{
-			connection.query("INSERT INTO multisys (partner_refNo, branchCode, tellerCode, customer_name, account_number, amount, contact_number, channel, refno, txnid, biller, meta, collections, sales, income ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-			[data[5], data[3], data[4], data[0], data[1].account_number, data[1].amount, data[1].contact_number, data[1].channel, data[2].data.refno, data[2].data.txnid, data[2].data.biller, data[2].data.meta, collection, sales, outletCharge ], (err, result)=>{
+
+			connection.query("INSERT INTO multisys (partner_refNo, branchCode, tellerCode, customer_name, account_number, amount, contact_number, channel, refno, txnid, biller, collections, sales, income ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+			[data[5], data[3], data[4], data[0], data[1].account_number, data[1].amount, data[1].contact_number, data[1].channel, data[2].data.refno, data[2].data.txnid, data[2].data.biller, collection, sales, outletCharge ], (err, result)=>{
 				if(err) return reject(err)
 				resolve(result)
 			})
 		}).then(async(response:any)=>{
+			
 			/**
 			 * table affected wallet update wallet	
 			 * wallet transacions
 			 */
-			 
-
-			if(!response.length){
-				const data = { reason : 'again' }
+			if(response.affectedRows !== 1){
+				const data = { status : 400, reason : 'Try Again' }
 				return data
 			}else{
 				await Promise.all([
@@ -175,7 +163,7 @@ const insertMultisys = async(...data:any) =>{
 				
 			}
 			connection.commit()
-			return data[1]
+			return data[2]
 		})
 
 	}catch(err:any){
@@ -295,7 +283,7 @@ class MultisysController {
 
 			const payload : MultisysPayload = {
 				account_number : data.account_number,
-				amount : 12,
+				amount : amount,
 				contact_number : data.contactNo,
 				biller : BILLER,
 				channel : CHANNEL
@@ -324,13 +312,14 @@ class MultisysController {
 							if(result[0].current_wallet === 5000 || result[0].current_wallet < 5000){
 
 								res.status(Codes.SUCCESS).send({ message : 'low_wallet' })
-								console.log('low wallet');
+								
 								
 							}else{
 								/**
 								 * proceed to insert
 								 */
 								const results = await multisysApi(data.CostumersName, payload, response[0].fiB_Code, tellerCode, result[0].current_wallet)
+								console.log(results);
 								
 								res.status(Codes.SUCCESS).send(results)
 							

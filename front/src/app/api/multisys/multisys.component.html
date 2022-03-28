@@ -18,11 +18,11 @@
   </mat-card-title>
 	<mat-card-content style="overflow-x: hidden;" class="card__content">
 		<div style="padding: 0px 20px 20px 20px;" >
-			<form [formGroup]="billingForm" >
+			<form [formGroup]="billingForm" (ngSubmit)="inquire()" >
 				<div class=" row " >
 					<mat-form-field  class=" col-md-6" appearance="outline">
 						<mat-label>Costumers Name</mat-label>
-						<input type="text" matInput formControlName="CostumersName" autocomplete="off">
+						<input style="text-transform: uppercase;" type="text" matInput formControlName="CostumersName" autocomplete="off">
 					</mat-form-field>
 					<mat-form-field class=" col-md-6"  appearance="fill" >
 						<mat-label class="">Contact No.</mat-label>
@@ -44,7 +44,7 @@
 				<div *ngIf="hideResponse" >
 					<span> RESPONSE </span>
 					<div style="width: 100%; background:#f0f0f0; padding: 4px 3px; color: rgb(24, 24, 109)">
-						Costumers Name: <b style="font-weight: 500; color: black;">{{ billingForm.value.CostumersName }}</b><br>
+						Costumers Name: <b style="font-weight: 500; color: black; text-transform: uppercase;">{{ billingForm.value.CostumersName }}</b><br>
 						Contact No.: <b style="font-weight: 500; color: black;">{{ billingForm.value.contactNo }}</b><br>
 						Account Number No.: <b style="font-weight: 500; color: black;">{{ account_number }}</b><br>
 						Amount: <b style="font-weight: 500; color: black;">{{ amount | number:'1.2-2' }}</b><br>
@@ -53,7 +53,7 @@
 				</div>
 				<br>
 				<div align="end">
-					<button type="submit" mat-raised-button [disabled]="billingForm.invalid" style="background-color:#039A4D;"  (click)="inquire()"> {{ btnName }} </button>
+					<button type="submit" mat-raised-button [disabled]="billingForm.invalid" style="background-color:#039A4D;"  > {{ btnName }} </button>
 				</div>
 			</form>
 		</div>

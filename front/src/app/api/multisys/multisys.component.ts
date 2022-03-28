@@ -45,26 +45,26 @@ export class MultisysComponent implements OnInit {
 	async inquire(){
 		const dialogRef = this.dialog.open(LoadingDialogComponent,{disableClose:true})
 
-		// if(this.btnName === 'Inquire'){
-		// 	this.http_multisys.mutisysInquire(this.billingForm.value)
-		// 	.pipe(
-		// 		catchError((error:any)=>{
-		// 			this._snackBar._showSnack(error, 'error')
-		// 			dialogRef.close()
-		// 			return of([])
-		// 		})
-		// 	).subscribe((data:any)=>{
+		if(this.btnName === 'Inquire'){
+			this.http_multisys.mutisysInquire(this.billingForm.value)
+			.pipe(
+				catchError((error:any)=>{
+					this._snackBar._showSnack(error, 'error')
+					dialogRef.close()
+					return of([])
+				})
+			).subscribe((data:any)=>{
 
-		// 		const { account_number, amount, biller } = JSON.parse(data)
-		// 		this.hideResponse = true
-		// 		this.account_number = account_number
-		// 		this.amount = amount
-		// 		this.biller = biller
-		// 		this.btnName = 'Proceed'
+				const { account_number, amount, biller } = JSON.parse(data)
+				this.hideResponse = true
+				this.account_number = account_number
+				this.amount = amount
+				this.biller = biller
+				this.btnName = 'Proceed'
 				
-		// 		dialogRef.close()
-		// 	})
-		// }else if(this.btnName === 'Proceed'){
+				dialogRef.close()
+			})
+		}else if(this.btnName === 'Proceed'){
 			this.http_multisys.proceedTransaction({
 				data : this.billingForm.value,
 				amount : this.amount,
@@ -73,18 +73,26 @@ export class MultisysComponent implements OnInit {
 
 			.pipe(
 				catchError((error:any)=>{
+					console.log(error);
+					
 					this._snackBar._showSnack(error, 'error')
 					dialogRef.close()
 					return of([])
 				})
 			).subscribe((response:any)=>{
-				console.log(JSON.parse(response));
+				console.log(response);
 				
-				this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
-				this._snackBar._showSnack(`${JSON.parse(response).reason}`, 'success')
+				if(JSON.parse(response).status === 400 || JSON.parse(response).status === 401 ){
+					
+					this._snackBar._showSnack(`${JSON.parse(response).reason}`, 'error')
+
+				}else if( JSON.parse(response).status === 200 ){
+					this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
+					this._snackBar._showSnack(`${JSON.parse(response).reason}`, 'success')
+				}	
 				dialogRef.close()
 			})
-		// }
+		}
 	}
 	validateOnlyNumbers(evt: any) {
 		try{
