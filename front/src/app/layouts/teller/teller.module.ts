@@ -47,7 +47,9 @@ import { TellersettingsComponent } from 'src/app/tellercomponents/tellersettings
 import {CookieService} from 'ngx-cookie-service';
 /** pipe */
 import { ArraypipePipe } from './../../pipes/arraypipe.pipe';
-import { ComputePipe, ComputeSalesPipe, ComputeCollectionPipe, ComputeSalePipe, ComputeIncomePipe, SearchByDatePipe, EloadDailtyTotalPipe, eloadsDailyMarkUpPipe } from './../../pipes/compute.pipe';
+import { ComputePipe, ComputeSalesPipe, ComputeCollectionPipe, ComputeSalePipe,
+		 ComputeIncomePipe, SearchByDatePipe, EloadDailtyTotalPipe, eloadsDailyMarkUpPipe,
+		 multisysCollectionTotalPipe, multisysSalesTotalPipe, multisysIncomeTotalPipe } from './../../pipes/compute.pipe';
 
 import { ChartsModule } from 'ng2-charts';
 import { ActivitylogsDirective } from './../../tellercomponents/directive/activitylogs.directive';
@@ -96,7 +98,10 @@ import { MultysiscompComponent } from "./../../api/multisys/shared/multysiscomp/
 		EloadDailtyTotalPipe,
 		eloadsDailyMarkUpPipe,
 		MultisysComponent,
-		MultysiscompComponent
+		MultysiscompComponent,
+		multisysCollectionTotalPipe,
+		multisysSalesTotalPipe,
+		multisysIncomeTotalPipe
 	],
 	imports: [
 		CommonModule,

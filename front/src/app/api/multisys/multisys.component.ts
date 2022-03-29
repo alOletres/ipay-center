@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MultysiscompComponent } from "./shared/multysiscomp/multysiscomp.component";
@@ -10,6 +10,8 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { LoadingDialogComponent } from 'src/app/components/loading-dialog/loading-dialog.component';
 import moment from 'moment';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
 	selector: 'app-multisys',
 	templateUrl: './multisys.component.html',
@@ -25,7 +27,8 @@ export class MultisysComponent implements OnInit {
 	biller: any;
 	hideResponse : boolean = false
 	displayedColums : any = ['no', 'customer_name', 'account_number', 'amount', 'contact_number', 'refno', 'biller', 'collections', 'sales', 'income', 'status']
-	dataSource: any[];
+	dataSource: any;
+	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 	constructor(
 		private $formGroup: FormBuilder,
 		private http_multisys : MultisysService,
@@ -77,8 +80,6 @@ export class MultisysComponent implements OnInit {
 
 			.pipe(
 				catchError((error:any)=>{
-					console.log(error);
-					
 					this._snackBar._showSnack(error, 'error')
 					dialogRef.close()
 					return of([])
@@ -101,10 +102,11 @@ export class MultisysComponent implements OnInit {
 			const data = await this.http_teller.multisys()
 			const result = Object.values(data)
 			const dataHandler = result.filter((x:any)=> {
-				return x.tellerCode === atob(sessionStorage.getItem('code')) && moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00" === moment(new Date()).format("YYYY-MM-DD") + "00:00:00"
+				// && moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00" === moment(new Date()).format("YYYY-MM-DD") + "00:00:00"
+				return x.tellerCode === atob(sessionStorage.getItem('code')) 
 			})
-			this.dataSource = dataHandler
-			console.log(this.dataSource);
+			this.dataSource = new MatTableDataSource<any>( dataHandler)// display for log user franchise
+			this.dataSource.paginator = this.paginator
 			
 		}catch(err:any){
 			this._snackBar._showSnack('Failed to Fetch', 'error' )

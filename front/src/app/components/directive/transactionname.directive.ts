@@ -12,9 +12,11 @@ export class TransactionnameDirective {
 
 		let el = this.el.nativeElement
 		let data = this.appTransactionname
+
 		let result :any = data.slice(0,3) === 'BRK' ? 'FERRIES' 
 						: data.slice(0,3) === 'IPC' ? 'ELOADS' 
-						: ''
+						: data.slice(7).slice(0, 3) === 'IPY' ? 'Government Bills Payment' 
+						:''
 		el.innerHTML = `<span  >${result}</span>`
 		
 	}
