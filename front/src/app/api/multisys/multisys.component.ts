@@ -12,6 +12,7 @@ import { LoadingDialogComponent } from 'src/app/components/loading-dialog/loadin
 import moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { ResetformService } from 'src/app/services/resetform.service';
 @Component({
 	selector: 'app-multisys',
 	templateUrl: './multisys.component.html',
@@ -35,7 +36,8 @@ export class MultisysComponent implements OnInit {
 		private _snackBar : SnackbarServices,
 		private socketService :SocketService,
 		private dialog : MatDialog,
-		private http_teller : MultisysService
+		private http_teller : MultisysService,
+		private resetForm : ResetformService
 	) {
 		this.billingForm = this.$formGroup.group({
 			CostumersName: ['', Validators.required],
@@ -92,6 +94,10 @@ export class MultisysComponent implements OnInit {
 				}else if( JSON.parse(response).status === 200 ){
 					this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
 					this._snackBar._showSnack(`${JSON.parse(response).reason}`, 'success')
+					this.resetForm.reset(this.billingForm)
+					this.btnName = 'Inquire'
+					this.hideResponse = false
+					this.ngOnInit()
 				}	
 				dialogRef.close()
 			})
