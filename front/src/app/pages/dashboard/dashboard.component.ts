@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
 	/**
 	 * @donutGraph
 	 */
-	doughnutChartLabels: Label[] = ['ELOADS', 'FERRIES'];
+	doughnutChartLabels: Label[] = ['ELOADS', 'FERRIES', 'GOVT BILL PAYMENT'];
 
 	doughnutChartData: MultiDataSet = [ [] ];
 	
@@ -79,6 +79,8 @@ export class DashboardComponent implements OnInit {
 	eloadsDailyTransactions :any
 	loadcentralWallet: any;
 	type: string;
+	multisysLenght: any;
+	multisysIncome: number;
   	constructor( private _route : ActivatedRoute, private http_dash : DashboardService, private _snackBar : SnackbarServices,
 				 private socketService :SocketService,
 				 private http_wallet : WalletService) {
@@ -110,6 +112,7 @@ export class DashboardComponent implements OnInit {
 					this.barYear()
 					this.barkotaTrans()
 					this.motherWallet()
+					this.multisys()
 				})
 				
 		
@@ -131,6 +134,7 @@ export class DashboardComponent implements OnInit {
 		this.getLogs()
 		this.motherWallet()
 		this.numberofTransactions()
+		this.multisys()
 	}
 
 	async barYear(){
@@ -804,13 +808,31 @@ export class DashboardComponent implements OnInit {
    }
 
     numberofTransactions(){
-		this.doughnutChartData = [[this.eloadsDailyTransactions, this.barkotaLength]]
+		this.doughnutChartData = [[this.eloadsDailyTransactions, this.barkotaLength, this.multisysLenght]]
 	}
 
 	async motherWallet(){
 		const result : any = await this.http_dash.getMotherWallet()
-		const { api_name, wallet } = JSON.parse(result)[0]
+		const { wallet } = JSON.parse(result)[0]
 		this.loadcentralWallet = wallet
+	}
+
+	async multisys(){
+		try{
+			let income = 0
+			const result :any = await this.http_dash.multisys()
+			const data:any = result.filter((x:any)=>{ 
+				return x.branchCode === atob(sessionStorage.getItem('code')) ? x.branchCode === atob(sessionStorage.getItem('code'))
+					: atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' 
+			}).map((y:any)=>{
+				income += y.income
+			})
+			this.multisysIncome = income
+			this.multisysLenght = data.length
+			this.numberofTransactions()
+		}catch(err:any){
+			this._snackBar._showSnack('Failed to Fetch', 'error')
+		}
 	}
 
 

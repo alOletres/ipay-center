@@ -49,7 +49,20 @@
 							</mat-card-content>
 						</mat-card>
 					</div>
-					<div *ngIf="type === 'Admin' || type === 'Branch Head' "  class="col-md-6 col-xs-12 col-sm-6 " style="margin-top: 30px;margin-bottom: 30px;">
+					
+					<div class="col-md-6 col-xs-12 col-sm-6 " style="margin-top: 30px;margin-bottom: 30px;">
+						<mat-card style="background-color: rgb(230, 92, 38); margin: 1px;">
+							<mat-card-title-group >
+								<mat-card-title > {{ multisysIncome | currency : "&#8369;" }} </mat-card-title>
+								<mat-card-subtitle style="color:white;">  </mat-card-subtitle>
+								<mat-icon>payment</mat-icon>
+							</mat-card-title-group>
+							<mat-card-content >
+								<p> Gov't BILL PAYMENT</p>
+							</mat-card-content>
+						</mat-card>	
+					</div>
+					<div *ngIf="type === 'Admin' || type === 'Branch Head' "  class="col-md-6 col-xs-12 col-sm-6 " style="margin-bottom: 30px;">
 						<mat-card style=" background-color:rgb(219, 146, 37)"  class="example-card" >
 							<mat-card-title-group >
 								<mat-card-title class="font media" > {{ loadcentralWallet }}</mat-card-title>
@@ -59,20 +72,6 @@
 							</mat-card-title-group>
 							<mat-card-content >
 								<p> LOAD CENTRAL MOTHER WALLET </p>
-							</mat-card-content>
-						</mat-card>
-					</div>
-
-					<div *ngIf="type !== 'Admin' && type !== 'Branch Head' " class="col-md-6 col-xs-12 col-sm-6 " style="margin-top: 30px;margin-bottom: 30px;">
-						<mat-card style=" background-color:rgb(214, 55, 55)"  class="example-card" >
-							<mat-card-title-group >
-								<mat-card-title class="font media" > {{ dateNow | date : 'medium' }}</mat-card-title>
-								
-								<mat-card-subtitle style="color:white;">  </mat-card-subtitle>
-								<i class="fa fa-calendar-o" aria-hidden="true"></i>
-							</mat-card-title-group>
-							<mat-card-content >
-								<p> DATE </p>
 							</mat-card-content>
 						</mat-card>
 					</div>

@@ -143,7 +143,7 @@ export class LccompntTransComponent implements OnInit {
 		const MARKUP = this.markup(this.modelType, this.productName, this.amount, this.selectedPromoCodes)
 		
 		 Swal.fire({
-			title:  ` Collect Charge &#8369;${MARKUP}.00`,
+			title:  ` Collect Charge &#8369;${ MARKUP }.00`,
 			text: 'Confirm to Proceed',
 			icon: 'info',
 			showCancelButton: true,

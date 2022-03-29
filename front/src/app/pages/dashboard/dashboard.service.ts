@@ -75,4 +75,11 @@ import { EndPoint } from "./../../globals/endpoints";
 			return err
 		}
 	}
+	async multisys(){
+		try{
+			return await this.http.get(`${ EndPoint.endpoint }/multisy/mutisys/getMultisysTransaction`).toPromise()
+		}catch(err:any){
+			throw err
+		}
+	}
 }

@@ -27,6 +27,8 @@ const secret : MUTISYS_PARTNER_SECRET ={
     SECRET : process.env.X_MECOM_PARTNER_SECRET
 }
 
+let multisysSecret :any = secret
+
 const calculateJulianDate = async() => {
 
 	let today :any = new Date();
