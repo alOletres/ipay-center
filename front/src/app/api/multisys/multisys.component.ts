@@ -13,6 +13,7 @@ import moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ResetformService } from 'src/app/services/resetform.service';
+import Swal from 'sweetalert2';
 @Component({
 	selector: 'app-multisys',
 	templateUrl: './multisys.component.html',
@@ -44,7 +45,6 @@ export class MultisysComponent implements OnInit {
 			contactNo: ['',Validators.required],
 			account_number: ['', Validators.required],
 			Amount: ['', Validators.required],
-
 		})
 	}
 
@@ -52,6 +52,7 @@ export class MultisysComponent implements OnInit {
 		this.multisys()
 	}
 	async inquire(){
+		
 		const dialogRef = this.dialog.open(LoadingDialogComponent,{disableClose:true})
 
 		if(this.btnName === 'Inquire'){
@@ -70,37 +71,61 @@ export class MultisysComponent implements OnInit {
 				this.amount = amount
 				this.biller = biller
 				this.btnName = 'Proceed'
-				
+				this.billingForm.disable()
 				dialogRef.close()
 			})
 		}else if(this.btnName === 'Proceed'){
-			this.http_multisys.proceedTransaction({
-				data : this.billingForm.value,
-				amount : this.amount,
-				tellerCode: atob(sessionStorage.getItem('code'))
-			})
+			Swal.fire({
+				title: 'Are you sure to Proceed',
+				text: '',
+				icon: 'info',
+				showCancelButton: true,
+				confirmButtonText: 'Yes',
+				cancelButtonText: 'No'
+			}).then((result) => { 
+				if (result.value) {
 
-			.pipe(
-				catchError((error:any)=>{
-					this._snackBar._showSnack(error, 'error')
-					dialogRef.close()
-					return of([])
-				})
-			).subscribe((response:any)=>{
-				if(JSON.parse(response).status === 400 || JSON.parse(response).status === 401 ){
+					this.http_multisys.proceedTransaction({
+						data : this.billingForm.value,
+						amount : this.amount,
+						tellerCode: atob(sessionStorage.getItem('code'))
+					})
+					.pipe(
+						catchError((error:any)=>{
+							this._snackBar._showSnack(error, 'error')
+							dialogRef.close()
+							return of([])
+						})
+					).subscribe((response:any)=>{
+						if(JSON.parse(response).status === 400 || JSON.parse(response).status === 401 ){
+							
+							this._snackBar._showSnack(`${JSON.parse(response).reason}`, 'error')
+		
+						}else if( JSON.parse(response).status === 200 ){
+							this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
+							this._snackBar._showSnack(`${JSON.parse(response).reason}`, 'success')
+							this.resetForm.reset(this.billingForm)
+							this.btnName = 'Inquire'
+							this.account_number = ''
+							this.amount = ''
+							this.biller = ''
+							this.billingForm.enable()
+							this.ngOnInit()
+						}	
+						dialogRef.close()
+					})
 					
-					this._snackBar._showSnack(`${JSON.parse(response).reason}`, 'error')
-
-				}else if( JSON.parse(response).status === 200 ){
-					this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
-					this._snackBar._showSnack(`${JSON.parse(response).reason}`, 'success')
-					this.resetForm.reset(this.billingForm)
-					this.btnName = 'Inquire'
-					this.hideResponse = false
-					this.ngOnInit()
-				}	
-				dialogRef.close()
+				} else if (result.dismiss === Swal.DismissReason.cancel) {
+						
+					Swal.fire(
+					'Cancelled',
+					'',
+					'error'
+					)
+					dialogRef.close()
+				}
 			})
+		
 		}
 	}
 	async multisys(){

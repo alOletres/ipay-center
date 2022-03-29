@@ -42,7 +42,7 @@
 							<input type="number" matInput formControlName="Amount" (keypress)="validateOnlyNumbers($event)" autocomplete="off">
 						</mat-form-field>
 					</div>
-					<div *ngIf="hideResponse" >
+					<div  >
 						<span> RESPONSE </span>
 						<div style="width: 100%; background:#f0f0f0; padding: 4px 3px; color: rgb(24, 24, 109)">
 							Costumers Name: <b style="font-weight: 500; color: black; text-transform: uppercase;">{{ billingForm.value.CostumersName }}</b><br>
