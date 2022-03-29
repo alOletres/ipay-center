@@ -23,7 +23,6 @@ export class LcExcelService {
 	exportAsExcelFile(...data:any){
 
 		
-		
 		const fileName = ''
 		this.workbook.creator = 'alOletres';
 		this.workbook.lastModifiedBy = 'Me';
@@ -83,7 +82,7 @@ export class LcExcelService {
 		 */
 		const datenow = new Date()
 		const date = worksheet.getCell('I2')
-		date.value = `${'LOAD CENTRAL REPORTS'} ${moment(datenow).format('LLL')}`
+		date.value = `${'ELOADS REPORTS'} ${moment(datenow).format('LLL')}`
 		date.alignment = { vertical: 'middle', horizontal: 'center' }
 		worksheet.addRow([]);
 
@@ -167,7 +166,7 @@ export class LcExcelService {
 
 		const w  = this.workbook.xlsx.writeBuffer().then((_buffer: any) => {
 			const blob = new Blob([_buffer], { type: EXCEL_TYPE });
-			FileSaver.saveAs(blob, `${ fileName } Load Central Reports Exported - ${ moment().format('ll') }`+ EXCEL_EXTENSION);
+			FileSaver.saveAs(blob, `${ fileName } Eloads Reports Exported - ${ moment().format('ll') }`+ EXCEL_EXTENSION);
 		});
 	}
 

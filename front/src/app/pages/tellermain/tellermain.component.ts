@@ -41,6 +41,7 @@ export class TellermainComponent implements OnInit {
 	eloadsIncome: number;
 	eloadsDailyTransactions: any;
 	multisysLength: number;
+	multisysIncome: number;
 	
 	constructor(
 		private router: Router,
@@ -55,6 +56,7 @@ export class TellermainComponent implements OnInit {
 			this.current_wallet()
 			this.barkotaTrans()
 			this.eloads()	
+			this.multisys()
 		})
 		this.barkotaTrans()
 		this.eloads()
@@ -189,12 +191,17 @@ export class TellermainComponent implements OnInit {
 
 
 	async multisys(){
+		let dailyIncome = 0
 		try{
 			const data = await this.http_teller.multisys()
 			const result = Object.values(data)
 			const dataHandler = result.filter((x:any)=> {
 				return x.tellerCode === atob(sessionStorage.getItem('code')) && moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00" === moment(this.currentDate).format("YYYY-MM-DD") + "00:00:00"
+			}).map((y:any)=>{
+				dailyIncome += y.income
 			})
+			this.multisysIncome = dailyIncome
+
 			this.multisysLength = dataHandler.length
 			this.numberofTransactions()
 		}catch(err:any){

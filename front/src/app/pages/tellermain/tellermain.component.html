@@ -86,7 +86,7 @@
 				</div>
 				<br>
 				<div class="row">
-					<div class="col-md-12" >
+					<div class="col-md-6" >
 						<mat-card style="background-color: rgb(241, 178, 106); margin: 1px;">
 							<mat-card-title-group >
 								<mat-card-title > {{ eloadsIncome | currency : "&#8369;"  }}</mat-card-title>
@@ -96,6 +96,19 @@
 							</mat-card-title-group>
 							<mat-card-content >
 								<p> ELOADS</p>
+							</mat-card-content>
+						</mat-card>	
+					</div>
+					<div class="col-md-6" >
+						<mat-card style="background-color: rgb(230, 92, 38); margin: 1px;">
+							<mat-card-title-group >
+								<mat-card-title > {{ multisysIncome | currency : "&#8369;" }} </mat-card-title>
+								
+								<mat-card-subtitle style="color:white;">  </mat-card-subtitle>
+								<mat-icon>payment</mat-icon>
+							</mat-card-title-group>
+							<mat-card-content >
+								<p> Gov't BILL PAYMENT</p>
 							</mat-card-content>
 						</mat-card>	
 					</div>

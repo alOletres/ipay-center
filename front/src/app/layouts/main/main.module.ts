@@ -77,12 +77,17 @@ import { LoadCentralHistoryComponent } from './../../pages/transaction/load-cent
 import { TopuploadListComponent } from './../../pages/transaction/topupload-list/topupload-list.component';
 import { TellerComponent } from './../../pages/teller/teller.component';
 import { ServicesListComponent } from './../../pages/services-list/services-list.component';
+
+import { GovbillpaymentComponent } from './../../pages/transaction/govbillpayment/govbillpayment.component';
 /**
  * pipes
  */
 import { ImgPipe } from './../../pipes/img.pipe';
 import { imgpipes } from './../../pipes/img.pipe';
-import { TotalIncomeCommissionPipe, SearchByCommissionPipe, TotalIncomeWalletHistoryPipe, TotalSalesWalletHistoryPipe, TotalCollectionWalletHistory, SearchByDateWalletHistoryPipe, ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, ComputeTotalCreditBranchPipe, SearchByDateAdminPipe, eloadsDailyMarkUpPipe, EloadDailtyTotalPipe, SearchByDatePipe } from './../../pipes/admin/compute-debit.pipe'
+import { TotalIncomeCommissionPipe, SearchByCommissionPipe, TotalIncomeWalletHistoryPipe, TotalSalesWalletHistoryPipe,
+		 TotalCollectionWalletHistory, SearchByDateWalletHistoryPipe, ComputeDebitPipe, ComputeTotalDebitPipe,
+		 ComputeTotalCreditAdminPipe, ComputeTotalCreditBranchPipe, SearchByDateAdminPipe, eloadsDailyMarkUpPipe, 
+		 EloadDailtyTotalPipe, SearchByDatePipe, SearchByDateMultisysPipe, MultisysDailyCollectionPipe, MultisysDailySalesPipe, MultisysDailyIncomePipe } from './../../pipes/admin/compute-debit.pipe'
 /**
  * directives
  */
@@ -146,7 +151,12 @@ import { TotalIncomeCommissionPipe, SearchByCommissionPipe, TotalIncomeWalletHis
 		CommissionComponent,
 		SearchByCommissionPipe,
 		TotalIncomeCommissionPipe,
-		ServicesListComponent
+		ServicesListComponent,
+		GovbillpaymentComponent,
+		SearchByDateMultisysPipe,
+		MultisysDailyCollectionPipe,
+		MultisysDailySalesPipe,
+		MultisysDailyIncomePipe
 	],
 	imports: [
 		CommonModule,
@@ -205,7 +215,8 @@ import { TotalIncomeCommissionPipe, SearchByCommissionPipe, TotalIncomeWalletHis
 	providers: [
 		SearchByDateAdminPipe,
 		SearchByDatePipe,
-		SearchByDateWalletHistoryPipe
+		SearchByDateWalletHistoryPipe,
+		SearchByDateMultisysPipe
 	]
 })
 export class MainModule { }

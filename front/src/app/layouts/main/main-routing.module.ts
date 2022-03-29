@@ -25,6 +25,7 @@ import { TopuploadListComponent } from './../../pages/transaction/topupload-list
 import { WalletHistoryComponent } from './../../pages/transaction/wallet-history/wallet-history.component';
 import { CommissionComponent } from './../../pages/transaction/commission/commission.component';
 import { ServicesListComponent } from './../../pages/services-list/services-list.component';
+import { GovbillpaymentComponent } from './../../pages/transaction/govbillpayment/govbillpayment.component';
 const routes: Routes = [
 	{
 		path: '',
@@ -84,6 +85,9 @@ const routes: Routes = [
 			}, {
 				path :'SERVICES',
 				component : ServicesListComponent
+			}, {
+				path:'billspayment',
+				component : GovbillpaymentComponent
 			}
 		]
 	}

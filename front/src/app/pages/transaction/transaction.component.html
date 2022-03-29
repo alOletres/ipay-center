@@ -102,6 +102,40 @@
 		</mat-card>
 	</div>
 	<div style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+		<mat-card  style="color: rgb(219, 119, 53);" class="_card card" [routerLink]="['/billspayment']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >
+			<!--  -->
+			<div class="row">
+				<div class="col-md-1 top:50% display:flex; justify-content: center; align-items: center; ">
+					<b style="font-size: 30px; font-weight: 500;"> 
+						<i class="fa fa-id-card" aria-hidden="true" style=" margin-right: 3px; "></i>
+					</b>
+				</div>
+				<div class="col-md-11"> 
+					<b>GOV'T BILLS PAYMENT</b> <br>
+					Summary of my Payment Transactions 
+				</div>
+			</div>
+		</mat-card>
+	</div>
+	
+	<div *ngIf = "type === 'Admin' || type === 'Branch Head' || type === 'Franchise'"  style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
+		
+		<mat-card style="color: rgb(37, 150, 97);" class="card _card" [routerLink]="['/commisionpage']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+			<div class="row">
+				<div class="col-md-1">
+					<b style="font-size: 30px; font-weight: 500;"> 
+						<i class="fa fa-credit-card-alt" style=" margin-right: 3px; "></i>
+					</b>
+				</div>
+				<div class="col-md-11">
+					<b>SHARED COMMISSION</b> <br>
+					Commission under your Branch
+				</div>
+			</div>
+			
+		</mat-card>
+	</div>
+	<div style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
 		<mat-card  style="color: rgb(20, 141, 51);" class="_card card" [routerLink]="['/walletHistory']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >
 			<!--  -->
 			<div class="row">
@@ -135,23 +169,6 @@
 		</mat-card>
 	</div>
 
-	<div *ngIf = "type === 'Admin' || type === 'Branch Head' || type === 'Franchise'"  style="cursor: pointer;" fxFlex="50%" fxFlex.md="100%" fxFlex.xs="100%">
-		
-		<mat-card style="color: rgb(37, 150, 97);" class="card _card" [routerLink]="['/commisionpage']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-			<div class="row">
-				<div class="col-md-1">
-					<b style="font-size: 30px; font-weight: 500;"> 
-						<i class="fa fa-credit-card-alt" style=" margin-right: 3px; "></i>
-					</b>
-				</div>
-				<div class="col-md-11">
-					<b>SHARED COMMISSION</b> <br>
-					Commission under your Branch
-				</div>
-			</div>
-			
-		</mat-card>
-	</div>
 
 </div>
     <br>

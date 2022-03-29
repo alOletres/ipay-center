@@ -105,19 +105,19 @@
 				<ng-container matColumnDef="collections">
 					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Collections</th>
 					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.collections }} </td>
-					<td mat-footer-cell *matFooterCellDef> <b>{{ dataSource | multisysCollectionTotal }}</b> </td>
+					<td mat-footer-cell *matFooterCellDef> <b>{{ dataSource | multisysCollectionTotal | currency : "&#8369;"}}</b> </td>
 				</ng-container>
 	
 				<ng-container matColumnDef="sales">
 					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Sales</th>
 					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.sales }} </td>
-					<td mat-footer-cell *matFooterCellDef> <b>{{ dataSource |  multisysSalesTotal }}</b> </td>
+					<td mat-footer-cell *matFooterCellDef> <b>{{ dataSource |  multisysSalesTotal | currency : "&#8369;"}}</b> </td>
 				</ng-container>
 	
 				<ng-container matColumnDef="income">
 					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Income</th>
 					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.income }} </td>
-					<td mat-footer-cell *matFooterCellDef> <b> {{ dataSource | multisysIncomeTotal }} </b> </td>
+					<td mat-footer-cell *matFooterCellDef> <b> {{ dataSource | multisysIncomeTotal | currency : "&#8369;"}} </b> </td>
 				</ng-container>
 	
 				<ng-container matColumnDef="status">

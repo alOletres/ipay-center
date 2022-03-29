@@ -4,47 +4,39 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { LoadcentralService } from 'src/app/api/loadcentral/shared/services/loadcentral.service';
-import { SearchByDatePipe } from 'src/app/pipes/admin/compute-debit.pipe';
+import { SearchByDateMultisysPipe } from 'src/app/pipes/admin/compute-debit.pipe';
 import { BranchService } from 'src/app/services/branch.service';
 import { SnackbarServices } from 'src/app/services/snackbar.service';
-import { LcExcelService } from './lc-excel.service';
+import { GovbillpaymentService } from './govbillpayment.service';
 
-	@Component({
-	selector: 'app-load-central-history',
-	templateUrl: './load-central-history.component.html',
-	styleUrls: ['./load-central-history.component.scss']
-	})
-export class LoadCentralHistoryComponent implements OnInit {
-
-	displayedColumns : any = ['no', 'reference_id', 'TransId', 'mobileNo', 'productCode', 'amount', 'markUp', 'ePIN', 'createdBy', 'createdDate', 'status']
+@Component({
+  selector: 'app-govbillpayment',
+  templateUrl: './govbillpayment.component.html',
+  styleUrls: ['./govbillpayment.component.scss']
+})
+export class GovbillpaymentComponent implements OnInit {
 	dataSource: any;
-	start:any
-	end : any
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-	dataFilter: any;
-	tellerList: any;
-	searchControl = new FormControl();
-	filteredOptions: Observable<any[]>
+	displayedColumns : any = ['no', 'customer_name', 'account_number', 'amount', 'contact_number', 'refno', 'biller', 'collections', 'sales', 'income', 'status']
 	@ViewChild("printMe") printTheDiv!: ElementRef
 	fullname: string;
 	email: any;
-	address: any;
 	contactNo: any;
 	branchName: any;
-	constructor(private http_load : LoadcentralService,
-				private http_branch : BranchService,
+	address: any;
+	start : any
+	end : any
+	tellerList: any;
+	searchControl = new FormControl();
+	filteredOptions: Observable<any[]>
+	constructor(private http_gov : GovbillpaymentService,
 				private _snackBar : SnackbarServices,
-				private pipeData : SearchByDatePipe,
-				private http_excel : LcExcelService) { }
+				private http_branch : BranchService,
+				private pipeData : SearchByDateMultisysPipe) { }
 
 	ngOnInit() {
-		this.loadCentralHistory()
+		this.govBillPayment()
 		this.getTellerlist()
-		this.filteredOptions = this.searchControl.valueChanges.pipe(
-			startWith(''),
-			map(value=>  this._filter(value))
-		)
 		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
 			/**admin and branch head is here */
 		}else{
@@ -55,6 +47,10 @@ export class LoadCentralHistoryComponent implements OnInit {
 			this.branchName = franchiseName.toUpperCase()
 			this.address = location.toUpperCase()
 		}
+		this.filteredOptions = this.searchControl.valueChanges.pipe(
+			startWith(''),
+			map(value=>  this._filter(value))
+		)
 	}
 	private _filter(value:any) : any[]{
 
@@ -69,25 +65,21 @@ export class LoadCentralHistoryComponent implements OnInit {
 	displayFn(subject:any){
 		return subject ? subject.tellerCode : undefined
 	}
-	
-	async loadCentralHistory(){
-		const result : any = await this.http_load.getLoadCentralTransactions()
-		
-		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
-			this.dataSource = new MatTableDataSource<any>(result)
-			this.dataSource.paginator = this.paginator
-		}else{
-			/**
-			 * franchise and ibarangay data
-			 */
-			const data = result.filter((x:any)=>{ return x.branchCode === atob(sessionStorage.getItem('code')) }).map((y:any)=>y)
-			this.dataSource = new MatTableDataSource<any>(data)
-			this.dataSource.paginator = this.paginator 
-			this.dataFilter = data
+	async govBillPayment(){
+		try{
+			const result :any = await this.http_gov.multisys()
+			const data:any = result.filter((x:any)=>{ 
+				return x.branchCode === atob(sessionStorage.getItem('code')) ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					  : atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? x 
+					  : ''
+				})
+				this.dataSource = new MatTableDataSource<any>( data)// display for log user franchise
+				this.dataSource.paginator = this.paginator
+			
+		}catch(err:any){
+			this._snackBar._showSnack('Failed to Fetch', 'error')
 		}
-		
 	}
-
 	async getTellerlist(){
 		try{
 			const result : any = await this.http_branch.getTellerlist()
@@ -113,14 +105,11 @@ export class LoadCentralHistoryComponent implements OnInit {
 			this._snackBar._showSnack('Failed to Fetch', 'error')
 		}
 	}
-
-	exportAsExcel(){
-		const result = this.pipeData.transform(this.dataSource, this.start, this.end, this.searchControl)
-		this.http_excel.exportAsExcelFile(result)
-	}
-
 	print(){
 		this.printTheDiv.nativeElement.click()
-    }
-
+	}
+	exportAsExcel(){
+		const result :any = this.pipeData.transform(this.dataSource, this.start, this.end, this.searchControl)
+		this.http_gov.exportAsExcelFile(result)
+	}
 }

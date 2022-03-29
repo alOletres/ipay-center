@@ -292,11 +292,6 @@ export class ComputeDebitPipe implements PipeTransform {
 					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
 
 				:	''
-				// return   code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
-				// 	   : code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
-				// 	   :  x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
-
-
 			})
 
 			return payload
@@ -582,6 +577,174 @@ export class ComputeDebitPipe implements PipeTransform {
 			
 				return st += a
 			}, 0)
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+/**multisys pipe */
+@Pipe({
+	name: 'SearchByDateMultisys'
+  })
+  export class SearchByDateMultisysPipe implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any, code? : any): any {
+		
+		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+
+
+			const payload = data.filteredData.filter((x: any) => {
+
+				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
+				
+				return atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+						code.value === null && start === undefined && end === undefined ? code.value === null && start === undefined && end === undefined
+					:  	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+				: atob(sessionStorage.getItem('type')) !== 'Admin' || atob(sessionStorage.getItem('type')) !== 'Branch Head' ?
+						code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+					: 	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+					: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+				:	''
+			})
+
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+@Pipe({
+	name: 'MultisysDailyCollection'
+  })
+  export class MultisysDailyCollectionPipe implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any, code? : any ): any {
+
+		
+		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+			
+			const payload = data.filteredData.filter((x: any) => {
+				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
+
+				return atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+								code.value === null && start === undefined && end === undefined ? code.value === null && start === undefined && end === undefined
+							:  	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+							: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+						: atob(sessionStorage.getItem('type')) !== 'Admin' || atob(sessionStorage.getItem('type')) !== 'Branch Head' ?
+								code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+							: 	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+							: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+						:	''
+
+			}).reduce((a:any , b:any)=>{
+
+				let st = b.collections 
+			
+				return st += a
+			}, 0)
+			
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+@Pipe({
+	name: 'MultisysDailySales'
+  })
+  export class MultisysDailySalesPipe implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any, code? : any ): any {
+
+		
+		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+			
+			const payload = data.filteredData.filter((x: any) => {
+				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
+
+				return atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+								code.value === null && start === undefined && end === undefined ? code.value === null && start === undefined && end === undefined
+							:  	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+							: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+						: atob(sessionStorage.getItem('type')) !== 'Admin' || atob(sessionStorage.getItem('type')) !== 'Branch Head' ?
+								code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+							: 	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+							: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+						:	''
+
+			}).reduce((a:any , b:any)=>{
+
+				let st = b.sales 
+			
+				return st += a
+			}, 0)
+			
+			return payload
+			
+		}catch(e){
+			return undefined
+		}
+	  
+	}
+
+}
+@Pipe({
+	name: 'MultisysDailyIncome'
+  })
+  export class MultisysDailyIncomePipe implements PipeTransform {
+	
+	transform(data : any ,start? : any, end? : any, code? : any ): any {
+
+		
+		try{
+			const sdate = moment(start).format("YYYY-MM-DD") + "00:00:00"
+			const edate = moment(end).format("YYYY-MM-DD") + "00:00:00"
+			
+			const payload = data.filteredData.filter((x: any) => {
+				const fdate = moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00"
+
+				return atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' ? 
+								code.value === null && start === undefined && end === undefined ? code.value === null && start === undefined && end === undefined
+							:  	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+							: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+						: atob(sessionStorage.getItem('type')) !== 'Admin' || atob(sessionStorage.getItem('type')) !== 'Branch Head' ?
+								code.value === null && start === undefined && end === undefined ? x.branchCode === atob(sessionStorage.getItem('code')) 
+							: 	code.value === null && start !== undefined && end !== undefined ? fdate >= sdate && fdate <= edate 
+							: 	x.tellerCode === code.value.tellerCode && fdate >= sdate && fdate <= edate 
+
+						:	''
+
+			}).reduce((a:any , b:any)=>{
+
+				let st = b.income 
+			
+				return st += a
+			}, 0)
+			
 			return payload
 			
 		}catch(e){

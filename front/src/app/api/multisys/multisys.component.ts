@@ -102,8 +102,7 @@ export class MultisysComponent implements OnInit {
 			const data = await this.http_teller.multisys()
 			const result = Object.values(data)
 			const dataHandler = result.filter((x:any)=> {
-				// && moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00" === moment(new Date()).format("YYYY-MM-DD") + "00:00:00"
-				return x.tellerCode === atob(sessionStorage.getItem('code')) 
+				return x.tellerCode === atob(sessionStorage.getItem('code')) && moment(x.date_transacted).format("YYYY-MM-DD") + "00:00:00" === moment(new Date()).format("YYYY-MM-DD") + "00:00:00"
 			})
 			this.dataSource = new MatTableDataSource<any>( dataHandler)// display for log user franchise
 			this.dataSource.paginator = this.paginator
