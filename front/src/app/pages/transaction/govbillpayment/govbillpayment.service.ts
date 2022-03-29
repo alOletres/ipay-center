@@ -114,24 +114,55 @@ export class GovbillpaymentService {
 			 cell.alignment = { vertical: 'middle', horizontal: 'center' };
 			 cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
 		 })
+		
 		 let rows :any [] = []
 		
 		data[0].forEach((d:any, index:any) => {
 
 			const i = index + 1
-			console.log(d);
-			
-			// rows = [i, d.reference_id, d.TransId, `+63${d.mobileNo}`, d.productCode, d.amount, d.markUp, d.ePIN, d.createdBy.toUpperCase(), moment(d.createdDate).format('LLL'), status ]
-			// const x = worksheet.addRow(rows)
+			rows = [i, d.customer_name.toUpperCase(), d.account_number, d.amount, d.contact_number, d.refno, d.biller, d.collections, d.sales, d.income, 'Success']
+			const x = worksheet.addRow(rows)
 
-			// x.eachCell((cell, number) => {		
+			x.eachCell((cell, number) => {		
 				
-			// 	cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
-			// 	cell.alignment = { vertical: 'middle', horizontal: 'center' };
+				cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+				cell.alignment = { vertical: 'middle', horizontal: 'left' };
 			
-			// });	
+			});	
 		});
+		/**
+		 * @FOOTER
+		*/
+		const rowsS = worksheet.getColumn(1);
+		const lastrow = rowsS.worksheet.rowCount
 
+		worksheet.mergeCells(`F${lastrow + 1}:G${lastrow + 1}`);
+		
+		const totalWord = worksheet.getCell(`F${lastrow + 1}`)
+		totalWord.value = 'TOTAL'	
+		totalWord.alignment = { vertical: 'middle', horizontal: 'center' }
+		totalWord.font = { bold : true }
+		totalWord.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
+		/**
+		 * @_TOTALCOLLECCTION
+		 */
+
+		 const collections = worksheet.getCell(`H${lastrow + 1}`)
+		 collections.value = { formula: `=SUM(H8 :H${lastrow})`, date1904: false };	
+		 this.global(collections)
+		/**
+		 * @TOTAL_SALES
+		 */
+		 const sales = worksheet.getCell(`I${lastrow + 1}`)
+		 sales.value = { formula: `=SUM(I8 :I${lastrow})`, date1904: false };	
+		 this.global(sales)
+		/**
+		* @TOTAL_INCOME
+		*/
+		const income = worksheet.getCell(`J${lastrow + 1}`)
+		income.value = { formula: `=SUM(J8 :J${lastrow})`, date1904: false };	
+		this.global(income)
+		
 		 worksheet.getColumn(2).width = 20;
 		 worksheet.getColumn(3).width = 20;
 		 worksheet.getColumn(5).width = 20;
@@ -146,5 +177,10 @@ export class GovbillpaymentService {
 			const blob = new Blob([_buffer], { type: EXCEL_TYPE });
 			FileSaver.saveAs(blob, `${ fileName } Gov't Bill Payment Reports Exported - ${ moment().format('ll') }`+ EXCEL_EXTENSION);
 		});
+	}
+	global(params:any) {
+		params.alignment = { vertical: 'middle', horizontal: 'left' }
+		params.font = { bold : true }
+		params.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
 	}
 }
