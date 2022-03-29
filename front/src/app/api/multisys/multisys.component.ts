@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MultysiscompComponent } from "./shared/multysiscomp/multysiscomp.component";
@@ -22,15 +22,24 @@ import Swal from 'sweetalert2';
 export class MultisysComponent implements OnInit {
 
 	billingForm: FormGroup;
-	
+	@ViewChild("printMe") printTheDiv!: ElementRef
 	btnName :any = 'Inquire'
 	account_number: any;
 	amount: any;
 	biller: any;
 	hideResponse : boolean = false
-	displayedColums : any = ['no', 'customer_name', 'account_number', 'amount', 'contact_number', 'refno', 'biller', 'collections', 'sales', 'income', 'status']
+	displayedColums : any = ['no', 'customer_name', 'account_number', 'amount', 'contact_number', 'refno', 'biller', 'collections', 'sales', 'income', 'status', 'action']
 	dataSource: any;
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+	franchiseName: any;
+	address: any;
+	contactNo: any;
+	email: any;
+	outletServices: any;
+	amounts: any;
+	ipayTotal: any;
+	accountNumber: any;
+	billerReceipt: any;
 	constructor(
 		private $formGroup: FormBuilder,
 		private http_multisys : MultisysService,
@@ -49,10 +58,11 @@ export class MultisysComponent implements OnInit {
 	}
 
 	ngOnInit(){
+		this.franchiseAddress()
 		this.multisys()
+		
 	}
 	async inquire(){
-		
 		const dialogRef = this.dialog.open(LoadingDialogComponent,{disableClose:true})
 
 		if(this.btnName === 'Inquire'){
@@ -155,6 +165,34 @@ export class MultisysComponent implements OnInit {
 		}catch(err){
 			throw err
 		}
+	}
+
+	franchiseAddress(){
+		this.http_multisys.getFranchiseAddress({
+			code : atob(sessionStorage.getItem('code'))
+		}).then((response:any)=>{
+			const { franchiseName, location, contactNo, email } = JSON.parse(response)[0]
+
+			this.franchiseName = franchiseName.toUpperCase()
+			this.address = location.toUpperCase()
+			this.contactNo = contactNo
+			this.email = email
+		}).catch((err:any)=>{
+			this._snackBar._showSnack(err, 'error')
+		})
+	}
+	print(data:any){
+		this.accountNumber = data.account_number
+		this.billerReceipt = data.biller
+		const outletServices : any = data.tellerCode.slice(0,3) === 'FRT' ? 15 : 10
+		this.amounts = data.amount
+		this.outletServices = outletServices
+		this.ipayTotal = data.collections
+
+		setTimeout(() => {
+			this.printTheDiv.nativeElement.click()
+		}, 1000);
+		
 	}
 
 }

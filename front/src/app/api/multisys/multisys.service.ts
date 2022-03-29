@@ -70,7 +70,14 @@ export class MultisysService {
     }
 	async multisys(){
 		try{
-			return this.http.get(`${ EndPoint.endpoint }/multisy/mutisys/getMultisysTransaction`).toPromise()
+			return await this.http.get(`${ EndPoint.endpoint }/multisy/mutisys/getMultisysTransaction`).toPromise()
+		}catch(err:any){
+			throw err
+		}
+	}
+	async getFranchiseAddress(data:any){
+		try{
+			return await this.http.post(`${ EndPoint.endpoint }/multisy/mutisys/getFranchiseAddress`, data, {responseType : 'text'}) .toPromise()
 		}catch(err:any){
 			throw err
 		}

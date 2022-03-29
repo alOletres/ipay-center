@@ -125,7 +125,17 @@
 					<td class="table_table-body" mat-cell *matCellDef="let element"> <span style="color: #039A4D;"> Success </span> </td>
 					<td mat-footer-cell *matFooterCellDef></td>
 				</ng-container>
-	
+				
+				<ng-container matColumnDef="action">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Action</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element">
+						<button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="print(element)" matTooltip="Print Receipt">
+							<i class="fa fa-print" aria-hidden="true"></i>
+						</button>
+					</td>
+					<td mat-footer-cell *matFooterCellDef></td>
+				</ng-container>
+
 				<tr mat-header-row *matHeaderRowDef="displayedColums"></tr>
 				<tr mat-row *matRowDef="let row; columns: displayedColums;"></tr>
 				<tr mat-footer-row *matFooterRowDef="displayedColums"></tr>
@@ -136,4 +146,48 @@
 		</div>
 	</mat-card>
 	
+</div>
+<button type="button" hidden="true" printTitle="MyTitle" printSectionId="print-section" ngxPrint #printMe></button>
+<div hidden="true" id="print-section" style="padding: 8px 4px;"> 
+	<div >
+		<div fxLayout="row wrap">
+			<div fxFlex="10%" fxFlex.md="10%" fxFlex.xs="10%">
+				<img src="assets/img/IPAY_LOGO.png" style="width: 120px; height: 70px;" alt="">
+			</div>
+			<div fxFlex="90%" fxFlex.md="90%" fxFlex.xs="90%">
+				<p> {{ franchiseName }} <br> {{ email }} <br> +63{{ contactNo }} <br> {{ address }}  </p>
+			</div>
+		</div>
+	</div>
+	<div style="margin: auto;">
+		<p> Account No: {{ accountNumber }} <br> Biller : {{ billerReceipt }} </p>
+		<table style="border: solid 1px #ccc; padding: 2px;margin: auto; width: 100%;">
+			<thead>
+				<tr>
+					<th style="border: solid 1px #ccc; width:  24rem;"> Fee</th>
+					<th style="border: solid 1px #ccc; width:  15rem;" >Charge </th>
+				</tr>
+			</thead>
+			<tbody style="border: solid 1px #ccc">
+				<tr style="border: solid 1px #ccc">
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> TotalAmount : </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ amounts | currency : "&#8369;" }} </td>
+				</tr>
+				
+				<tr>
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> OutletFee: </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ outletServices  | currency : "&#8369;" }} </td>
+				</tr>
+				<tr>
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> SystemCharge </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ 10  | currency : "&#8369;" }} </td>
+				</tr>
+	
+				<tr style=" font-weight: bold;">
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> Overall Total </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ ipayTotal  | currency : "&#8369;" }} </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

@@ -370,6 +370,53 @@ class MultisysController {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}			
 		})
+
+		this.router.post('/getFranchiseAddress',async (req, res) => {
+			
+			const { code } = req.body
+			
+			try{
+				connection.beginTransaction()
+				return await new Promise((resolve, reject)=>{
+					(code.slice(0,3) === 'FRT')
+					? connection.query("SELECT fiB_Code FROM teller_list WHERE tellerCode=?", [code], (err, result)=>{
+							if(err) return reject(err)
+							resolve(result)
+						}) 
+					: connection.query("SELECT ibrgy_code FROM teller_list WHERE tellerCode=?", [code], (err, result)=>{
+						if(err) return reject(err)
+						resolve(result)
+					})
+				}).then(async(response:any)=>{
+					if(!response.length){
+						res.status(Codes.SUCCESS).send('Again')
+					}else{
+						if(code.slice(0,3) === 'FRT'){
+							/**franchise table */
+							await Promise.resolve(
+								connection.query("SELECT * FROM franchise_list WHERE fbranchCode=?", [ response[0].fiB_Code ], (err, result)=>{
+									if(err) throw err
+									res.status(Codes.SUCCESS).send(result)
+								})
+							)
+						}else{
+							/**ibarangay table */
+							await Promise.resolve(
+								connection.query("SELECT * FROM ibrgy_list WHERE ib_ibrgyyCode=?", [ response[0].ibrgy_code ], (err, result)=>{
+									if(err) throw err
+									res.status(Codes.SUCCESS).send(result)
+								})
+							)
+						}
+					}
+					connection.commit()
+				})
+
+			}catch(err:any){
+				connection.rollback()
+				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+			}		
+		})
     } /**end of wacth function */
   get routerObject() { return this.router }
 
