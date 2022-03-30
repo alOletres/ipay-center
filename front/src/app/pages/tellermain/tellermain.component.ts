@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { AuthenticationService } from './../../services/authentication.service'
 import { Router } from '@angular/router';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
@@ -213,5 +213,11 @@ export class TellermainComponent implements OnInit {
 	}
 
 
-	
+	@HostListener('window:unload', ['$event'])
+	@HostListener('window:beforeunload', ['$event'])
+	unloadHandler() {
+		/** Telling the server that client's browser has been unloaded */
+		console.log('alejandro');
+		
+	}
 }

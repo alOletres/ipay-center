@@ -89,9 +89,7 @@ export class AdminBarkotaComponent implements OnInit {
 						   
 				   this.expiredDate = new Date();
 				   this.expiredDate.setDate(this.expiredDate.getDate() + parseInt(days));
-				   this.cookieService.set('token', JSON.stringify(result), { expires : this.expiredDate, 
-				   
-				   });
+				   this.cookieService.set('token', JSON.stringify(result), { expires : this.expiredDate });
    
 				 
 			   })

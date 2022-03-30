@@ -40,20 +40,22 @@ export class LoginComponent implements OnInit {
 	try{
 
 		const checkUser:any = await this.httpAuthentication.checkuserAccount(this.loginForm.value)
-		
+		/***
+		 * checkUser[1] ==token
+		 */
 		this._snackBar._showSnack(`Success`, 'success')
 
-		this.methodStore.addToStore(Stores.USERCODES,  {data : checkUser })		
+		this.methodStore.addToStore(Stores.USERCODES,  {data : checkUser[0] })		
 
-		sessionStorage.setItem('userLog', btoa(checkUser.id));
-		sessionStorage.setItem('type', btoa(checkUser.user_type));
-		sessionStorage.setItem('code', btoa(checkUser.username)); //decript atob
+		sessionStorage.setItem('userLog', btoa(checkUser[0].id));
+		sessionStorage.setItem('type', btoa(checkUser[0].user_type));
+		sessionStorage.setItem('code', btoa(checkUser[0].username)); //decript atob
 		
-		await this.httpAuthentication.loginLogs(checkUser)
+		await this.httpAuthentication.loginLogs(checkUser[0])
 		.then((result:any) => {
 			
 			if(result.message === 'ok'){
-				if (checkUser.user_type !== 'Teller') {
+				if (checkUser[0].user_type !== 'Teller') {
 			
 					this.router.navigate(['/main'])
 					
@@ -76,6 +78,8 @@ export class LoginComponent implements OnInit {
 		this.progress = false
 		
 	}catch(err:any){
+		console.log(err);
+		
 		this.progress = false
 		this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
 	}

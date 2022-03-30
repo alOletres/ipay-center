@@ -1,5 +1,5 @@
 // import { Component } from '@angular/core';
-import { Component, ViewChild, TemplateRef, ViewContainerRef, } from '@angular/core';
+import { Component, ViewChild, TemplateRef, ViewContainerRef, HostListener, } from '@angular/core';
 
 import { DomSanitizer } from '@angular/platform-browser';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
@@ -38,10 +38,18 @@ export class AppComponent {
   };
 
   constructor(
-      private sanitizer: DomSanitizer,
-				private viewContainerRef: ViewContainerRef
+      	private sanitizer: DomSanitizer,
+		private viewContainerRef: ViewContainerRef
   ) {}
 
-  title = 'ipaycenter';
+	title = 'ipaycenter';
+	
+	@HostListener('window:unload', ['$event'])
+	@HostListener('window:beforeunload', ['$event'])
+	unloadHandler() {
+		/** Telling the server that client's browser has been unloaded */
+		console.log('alejadro');
+		
+	}
 
 }

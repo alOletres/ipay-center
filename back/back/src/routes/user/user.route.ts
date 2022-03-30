@@ -6,16 +6,11 @@ import { connection } from './../../configs/database.config'
 import { Message, Codes } from '../../utils/main.enums'
 import bcrypt from 'bcrypt'
 
-import { authenticationToken } from '../../middleware/auth'
-
-import jwt from 'jsonwebtoken'
-
-
 const saltRounds : any = process.env.SALT_ROUNDS
 const password : any = process.env.STAT_PASSWORD
 const salt = bcrypt.genSaltSync(parseInt(saltRounds));
 const savePassword = bcrypt.hashSync(password, salt)
-const ACCESS_TOKEN_SECRET = String(process.env.ACCESS_TOKEN_SECRET)
+
 
 const resetPassword = async(BRANCHCODE:any) => {
 	try{
@@ -39,9 +34,6 @@ const resetPassword = async(BRANCHCODE:any) => {
 		return err
 	}
 }
-const generateToken = async(user:any) =>{
-	return jwt.sign({user, ACCESS_TOKEN_SECRET}, 'secret', { expiresIn : '1h'})
-}
 class UserController {
     private router: Router
     constructor() {
@@ -51,12 +43,14 @@ class UserController {
         /**
          * @Functions
          */
+		// this.router.get('/checkusername', authenticationToken ,async (req, res) => {		
+		// 	res.status(Codes.SUCCESS).send( req.body)
+		// })
         this.router.post('/checkuserAccount', async(req, res)=>{
-
             const { username, password } = req.body;
-
-			const token = await generateToken(username)
-			
+			// const user = { name : username }
+			// const access_token = jwt.sign(user, ACCESS_TOKEN_SECRET)
+			// res.status(200).send({ message : access_token })
             try{
                 connection.beginTransaction()
 				return new Promise((resolve)=>{
@@ -72,7 +66,9 @@ class UserController {
 					}else{
 						
 						if(	bcrypt.compareSync(password, response[0].password)){
-							res.status(Codes.SUCCESS).send([response[0], token])
+						
+							res.status(Codes.SUCCESS).send(response[0])
+						
 						}else{
 							
 							res.status(400).send('Something Went Wrong')

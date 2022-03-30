@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MultysiscompComponent } from "./shared/multysiscomp/multysiscomp.component";
@@ -195,5 +195,6 @@ export class MultisysComponent implements OnInit {
 		}, 1000);
 		
 	}
+	
 
 }
