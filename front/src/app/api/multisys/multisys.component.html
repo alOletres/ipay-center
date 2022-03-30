@@ -15,7 +15,7 @@
 	
 	<mat-card  class="card card-wrapper">
 		<mat-card-title class="card__header">
-			<h5 class="card__title">Mutisys</h5>
+			<h5 class="card__title">Bill Payments</h5>
 	  </mat-card-title>
 		<mat-card-content style="overflow-x: hidden;" class="card__content">
 			<div style="padding: 0px 20px 20px 20px;" >
@@ -85,7 +85,7 @@
 	
 				<ng-container matColumnDef="contact_number">
 					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Contact Number</th>
-					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.contact_number }} </td>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> +63{{ element.contact_number }} </td>
 					<td mat-footer-cell *matFooterCellDef></td>
 				</ng-container>
 	

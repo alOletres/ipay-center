@@ -1,0 +1,12 @@
+GET http://localhost:7000/user/users/checkusername
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiY2F0ZSIsImlhdCI6MTY0ODYxMTYxNX0.xCxnUoKTJJWxqaXQrQ23iEqRlQBsBZHJSielP0K_RVw
+
+#####
+
+POST http://localhost:7000/user/users/checkuserAccount
+Content-Type: application/json
+
+{
+    "username" : "alej"
+    
+}

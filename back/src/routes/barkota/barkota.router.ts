@@ -1,13 +1,14 @@
+import dotenv, { parse } from 'dotenv'
+dotenv.config()
 import express, { response } from 'express'
 import { Router } from 'express-serve-static-core'
 import axios from "axios";
 import qs from 'qs';
 import { connection } from './../../configs/database.config'
-import { Message, Codes, Endpoints, barkotaCredential } from '../../utils/main.enums'
+import { Message, Codes, Endpoints } from '../../utils/main.enums'
 import moment from 'moment';
 import { ticketPrices, walletCollection } from './../../utils/main.interfaces'
 const { BARKOTA_STAGING } = Endpoints
-const { username, password } = barkotaCredential
 const updateWallet = async(data:any) => {
 	try{
 		connection.beginTransaction()
@@ -99,6 +100,8 @@ const voidTicket = async(BRANCHCODE:any, BARKOTACODE:any) =>{
 		return err
 	}
 }
+const username = String(process.env.CLIENT_ID)
+const password = String(process.env.CLIENT_SECRET)
 class BarkotaController{
 
     private router: Router

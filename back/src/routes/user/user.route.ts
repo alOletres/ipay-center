@@ -1,13 +1,17 @@
+import dotenv from 'dotenv'
+dotenv.config()
 import express, { response } from 'express'
 import { Router } from 'express-serve-static-core'
 import { connection } from './../../configs/database.config'
 import { Message, Codes } from '../../utils/main.enums'
 import bcrypt from 'bcrypt'
-
+import jwt from 'jsonwebtoken'
 const saltRounds : any = process.env.SALT_ROUNDS
 const password : any = process.env.STAT_PASSWORD
 const salt = bcrypt.genSaltSync(parseInt(saltRounds));
 const savePassword = bcrypt.hashSync(password, salt)
+
+const ACCESS_TOKEN_SECRET = String(process.env.ACCESS_TOKEN_SECRET)
 
 const resetPassword = async(BRANCHCODE:any) => {
 	try{
@@ -31,7 +35,31 @@ const resetPassword = async(BRANCHCODE:any) => {
 		return err
 	}
 }
-
+export const authenticationToken = async(req :any, res:any, next:any) =>{
+	const headers = req.headers['authorization']
+	const token = headers && headers.split(' ')[1]
+	
+	if (token === null) return next(res.status(401))
+	jwt.verify(token, ACCESS_TOKEN_SECRET, (err:any, user:any) => {
+	   if (err) {
+		  return next(res.status(401))
+	   }
+ 
+	   req.user = user
+	})
+ 
+	next()
+}
+const posts = [
+	{
+		username : 'al',
+		type : 'admin'
+	},
+	{
+		username : 'cate',
+		type : 'head'
+	}
+]
 class UserController {
     private router: Router
     constructor() {
@@ -41,43 +69,45 @@ class UserController {
         /**
          * @Functions
          */
-
+		this.router.get('/checkusername', authenticationToken ,async (req, res) => {		
+			res.status(Codes.SUCCESS).send( req.body)
+		})
         this.router.post('/checkuserAccount', async(req, res)=>{
             const { username, password } = req.body;
-			
-            try{
-                connection.beginTransaction()
-				return new Promise((resolve)=>{
-					connection.query("SELECT * FROM user_account WHERE username=? AND status=?", [username, 0], (err, result)=>{
-						if(err) throw err;
-						resolve(result)
-					})
-				}).then(async(response:any)=>{
-
+			const user = { name : username }
+			const access_token = jwt.sign(user, ACCESS_TOKEN_SECRET)
+			res.status(200).send({ message : access_token })
+            // try{
+            //     connection.beginTransaction()
+			// 	return new Promise((resolve)=>{
+			// 		connection.query("SELECT * FROM user_account WHERE username=? AND status=?", [username, 0], (err, result)=>{
+			// 			if(err) throw err;
+			// 			resolve(result)
+			// 		})
+			// 	}).then(async(response:any)=>{
+			// 		if(!response.length){
+						
+			// 			res.status(400).send('Something Went Wrong')
 					
-					if(!response.length){
+			// 		}else{
 						
-						res.status(400).send('Something Went Wrong')
-					
-					}else{
+			// 			if(	bcrypt.compareSync(password, response[0].password)){
 						
-						if(	bcrypt.compareSync(password, response[0].password)){
+			// 				res.status(Codes.SUCCESS).send(response[0])
 						
-							res.status(Codes.SUCCESS).send(response[0])
-						
-						}else{
+			// 			}else{
 							
-							res.status(400).send('Something Went Wrong')
-						}
-					}
+			// 				res.status(400).send('Something Went Wrong')
+			// 			}
+			// 		}
 
-				}).catch(err=>{
-					res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-				})
-            }catch(err:any){
+			// 	}).catch(err=>{
+			// 		res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+			// 	})
+            // }catch(err:any){
 				
-                res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-            }
+            //     res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+            // }
         
         })
 
@@ -87,7 +117,6 @@ class UserController {
             try{
                 switch(type){
                     case 'Branch Head':
-                        // query here
                         connection.query("SELECT * FROM branch_list WHERE branchCode=?", [type_code], (err, result)=>{
                             if(err) throw err;
                             res.status(Codes.SUCCESS).send(result)
@@ -95,7 +124,6 @@ class UserController {
                     break;
 
                     case 'Franchise':
-                        // query here
 						connection.query("SELECT * FROM franchise_list WHERE fbranchCode=?", [type_code], (err, result)=>{
 							if(err) throw err;
                             res.status(Codes.SUCCESS).send(result)
@@ -103,7 +131,6 @@ class UserController {
                     break;
 
                     case 'iBarangay':
-                        // query here
 						connection.query("SELECT * FROM ibrgy_list WHERE ib_ibrgyyCode=?", [type_code], (err, result) =>{
 							if(err) throw err;
                             res.status(Codes.SUCCESS).send(result)
@@ -111,7 +138,6 @@ class UserController {
                     break;
 
                     case 'Teller':
-                        // query here 
 						connection.query("SELECT * FROM teller_list WHERE tellerCode=?", [type_code], (err, result)=>{
 							if(err) throw err;
                            
@@ -378,168 +404,6 @@ class UserController {
 			}catch(err:any){
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}
-		})
-
-		this.router.post('/changePasswordForBranches',async (req, res) => {
-			
-			const { type, code, data } = req.body
-			
-			/***
-			 *@FranchiseCode FRA
-			 *@iBarangayCode BRA
-			 *@TellerCode FRT BRT 
-			 */
-			
-			const saltRounds = 10;
-			const salt = bcrypt.genSaltSync(saltRounds);
-			const newPassword = bcrypt.hashSync(data.newPassword, salt)
-
-			// if(user_code === 'FRT' || user_code === 'BRT'){
-			// 	try{
-			// 		connection.beginTransaction()
-			// 		return await new Promise((resolve, reject)=>{
-			// 			connection.query("SELECT * FROM teller_list WHERE branchCode=? AND tellerCode=?", [code, data.username], (err, result)=>{
-			// 				if(err) throw err;
-			// 				resolve(result)
-			// 			})
-			// 		}).then(async(result:any) => {
-
-			// 			if(!result.length){
-
-			// 				res.status(200).send({message : 'NotMatch'})
-						
-			// 			}else{
-
-			// 				await new Promise((resolve, reject)=>{
-			// 					connection.query("SELECT * FROM user_account WHERE username=?", [data.username], (err, result)=>{
-			// 						if(err) throw err;
-			// 						resolve(result)
-			// 					})
-			// 				}).then(async(response:any)=>{
-
-			// 					if(!response.length){
-
-			// 						res.status(200).send({message : 'userNameNotMatch'})
-								
-			// 					}else{
-
-			// 						(bcrypt.compareSync(data.currentPassword, response[0].password))
-
-			// 						? await Promise.resolve(
-			// 							connection.query("UPDATE user_account SET password=?, update_by=?, updated_date=? WHERE username=?", 
-			// 							[newPassword, code, dateNow, data.username], (err, result)=>{
-			// 								if(err) throw err;
-			// 								res.status(200).send ({ message : 'ok' })
-			// 							})
-			// 						)
-
-			// 						: res.status(200).send({message : 'wrongPassword'})
-			// 					}
-
-			// 				})
-
-			// 			}
-					
-			// 		}).catch((err : any) => {
-			// 			res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-			// 		});
-			// 	}catch(err:any){
-			// 		res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-			// 	}
-			// }else if(user_code === 'FRA'){
-
-			// 	try{
-			// 		connection.beginTransaction()
-			// 		return await new Promise((resolve, reject)=>{
-			// 			connection.query("SELECT * FROM franchise_list WHERE branchCode=? AND fbranchCode=?", [code, data.username], (err, result)=>{
-			// 				if(err) throw err;
-			// 				resolve(result)
-			// 			})
-			// 		}).then(async(response : any)=>{
-
-			// 			if(!response.length){
-			// 				res.status(200).send({message : 'NotMatch'})
-			// 			}else{
-			// 				/**
-			// 				 * @checkThePassword
-			// 				 */
-			// 				await new Promise((resolve, reject)=>{
-			// 					connection.query("SELECT * FROM user_account WHERE username=?", [data.username], (err, result)=>{
-			// 						if(err) throw err;
-			// 						resolve(result)
-			// 					})
-			// 				}).then(async(result:any)=>{
-
-			// 					if(!result.length){
-			// 						res.status(200).send({message : 'userNameNotMatch'})
-			// 					}else{
-			// 						(bcrypt.compareSync(data.currentPassword, result[0].password))
-			// 						? await Promise.resolve(
-			// 							connection.query("UPDATE user_account SET password=?, update_by=?, updated_date=? WHERE username=?", 
-			// 							[newPassword, code, dateNow, data.username], (err, result)=>{
-			// 								if(err) throw err;
-			// 								res.status(200).send ({ message : 'ok' })
-			// 							})
-			// 						)
-
-			// 						: res.status(200).send({message : 'wrongPassword'})
-			// 					}
-			// 				}) 
-			// 			}
-						
-			// 		}) 
-			// 	}catch(err:any){
-			// 		res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-			// 	}
-
-			// }else if(user_code === 'BRA'){
-			// 	try{
-			// 		connection.beginTransaction()
-			// 		return await new Promise((resolve, reject) =>{
-			// 			connection.query("SELECT * FROM ibrgy_list WHERE branchCode=? AND ib_ibrgyyCode=?", [code, data.username], (err, result)=>{
-			// 				if(err) throw err;
-			// 				resolve(result)
-			// 			})
-			// 		}).then(async(response:any)=>{
-						
-			// 			if(!response.length){
-			// 				res.status(200).send({message : 'NotMatch'})
-			// 			}else{
-			// 				/**
-			// 				 * @If MATCH DIN CHECK PASSWORD
-			// 				 */
-			// 				await new Promise((resolve, reject)=>{
-			// 					connection.query("SELECT * FROM user_account WHERE username=?", [data.username], (err, result)=>{
-			// 						if(err) throw err;
-			// 						resolve(result)
-
-			// 					})
-			// 				}).then(async(result:any)=>{
-
-			// 					if(!result.length){
-
-			// 						res.status(200).send({message : 'userNameNotMatch'})
-								
-			// 					}else{
-
-			// 						(bcrypt.compareSync(data.currentPassword, result[0].password))
-			// 						? await Promise.resolve(
-			// 							connection.query("UPDATE user_account SET password=?, update_by=?, updated_date=? WHERE username=?", 
-			// 							[newPassword, code, dateNow, data.username], (err ,result)=>{
-			// 								if(err) throw err;
-			// 								res.status(200).send ({ message : 'ok' })
-			// 							})
-			// 						)
-			// 						: res.status(200).send({ message : 'ok' })
-			// 					}
-			// 				})
-			// 			}
-			// 		})
-			// 	}catch(err:any){
-			// 		res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-			// 	}
-			// }
-			
 		})
 
 		this.router.post('/loginLogs',async (req, res) => {

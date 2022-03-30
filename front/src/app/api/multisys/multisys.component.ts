@@ -58,7 +58,6 @@ export class MultisysComponent implements OnInit {
 	}
 
 	ngOnInit(){
-		this.franchiseAddress()
 		this.multisys()
 		
 	}
@@ -114,12 +113,13 @@ export class MultisysComponent implements OnInit {
 						}else if( JSON.parse(response).status === 200 ){
 							this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
 							this._snackBar._showSnack(`${JSON.parse(response).reason}`, 'success')
+							this.billingForm.enable()
 							this.resetForm.reset(this.billingForm)
 							this.btnName = 'Inquire'
 							this.account_number = ''
 							this.amount = ''
 							this.biller = ''
-							this.billingForm.enable()
+							
 							this.ngOnInit()
 						}	
 						dialogRef.close()
@@ -182,6 +182,7 @@ export class MultisysComponent implements OnInit {
 		})
 	}
 	print(data:any){
+		this.franchiseAddress()
 		this.accountNumber = data.account_number
 		this.billerReceipt = data.biller
 		const outletServices : any = data.tellerCode.slice(0,3) === 'FRT' ? 15 : 10

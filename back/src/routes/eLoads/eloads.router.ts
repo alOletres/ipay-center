@@ -1,15 +1,20 @@
+
+import dotenv, { parse } from 'dotenv'
+dotenv.config()
 import express, { response } from 'express'
 import { Router } from 'express-serve-static-core'
 import axios from "axios";
 
 import md5 from 'md5'
-import { Codes, Endpoints, LoadCentralCredential, Message } from './../../utils/main.enums'
+import { Codes, Endpoints, Message } from './../../utils/main.enums'
 import { connection } from '../../configs/database.config';
 import xml2js from 'xml2js'
 
 const { LOADCENTRAL_SELL_PRODUCT, LOADCENTRAL_SELL_PRODUCT_STATUS } = Endpoints
 
-const { LOADCENTRAL_USERNAME_TEST, LOADCENTRAL_PASSWORD_TEST ,LOADCENTRAL_PROD_USERNAME, LOADCENTRAL_PROD_PASSWORD } = LoadCentralCredential
+
+const username = String(process.env.LOADCENTRAL_PROD_USERNAME)
+const password = String(process.env.LOADCENTRAL_PROD_PASSWORD)
 
 const parseXML = async (xml:any) => {
 
@@ -86,7 +91,7 @@ const parseXML = async (xml:any) => {
 			const series = response[0].count + 1
 			const rrn = `${ response[0].type }${String(series).padStart(10,"0")}`
 
-			const hashed = md5(md5(rrn) + md5(LOADCENTRAL_PROD_USERNAME + LOADCENTRAL_PROD_PASSWORD ))
+			const hashed = md5(md5(rrn) + md5(username + password ))
 		
 			if(!response.length){
 				return 'tryAgain'
@@ -99,7 +104,7 @@ const parseXML = async (xml:any) => {
 					})
 				}).then(async()=>{
 
-					await axios.post(`${ LOADCENTRAL_SELL_PRODUCT }?uid=${ LOADCENTRAL_PROD_USERNAME }&auth=${ hashed }&pcode=${ PCODE }&to=63${ contactNo }&rrn=${ rrn }` )
+					await axios.post(`${ LOADCENTRAL_SELL_PRODUCT }?uid=${ username }&auth=${ hashed }&pcode=${ PCODE }&to=63${ contactNo }&rrn=${ rrn }` )
 					.then(async(result:any) => {
 						
 						/**
@@ -337,9 +342,9 @@ class EloadsController {
 			const { reference_id } = req.body
 
 			try{
-				const hashed = md5(md5(reference_id) + md5(LOADCENTRAL_PROD_USERNAME + LOADCENTRAL_PROD_PASSWORD ))
+				const hashed = md5(md5(reference_id) + md5(username + password ))
 				
-				await axios.post(`${LOADCENTRAL_SELL_PRODUCT_STATUS}?uid=${LOADCENTRAL_PROD_USERNAME}&auth=${ hashed }&rrn=${ reference_id }`)
+				await axios.post(`${LOADCENTRAL_SELL_PRODUCT_STATUS}?uid=${username}&auth=${ hashed }&rrn=${ reference_id }`)
 				.then(async(result:any)=>{
 					const xml = await parseXML(`<data>${ result.data }</data>`)
 

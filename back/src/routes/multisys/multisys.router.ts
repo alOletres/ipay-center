@@ -21,13 +21,13 @@ import { Endpoints } from '../../utils/main.enums';
 */
 
 const { HTTP_MULTISYS } = Endpoints
-const { BILLER, CHANNEL, XMECOM_PARTNER_SECRET } = MultisysCredentials
+const { BILLER, CHANNEL } = MultisysCredentials
 
 const secret : MUTISYS_PARTNER_SECRET ={
-    SECRET : process.env.X_MECOM_PARTNER_SECRET
+    SECRET : String(process.env.X_MECOM_PARTNER_SECRET)
 }
 
-let multisysSecret :any = secret
+let multisysSecret :any = secret.SECRET
 
 const calculateJulianDate = async() => {
 
@@ -89,7 +89,7 @@ const multisysApi = async(customerName:any, payload:any, BRANCHCODE:any, TELLERC
 			/**headers is here */
 			headers : {
 				accept: "application/json",
-				'X-MECOM-PARTNER-SECRET' : XMECOM_PARTNER_SECRET,
+				'X-MECOM-PARTNER-SECRET' : multisysSecret,
 				'X-MECOM-PARTNER-REFNO'  : `${ julianDate }${ seriesNumber }`
 			}
 		}).then(async(response:any)=>{
@@ -261,7 +261,7 @@ class MultisysController {
 					/**headers is here */
 					headers : {
 						accept: "application/json",
-						'X-MECOM-PARTNER-SECRET' : XMECOM_PARTNER_SECRET,
+						'X-MECOM-PARTNER-SECRET' : multisysSecret,
 						'X-MECOM-PARTNER-REFNO'  : `${ julianDate }${ seriesNumber }`
 					}
 				}).then((response:any)=>{

@@ -25,23 +25,7 @@ export enum Endpoints {
     HTTP_MULTISYS = 'https://uat-partners2.multipay.ph/api/v3/billers'
 }
 
-export enum staticPassword {
-    PASSWORD = "ipay123456",
-    SALTROUNDS = 10
-}
-
-export enum barkotaCredential {
-    username = "btr_IPAYCENTER",
-    password = "BTR1641445726807YIIP"
-}
-export enum LoadCentralCredential {
-    LOADCENTRAL_USERNAME_TEST = 'masterpay_test',
-    LOADCENTRAL_PASSWORD_TEST = '123456',
-    LOADCENTRAL_PROD_USERNAME =  'masterpayavenue2016',
-    LOADCENTRAL_PROD_PASSWORD =  '7654321'
-}
 export enum MultisysCredentials {
-    XMECOM_PARTNER_SECRET = 'qWe4a2yc5w3qs6TufOeC009Wdtpky00wlqY9p8hi0n7OF5WJy1mlrUmTLs1MOwSpBqsWSj15gt539ygmbW7g8j97L0MYXo4ouSCNFmwpmQBj4MdWVnPaINam4L3PzD43',
     BILLER = 'MULTIPAY',
     CHANNEL = '1A85'
 }
