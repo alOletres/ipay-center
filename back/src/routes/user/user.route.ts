@@ -6,6 +6,8 @@ import { connection } from './../../configs/database.config'
 import { Message, Codes } from '../../utils/main.enums'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { authenticationToken } from '../../middleware/auth'
+
 const saltRounds : any = process.env.SALT_ROUNDS
 const password : any = process.env.STAT_PASSWORD
 const salt = bcrypt.genSaltSync(parseInt(saltRounds));
@@ -35,31 +37,6 @@ const resetPassword = async(BRANCHCODE:any) => {
 		return err
 	}
 }
-export const authenticationToken = async(req :any, res:any, next:any) =>{
-	const headers = req.headers['authorization']
-	const token = headers && headers.split(' ')[1]
-	
-	if (token === null) return next(res.status(401))
-	jwt.verify(token, ACCESS_TOKEN_SECRET, (err:any, user:any) => {
-	   if (err) {
-		  return next(res.status(401))
-	   }
- 
-	   req.user = user
-	})
- 
-	next()
-}
-const posts = [
-	{
-		username : 'al',
-		type : 'admin'
-	},
-	{
-		username : 'cate',
-		type : 'head'
-	}
-]
 class UserController {
     private router: Router
     constructor() {
@@ -69,45 +46,45 @@ class UserController {
         /**
          * @Functions
          */
-		this.router.get('/checkusername', authenticationToken ,async (req, res) => {		
-			res.status(Codes.SUCCESS).send( req.body)
-		})
+		// this.router.get('/checkusername', authenticationToken ,async (req, res) => {		
+		// 	res.status(Codes.SUCCESS).send( req.body)
+		// })
         this.router.post('/checkuserAccount', async(req, res)=>{
             const { username, password } = req.body;
-			const user = { name : username }
-			const access_token = jwt.sign(user, ACCESS_TOKEN_SECRET)
-			res.status(200).send({ message : access_token })
-            // try{
-            //     connection.beginTransaction()
-			// 	return new Promise((resolve)=>{
-			// 		connection.query("SELECT * FROM user_account WHERE username=? AND status=?", [username, 0], (err, result)=>{
-			// 			if(err) throw err;
-			// 			resolve(result)
-			// 		})
-			// 	}).then(async(response:any)=>{
-			// 		if(!response.length){
+			// const user = { name : username }
+			// const access_token = jwt.sign(user, ACCESS_TOKEN_SECRET)
+			// res.status(200).send({ message : access_token })
+            try{
+                connection.beginTransaction()
+				return new Promise((resolve)=>{
+					connection.query("SELECT * FROM user_account WHERE username=? AND status=?", [username, 0], (err, result)=>{
+						if(err) throw err;
+						resolve(result)
+					})
+				}).then(async(response:any)=>{
+					if(!response.length){
 						
-			// 			res.status(400).send('Something Went Wrong')
+						res.status(400).send('Something Went Wrong')
 					
-			// 		}else{
+					}else{
 						
-			// 			if(	bcrypt.compareSync(password, response[0].password)){
+						if(	bcrypt.compareSync(password, response[0].password)){
 						
-			// 				res.status(Codes.SUCCESS).send(response[0])
+							res.status(Codes.SUCCESS).send(response[0])
 						
-			// 			}else{
+						}else{
 							
-			// 				res.status(400).send('Something Went Wrong')
-			// 			}
-			// 		}
+							res.status(400).send('Something Went Wrong')
+						}
+					}
 
-			// 	}).catch(err=>{
-			// 		res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-			// 	})
-            // }catch(err:any){
+				}).catch(err=>{
+					res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+				})
+            }catch(err:any){
 				
-            //     res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-            // }
+                res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+            }
         
         })
 
