@@ -10,6 +10,7 @@ import moment from 'moment';
 import { ticketPrices, walletCollection } from './../../utils/main.interfaces'
 const { BARKOTA_STAGING } = Endpoints
 import { authenticationToken } from '../../middleware/auth';
+import { checkWallet } from '../multisys/multisys.router';
 const updateWallet = async(data:any) => {
 	try{
 		connection.beginTransaction()
@@ -101,6 +102,74 @@ const voidTicket = async(BRANCHCODE:any, BARKOTACODE:any) =>{
 		return err
 	}
 }
+const bookToBarkota = async(data:any) =>{
+	
+	const { passengers, contactInfo, token,  } = data
+				
+	try{
+		interface PayloadInterface {
+			passengers: object[],
+			// cargo: object,
+			contactInfo: object,
+			allowPromotionsNotification: number
+				
+		}
+		/**
+		 * 
+		 * @params passengers = [...{}]
+		 * @values
+		 * @values
+		 */
+					
+		const payload: PayloadInterface = {
+			passengers: [],
+			// cargo: {},
+			contactInfo: {},
+			allowPromotionsNotification: 0
+		}
+
+		// passengers.forEach((passengers: any) => {
+			payload.passengers = [{
+				passenger: {
+					firstname	: passengers[0].firstName,
+					lastname	: passengers[0].lastName,
+					mi			: passengers[0].middleInitial,
+					isDriver	: parseInt(passengers[0].isDriver),
+					gender 		: parseInt(passengers[0].gender),
+					birthdate	: moment(passengers[0].birthDate).format().slice(0, 10),
+					idnumber	: null,
+					nationality : passengers[0].nationality,
+					discountType : passengers[0].discount.toString(),
+					filenames 	: ''
+				},
+				departurePriceId : passengers[0].departurePriceId,
+				departureCotId : passengers[0].departureCotId
+			}]
+
+			payload.contactInfo = {
+				name : contactInfo.completeName,
+				email : contactInfo.email,
+				mobile : `+63${contactInfo.mobileNumber}`,
+				address : contactInfo.address
+			}
+
+			payload.allowPromotionsNotification = parseInt(contactInfo.promotion)
+		// });
+		
+		await axios.post(`${ BARKOTA_STAGING }/outlet/confirm-booking`,payload,{
+					
+			headers : {'Content-Type' : 'application/json', 
+			Authorization : 'Bearer '.concat(token.access_token)}
+
+		}).then(response=>{
+			return response.data
+		})
+	}catch(err:any){
+		return err.response.data.detail
+	}
+
+}
+
 const username = String(process.env.CLIENT_ID)
 const password = String(process.env.CLIENT_SECRET)
 class BarkotaController{
@@ -349,67 +418,66 @@ class BarkotaController{
 			
 			const { passengers, contactInfo, token,  } = req.body
 				
-			interface PayloadInterface {
-				passengers: object[],
-				// cargo: object,
-				contactInfo: object,
-				allowPromotionsNotification: number
-					
-			}
-			/**
-			 * 
-			 * @params passengers = [...{}]
-			 * @values
-			 * @values
-			 */
+			try{
+				interface PayloadInterface {
+					passengers: object[],
+					// cargo: object,
+					contactInfo: object,
+					allowPromotionsNotification: number
 						
-			const payload: PayloadInterface = {
-				passengers: [],
-				// cargo: {},
-				contactInfo: {},
-				allowPromotionsNotification: 0
-			}
-
-			// passengers.forEach((passengers: any) => {
-				payload.passengers = [{
-					passenger: {
-						firstname	: passengers[0].firstName,
-						lastname	: passengers[0].lastName,
-						mi			: passengers[0].middleInitial,
-						isDriver	: parseInt(passengers[0].isDriver),
-						gender 		: parseInt(passengers[0].gender),
-						birthdate	: moment(passengers[0].birthDate).format().slice(0, 10),
-						idnumber	: null,
-						nationality : passengers[0].nationality,
-						discountType : passengers[0].discount.toString(),
-						filenames 	: ''
-					},
-					departurePriceId : passengers[0].departurePriceId,
-					departureCotId : passengers[0].departureCotId
-				}]
-
-				payload.contactInfo = {
-					name : contactInfo.completeName,
-					email : contactInfo.email,
-					mobile : `+63${contactInfo.mobileNumber}`,
-					address : contactInfo.address
 				}
-
-				payload.allowPromotionsNotification = parseInt(contactInfo.promotion)
-			// });
-
-			
-			await axios.post(`${ BARKOTA_STAGING }/outlet/confirm-booking`,payload,{
-						
-				headers : {'Content-Type' : 'application/json', 
-				Authorization : 'Bearer '.concat(token.access_token)}
-
-			}).then(response=>{
-
-				res.status(200).send(response.data)
-
-			}).catch(err =>{
-
+				/**
+				 * 
+				 * @params passengers = [...{}]
+				 * @values
+				 * @values
+				 */
+							
+				const payload: PayloadInterface = {
+					passengers: [],
+					// cargo: {},
+					contactInfo: {},
+					allowPromotionsNotification: 0
+				}
+	
+				// passengers.forEach((passengers: any) => {
+					payload.passengers = [{
+						passenger: {
+							firstname	: passengers[0].firstName,
+							lastname	: passengers[0].lastName,
+							mi			: passengers[0].middleInitial,
+							isDriver	: parseInt(passengers[0].isDriver),
+							gender 		: parseInt(passengers[0].gender),
+							birthdate	: moment(passengers[0].birthDate).format().slice(0, 10),
+							idnumber	: null,
+							nationality : passengers[0].nationality,
+							discountType : passengers[0].discount.toString(),
+							filenames 	: ''
+						},
+						departurePriceId : passengers[0].departurePriceId,
+						departureCotId : passengers[0].departureCotId
+					}]
+	
+					payload.contactInfo = {
+						name : contactInfo.completeName,
+						email : contactInfo.email,
+						mobile : `+63${contactInfo.mobileNumber}`,
+						address : contactInfo.address
+					}
+	
+					payload.allowPromotionsNotification = parseInt(contactInfo.promotion)
+				// });
+	
+				
+				await axios.post(`${ BARKOTA_STAGING }/outlet/confirm-booking`,payload,{
+							
+					headers : {'Content-Type' : 'application/json', 
+					Authorization : 'Bearer '.concat(token.access_token)}
+	
+				}).then(response=>{
+					res.status(200).send(response.data)
+				})
+			}catch(err:any){
 				if(err.response.data.detail !== null){
 					res.status(500).send(err.response.data.detail)
 
@@ -421,7 +489,7 @@ class BarkotaController{
 					res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 
 				}
-			})
+			}
 
 		})
 
@@ -845,10 +913,69 @@ class BarkotaController{
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}
 		})
-    }
-	/**
-	 * @end for watch list
-	*/
+		
+		this.router.post('/barkotaCheckWallet',authenticationToken,async (req , res) => {
+			
+			const { tellerCode } = req.body
+			
+			try{
+				connection.beginTransaction()
+				return await new Promise((resolve ,reject)=>{
+					connection.query("SELECT * FROM teller_list WHERE tellerCode=?", [tellerCode], (err, result)=>{
+						if(err) return reject(err)
+						resolve(result)
+					})
+				}).then(async(response:any)=>{
+					
+					if(!response.length){
+						res.status(Codes.SUCCESS).send({ message : 'notfound' })
+					}else{
+						/**
+						 * check wallet of branch 
+						 */
+						if(tellerCode.slice(0,3) === 'FRT'){
+
+							const result :any = await checkWallet(response[0].fiB_Code)
+						
+							if(result[0].current_wallet === 5000 || result[0].current_wallet < 5000){
+
+								res.status(Codes.SUCCESS).send({ message : 'low_wallet' })
+								
+								
+							}else{
+								/**
+								 * proceed to insert
+								 */
+								const bookResponse : any = await bookToBarkota(req.body)
+								console.log(bookResponse);
+								
+							}
+							
+						}else{
+							
+							const result :any = await checkWallet(response[0].ibrgy_code)
+							if(result[0].current_wallet === 5000 || result[0].current_wallet < 5000){
+							
+								res.status(Codes.SUCCESS).send({ message : 'low_wallet' })
+
+							}else{
+								/**
+								 * proceed to insert
+								 */
+								
+							}
+							
+						}
+					}
+					connection.commit()
+				})
+			}catch(err:any){
+				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+			}
+		})
+    }	/**
+	 	* @end for watch list
+		*/
 
     get routerObject() { return this.router }
 }

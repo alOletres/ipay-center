@@ -283,6 +283,14 @@ export class BarkotaService {
 		)
 	}
 
+	async checkWallet (data:any){
+		try{
+			return await this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/barkotaCheckWallet`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
+	}
+
 	private getServerErrorMessage(error: HttpErrorResponse): string {
 		
 		switch (error.status) {

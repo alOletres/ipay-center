@@ -40,11 +40,11 @@ export class CommissionComponent implements OnInit {
 		const result :any = await this.http_dash.commission()
 		
 		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){ 
-			this.dataSource = new MatTableDataSource<any>(JSON.parse(result))
+			this.dataSource = new MatTableDataSource<any>(result)
 			this.dataSource.paginator = this.paginator
 		}else{
 
-			const data :any = JSON.parse(result).filter((x:any)=>{ return x.franchise === atob(sessionStorage.getItem('code')) }).map((y:any)=>y)
+			const data :any = result.filter((x:any)=>{ return x.franchise === atob(sessionStorage.getItem('code')) }).map((y:any)=>y)
 			this.dataSource = new MatTableDataSource<any>(data)
 			this.dataSource.paginator = this.paginator
 		}

@@ -124,10 +124,11 @@ const parseXML = async (xml:any) => {
 
 						
 						returnResponse =  xml.data.ERR[0] === 'Insufficient Funds' ? 'Insufficient Funds contact technical support' 
-										: xml.data.ERR[0] === 'LC API System Error' ? 'System error contact technical support' 
+										: xml.data.ERR[0] === 'LC API System Error' ? 'API System error contact technical support' 
 										: xml.data.ERR[0] === 'Invalid Mobile No.'   ? 'Invalid Mobile No.' 
 										: xml.data.ERR[0] === 'Remote IP not allowed' ? 'Remote IP not allowed'
 										: xml.data.ERR[0] === 'Invalid Globe Number'   ? 'Invalid Globe Number' 
+										: xml.data.ERR[0] === 'Duplicate RRN entry'   ? 'Duplicate RRN entry'
 										: await insertLoad(ress, object[1], object[2])
 						
 					})

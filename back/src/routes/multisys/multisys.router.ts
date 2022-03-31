@@ -210,7 +210,7 @@ const commision = async(data:any)=>{
 		return err
 	}
 }
-const checkWallet = async (branchCode:any)=>{
+export const checkWallet = async (branchCode:any)=>{
 	try{
 		
 		connection.beginTransaction()
@@ -221,7 +221,6 @@ const checkWallet = async (branchCode:any)=>{
 			})
 		}).then((response:any)=>{
 			connection.commit()
-			
 			return response
 		})
 		

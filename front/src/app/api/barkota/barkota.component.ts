@@ -235,7 +235,7 @@ export class BarkotaComponent implements OnInit {
 			})
 		).subscribe(response=>{
 
-			this.result = JSON.parse(response)
+			this.result = response
 			this.routesOrigin = new Observable ((observer)=>{ //observable for getting routes
 
 				try{
@@ -273,14 +273,14 @@ export class BarkotaComponent implements OnInit {
 				departure_date : this.bookdate.toISOString().slice(0, 10)
 
 			}).then((response)=>{
-				if(JSON.parse(response).length === 0){
+				if(response.length === 0){
 					this.dataSource = ''
 					this.tablemessage ="NO AVAILABLE TRIPS"
 					this._snackBar._showSnack('NO AVAILABLE TRIPS', 'error')
 					dialogRef.close()
 				}else{
 
-					this.dataSource = JSON.parse(response)
+					this.dataSource = response
 
 					this.viewAccomodation = new Observable((observer)=>{
 						try{
@@ -354,7 +354,7 @@ export class BarkotaComponent implements OnInit {
 				return of ([])
 			})
 		).subscribe(response=>{
-			this.dataTicketlist = JSON.parse(response)
+			this.dataTicketlist = response
 			dialog.close()
 		})
 		
@@ -398,12 +398,12 @@ export class BarkotaComponent implements OnInit {
 			this.accomodationNextButton = false
 			this.discountType = i
 			
-			this.cotsLength = JSON.parse(data).length
+			this.cotsLength = data.length
 			
 				if(this.cotsLength === this.compareValue ){
 
 				}else{
-					JSON.parse(data).forEach((element: any) => {
+					data.forEach((element: any) => {
 						
 						this.cotsName.push(element)
 						
@@ -448,20 +448,20 @@ export class BarkotaComponent implements OnInit {
 			
 			if(this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)]){
 
-				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].ticketTotal 		= JSON.parse(response).ticketTotal
-				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].terminalFee 		= JSON.parse(response).terminalFee
-				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].outletServiceFee = JSON.parse(response).outletServiceFee
-				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].serviceCharge 	= JSON.parse(response).serviceCharge
-				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].total 			= JSON.parse(response).total
+				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].ticketTotal 		= response.ticketTotal
+				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].terminalFee 		= response.terminalFee
+				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].outletServiceFee = response.outletServiceFee
+				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].serviceCharge 	= response.serviceCharge
+				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].total 			= response.total
 			
 			}else{
 				this.displayTicketTotal.push({
 					id 					: id,
-					ticketTotal 		: JSON.parse(response).ticketTotal,
-					terminalFee 		: JSON.parse(response).terminalFee,
-					outletServiceFee 	: JSON.parse(response).outletServiceFee,
-					serviceCharge 		: JSON.parse(response).serviceCharge,
-					total 				: JSON.parse(response).total
+					ticketTotal 		: response.ticketTotal,
+					terminalFee 		: response.terminalFee,
+					outletServiceFee 	: response.outletServiceFee,
+					serviceCharge 		: response.serviceCharge,
+					total 				: response.total
 				})
 			}
 			var ticketTotal = 0
@@ -522,7 +522,7 @@ export class BarkotaComponent implements OnInit {
 					return of([]);
 				})
 			).subscribe(response=>{
-				window.open(JSON.parse(response).printUrl)
+				window.open(response.printUrl)
 				this._snackBar._showSnack('Successfully Revalidate', 'success')
 			})
 		}catch(e){
@@ -573,12 +573,10 @@ export class BarkotaComponent implements OnInit {
 				return of([])
 			})
 		).subscribe(data=>{
-			this.currentWallet = JSON.parse(data)
-			this.c_wallet = `${JSON.parse(data)[0].current_wallet.toLocaleString('en-US')}.00`
+			this.currentWallet = data
+			this.c_wallet = `${data[0].current_wallet.toLocaleString('en-US')}.00`
 
-			this.observableWallet = new Observable((observer)=>{
-				observer.next(this.currentWallet)
-			})
+			this.observableWallet = new Observable((observer)=>{ observer.next(this.currentWallet) })
 		})
 	}
 
@@ -724,6 +722,22 @@ export class BarkotaComponent implements OnInit {
 		  	theEvent.returnValue = false;
 		  	if(theEvent.preventDefault) theEvent.preventDefault();
 		}
+	}
+	/*Revise bookNow code  */
+	async reviseBookNow(){
+		const token : any = this.cookieService.get('token')
+		await this.barkotaService.checkWallet({
+			
+			tellerCode : atob(sessionStorage.getItem('code')),
+			passengers 			: this.addPassengerArray,
+			contactInfo 		: this.contactForm.value,
+			token 				: JSON.parse(token)
+		}).then((response:any)=>{
+			console.log(response);
+			
+		}).catch((err:any)=>{
+			this._snackBar.showSnack(err.statusText, 'error')
+		})
 	}
 
 }

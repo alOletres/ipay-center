@@ -68,20 +68,25 @@ export class MultisysComponent implements OnInit {
 			this.http_multisys.mutisysInquire(this.billingForm.value)
 			.pipe(
 				catchError((error:any)=>{
+					this.btnName === "Inquire"
 					this._snackBar._showSnack(error, 'error')
 					dialogRef.close()
 					return of([])
 				})
 			).subscribe((data:any)=>{
-
-				const { account_number, amount, biller } = JSON.parse(data)
-				this.hideResponse = true
-				this.account_number = account_number
-				this.amount = amount
-				this.biller = biller
-				this.btnName = 'Proceed'
-				this.billingForm.disable()
-				dialogRef.close()
+				if(data.length === 0){
+					/**walay buhaton ok */
+				}else{
+					const { account_number, amount, biller } = data
+					this.hideResponse = true
+					this.account_number = account_number
+					this.amount = amount
+					this.biller = biller
+					this.btnName = 'Proceed'
+					this.billingForm.disable()
+					dialogRef.close()
+				}
+				
 			})
 		}else if(this.btnName === 'Proceed'){
 			Swal.fire({
@@ -106,13 +111,13 @@ export class MultisysComponent implements OnInit {
 							return of([])
 						})
 					).subscribe((response:any)=>{
-						if(JSON.parse(response).status === 400 || JSON.parse(response).status === 401 ){
+						if(response.status === 400 || response.status === 401 ){
 							
-							this._snackBar._showSnack(`${JSON.parse(response).reason}`, 'error')
+							this._snackBar._showSnack(`${response.reason}`, 'error')
 		
-						}else if( JSON.parse(response).status === 200 ){
+						}else if( response.status === 200 ){
 							this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
-							this._snackBar._showSnack(`${JSON.parse(response).reason}`, 'success')
+							this._snackBar._showSnack(`${response.reason}`, 'success')
 							this.billingForm.enable()
 							this.resetForm.reset(this.billingForm)
 							this.btnName = 'Inquire'
@@ -171,7 +176,7 @@ export class MultisysComponent implements OnInit {
 		this.http_multisys.getFranchiseAddress({
 			code : atob(sessionStorage.getItem('code'))
 		}).then((response:any)=>{
-			const { franchiseName, location, contactNo, email } = JSON.parse(response)[0]
+			const { franchiseName, location, contactNo, email } = response[0]
 
 			this.franchiseName = franchiseName.toUpperCase()
 			this.address = location.toUpperCase()

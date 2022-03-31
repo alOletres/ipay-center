@@ -35,7 +35,7 @@ export class StoreService {
 	}
 
 	setAuthorizedRequest() {
-		return { headers: { "Authorization": `Bearer ${this.cookie.get("access_token")}` } }
+		return { headers: { "Authorization": `Bearer ${this.cookie.get("access_token")}`, responseType :'text' } }
 	}
 	setAuthorizedRequestWithBlob(){
 		return { headers: { "Authorization": `Bearer ${this.cookie.get("access_token")}`, responseType : 'blob' } }

@@ -182,14 +182,14 @@ export class LccompntTransComponent implements OnInit {
 							})
 						).subscribe((response:any)=>{
 
-							if(JSON.parse(response).message === 'Successfully Sent'){
+							if(response.message === 'Successfully Sent'){
 								this._snackBar._showSnack('Successfully Loaded', 'success')
 								this.socketService.sendEvent("eventSent", {data: "response_sucessfullyLoaded"})/**SOCKET SEND EVENT */
 								this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
-							}else if(JSON.parse(response).message === 'low_wallet'){
+							}else if(response.message === 'low_wallet'){
 								this._snackBar._showSnack('Your wallet has reached the 5000 system limit, Please reload to Continue', 'error')
 							}else{
-								this._snackBar._showSnack(`${JSON.parse(response).message}`, 'error')
+								this._snackBar._showSnack(`${response.message}`, 'error')
 							}
 							
 							dialogRef.close()

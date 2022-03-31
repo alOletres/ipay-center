@@ -13,17 +13,19 @@ const EXCEL_EXTENSION = '.xlsx';
 const { bs64image } = companyLog
 
 import { headerss } from 'src/app/globals/interface/branch.interface';
+import { StoreService } from 'src/app/store/store.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GovbillpaymentService {
 	workbook = new Workbook();
-  	constructor(private http : HttpClient) { }
+  	constructor(private http : HttpClient,
+				private method : StoreService) { }
 	
 	  async multisys(){
 		try{
-			return this.http.get(`${ EndPoint.endpoint }/multisy/mutisys/getMultisysTransaction`).toPromise()
+			return this.http.get(`${ EndPoint.endpoint }/multisy/mutisys/getMultisysTransaction`, this.method.setAuthorizedRequest()).toPromise()
 		}catch(err:any){
 			throw err
 		}

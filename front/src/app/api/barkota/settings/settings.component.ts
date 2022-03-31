@@ -205,7 +205,7 @@ export class SettingsComponent implements OnInit {
 		).subscribe((data :any)=>{
 
 			
-			this.dataSourceBarkotaReports = new MatTableDataSource<any>(JSON.parse(data))// display for log user franchise 
+			this.dataSourceBarkotaReports = new MatTableDataSource<any>(data)// display for log user franchise 
 			this.dataSourceBarkotaReports.paginator = this.paginator
 			this.dataT = data
 			

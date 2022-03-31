@@ -105,9 +105,9 @@ export class TellermainComponent implements OnInit {
 				return of([])
 			})
 		).subscribe(data=>{
-			this.currentWallet = JSON.parse(data)
+			this.currentWallet = data
 
-			this.c_wallet = `${JSON.parse(data)[0].current_wallet.toLocaleString('en-US')}.00`
+			this.c_wallet = `${data[0].current_wallet.toLocaleString('en-US')}.00`
 		
 		})
 	}
@@ -137,10 +137,11 @@ export class TellermainComponent implements OnInit {
 
 	async activitylog (){
 		const result:any =	await this.http_teller.getLogs()
-
-		const data :any = JSON.parse(result).filter((x:any)=>{ return x.reference === atob(sessionStorage.getItem('code')) }).map((res:any)=>res) 
+		
+		const data :any = result.filter((x:any)=>{ return x.reference === atob(sessionStorage.getItem('code')) }).map((res:any)=>res) 
 
 		this.activityLogs = data
+		
 		
 	}
 
@@ -152,7 +153,7 @@ export class TellermainComponent implements OnInit {
 		
 		const res :any =  await this.http_teller.getBarkotaTransactions()
 		
-		const data :any = JSON.parse(res).filter((x:any)=> { 
+		const data :any = res.filter((x:any)=> { 
 			return x.transacted_by === atob(sessionStorage.getItem('code')) && moment(x.transacted_date).format("YYYY-MM-DD") + "00:00:00" === moment(dateNow).format("YYYY-MM-DD") + "00:00:00"
 		}).map((z:any)=>{
 			t_charge += z.franchise_charge	

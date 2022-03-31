@@ -93,7 +93,7 @@ export class ModalComponent implements OnInit {
 
 		.then((response:any)=>{
 
-			if(JSON.parse(response).message === 'ok'){
+			if(response.message === 'ok'){
 				this.socketService.sendEvent("eventSent", { data : "response_topUpload" })
 				this._snackBar._showSnack(`Success Change`, 'success')
 				this.dialogRef.close();

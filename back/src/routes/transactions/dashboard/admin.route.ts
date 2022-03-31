@@ -128,6 +128,7 @@ class DashboardController {
 					connection.query("SELECT * FROM activitylogs ORDER BY logDate DESC;", (err, result)=>{
 						if(err) throw err;
 						res.status(Codes.SUCCESS).send(JSON.stringify(result))
+						
 					})
 				)
 			}catch(err:any){

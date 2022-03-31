@@ -154,7 +154,7 @@ export class DashboardComponent implements OnInit {
 		})
 
 		const datas : any = await this.http_dash.barGraphData()
-		let profit = Object.values(JSON.parse(datas))
+		let profit = Object.values(datas)
 		
 		
 		/**
@@ -340,7 +340,7 @@ export class DashboardComponent implements OnInit {
 		})
 
 		const res : any = await this.http_dash.barGraphData()
-		let profit = Object.values(JSON.parse(res))
+		let profit = Object.values(res)
 
 		/**
 		 * get first the total collection , sales, income
@@ -505,7 +505,7 @@ export class DashboardComponent implements OnInit {
 		})
 
 		const res : any = await this.http_dash.barGraphData()
-		let profit = Object.values(JSON.parse(res))
+		let profit = Object.values(res)
 
 
 		{
@@ -672,7 +672,7 @@ export class DashboardComponent implements OnInit {
 
 	async barkotaTrans(){
 		const res : any = await this.http_dash.getBarkotaTransactions()
-		let dataHandler = Object.values(JSON.parse(res))
+		let dataHandler = Object.values(res)
 		
 		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
 
@@ -682,7 +682,7 @@ export class DashboardComponent implements OnInit {
 				t_charge += charge.ipayService_charge
 			})
 			this.dataHandler = t_charge
-			this.barkotaLength = JSON.parse(res).length
+			this.barkotaLength = res.length
 			
 			this.numberofTransactions()
 		}else{
@@ -706,7 +706,7 @@ export class DashboardComponent implements OnInit {
 	async getActiveAnnouncement(){
 		/** mao ni modawat sa response sa socket if naay update mahitabo or  naay bag.o */
 		const res:any =  await this.http_dash.displayAnnouncement()
-		let result = JSON.parse(res).filter((data:any)=> { return data.status === 0})
+		let result = res.filter((data:any)=> { return data.status === 0})
 		if(result.length === 0){
 			this.messageAnnouncement = 'NO ANNOUNCEMENT POSTED'
 			this.announcementResult = result.length
@@ -721,7 +721,7 @@ export class DashboardComponent implements OnInit {
 		
 	    const result:any =	await this.http_dash.getLogs()
 		
-		const data :any = JSON.parse(result).filter((x:any)=>{ return x.reference === atob(sessionStorage.getItem('code')) }).map((res:any)=>res) 
+		const data :any = result.filter((x:any)=>{ return x.reference === atob(sessionStorage.getItem('code')) }).map((res:any)=>res) 
 
 		this.activityLogs = data	
 	}
@@ -792,9 +792,9 @@ export class DashboardComponent implements OnInit {
 			await this.http_dash.getTransactionLoadCentralByBranch({code : atob(sessionStorage.getItem('code'))})
 			.then((response:any)=>{
 				
-				this.eloadsDailyTransactions = JSON.parse(response).length
+				this.eloadsDailyTransactions = response.length
 
-				JSON.parse(response).map((x:any)=>{
+				response.map((x:any)=>{
 
 					total += x.markUp
 				})
@@ -813,7 +813,7 @@ export class DashboardComponent implements OnInit {
 
 	async motherWallet(){
 		const result : any = await this.http_dash.getMotherWallet()
-		const { wallet } = JSON.parse(result)[0]
+		const { wallet } = result[0]
 		this.loadcentralWallet = wallet
 	}
 

@@ -218,7 +218,7 @@ import SocketService from 'src/app/services/socket.service';
 	async resetPassword(data:any){
 		await this.http_branch.resetPassword(data)
 		.then((response:any)=>{		
-			if(JSON.parse(response).message === 'ok'){
+			if(response.message === 'ok'){
 				this._snackBar._showSnack('Successfully Reset', 'success')
 			}else{
 				this._snackBar._showSnack('Try Again', 'error')

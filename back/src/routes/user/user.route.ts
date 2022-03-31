@@ -78,7 +78,7 @@ class UserController {
 							const token = await generateToken(username)
 
 							res.status(Codes.SUCCESS).send([response[0], token])
-							
+
 						}else{
 							res.status(400).send('Something Went Wrong')
 						}
