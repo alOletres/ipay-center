@@ -87,8 +87,8 @@ export class TellermainComponent implements OnInit {
 			sessionStorage.setItem('tN', btoa(this.fullname))
 			
 
-		}catch(err){
-			this._snackBar._showSnack(err, 'error')
+		}catch(err:any){
+			this._snackBar._showSnack(err.statusText, 'error')
 		}
 	}
 

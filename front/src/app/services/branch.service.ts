@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 
 import { EndPoint } from "./../globals/endpoints";
+import { StoreService } from '../store/store.service';
 
 @Injectable({
   	providedIn: 'root'
@@ -9,74 +10,119 @@ import { EndPoint } from "./../globals/endpoints";
 export class BranchService {
 
 	constructor(
-		private http: HttpClient
+		private http: HttpClient,
+		private method : StoreService
 	) { }
 
 	saveBranch(data: any) {
-		return this.http.post(`${ EndPoint.endpoint }/branch/branchs/saveBranch`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/saveBranch`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
 	getBranchList() {
-		return this.http.get(`${ EndPoint.endpoint }/branch/branchs/getBranches`).toPromise()
+		try{
+			return this.http.get(`${ EndPoint.endpoint }/branch/branchs/getBranches`, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
 	updateBranch(data: any) {
-		return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateBranch`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateBranch`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	updateBranchStatus(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateBranchStatus`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateBranchStatus`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
-	// end of CRUD in Branch Head
-
-	// start of CRUD in Franchise 
-
 	saveFbranch(data: any){
-		return this.http.post(`${ EndPoint.endpoint}/branch/branchs/saveFbranch`, data, {responseType: 'text'}).toPromise()
+		return this.http.post(`${ EndPoint.endpoint}/branch/branchs/saveFbranch`, data, this.method.setAuthorizedRequest()).toPromise()
 	}
 	getFranchlist(){
 		try{
-			return this.http.get(`${ EndPoint.endpoint }/branch/branchs/getFranchiselist`).toPromise()
+			return this.http.get(`${ EndPoint.endpoint }/branch/branchs/getFranchiselist`, this.method.setAuthorizedRequest()).toPromise()
 		}catch(err){
 			return err
 		}
 	}
 	savefWallet (data:any){
-		return this.http.post(`${ EndPoint.endpoint}/branch/branchs/savefWallet`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint}/branch/branchs/savefWallet`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	updateFbranchStatus(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateFbranchStatus`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateFbranchStatus`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+
+		}
 	}
 	updateFbranch (data: any){
-		return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateFbranch`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateFbranch`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
-	// start of CRUD in Ibarangay
 	saveIbarangay(data: any){
-		return this.http.post(`${ EndPoint.endpoint}/branch/branchs/saveIbarangay`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint}/branch/branchs/saveIbarangay`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	saveibWallet (data:any){
-		return this.http.post(`${ EndPoint.endpoint}/branch/branchs/saveibWallet`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint}/branch/branchs/saveibWallet`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	getIbarangaylist(){
-		return this.http.get(`${ EndPoint.endpoint }/branch/branchs/getIbarangaylist`).toPromise()
+		try{
+			return this.http.get(`${ EndPoint.endpoint }/branch/branchs/getIbarangaylist`, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	updateStatusIb(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateStatusIb`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateStatusIb`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	updateIbarangaylist(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateIbarangaylist`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateIbarangaylist`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	addibTeller(data:any){
-		// if(data.fbranchCode !== undefined){
-			return this.http.post(`${ EndPoint.endpoint}/branch/branchs/addFranchiseTeller`, data, {responseType: 'text'}).toPromise()
-		// }else{
-		// }
+		try{
+			return this.http.post(`${ EndPoint.endpoint}/branch/branchs/addFranchiseTeller`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
 	addTellerAdminFranchise(data:any){
 		try{
-			return this.http.post(`${ EndPoint.endpoint}/branch/branchs/addibTeller`, data, {responseType: 'text'}).toPromise()
+			return this.http.post(`${ EndPoint.endpoint}/branch/branchs/addibTeller`, data, this.method.setAuthorizedRequest()).toPromise()
 		}catch(err){
 			throw err
 		}
@@ -84,55 +130,75 @@ export class BranchService {
 
 	getTellerlist(){
 		try{
-			return this.http.get(`${ EndPoint.endpoint }/branch/branchs/getTellerlist`).toPromise()
-		}catch(err){
-			throw err
+			return this.http.get(`${ EndPoint.endpoint }/branch/branchs/getTellerlist`, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
 		}
 	}
 	updateStatusTeller(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateStatusTeller`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateStatusTeller`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
 	async updateTeller_list(data:any){
 		try{
-			return await this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateTeller_list`, data, {responseType: 'text'}).toPromise()
+			return await this.http.post(`${ EndPoint.endpoint }/branch/branchs/updateTeller_list`, data, this.method.setAuthorizedRequest()).toPromise()
 		}catch(err){
 			return err
 		}
 	}
 	saveIbarangayForapproval(data:any){
-		return this.http.post(`${ EndPoint.endpoint}/branch/branchs/saveIbarangayForapproval`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint}/branch/branchs/saveIbarangayForapproval`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	getIbarangayForApproval(data:any){		
-		return this.http.post(`${ EndPoint.endpoint }/branch/branchs/getIbarangayForApproval`, data).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/getIbarangayForApproval`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	approvedIBstatus(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/branch/branchs/approvedIBstatus`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/approvedIBstatus`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
 	declineiBarangay(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/branch/branchs/declineiBarangay`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/declineiBarangay`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	saveiB(data:any){
 		try{
-			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/saveiB`, data, {responseType: 'text'}).toPromise()
-		}catch(err){
-			throw err
+			return this.http.post(`${ EndPoint.endpoint }/branch/branchs/saveiB`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
 		}
 	}
 	addIbarangayTeller(data:any){
 		try{
-			return this.http.post(`${ EndPoint.endpoint}/branch/branchs/addIbarangayTeller`, data, {responseType: 'text'}).toPromise()
-		}catch(err){
-			throw err
+			return this.http.post(`${ EndPoint.endpoint}/branch/branchs/addIbarangayTeller`, data,this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
 		}
 	}
 
 	async resetPassword(data:any){
 		try{
-			return await this.http.post(`${ EndPoint.endpoint }/user/users/resetPassword`, data, {responseType: 'text'}).toPromise()
-		}catch(err){
-			throw err
+			return await this.http.post(`${ EndPoint.endpoint }/user/users/resetPassword`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
 		}
 	}
 }

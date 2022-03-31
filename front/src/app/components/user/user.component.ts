@@ -25,10 +25,14 @@ export class UserComponent implements OnInit {
 		if(atob(sessionStorage.getItem('type')) == 'Admin'){
 			this.fullname = 'Admin'
 		}else{
-			const type :any = atob(sessionStorage.getItem('type'))
-			const type_code : any = atob(sessionStorage.getItem('code'))
-			const data: any = await this.http_auth.getUser({type: type, type_code: type_code});
-			(type === 'Branch Head')?  this.fullname = `${data[0].ownerFirstname} ${data[0].ownerLastname}` : this.fullname = `${data[0].firstname} ${data[0].lastname}`
+			try{
+				const type :any = atob(sessionStorage.getItem('type'))
+				const type_code : any = atob(sessionStorage.getItem('code'))
+				const data: any = await this.http_auth.getUser({type: type, type_code: type_code});
+				(type === 'Branch Head')?  this.fullname = `${data[0].ownerFirstname} ${data[0].ownerLastname}` : this.fullname = `${data[0].firstname} ${data[0].lastname}`
+			}catch(err:any){
+				this._snackBar._showSnack(err.statusText, 'error')
+			}
 		}
 	}
 

@@ -9,7 +9,7 @@ import md5 from 'md5'
 import { Codes, Endpoints, Message } from './../../utils/main.enums'
 import { connection } from '../../configs/database.config';
 import xml2js from 'xml2js'
-
+import { authenticationToken } from '../../middleware/auth';
 const { LOADCENTRAL_SELL_PRODUCT, LOADCENTRAL_SELL_PRODUCT_STATUS } = Endpoints
 
 
@@ -238,7 +238,7 @@ class EloadsController {
          * 
         */
 
-        this.router.post('/sellProduct',async (req, res) => {
+        this.router.post('/sellProduct',authenticationToken,async (req, res) => {
             
 			const {  tellerCode } = req.body
 			
@@ -305,7 +305,7 @@ class EloadsController {
 			}
         })
 
-		this.router.get('/getLoadCentralTransactions',async (req, res) => {
+		this.router.get('/getLoadCentralTransactions',authenticationToken,async (req, res) => {
 			
 			try{
 				connection.query("SELECT * FROM loadcentral", (err,result)=>{
@@ -317,7 +317,7 @@ class EloadsController {
 			}		
 		})
 
-		this.router.post('/getTransactionLoadCentralByBranch',async (req, res) => {
+		this.router.post('/getTransactionLoadCentralByBranch',authenticationToken,async (req, res) => {
 			
 			const { code } = req.body
 
@@ -338,7 +338,7 @@ class EloadsController {
          *    &auth=6cfa21290ed4f9cac5f366aaf2889526
          *    &rrn=ABC5203432373
 		 */
-		this.router.post('/eLoadCheckStatus',async (req, res) => {
+		this.router.post('/eLoadCheckStatus',authenticationToken,async (req, res) => {
 			const { reference_id } = req.body
 
 			try{

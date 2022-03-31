@@ -3,7 +3,7 @@ import { Router } from 'express-serve-static-core'
 
 import { connection } from './../../configs/database.config'
 import { Message, Codes } from '../../utils/main.enums'
-
+import { authenticationToken } from '../../middleware/auth'
 import bcrypt from 'bcrypt'
 
 const saltRounds : any = process.env.SALT_ROUNDS
@@ -27,7 +27,7 @@ class BranchController {
          * @Functions
          */
 
-		this.router.post('/saveBranch', async (req, res) => {
+		this.router.post('/saveBranch', authenticationToken, async (req, res) => {
 			
 			const { data, reference } = req.body
 		
@@ -73,14 +73,7 @@ class BranchController {
 					])
 					connection.commit()
 					res.status(Codes.SUCCESS).send({ message : 'ok' })
-					
-					
 				})
-				.catch((err) => {
-					
-                    connection.rollback()
-                    res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-                })
 			} catch (err: any) {
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
@@ -89,7 +82,7 @@ class BranchController {
 		})
 
 
-		this.router.get('/getBranches', async (req, res) => {
+		this.router.get('/getBranches',authenticationToken, async (req, res) => {
 			try {
 				connection.query("SELECT * FROM branch_list", (err, result) => {
 					if(err) throw err;
@@ -100,7 +93,7 @@ class BranchController {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}
 		})
-		this.router.post('/updateBranch', async (req, res) => {
+		this.router.post('/updateBranch',authenticationToken, async (req, res) => {
 			const { ownerFirstname, ownerLastname, contactNo, emailAdd, address, branchName, id } = req.body
 			
 			try {
@@ -114,7 +107,7 @@ class BranchController {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}	
 		})
-		this.router.post('/updateBranchStatus', async (req, res) => {
+		this.router.post('/updateBranchStatus',authenticationToken, async (req, res) => {
 			const {data, loggedBy} = req.body
 
 
@@ -138,14 +131,6 @@ class BranchController {
 							})
 						)
 
-						// await Promise.resolve(
-						// 	connection.query("INSERT INTO activitylogs (affectedTable, loggedBy, dataBefore, logStatusCode) VALUES (?, ?, ?, ?)", 
-						// 	['branch_list', loggedBy, JSON.stringify(req.body), Codes.SUCCESS], (err, result)=>{
-						// 		if(err) throw err
-						// 		res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-						// 	})
-						// )
-
 						connection.commit()
 					})
 					
@@ -165,14 +150,6 @@ class BranchController {
 								res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
 							})
 						)
-						
-						// await Promise.resolve(
-						// 	connection.query("INSERT INTO activitylogs (affectedTable, loggedBy, dataBefore, logStatusCode) VALUES (?, ?, ?, ?)", 
-						// 	['branch_list', loggedBy, JSON.stringify(data), Codes.SUCCESS], (err, result)=>{
-						// 		if(err) throw err
-						// 		res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-						// 	})
-						// )
 						connection.commit()
 					})
 					
@@ -186,7 +163,7 @@ class BranchController {
 		// end of Branch Head Query
 
 		// start of Franchise query
-		this.router.post('/saveFbranch', async(req, res) => {
+		this.router.post('/saveFbranch',authenticationToken, async(req, res) => {
 			const type = "FRA"
 			const { firstname, lastname, contactNo, email, locationAddress, branchName, code } = req.body
 
@@ -244,7 +221,7 @@ class BranchController {
 		/**
 		 * @franchiseList
 		 */
-		this.router.get('/getFranchiselist', async(req, res) =>{
+		this.router.get('/getFranchiselist',authenticationToken, async(req, res) =>{
 			try{
 				 connection.query('SELECT * FROM franchise_list', (err, result) =>{
 					if(err) throw err;
@@ -257,7 +234,7 @@ class BranchController {
 			}
 		})
 		// wallet for new franchisee 
-		this.router.post('/savefWallet', async(req, res) =>{
+		this.router.post('/savefWallet',authenticationToken, async(req, res) =>{
 			const { wallet, branchCode } = req.body
 			try{
 				connection.beginTransaction()
@@ -282,7 +259,7 @@ class BranchController {
 		}) //end of new franchise wallet
 
 		// wallet for new ibarangay
-		this.router.post('/saveibWallet', async(req, res)=>{
+		this.router.post('/saveibWallet',authenticationToken, async(req, res)=>{
 			const {fbranchCode, wallet } = req.body
 			try{
 				connection.beginTransaction()
@@ -310,7 +287,7 @@ class BranchController {
 		// end for new ibarangay walleting
 
 		// start new query!
-		this.router.post('/updateFbranchStatus', async (req, res) => {
+		this.router.post('/updateFbranchStatus',authenticationToken, async (req, res) => {
 			const {data, approved_by} = req.body
 			
 			try{
@@ -356,7 +333,7 @@ class BranchController {
 			}
 		})
 
-		this.router.post('/updateFbranch', async (req, res)=>{
+		this.router.post('/updateFbranch',authenticationToken, async (req, res)=>{
 			const { data } = req.body
 			try{
 				connection.query('UPDATE franchise_list SET franchiseName=?, lastname =?, firstname =?, contactNo =?, email =?, location =? WHERE id =?', 
@@ -370,15 +347,13 @@ class BranchController {
 			}
 			
 		})
-		// the end of franchise query
 
-		// start for ibarangay query
-		this.router.post('/saveIbarangay', (req, res) =>{
+		this.router.post('/saveIbarangay',authenticationToken, async(req, res) =>{
 			const type = "BRA"
 			const { branchCode, fbranchCode, branchName, lastname, firstname, suffix,  contactNo, email, locationAddress }  = req.body
 			try {
 				connection.beginTransaction()
-				return new Promise((resolve, reject) => {
+				return await new Promise((resolve, reject) => {
 					connection.query("SELECT * from branch_count WHERE type=?", 
 					['iBarangay'], (err, result) => {
 						if(err) throw err
@@ -425,7 +400,7 @@ class BranchController {
 			}
 		})
 
-		this.router.get('/getIbarangaylist', async(req, res) =>{
+		this.router.get('/getIbarangaylist', authenticationToken ,async(req, res) =>{
 			try{
 				 connection.query('SELECT * FROM ibrgy_list', (err, result) =>{
 					if(err) throw err;
@@ -439,7 +414,7 @@ class BranchController {
 			}
 		})
 
-		this.router.post('/updateStatusIb', async (req, res)=>{
+		this.router.post('/updateStatusIb',authenticationToken, async (req, res)=>{
 			const { data, approved_by} = req.body
 			
 			try{
@@ -485,7 +460,7 @@ class BranchController {
 			
 		})
 
-		this.router.post('/updateIbarangaylist', async (req, res)=>{
+		this.router.post('/updateIbarangaylist',authenticationToken, async (req, res)=>{
 			const { data } = req.body
 			try{
 				connection.query('UPDATE ibrgy_list SET franchiseName=?, lastname =?, firstname =?, contactNo =?, email =?, location =? WHERE ib_id =?', 
@@ -504,7 +479,7 @@ class BranchController {
 			
 		})
 
-		this.router.post('/addibTeller', (req, res) =>{
+		this.router.post('/addibTeller',authenticationToken, async(req, res) =>{
 			const { data, fbranchCode, branchCode }  = req.body
 			const type = "BRT"
 		
@@ -557,7 +532,7 @@ class BranchController {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}
 		})
-		this.router.post('/addFranchiseTeller', (req, res) =>{
+		this.router.post('/addFranchiseTeller',authenticationToken, async (req, res) =>{
 			
 			const { data, fcode } = req.body
 			
@@ -621,65 +596,10 @@ class BranchController {
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}
-
-			
-			// const type = "FRT"
-			// try {
-			// 	connection.beginTransaction()
-			// 	return new Promise((resolve, reject) => {
-			// 		connection.query("SELECT * from branch_count WHERE type=?", 
-			// 		['FRTeller'], (err, result) => {
-			// 			if(err) throw err
-						
-			// 			resolve (result)
-			// 		})
-			// 	})
-			// 	.then(async (responce: any) => {
-			// 		const i = parseInt(responce[0].count)+1
-
-			// 		const saltRounds : any = process.env.SALT_ROUNDS
-			// 		const password : any = process.env.STAT_PASSWORD
-			// 		const salt = bcrypt.genSaltSync(parseInt(saltRounds));
-			// 		const savePassword = bcrypt.hashSync(password, salt)
-					
-			// 		await Promise.all([
-			// 			Promise.resolve(
-			// 				connection.query("INSERT INTO teller_list (branchCode, fiB_Code, tellerCode, type, firstname, lastname, contactNo, email, location, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-			// 				[branchCode, fbranchCode, type+('000'+i).slice(-4), 'Teller', data.firstname, data.lastname, data.contactNo, data.email, data.locationAddress, 1 ], (err, result) => {
-			// 					if(err) throw err;
-			// 					return result
-			// 				})
-			// 			), Promise.resolve(
-			// 				connection.query("INSERT INTO user_account (user_type, username, password, status) VALUES (?, ?, ?, ?) ",
-			// 				['Teller', type+('000'+i).slice(-4), savePassword, 1], (err, result)=>{
-			// 					if(err) throw err;
-			// 					return result
-			// 				})
-			// 			), Promise.resolve(
-			// 				connection.query("UPDATE branch_count SET count=? WHERE type=?",
-			// 				[i, 'FRTeller'], (err, result) => {
-			// 					if(err) throw err
-								
-			// 					return result
-			// 				})
-			// 			)
-			// 		])
-			// 		connection.commit()
-			// 		res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Added.`)
-					
-			// 	})
-			// 	.catch((err) => {
-            //         connection.rollback()
-            //         res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-            //     })
-			// } catch (err: any) { 
-			// 	connection.rollback()
-			// 	res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-			// }
 		})
 
 		// get teller list
-		this.router.get('/getTellerlist', async(req, res) =>{
+		this.router.get('/getTellerlist',authenticationToken, async(req, res) =>{
 			try{
 				 connection.query('SELECT * FROM teller_list', (err, result) =>{
 					if(err) throw err;
@@ -692,7 +612,7 @@ class BranchController {
 			}
 		})
 
-		this.router.post('/updateStatusTeller', async (req, res)=>{
+		this.router.post('/updateStatusTeller',authenticationToken, async (req, res)=>{
 			const {data, approved_by} = req.body
 			
 			try{
@@ -741,7 +661,7 @@ class BranchController {
 			
 		})
 
-		this.router.post('/updateTeller_list', async (req, res) => {
+		this.router.post('/updateTeller_list',authenticationToken, async (req, res) => {
 
 			const {firstname, lastname, contactNo, email, locationAddress, id} = req.body	
 			
@@ -757,7 +677,7 @@ class BranchController {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}	
 		})
-		this.router.post('/saveIbarangayForapproval',async (req, res) => {
+		this.router.post('/saveIbarangayForapproval' ,authenticationToken,async (req, res) => {
 			const { data, franchiseCode, branchCode } = req.body
 			const type = 'BRA'
 			try {
@@ -803,7 +723,7 @@ class BranchController {
 			}
 		})
 
-		this.router.post('/getIbarangayForApproval',async (req, res) => {
+		this.router.post('/getIbarangayForApproval',authenticationToken,async (req, res) => {
 			const { code }= req.body
 			
 			try{
@@ -828,7 +748,7 @@ class BranchController {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}
 		})
-		this.router.post('/approvedIBstatus',async (req, res) => {
+		this.router.post('/approvedIBstatus' ,authenticationToken,async (req, res) => {
 			const { id, code, wallet, dateApproved } = req.body
 
 
@@ -871,7 +791,7 @@ class BranchController {
 			}
 		})
 
-		this.router.post('/declineiBarangay',async (req, res) => {
+		this.router.post('/declineiBarangay' ,authenticationToken,async (req, res) => {
 			const { id, dateDecline } = req.body		
 			try{
 				connection.query('UPDATE ibrgy_list SET status=?, date_decline=? WHERE ib_id = ?', [2, dateDecline, id], (err, result)=>{
@@ -883,7 +803,7 @@ class BranchController {
 			}
 		})
 
-		this.router.post('/saveiB',async (req, res) => {
+		this.router.post('/saveiB' ,authenticationToken,async (req, res) => {
 			const { data, fcode } = req.body			
 			const type = 'BRA'
 			try{
@@ -942,7 +862,7 @@ class BranchController {
 			}
 		})
 
-		this.router.post('/addIbarangayTeller',async (req, res) => {
+		this.router.post('/addIbarangayTeller',authenticationToken,async (req, res) => {
 			const { data, ibCode } = req.body
 			const type = 'BRT'
 			try{

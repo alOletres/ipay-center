@@ -4,18 +4,20 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { EndPoint } from "./../../../../globals/endpoints";
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { StoreService } from 'src/app/store/store.service';
 	@Injectable({
 	providedIn: 'root'
 	})														
 export class LoadcentralService {
 	errorMsg: any;
 
-	constructor( private http: HttpClient ) {
+	constructor( private http: HttpClient,
+				 private method : StoreService ) {
 		
 	}
 	sellProduct(data:any){
 		try{
-			return this.http.post(`${ EndPoint.endpoint }/eload/eloads/sellProduct`, data, {responseType: 'text'})
+			return this.http.post(`${ EndPoint.endpoint }/eload/eloads/sellProduct`, data, this.method.setAuthorizedRequest())
 			.pipe(
 				catchError(error => {
 					
@@ -59,17 +61,17 @@ export class LoadcentralService {
 
 	getLoadCentralTransactions(){
 		try{
-			return this.http.get(`${ EndPoint.endpoint }/eload/eloads/getLoadCentralTransactions`).toPromise()
-		}catch(err){
-			throw err
+			return this.http.get(`${ EndPoint.endpoint }/eload/eloads/getLoadCentralTransactions`, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
 		}
 	}
 
 	async eLoadCheckStatus(data:any){
 		try{
-			return await this.http.post(`${ EndPoint.endpoint }/eload/eloads/eLoadCheckStatus`, data, {responseType: 'text'}).toPromise()
-		}catch(err){
-			throw err
+			return await this.http.post(`${ EndPoint.endpoint }/eload/eloads/eLoadCheckStatus`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
 		}
 	}
 

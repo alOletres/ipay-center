@@ -13,6 +13,7 @@ import { connection } from '../../configs/database.config';
 import { Codes, Message, MultisysCredentials } from '../../utils/main.enums';
 
 import { Endpoints } from '../../utils/main.enums';
+import { authenticationToken } from '../../middleware/auth';
 /**
  * Multi sys Credentials 
  *  
@@ -241,7 +242,7 @@ class MultisysController {
 		
         /***PROCESS IS HERE */
 
-        this.router.post('/inquireMultisys',async (req, res) => {
+        this.router.post('/inquireMultisys',authenticationToken,async (req, res) => {
 			
 			const { CostumersName, contactNo, account_number, Amount } = req.body
 
@@ -279,7 +280,7 @@ class MultisysController {
 			
 		})
 
-		this.router.post('/proceedTransaction',async (req, res) => {
+		this.router.post('/proceedTransaction',authenticationToken,async (req, res) => {
 			
 			const { data, amount, tellerCode } = req.body
 
@@ -359,7 +360,7 @@ class MultisysController {
 			
 		})
 
-		this.router.get('/getMultisysTransaction',async (req, res) => {
+		this.router.get('/getMultisysTransaction',authenticationToken,async (req, res) => {
 			try{
 				connection.query("SELECT * FROM multisys", (err, result)=>{
 					if(err) throw err
@@ -371,7 +372,7 @@ class MultisysController {
 			}			
 		})
 
-		this.router.post('/getFranchiseAddress',async (req, res) => {
+		this.router.post('/getFranchiseAddress',authenticationToken,async (req, res) => {
 			
 			const { code } = req.body
 			

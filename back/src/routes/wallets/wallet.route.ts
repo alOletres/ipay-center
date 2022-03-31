@@ -4,6 +4,7 @@ import { Router } from 'express-serve-static-core'
 import moment from 'moment'
 
 import { connection } from '../../configs/database.config'
+import { authenticationToken } from '../../middleware/auth'
 import { Message, Codes } from '../../utils/main.enums'
 
 class WalletsController {
@@ -16,7 +17,7 @@ class WalletsController {
          * @Functions
          */
 
-        this.router.post('/topupload',async (req, res) => {
+        this.router.post('/topupload',authenticationToken,async (req, res) => {
             const { data, img, remarks} = req.body
 			
             try{
@@ -71,7 +72,7 @@ class WalletsController {
 			}
         })
 
-		this.router.post('/getTopup_list',async (req, res) => {
+		this.router.post('/getTopup_list',authenticationToken,async (req, res) => {
 			const { code } = req.body
 			try{
 				connection.query('SELECT * FROM top_uploads WHERE fbranchCode=?', [code], (err, result)=>{
@@ -82,7 +83,7 @@ class WalletsController {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}			
 		})
-		this.router.post('/getTopup_listForBranchHead',async (req, res) => {
+		this.router.post('/getTopup_listForBranchHead',authenticationToken,async (req, res) => {
 			const { code } = req.body
 			try{
 				connection.query('SELECT * FROM top_uploads WHERE branchCode=? AND payment_status=?', [code, 0], (err, result)=>{
@@ -94,7 +95,7 @@ class WalletsController {
 			}
 		})
 
-		this.router.post('/approvedTopupLoad',async (req, res) => {
+		this.router.post('/approvedTopupLoad',authenticationToken,async (req, res) => {
 			const { approved_date, approved_by, id, data, fcode } = req.body	
 			try{
 				connection.beginTransaction()
@@ -144,7 +145,7 @@ class WalletsController {
 			}
 		})
 
-		this.router.post('/sendLoadtable',async (req, res) => {
+		this.router.post('/sendLoadtable',authenticationToken,async (req, res) => {
 			const { data, fbranchCode, available_wallet } = req.body
 			const dateNow = new Date()
 			if(available_wallet < data.credit){
@@ -225,7 +226,7 @@ class WalletsController {
 				
 		})
 
-		this.router.post('/getFranchisewallet',async (req, res) => {
+		this.router.post('/getFranchisewallet',authenticationToken,async (req, res) => {
 			const { fbranchCode } = req.body
 			try{
 				connection.query("SELECT * FROM wallet WHERE branchCode=?", [fbranchCode], (err, result)=>{
@@ -237,7 +238,7 @@ class WalletsController {
 			}
 		})
 
-		this.router.post('/updateLoadstatus',async (req, res) => {
+		this.router.post('/updateLoadstatus',authenticationToken,async (req, res) => {
 
 			const { paymentStatus, id } = req.body
 			const dateNow = new Date();
@@ -252,7 +253,7 @@ class WalletsController {
 			}
 		})
 
-		this.router.post('/checkAvailableWallet', async (req, res) => {
+		this.router.post('/checkAvailableWallet',authenticationToken, async (req, res) => {
 			const { branchCode } = req.body
 			try{
 				connection.beginTransaction()
@@ -298,7 +299,7 @@ class WalletsController {
 			}
 		})
 
-		this.router.get('/adminTopUpload',async (req, res) => {
+		this.router.get('/adminTopUpload',authenticationToken,async (req, res) => {
 			try{
 
 				await Promise.resolve(
@@ -312,7 +313,7 @@ class WalletsController {
 			}		
 		})
 
-		this.router.post('/walletHistory',async (req, res) => {
+		this.router.post('/walletHistory',authenticationToken,async (req, res) => {
 			
 			const { code } = req.body
 			
@@ -329,7 +330,7 @@ class WalletsController {
 						
 		})
 
-		this.router.post('/checkFranchiseWallet',async (req, res) => {
+		this.router.post('/checkFranchiseWallet',authenticationToken,async (req, res) => {
 			const { code } = req.body
 			try{
 				await Promise.resolve(
@@ -343,7 +344,7 @@ class WalletsController {
 			}
 		})
 
-		this.router.get('/walletTransactionForAdminBranchHead',async (req, res) => {
+		this.router.get('/walletTransactionForAdminBranchHead',authenticationToken,async (req, res) => {
 		
 			try{
 				await Promise.resolve(
@@ -358,7 +359,7 @@ class WalletsController {
 			}
 						
 		})
-		this.router.get('/walletBranchesMonitoring',async (req, res) => {
+		this.router.get('/walletBranchesMonitoring',authenticationToken,async (req, res) => {
 
 			try{
 				await Promise.resolve(
@@ -373,7 +374,7 @@ class WalletsController {
 		})
 
 
-		this.router.get('/walletiBarangayMonitoring',async (req, res) => {
+		this.router.get('/walletiBarangayMonitoring',authenticationToken,async (req, res) => {
 			try{
 				await Promise.resolve(
 					connection.query("SELECT * FROM wallet INNER JOIN ibrgy_list ON wallet.branchCode = ibrgy_list.ib_ibrgyyCode", (err, result)=>{
@@ -386,7 +387,7 @@ class WalletsController {
 			}		
 		})
 
-		this.router.get('/topUploadsFranchiseeHistory',async (req, res) => {
+		this.router.get('/topUploadsFranchiseeHistory',authenticationToken,async (req, res) => {
 			try{
 				await Promise.resolve(
 					connection.query("SELECT * FROM top_uploads INNER JOIN franchise_list ON top_uploads.fbranchCode = franchise_list.fbranchCode", (err, result)=>{
@@ -399,7 +400,7 @@ class WalletsController {
 			}
 		})
 
-		this.router.get('/topUploadsIbarangayHistory',async (req, res) => {
+		this.router.get('/topUploadsIbarangayHistory',authenticationToken,async (req, res) => {
 			try{
 				await Promise.resolve(
 					connection.query("SELECT * FROM top_uploads INNER JOIN ibrgy_list ON top_uploads.fbranchCode = ibrgy_list.ib_ibrgyyCode", (err, result)=>{
@@ -412,7 +413,7 @@ class WalletsController {
 			}			
 		})
 
-		this.router.get('/getOverallWallet',async (req, res) => {
+		this.router.get('/getOverallWallet',authenticationToken,async (req, res) => {
 			try{
 				connection.query("SELECT * FROM wallet_historytransaction", (err, result)=>{
 					if(err) throw err;

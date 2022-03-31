@@ -63,8 +63,8 @@ export class BranchlistComponent implements OnInit {
 				this.dataSource = new MatTableDataSource<branch>(dataResult);
 				this.dataSource.paginator = this.paginator
 			}
-		} catch (e) {
-			console.log(e);
+		} catch (err:any) {
+			this._snackBar._showSnack(err.statusText, 'error')
 		}
 	}
 	applyFilter(event: Event): void {

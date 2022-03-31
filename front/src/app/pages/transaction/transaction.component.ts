@@ -139,30 +139,34 @@ export class TransactionComponent implements OnInit {
 	}
 	async function_openTOpLoad (){
 		
-		const fcode : any = atob(sessionStorage.getItem('code'))
-		const data: any = await this.http_auth.getUser({type: this.type, type_code: fcode}); //query for franchise data
-		
-		const dialogRef = this.dialog.open(ModalComponent, {
-
-			width: '800px',
-			disableClose : true,
-			data : {
-				email 		: data[0].email,
-				contactNo 	: `0${data[0].contactNo}`,
-				name 		: `${data[0].firstname} ${data[0].lastname}`,
-				fcode 		: fcode,
-				bcode 		: data[0].branchCode
-			}
-		})
-		dialogRef.afterClosed().subscribe(result=>{
+		try{
+			const fcode : any = atob(sessionStorage.getItem('code'))
+			const data: any = await this.http_auth.getUser({type: this.type, type_code: fcode}); //query for franchise data
 			
-			this.function_topUpList()
-			this.showTable = true
-			this.hideCards = false 
-			this.showTableForTopUploadHistory = false
-			this.tableHeader = 'Top-up Load'
-		
-		})
+			const dialogRef = this.dialog.open(ModalComponent, {
+
+				width: '800px',
+				disableClose : true,
+				data : {
+					email 		: data[0].email,
+					contactNo 	: `0${data[0].contactNo}`,
+					name 		: `${data[0].firstname} ${data[0].lastname}`,
+					fcode 		: fcode,
+					bcode 		: data[0].branchCode
+				}
+			})
+			dialogRef.afterClosed().subscribe(result=>{
+				
+				this.function_topUpList()
+				this.showTable = true
+				this.hideCards = false 
+				this.showTableForTopUploadHistory = false
+				this.tableHeader = 'Top-up Load'
+			
+			})
+		}catch(err:any){
+			this._snackBar._showSnack(err.statusText, 'error')
+		}
 	}
 	function_back() {
 		this.showTable = false

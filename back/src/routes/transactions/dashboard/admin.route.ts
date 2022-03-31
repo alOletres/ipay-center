@@ -1,6 +1,7 @@
 import express from 'express'
 import { Router } from 'express-serve-static-core'
 import { connection } from '../../../configs/database.config'
+import { authenticationToken } from '../../../middleware/auth';
 import { Message, Codes } from '../../../utils/main.enums';
 
 
@@ -17,7 +18,7 @@ class DashboardController {
          * @Functions
          */
 
-        this.router.get('/barGraphData',async (req, res) => {
+        this.router.get('/barGraphData',authenticationToken,async (req, res) => {
             try{
                 await Promise.resolve(
                     connection.query("SELECT * FROM wallet_historytransaction", (err,result)=>{
@@ -30,7 +31,7 @@ class DashboardController {
             }            
         })
 
-        this.router.post('/createAnnouncement',async ( req,res ) => {
+        this.router.post('/createAnnouncement',authenticationToken,async ( req,res ) => {
 
 			const { messages, createdBy } = req.body			
 			
@@ -55,7 +56,7 @@ class DashboardController {
         })
 
 
-		this.router.get('/displayAnnouncement',async (req, res) => {
+		this.router.get('/displayAnnouncement',authenticationToken,async (req, res) => {
 				
 			try{
 				await Promise.resolve(
@@ -69,7 +70,7 @@ class DashboardController {
 			}			
 		})
 
-		this.router.post('/changeStatus',async (req, res) => {
+		this.router.post('/changeStatus',authenticationToken,async (req, res) => {
 			
 			const { value } = req.body
 
@@ -98,7 +99,7 @@ class DashboardController {
 			}		
 		})
 
-		this.router.post('/updateAnnouncement',async (req, res) => {
+		this.router.post('/updateAnnouncement',authenticationToken,async (req, res) => {
 			
 			const { data, updatedBy } = req.body
 
@@ -121,7 +122,7 @@ class DashboardController {
 			}
 		})
 
-		this.router.get('/getActivityLogs',async (req, res) => {
+		this.router.get('/getActivityLogs',authenticationToken,async (req, res) => {
 			try{
 				await Promise.resolve(
 					connection.query("SELECT * FROM activitylogs ORDER BY logDate DESC;", (err, result)=>{
@@ -133,7 +134,7 @@ class DashboardController {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}
 		})
-		this.router.get('/getMotherWallet',async (req, res) => {
+		this.router.get('/getMotherWallet',authenticationToken,async (req, res) => {
 			try {
 				connection.query("SELECT * FROM mother_wallet", (err, result)=>{
 					if(err) throw err
@@ -144,7 +145,7 @@ class DashboardController {
 			}		
 		})
 
-		this.router.get('/getCommission',async (req, res) => {
+		this.router.get('/getCommission',authenticationToken,async (req, res) => {
 			try{
 				connection.query("SELECT * FROM f_commission", (err, result)=>{
 					if(err) throw err;

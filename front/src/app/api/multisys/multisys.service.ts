@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { EndPoint } from "./../../globals/endpoints";
 import { catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
+import { StoreService } from 'src/app/store/store.service';
 
 @Injectable({
 providedIn: 'root'
@@ -10,10 +11,11 @@ providedIn: 'root'
 export class MultisysService {
 	errorMsg: any;
 
-  	constructor(private http : HttpClient) { }
+  	constructor(private http : HttpClient,
+				private method : StoreService) { }
 	
  	mutisysInquire(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/multisy/mutisys/inquireMultisys`, data, {responseType : 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/multisy/mutisys/inquireMultisys`, data, this.method.setAuthorizedRequest())
 			.pipe(
 				catchError(error => {
 					
@@ -32,7 +34,7 @@ export class MultisysService {
 	}
 
 	proceedTransaction(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/multisy/mutisys/proceedTransaction`, data, {responseType : 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/multisy/mutisys/proceedTransaction`, data, this.method.setAuthorizedRequest())
 			.pipe(
 				catchError(error => {
 					
@@ -70,16 +72,16 @@ export class MultisysService {
     }
 	async multisys(){
 		try{
-			return await this.http.get(`${ EndPoint.endpoint }/multisy/mutisys/getMultisysTransaction`).toPromise()
+			return await this.http.get(`${ EndPoint.endpoint }/multisy/mutisys/getMultisysTransaction`, this.method.setAuthorizedRequest()).toPromise()
 		}catch(err:any){
-			throw err
+			return err
 		}
 	}
 	async getFranchiseAddress(data:any){
 		try{
-			return await this.http.post(`${ EndPoint.endpoint }/multisy/mutisys/getFranchiseAddress`, data, {responseType : 'text'}) .toPromise()
+			return await this.http.post(`${ EndPoint.endpoint }/multisy/mutisys/getFranchiseAddress`, data,  this.method.setAuthorizedRequest()) .toPromise()
 		}catch(err:any){
-			throw err
+			return err
 		}
 	}
 	

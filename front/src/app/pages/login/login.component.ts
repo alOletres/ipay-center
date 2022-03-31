@@ -7,6 +7,7 @@ import { SnackbarServices } from './../../services/snackbar.service';
 import { NgToastService } from 'ng-angular-popup';
 import { StoreService } from 'src/app/store/store.service';
 import { Stores } from 'src/app/models/main.enums';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
 		private _snackBar: SnackbarServices,
 		private router: Router,
 		private toast : NgToastService	,	
-		private methodStore : StoreService
+		private methodStore : StoreService,
+		private cookie : CookieService
     ) {
         this.loginForm = this.fb.group({
             username: ['', [Validators.required]],
@@ -43,6 +45,7 @@ export class LoginComponent implements OnInit {
 		/***
 		 * checkUser[1] ==token
 		 */
+		this.cookie.set("access_token", checkUser[1])
 		this._snackBar._showSnack(`Success`, 'success')
 
 		this.methodStore.addToStore(Stores.USERCODES,  {data : checkUser[0] })		

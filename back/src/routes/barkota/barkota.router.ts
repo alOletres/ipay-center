@@ -9,6 +9,7 @@ import { Message, Codes, Endpoints } from '../../utils/main.enums'
 import moment from 'moment';
 import { ticketPrices, walletCollection } from './../../utils/main.interfaces'
 const { BARKOTA_STAGING } = Endpoints
+import { authenticationToken } from '../../middleware/auth';
 const updateWallet = async(data:any) => {
 	try{
 		connection.beginTransaction()
@@ -116,7 +117,7 @@ class BarkotaController{
          */
 		
 
-		this.router.get('/getBarkotaToken', async (req, res) => {
+		this.router.get('/getBarkotaToken',authenticationToken, async (req, res) => {
 
             // res.set('Access-Control-Allow-Origin', '*');
 			// res.set('Access-Control-Allow-Origin-Heders', "Origin, X-Requested-With, Content-Type, Accept, access_token, refresh_token")
@@ -156,7 +157,7 @@ class BarkotaController{
 					
               })
 		})
-		this.router.post('/getShippingLines',async (req, res) => {
+		this.router.post('/getShippingLines',authenticationToken,async (req, res) => {
 
 			const { access_token, expires_in, token_type } = req.body
 
@@ -169,13 +170,12 @@ class BarkotaController{
 
 				res.status(Codes.SUCCESS).send(response.data)
 				
-			}).catch((error)=>{
-				console.log(error);
-				
+			}).catch((err:any)=>{
+				res.status(500).send(err.response.data.detail)
 			})
 		})
 
-		this.router.post('/getRoutes',async (req, res) => {
+		this.router.post('/getRoutes',authenticationToken,async (req, res) => {
 			const { token, companId } = req.body
 			
 			const companyid = '8bb73d03-06b4-47c7-80c7-59301f770eda'
@@ -193,22 +193,11 @@ class BarkotaController{
 				res.status(Codes.SUCCESS).send(JSON.stringify(response.data))
 				
 			}).catch((err)=>{
-				
-				if(err && err.response && err.response.data && err.response.data.detail && err.response.data.detail !== null){
-	
-					res.status(500).send(err.response.data.detail)
-
-				}else{
-					console.log(err.response.data.detail);
-					
-					res.status(500).send(err.response.data.detail)
-					// res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-
-				}
+				res.status(500).send(err.response.data.detail)
 			})
 		})
 		
-		this.router.post('/listOfTrips',async (req, res) => {
+		this.router.post('/listOfTrips',authenticationToken,async (req, res) => {
 
 			const { token, origin_id, data, departure_date } = req.body
 
@@ -218,9 +207,6 @@ class BarkotaController{
 				passengerCount : 1,
 				departureDate : departure_date
 			}
-
-			res.cookie('user', true)
-
 			await axios.post(`${ BARKOTA_STAGING }/outlet/voyage-accommodations/bylocation`,payload, {
 
 			headers : {'Content-Type' : 'application/json',
@@ -229,14 +215,11 @@ class BarkotaController{
 			}).then(response=>{
 				res.status(Codes.SUCCESS).send(JSON.stringify(response.data))
 			}).catch(err=>{
-				console.log(err);
-				
-
-				res.status(500).send('Internal ERROR')
+				res.status(500).send(err.response.data.detail)
 			})
 		})
 
-		this.router.post('/ticketPrice',async (req, res) => {
+		this.router.post('/ticketPrice',authenticationToken,async (req, res) => {
 			const { token, voyageId, priceGroupsId, routeAccommodationId } = req.body
 
 			
@@ -271,7 +254,7 @@ class BarkotaController{
 			}
 		})
 
-		this.router.post('/getVoyageCots',async (req, res) => {
+		this.router.post('/getVoyageCots',authenticationToken,async (req, res) => {
             const { token, voyageId, routeAccommodationId} = req.body
 			try{
 				const payload = {
@@ -298,13 +281,12 @@ class BarkotaController{
 					}
 					
 				})
-			}catch(e){
-				console.log(e);
-				
+			}catch(err:any){
+				res.status(500).send(err.response.data.detail)
 			}
         })
 
-		this.router.post('/computeCharges',async (req, res) => {
+		this.router.post('/computeCharges',authenticationToken,async (req, res) => {
 
 			const { token , passengerList, departurePriceId } = req.body
 			
@@ -363,7 +345,7 @@ class BarkotaController{
 			
 		})
 
-		this.router.post('/bookNow',async (req, res, next) => {
+		this.router.post('/bookNow',authenticationToken,async (req, res, next) => {
 			
 			const { passengers, contactInfo, token,  } = req.body
 				
@@ -443,7 +425,7 @@ class BarkotaController{
 
 		})
 
-		this.router.post('/searchTicket', async (req, res) => {
+		this.router.post('/searchTicket',authenticationToken, async (req, res) => {
 			
 			const { dateFrom, dateTo, data, token } = req.body
 			
@@ -479,7 +461,7 @@ class BarkotaController{
 			})
 
 		})
-		this.router.post('/searchVoucherByTicket',async (req, res) => {
+		this.router.post('/searchVoucherByTicket',authenticationToken,async (req, res) => {
 			// console.log(req.body);
 			const { data, token } = req.body
 
@@ -512,7 +494,7 @@ class BarkotaController{
 						
 		})
 
-		this.router.post('/searchTransactionNo',async (req, res) => {
+		this.router.post('/searchTransactionNo',authenticationToken,async (req, res) => {
 	
 			const {  data, token } = req.body
 			const payload = {
@@ -542,7 +524,7 @@ class BarkotaController{
 				}
 			})
 		})
-		this.router.post('/refundTicket',async (req, res) => {
+		this.router.post('/refundTicket',authenticationToken,async (req, res) => {
 	
 			const { data, token } = req.body
 			
@@ -576,7 +558,7 @@ class BarkotaController{
 			})
 		})
 
-		this.router.post('/voidTicket',async (req , res) => {
+		this.router.post('/voidTicket',authenticationToken,async (req , res) => {
 
 			const { data, token } = req.body
 
@@ -616,7 +598,7 @@ class BarkotaController{
 			
 		})
 
-		this.router.post('/revalidateTicket',async (req, res) => {
+		this.router.post('/revalidateTicket',authenticationToken,async (req, res) => {
 			// console.log(req.body);		
 			const { token, ticketId, newVoyageId, cotno, newPriceDetailId } = req.body
 
@@ -650,7 +632,7 @@ class BarkotaController{
 		})
 
 
-		this.router.post('/saveBarkotaBookingTransactions',async (req, res) => {
+		this.router.post('/saveBarkotaBookingTransactions',authenticationToken,async (req, res) => {
 			const { passengers, contactInfo, shippingVessel, displayTicketTotal, ticketUrl, currentWallet, branchCode, userLog  } = req.body
 			
 			const type = 'BRK'
@@ -831,7 +813,7 @@ class BarkotaController{
 			
 		})
 
-		this.router.post('/getByTellerTransactions',async (req, res) => {
+		this.router.post('/getByTellerTransactions',authenticationToken,async (req, res) => {
 			const { transacted_by } = req.body
 			/**
 			 * @value transacted_by Teller Code
@@ -850,7 +832,7 @@ class BarkotaController{
 		})
 
 
-		this.router.get('/getBarkotaTransactions',async (req, res) => {			
+		this.router.get('/getBarkotaTransactions',authenticationToken,async (req, res) => {			
 			try{
 				await Promise.resolve(
 					connection.query("SELECT * FROM barkota",(err, result)=>{

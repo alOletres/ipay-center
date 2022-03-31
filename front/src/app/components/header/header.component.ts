@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
 	@Output() isShowSidebar = new EventEmitter<boolean>();
 
 	fullname :any 
-	
+	errorMessage :any = ""
 	constructor(
 		private router: Router,
 		private http_auth : AuthenticationService,
@@ -43,9 +43,8 @@ export class HeaderComponent implements OnInit {
 
 					
 			
-			}).catch(err=>{
-				
-				this._snackBar._showSnack(err, 'error')
+			}).catch((err:any)=>{
+				this._snackBar._showSnack(err.statusText, 'error')
 				
 			})
 

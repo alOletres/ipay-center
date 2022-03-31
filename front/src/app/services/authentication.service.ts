@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { EndPoint } from "./../globals/endpoints";
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { StoreService } from '../store/store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,56 +13,85 @@ import { catchError } from 'rxjs/operators';
 export class AuthenticationService {
 	errorMsg: any;
 
-	constructor( private http : HttpClient) { }
+	constructor( private http : HttpClient,
+				private method : StoreService) { }
 
 	checkuserAccount (data : any){
 		return this.http.post(`${ EndPoint.endpoint }/user/users/checkuserAccount`, data).toPromise()
 	}
 
 	getUser (data:any){
-		return this.http.post(`${ EndPoint.endpoint }/user/users/getUser`, data).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/user/users/getUser`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
 	getUserForBfranchise(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/user/users/getUserForBfranchise`, data).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/user/users/getUserForBfranchise`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
 	getForBranchIB(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/user/users/getForBranchIB`, data).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/user/users/getForBranchIB`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
 	getForBranchTeller(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/user/users/getForBranchTeller`, data).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/user/users/getForBranchTeller`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	getForFranchiseList(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/user/users/getForFranchiseList`, data).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/user/users/getForFranchiseList`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	getTellerlistFr(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/user/users/getTellerlistFr`, data).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/user/users/getTellerlistFr`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	getTellerIbarangay(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/user/users/getTellerIbarangay`, data).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/user/users/getTellerIbarangay`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
 	loginLogs(data:any){
 		try{
-			return this.http.post(`${ EndPoint.endpoint }/user/users/loginLogs`, data).toPromise()
-		}catch(err){
-			throw err
+			return this.http.post(`${ EndPoint.endpoint }/user/users/loginLogs`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
 		}
 	}
 
 	signOut(data:any){
 		try{
-			return this.http.post(`${ EndPoint.endpoint }/user/users/signOut`, data).toPromise()
-		}catch(err){
-			throw err
+			return this.http.post(`${ EndPoint.endpoint }/user/users/signOut`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
 		}
 	}
 
 	tellerChangePassword(data:any){
 		try{
-			return this.http.post(`${ EndPoint.endpoint }/user/users/tellerChangePassword`, data).toPromise()
+			return this.http.post(`${ EndPoint.endpoint }/user/users/tellerChangePassword`, data, this.method.setAuthorizedRequest()).toPromise()
 		}catch(err){
 			throw err
 		}
@@ -69,7 +99,7 @@ export class AuthenticationService {
 
 	function_changePassword(data:any):Observable<any>{
 		
-		return this.http.post(`${ EndPoint.endpoint }/user/users/changePassword`, data, {responseType : 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/user/users/changePassword`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -87,7 +117,7 @@ export class AuthenticationService {
 		)
 	}
 	function_getUsernameBranchCode():Observable<any>{
-		return this.http.get(`${ EndPoint.endpoint }/user/users/getUsernameBranchCode`)
+		return this.http.get(`${ EndPoint.endpoint }/user/users/getUsernameBranchCode`, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -142,7 +172,7 @@ export class AuthenticationService {
 	}
 
 	function_getBranchNameOfTeller(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/user/users/getBranchNameOfTeller`, data, {responseType : 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/user/users/getBranchNameOfTeller`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -162,7 +192,7 @@ export class AuthenticationService {
 	}
 	function_getNameOfBranchesForModalAdmin(data:any):Observable<any>{
 		
-		return this.http.post(`${ EndPoint.endpoint }/user/users/getNameOfBranchesForModalAdmin`, data, {responseType : 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/user/users/getNameOfBranchesForModalAdmin`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -181,7 +211,7 @@ export class AuthenticationService {
 	}
 	updateAccountInformationBranches(data:any):Observable<any> {
 
-		return this.http.post(`${ EndPoint.endpoint }/user/users/updateAccountInformationBranches`, data, {responseType : 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/user/users/updateAccountInformationBranches`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				

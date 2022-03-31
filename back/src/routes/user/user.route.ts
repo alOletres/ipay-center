@@ -40,7 +40,7 @@ const resetPassword = async(BRANCHCODE:any) => {
 	}
 }
 const generateToken = async(user:any) =>{
-	return jwt.sign({user, ACCESS_TOKEN_SECRET}, 'secret', { expiresIn : '1h'})
+	return jwt.sign( { user }, ACCESS_TOKEN_SECRET, { expiresIn : '8h' })
 }
 class UserController {
     private router: Router
@@ -51,11 +51,13 @@ class UserController {
         /**
          * @Functions
          */
+		// this.router.get('/checkusername',authenticationToken,async (req, res) => {
+		// 	res.status(Codes.SUCCESS).send("alejhadnro")
+		// })
         this.router.post('/checkuserAccount', async(req, res)=>{
 
             const { username, password } = req.body;
 
-			const token = await generateToken(username)
 			
             try{
                 connection.beginTransaction()
@@ -72,9 +74,12 @@ class UserController {
 					}else{
 						
 						if(	bcrypt.compareSync(password, response[0].password)){
+
+							const token = await generateToken(username)
+
 							res.status(Codes.SUCCESS).send([response[0], token])
-						}else{
 							
+						}else{
 							res.status(400).send('Something Went Wrong')
 						}
 					}
@@ -89,7 +94,7 @@ class UserController {
         
         })
 
-        this.router.post('/getUser', async (req, res) => {
+        this.router.post('/getUser',authenticationToken, async (req, res) => {
             const { type, type_code } = req.body
 			
             try{
@@ -129,7 +134,7 @@ class UserController {
             }
         })
 
-        this.router.post('/getUserForBfranchise', async(req, res)=>{
+        this.router.post('/getUserForBfranchise',authenticationToken, async(req, res)=>{
             const { branchCode  } = req.body
             
             try{
@@ -142,7 +147,7 @@ class UserController {
                 res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
             }
         })//branch head display for his only franchise
-        this.router.post('/getForBranchIB', async(req, res) =>{
+        this.router.post('/getForBranchIB',authenticationToken, async(req, res) =>{
             const { branchCode } = req.body
             try{
                 connection.query('SELECT * FROM ibrgy_list WHERE branchCode=?', [branchCode], (err, result)=>{
@@ -153,7 +158,7 @@ class UserController {
                 res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
             }
         })// branch head display for ibarangay
-        this.router.post('/getForBranchTeller',async (req, res) => {
+        this.router.post('/getForBranchTeller', authenticationToken,async (req, res) => {
             const { branchCode } = req.body
             try{
                 connection.query("SELECT * FROM teller_list WHERE branchCode=?", [branchCode], (err, result) =>{
@@ -165,7 +170,7 @@ class UserController {
             }          
         })
 		//start for franchise user queries
-        this.router.post('/getForFranchiseList',async (req, res) => {
+        this.router.post('/getForFranchiseList',authenticationToken,async (req, res) => {
             const { fbranchCode } = req.body
            try{
 				connection.query("SELECT * FROM ibrgy_list WHERE ib_fbranchCode=?", [fbranchCode],(err, result)=>{
@@ -176,7 +181,7 @@ class UserController {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 		   }
         })
-		this.router.post('/getTellerlistFr',async (req, res) => {
+		this.router.post('/getTellerlistFr',authenticationToken,async (req, res) => {
 			const { fbranchCode } = req.body
 			try{
 				connection.query("SELECT * FROM teller_list WHERE fiB_code=?", [fbranchCode], (err, result)=>{
@@ -188,7 +193,7 @@ class UserController {
 			}
 		})
 
-        this.router.post('/getTellerIbarangay',async (req, res) => {
+        this.router.post('/getTellerIbarangay',authenticationToken,async (req, res) => {
             const { ib_code } = req.body
             try{
                 connection.query("SELECT * FROM teller_list WHERE ibrgy_code=?", [ib_code],(err, result)=>{
@@ -201,12 +206,9 @@ class UserController {
             }
         })
 
-        this.router.post('/changePassword',async (req, res) => {
+        this.router.post('/changePassword',authenticationToken,async (req, res) => {
 
             const { code, data} = req.body
-			
-
-			
 			const newPassword = bcrypt.hashSync(data.newPassword, salt)
 
 			try{
@@ -241,7 +243,7 @@ class UserController {
 
         })
 
-        this.router.get('/getUsernameBranchCode',async (req, res) => {
+        this.router.get('/getUsernameBranchCode',authenticationToken,async (req, res) => {
 
 			try{
 				connection.query("SELECT username FROM user_account WHERE whitelist=?",[''],(err, result)=>{
@@ -283,7 +285,7 @@ class UserController {
 		})
 
 
-		this.router.post('/getBranchNameOfTeller',async (req, res) => {
+		this.router.post('/getBranchNameOfTeller',authenticationToken,async (req, res) => {
 			
 			const { branchCode } = req.body
 			
@@ -331,7 +333,7 @@ class UserController {
 			}		
 		})
 		
-		this.router.post('/getNameOfBranchesForModalAdmin',async (req, res) => {
+		this.router.post('/getNameOfBranchesForModalAdmin',authenticationToken,async (req, res) => {
 			const { fbranchCode } = req.body
 			try{
 				const code = fbranchCode.slice(0,3)
@@ -358,7 +360,7 @@ class UserController {
 			}
 		})
 
-		this.router.post('/updateAccountInformationBranches',async (req, res) => {
+		this.router.post('/updateAccountInformationBranches',authenticationToken,async (req, res) => {
 			
 			const { type, code, data } = req.body
 			
@@ -384,7 +386,7 @@ class UserController {
 			}
 		})
 
-		this.router.post('/loginLogs',async (req, res) => {
+		this.router.post('/loginLogs',authenticationToken,async (req, res) => {
 			
 			const { user_type, username} = req.body
 			
@@ -417,7 +419,7 @@ class UserController {
 						
 		})
 
-		this.router.post('/signOut',async (req, res) => {
+		this.router.post('/signOut',authenticationToken,async (req, res) => {
 			
 			const { type, code } = req.body
 			const data = ['offLine', code, type, '', Codes.SUCCESS]
@@ -436,7 +438,7 @@ class UserController {
 			}
 		})
 
-		this.router.post('/tellerChangePassword',async (req, res) => {
+		this.router.post('/tellerChangePassword',authenticationToken,async (req, res) => {
 			
 			const { data, user } = req.body
 
@@ -480,7 +482,7 @@ class UserController {
 			
 		})
 
-		this.router.post('/resetPassword',async (req, res) => {
+		this.router.post('/resetPassword',authenticationToken,async (req, res) => {
 			
 			const { branchCode, ib_fbranchCode, fbranchCode, ib_ibrgyyCode, tellerCode } = req.body
 			

@@ -11,7 +11,7 @@ export const authenticationToken = async(req :any, res:any, next:any) =>{
 	if (token === null) return next(res.status(401))
 	jwt.verify(token, ACCESS_TOKEN_SECRET, (err:any, user:any) => {
 	   if (err) {
-		  return next(res.status(401))
+		  return next(res.status(403))
 	   }
  
 	   req.user = user

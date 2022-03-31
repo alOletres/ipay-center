@@ -6,6 +6,7 @@ import { UserCodeState } from './reducer/user.reducer';
 /**events */
 import { AddUser, AddUserDetails } from './actions/action.actions';
 import { Stores } from '../models/main.enums';
+import { CookieService } from 'ngx-cookie-service';
 /**nag buhat ta og services for global storing  */
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class StoreService {
 
  	constructor( private STORE_USERCODES : Store<UserCodeState>,
 				//  private STORE_USERDETAILS : Store<UserDetailsState>
+				private cookie : CookieService
 				  ) { }
 
 	addToStore(storeName:any, data:any){
@@ -27,6 +29,16 @@ export class StoreService {
 			// break
 			default :
 		}
+	}
+	setParamsWithAuth(params?: any) {
+		return { params, headers: { "Authorization": `Bearer ${this.cookie.get("access_token")}` } }
+	}
+
+	setAuthorizedRequest() {
+		return { headers: { "Authorization": `Bearer ${this.cookie.get("access_token")}` } }
+	}
+	setAuthorizedRequestWithBlob(){
+		return { headers: { "Authorization": `Bearer ${this.cookie.get("access_token")}`, responseType : 'blob' } }
 	}
 }
 

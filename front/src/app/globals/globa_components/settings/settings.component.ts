@@ -68,9 +68,8 @@ export class SettingsComponent implements OnInit {
 	
 			})
 			
-		}).catch(err=>{
-			console.log(err);
-			
+		}).catch((err:any)=>{
+			this._snackBar._showSnack(err.statusText, 'error')
 		})
 
 		switch(atob(sessionStorage.getItem('type'))){
