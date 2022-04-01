@@ -665,40 +665,40 @@ export class BarkotaComponent implements OnInit {
 							
 	// 						this.function_forBarkotaBookingApi(data[0].current_wallet, data[0].branchCode)
 	// 						dialogref.close()
-						
-	// 					}else if(data[0].current_wallet <= 5000){
+							
+		// 					}else if(data[0].current_wallet <= 5000){
 
-	// 						Swal.fire({
-	// 							title: 'Are you sure want to Continue?',
-	// 							text: 'Your wallet balance almost reach the amount limit',
-	// 							icon: 'warning',
-	// 							showCancelButton: true,
-	// 							confirmButtonText: 'Yes, Continue',
-	// 							cancelButtonText: 'No, keep it'
-	// 						}).then((result) => {
-	// 							if (result.value) {
-	// 									// continue booking
-	// 									this.function_forBarkotaBookingApi(data[0].current_wallet, data[0].branchCode)
-	// 									dialogref.close()
-										
-	// 							} else if (result.dismiss === Swal.DismissReason.cancel) {
-										
-	// 								Swal.fire(
-	// 								'Cancelled',
-	// 								'Your Booking is Cancelled',
-	// 								'error'
-	// 								)
-	// 							}
-	// 						})
-	// 					} else if (data[0].current_wallet <= 1000){
-	// 						// cant transact snack bar will appear
-	// 						this._snackBar._showSnack('Cant Proceed Transaction Please Reload before to Continue', 'error')
-	// 						dialogref.close()
-	// 					}
-	// 				})			
-	// 			}, 1000);
+		// 						Swal.fire({
+		// 							title: 'Are you sure want to Continue?',
+		// 							text: 'Your wallet balance almost reach the amount limit',
+		// 							icon: 'warning',
+		// 							showCancelButton: true,
+		// 							confirmButtonText: 'Yes, Continue',
+		// 							cancelButtonText: 'No, keep it'
+		// 						}).then((result) => {
+		// 							if (result.value) {
+		// 									// continue booking
+		// 									this.function_forBarkotaBookingApi(data[0].current_wallet, data[0].branchCode)
+		// 									dialogref.close()
+											
+		// 							} else if (result.dismiss === Swal.DismissReason.cancel) {
+											
+		// 								Swal.fire(
+		// 								'Cancelled',
+		// 								'Your Booking is Cancelled',
+		// 								'error'
+		// 								)
+		// 							}
+		// 						})
+		// 					} else if (data[0].current_wallet <= 1000){
+		// 						// cant transact snack bar will appear
+		// 						this._snackBar._showSnack('Cant Proceed Transaction Please Reload before to Continue', 'error')
+		// 						dialogref.close()
+		// 					}
+		// 				})			
+		// 			}, 1000);
 
-	// 		}
+		// 		}
 	// 	})
 			
 	// }
@@ -725,36 +725,59 @@ export class BarkotaComponent implements OnInit {
 	/*Revise bookNow code  */
 	async reviseBookNow(){
 		const token : any = this.cookieService.get('token')
-		 this.barkotaService.checkWallet({
+			Swal.fire({
+			title: 'Make sure all the fields are correct',
+			text: 'Press confirm to proceed',
+			icon: 'info',
+			showCancelButton: true,
+			confirmButtonText: 'Confirm',
+			cancelButtonText: 'Read Again'
+		}).then((result) => {
+			const dialogref = this.dialog.open(LoadingDialogComponent,{disableClose : true})
+			if (result.value) {
+				
+				this.barkotaService.checkWallet({
 			
-			tellerCode : atob(sessionStorage.getItem('code')),
-			passengers 			: this.addPassengerArray,
-			contactInfo 		: this.contactForm.value,
-			token 				: JSON.parse(token),
-			departurePriceId 	: this.priceDetailId,
-			shippingVessel 		: this.dataSelectedVessel,
-			displayTicketTotal 	: this.displayTicketTotal
-		})
-		.pipe(
-			catchError((err:any)=>{
-				this._snackBar._showSnack(err, 'error')
-				return of([])
-			})
-		).subscribe((response:any)=>{
-			
-			if(response.message === 'ok'){
-				this._snackBar._showSnack("Successfully Book", 'success')
-				var win = window.open(response.ticket_url, '_blank')
-				win.focus()
-				this.printTheDiv.nativeElement.click()
-				this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
-			}else if(response.message === 'low_wallet'){
-				this._snackBar._showSnack("Insufficient Funds, Please reload to continue", 'error')
-			}else{
-				this._snackBar._showSnack("Try Again", 'error')
+					tellerCode : atob(sessionStorage.getItem('code')),
+					passengers 			: this.addPassengerArray,
+					contactInfo 		: this.contactForm.value,
+					token 				: JSON.parse(token),
+					departurePriceId 	: this.priceDetailId,
+					shippingVessel 		: this.dataSelectedVessel,
+					displayTicketTotal 	: this.displayTicketTotal
+				})
+				.pipe(
+					catchError((err:any)=>{
+						this._snackBar._showSnack(err, 'error')
+						dialogref.close()
+						return of([])
+					})
+				).subscribe((response:any)=>{
+					
+					if(response.message === 'ok'){
+						this._snackBar._showSnack("Successfully Book", 'success')
+						var win = window.open(response.ticket_url, '_blank')
+						win.focus()
+						this.printTheDiv.nativeElement.click()
+						this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
+					}else if(response.message === 'low_wallet'){
+						this._snackBar._showSnack("Insufficient Funds, Please reload to continue", 'error')
+					}else{
+						this._snackBar._showSnack("Try Again", 'error')
+					}
+					dialogref.close()
+				})
+			}else if (result.dismiss === Swal.DismissReason.cancel) {
+											
+				Swal.fire(
+				'Cancelled',
+				'Your Booking is Cancelled',
+				'error'
+				)
+				dialogref.close()
 			}
-			
 		})
+		
 	}
 
 }
