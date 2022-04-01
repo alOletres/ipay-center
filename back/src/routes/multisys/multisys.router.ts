@@ -196,10 +196,40 @@ const commision = async(data:any)=>{
 			})
 		}).then(async(response:any)=>{
 
+			await Promise.all([
+				 Promise.resolve(
+					connection.query("INSERT INTO f_commission (franchise, ibarangay, teller, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?,?) ",
+					[response[0].ib_fbranchCode, data[3], data[4], collection, sales, franchiseReturn, data[5], 'Confirm' ], (err, result)=>{
+						if(err) throw err
+						return result
+					})
+				),
+				Promise.resolve(
+					await addCommission(response[0].ib_fbranchCode)
+				)
+			])
+			
+			/**update franchise wallet  */
+			connection.commit()
+		})
+	}catch(err:any){
+		connection.rollback()
+		return err
+	}
+}
+const addCommission = async(data:any) =>{
+	try{
+		connection.beginTransaction()
+		return await new Promise((resolve ,reject)=>{
+			connection.query("SELECT current_wallet FROM wallet WHERE branchCode=?", [data], (err, result)=>{
+				if(err) return reject(err);
+				resolve(result)
+			})
+		}).then(async(response:any)=>{
+			const total_commission :any = response[0].current_wallet + 5
 			await Promise.resolve(
-				connection.query("INSERT INTO f_commission (franchise, ibarangay, teller, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?,?) ",
-				[response[0].ib_fbranchCode, data[3], data[4], collection, sales, franchiseReturn, data[5], 'Confirm' ], (err, result)=>{
-					if(err) throw err
+				connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [total_commission, data], (err, result)=>{
+					if(err) throw err;
 					return result
 				})
 			)

@@ -412,7 +412,6 @@ export class BarkotaComponent implements OnInit {
 				}
 				
 			dialogRef.close();
-			this.function_checkWalletFirst()
 		})
 	}
 	function_hideTable(){
@@ -560,158 +559,158 @@ export class BarkotaComponent implements OnInit {
 		})
 	}
 
-	 function_checkWalletFirst(){
+	//  function_checkWalletFirst(){
 
-		const branchCode = atob(sessionStorage.getItem('code'))
+	// 	const branchCode = atob(sessionStorage.getItem('code'))
 		
-		 this.http_wallet.function_checkAvailableWallet({
-			branchCode : branchCode
-		})
-		.pipe(
-			catchError(error=>{
-				this._snackBar._showSnack(error, 'error')
-				return of([])
-			})
-		).subscribe(data=>{
-			this.currentWallet = data
-			this.c_wallet = `${data[0].current_wallet.toLocaleString('en-US')}.00`
+	// 	 this.http_wallet.function_checkAvailableWallet({
+	// 		branchCode : branchCode
+	// 	})
+	// 	.pipe(
+	// 		catchError(error=>{
+	// 			this._snackBar._showSnack(error, 'error')
+	// 			return of([])
+	// 		})
+	// 	).subscribe(data=>{
+	// 		this.currentWallet = data
+	// 		this.c_wallet = `${data[0].current_wallet.toLocaleString('en-US')}.00`
 
-			this.observableWallet = new Observable((observer)=>{ observer.next(this.currentWallet) })
-		})
-	}
+	// 		this.observableWallet = new Observable((observer)=>{ observer.next(this.currentWallet) })
+	// 	})
+	// }
 
-	function_forBarkotaBookingApi(wallet:any, branchCode:any){
-		const token : any = this.cookieService.get('token')
-		this.barkotaService.function_bookNow({
+	// function_forBarkotaBookingApi(wallet:any, branchCode:any){
+	// 	const token : any = this.cookieService.get('token')
+	// 	this.barkotaService.function_bookNow({
 			
-			passengers 			: this.addPassengerArray,
-			contactInfo 		: this.contactForm.value,
-			token 				: JSON.parse(token)
+	// 		passengers 			: this.addPassengerArray,
+	// 		contactInfo 		: this.contactForm.value,
+	// 		token 				: JSON.parse(token)
 
-		})
-		.pipe(
-			catchError(error => {
+	// 	})
+	// 	.pipe(
+	// 		catchError(error => {
 
-				this._snackBar._showSnack(error, 'error')
+	// 			this._snackBar._showSnack(error, 'error')
 				
-				return of([]);
-			})
-		).subscribe((data:any)=>{
+	// 			return of([]);
+	// 		})
+	// 	).subscribe((data:any)=>{
 			
-			if(data.length === 0){
-				console.log('Internal error');
-			}else{	
+	// 		if(data.length === 0){
+	// 			console.log('Internal error');
+	// 		}else{	
 					
-				var win = window.open(JSON.parse(data).printUrl, '_blank')
-				win.focus()
-				this._snackBar._showSnack('Successfully Book', 'success')
-				this.function_saveDbBarkotaTransactions(JSON.parse(data).printUrl, wallet, branchCode)
-			}
+	// 			var win = window.open(JSON.parse(data).printUrl, '_blank')
+	// 			win.focus()
+	// 			this._snackBar._showSnack('Successfully Book', 'success')
+	// 			this.function_saveDbBarkotaTransactions(JSON.parse(data).printUrl, wallet, branchCode)
+	// 		}
 			
-		})
+	// 	})
 		
-	}
+	// }
 
-	 function_saveDbBarkotaTransactions( ticketUrl: any, wallet:any, branchCode:any){
+	//  function_saveDbBarkotaTransactions( ticketUrl: any, wallet:any, branchCode:any){
 		
-		this.barkotaService.function_saveBarkotaBookingTransactions({
+	// 	this.barkotaService.function_saveBarkotaBookingTransactions({
 			
-			passengers 			: this.addPassengerArray,
-			contactInfo 		: this.contactForm.value,
-			departurePriceId 	: this.priceDetailId,
-			ticketUrl			: ticketUrl,
-			shippingVessel 		: this.dataSelectedVessel,
-			displayTicketTotal 	: this.displayTicketTotal,
-			currentWallet 		: wallet,
-			branchCode			: branchCode,
-			userLog 			: atob(sessionStorage.getItem('code')),
-			dateNow 			: this.dateNow
+	// 		passengers 			: this.addPassengerArray,
+	// 		contactInfo 		: this.contactForm.value,
+	// 		departurePriceId 	: this.priceDetailId,
+	// 		ticketUrl			: ticketUrl,
+	// 		shippingVessel 		: this.dataSelectedVessel,
+	// 		displayTicketTotal 	: this.displayTicketTotal,
+	// 		currentWallet 		: wallet,
+	// 		branchCode			: branchCode,
+	// 		userLog 			: atob(sessionStorage.getItem('code')),
+	// 		dateNow 			: this.dateNow
 
-		}).pipe(
-			catchError(error=>{
-				this._snackBar.showSnack(error, 'error')
-				return of([])
-			})
-		).subscribe(data=>{
+	// 	}).pipe(
+	// 		catchError(error=>{
+	// 			this._snackBar.showSnack(error, 'error')
+	// 			return of([])
+	// 		})
+	// 	).subscribe(data=>{
 
-			this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
+	// 		this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
 
-			this.printReceipt(data)
+	// 		this.printReceipt(data)
 		
-		})
+	// 	})
 
-	}
+	// }
 
-	async function_bookNow(){
+	// async function_bookNow(){
 		
-		Swal.fire({
-			title: 'Make sure all the fields are correct',
-			text: 'Press confirm to proceed',
-			icon: 'info',
-			showCancelButton: true,
-			confirmButtonText: 'Confirm',
-			cancelButtonText: 'Read Again'
-		}).then((result) => {
-			if (result.value) {
-					// continue booking
-				const dialogref = this.dialog.open(LoadingDialogComponent,{disableClose : true})
+	// 	Swal.fire({
+	// 		title: 'Make sure all the fields are correct',
+	// 		text: 'Press confirm to proceed',
+	// 		icon: 'info',
+	// 		showCancelButton: true,
+	// 		confirmButtonText: 'Confirm',
+	// 		cancelButtonText: 'Read Again'
+	// 	}).then((result) => {
+	// 		if (result.value) {
+	// 				// continue booking
+	// 			const dialogref = this.dialog.open(LoadingDialogComponent,{disableClose : true})
 				
-				this.function_checkWalletFirst() //this function will check the availability of wallet branches
+	// 			this.function_checkWalletFirst() //this function will check the availability of wallet branches
 			
-					setTimeout(() => { //delay the process  to get the wallet data
+	// 				setTimeout(() => { //delay the process  to get the wallet data
 
-					this.observableWallet.subscribe(data=>{
+	// 				this.observableWallet.subscribe(data=>{
 						
-						if (data[0].current_wallet > 5000 ){
+	// 					if (data[0].current_wallet > 5000 ){
 							
-							this.function_forBarkotaBookingApi(data[0].current_wallet, data[0].branchCode)
-							dialogref.close()
+	// 						this.function_forBarkotaBookingApi(data[0].current_wallet, data[0].branchCode)
+	// 						dialogref.close()
 						
-						}else if(data[0].current_wallet <= 5000){
+	// 					}else if(data[0].current_wallet <= 5000){
 
-							Swal.fire({
-								title: 'Are you sure want to Continue?',
-								text: 'Your wallet balance almost reach the amount limit',
-								icon: 'warning',
-								showCancelButton: true,
-								confirmButtonText: 'Yes, Continue',
-								cancelButtonText: 'No, keep it'
-							}).then((result) => {
-								if (result.value) {
-										// continue booking
-										this.function_forBarkotaBookingApi(data[0].current_wallet, data[0].branchCode)
-										dialogref.close()
+	// 						Swal.fire({
+	// 							title: 'Are you sure want to Continue?',
+	// 							text: 'Your wallet balance almost reach the amount limit',
+	// 							icon: 'warning',
+	// 							showCancelButton: true,
+	// 							confirmButtonText: 'Yes, Continue',
+	// 							cancelButtonText: 'No, keep it'
+	// 						}).then((result) => {
+	// 							if (result.value) {
+	// 									// continue booking
+	// 									this.function_forBarkotaBookingApi(data[0].current_wallet, data[0].branchCode)
+	// 									dialogref.close()
 										
-								} else if (result.dismiss === Swal.DismissReason.cancel) {
+	// 							} else if (result.dismiss === Swal.DismissReason.cancel) {
 										
-									Swal.fire(
-									'Cancelled',
-									'Your Booking is Cancelled',
-									'error'
-									)
-								}
-							})
-						} else if (data[0].current_wallet <= 1000){
-							// cant transact snack bar will appear
-							this._snackBar._showSnack('Cant Proceed Transaction Please Reload before to Continue', 'error')
-							dialogref.close()
-						}
-					})			
-				}, 1000);
+	// 								Swal.fire(
+	// 								'Cancelled',
+	// 								'Your Booking is Cancelled',
+	// 								'error'
+	// 								)
+	// 							}
+	// 						})
+	// 					} else if (data[0].current_wallet <= 1000){
+	// 						// cant transact snack bar will appear
+	// 						this._snackBar._showSnack('Cant Proceed Transaction Please Reload before to Continue', 'error')
+	// 						dialogref.close()
+	// 					}
+	// 				})			
+	// 			}, 1000);
 
-			}
-		})
+	// 		}
+	// 	})
 			
-	}
-	printReceipt(data:any){
-		this.showHideDiv= false;
-		this.print(data);
+	// }
+	// printReceipt(data:any){
+	// 	this.showHideDiv= false;
+	// 	this.print(data);
 		
-	}
+	// }
 
-	print(no:any){
-		this.printTheDiv.nativeElement.click()
-    }
+	// print(no:any){
+	// 	this.printTheDiv.nativeElement.click()
+    // }
 
 	validateOnlyNumbers(evt: any) {
 		var theEvent = evt || window.event;
@@ -742,8 +741,19 @@ export class BarkotaComponent implements OnInit {
 				return of([])
 			})
 		).subscribe((response:any)=>{
-			console.log(response);
-			this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
+			
+			if(response.message === 'ok'){
+				this._snackBar._showSnack("Successfully Book", 'success')
+				var win = window.open(response.ticket_url, '_blank')
+				win.focus()
+				this.printTheDiv.nativeElement.click()
+				this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
+			}else if(response.message === 'low_wallet'){
+				this._snackBar._showSnack("Insufficient Funds, Please reload to continue", 'error')
+			}else{
+				this._snackBar._showSnack("Try Again", 'error')
+			}
+			
 		})
 	}
 
