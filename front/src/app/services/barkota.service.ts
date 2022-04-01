@@ -283,12 +283,23 @@ export class BarkotaService {
 		)
 	}
 
-	async checkWallet (data:any){
-		try{
-			return await this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/barkotaCheckWallet`, data, this.method.setAuthorizedRequest()).toPromise()
-		}catch(err:any){
-			return err
-		}
+	 checkWallet (data:any){
+		return  this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/barkotaCheckWallet`, data, this.method.setAuthorizedRequest())
+		.pipe(
+			catchError(error => {
+				
+				if (error.error instanceof ErrorEvent) {
+
+					this.errorMsg = `Error: ${error.error.message}`;
+
+				} else {
+					this.errorMsg = this.getServerErrorMessage(error);
+					
+				}
+				return throwError(this.errorMsg);
+			}),
+			
+		)
 	}
 
 	private getServerErrorMessage(error: HttpErrorResponse): string {

@@ -6,7 +6,7 @@ import axios from "axios";
 import qs from 'qs';
 import { connection } from './../../configs/database.config'
 import { Message, Codes, Endpoints } from '../../utils/main.enums'
-import moment from 'moment';
+import moment, { locale } from 'moment';
 import { ticketPrices, walletCollection } from './../../utils/main.interfaces'
 const { BARKOTA_STAGING } = Endpoints
 import { authenticationToken } from '../../middleware/auth';
@@ -154,20 +154,155 @@ const bookToBarkota = async(data:any) =>{
 			}
 
 			payload.allowPromotionsNotification = parseInt(contactInfo.promotion)
-		// });
-		
-		await axios.post(`${ BARKOTA_STAGING }/outlet/confirm-booking`,payload,{
-					
-			headers : {'Content-Type' : 'application/json', 
-			Authorization : 'Bearer '.concat(token.access_token)}
 
-		}).then(response=>{
-			return response.data
-		})
+			
+		// });
+		const response = {
+			data: {
+				printUrl: 'https://barkota-reseller-php-staging-4kl27j34za-uc.a.run.app/print/voucher.php?c=https%3A%2F%2Fbarkota-reseller-php-staging-4kl27j34za-uc.a.run.app%2Fob%2Fvoucher%2Fcheck%3Fp%3Di63mjd3vmfguu1tm0m89I6iWdn0A0vDKSKH3mEd7wo2ih%252BiN%252B2R2mpgxlJ7ThLZdpnPBc7%252BzlKdOfvWpS%252ByYoSx4KaeB4iA%252FUqp2lKFAgrQ4AH8RrVsWL5AoTJE%253D'
+			}
+		}  
+		
+		// const response : any = await axios.post(`${ BARKOTA_STAGING }/outlet/confirm-booking`,payload,{
+					
+		// 	headers : {'Content-Type' : 'application/json', 
+		// 	Authorization : 'Bearer '.concat(token.access_token)}
+
+		// })
+
+		return response
 	}catch(err:any){
-		return err.response.data.detail
+		return err.response.data
 	}
 
+}
+const generateSeries = async(data:any) =>{
+	try{
+		let series :any
+		connection.beginTransaction()
+		return await new Promise((resolve, reject)=>{
+			connection.query("SELECT * FROM branch_count WHERE type=?", [data], (err, result)=>{
+				if(err) return reject(err)
+				resolve(result)
+			})
+		}).then(async(response : any )=>{
+			if(!response.length){
+				return 'again'
+			}else{
+				let count = response[0].count + 1
+				series = `${'BRK'}${String(count).padStart(4, '0')}`
+
+				await Promise.resolve(
+					connection.query("Update branch_count SET count=? WHERE type=?", [count, data], (err, result)=>{
+						if(err) throw err
+						return result
+					})
+				)
+			
+			}
+			connection.commit()
+			return series
+		})
+	}catch(err:any){
+		connection.rollback()
+		return err
+	}
+}
+const saveToDb = async(data:any, branchCode :any, ticketUrl:any, CURRENT_WALLET :any) =>{
+	
+	const { tellerCode, passengers, contactInfo, shippingVessel, displayTicketTotal } = data
+	const { voyage } = shippingVessel[0]
+	const { firstName, lastName, middleInitial } = passengers[0]
+	const { mobileNumber, address } = contactInfo
+	const { total } = displayTicketTotal[0]
+
+	const ipayCharge : any = 20
+	const outletCharge :any = tellerCode.slice(0, 3) === 'FRT' ? 30  : 25
+	const status : any = 'Confirm'
+
+	const series :any = await generateSeries('barkota')
+	const datas :any = [series, voyage.shippingLine.name , voyage.route.origin, voyage.route.destination, voyage.departureDateTime, voyage.id, `${ firstName } ${ middleInitial } ${ lastName }`, mobileNumber, address, ticketUrl, total, ipayCharge, outletCharge, branchCode, tellerCode, status]
+ 	/**wallet history transaction */
+	let collection : any = ipayCharge + outletCharge + total
+	let sales :any = ipayCharge + total
+	const dataTwo : any = [branchCode, tellerCode, collection, sales , outletCharge, series, status ]
+	/**WALLET DEDUCTION TOTAL */
+	let deductedWallet :any = CURRENT_WALLET - sales
+	/**data if commision if teller is i barangay  */
+	let commision : any = 5
+	const dataThree = [branchCode, tellerCode, collection, sales, commision, series, status]
+	try{
+		connection.beginTransaction()
+		return await new Promise((resolve, reject)=>{
+			connection.query("INSERT INTO barkota (barkota_code, shippingLine, origin, destination, departureDate, voyageId, customer_name, contact_personNo, contact_personAdd, ticket_url, ticket_totalPrice, ipayService_charge, franchise_charge, branchCode, transacted_by, status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", datas,(err, result)=>{
+				if(err) return reject(err)
+				resolve(result)
+			})
+		}).then(async(res:any)=>{
+			/**
+			 * table affected
+			 * wallet 
+			 * wallet history transaction
+			 * f_commision = BRT
+			 * ibrgy_list
+			 * franchise list
+			 */
+			if(res.affectedRows === 1){
+				await Promise.all([
+					Promise.resolve(
+						connection.query("INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?)", dataTwo, (err, result)=>{
+							if(err) throw err
+							return result
+						})
+					),Promise.resolve(
+						/**update wallet */
+						connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [deductedWallet, branchCode], (err, result)=>{
+							if(err)  throw err;
+							return result
+						})
+					),Promise.resolve(
+						tellerCode.slice(0, 3) === 'BRT' ? await insertCommision(dataThree, CURRENT_WALLET) : ''
+					)
+				])
+			}else{
+				return 'notFound'
+			}
+			
+			connection.commit()
+			return 'ok'
+		})
+
+	}catch(err:any){
+		
+		connection.rollback()
+		return err
+	}
+} 
+const insertCommision = async(data:any, wallet:any) =>{
+	
+	try{
+		connection.beginTransaction()
+		return await new Promise((resolve, reject)=>{
+			connection.query("SELECT ib_fbranchCode FROM ibrgy_list WHERE ib_ibrgyyCode=?", [data[0]], (err, result)=>{
+				if(err) return reject(err)
+				resolve(result)
+			})
+		}).then(async(response:any)=>{
+			data.unshift(response[0].ib_fbranchCode)
+
+			await Promise.resolve(
+				connection.query("INSERT INTO f_commission (franchise, ibarangay, teller, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?,?)", data, (err, result)=>{
+					if(err) throw err;
+					return result
+				})
+			)
+			/**add wallet for franchise */
+
+			connection.commit()
+		}) 
+	}catch(err:any){
+		connection.rollback()
+	}
 }
 
 const username = String(process.env.CLIENT_ID)
@@ -939,7 +1074,7 @@ class BarkotaController{
 						
 							if(result[0].current_wallet === 5000 || result[0].current_wallet < 5000){
 
-								res.status(Codes.SUCCESS).send({ message : 'low_wallet' })
+								res.status(Codes.SUCCESS).send('low_wallet')
 								
 								
 							}else{
@@ -947,22 +1082,33 @@ class BarkotaController{
 								 * proceed to insert
 								 */
 								const bookResponse : any = await bookToBarkota(req.body)
-								console.log(bookResponse);
-								
+
+								if(bookResponse.status !== 500 && bookResponse.status !== 401 && bookResponse.status !== 403 ){
+									/**response save to database */
+									const responses :any = await saveToDb(req.body, response[0].fiB_Code, bookResponse.data.printUrl, result[0].current_wallet)
+									res.status(Codes.SUCCESS).send({ message : responses, ticket_url : bookResponse.data.printUrl })
+								}else{
+									res.status(Codes.INTERNAL || Codes.BADREQUEST || Codes.NOTFOUND || Codes.UNAUTHORIZED).send(bookResponse.detail)
+								}
 							}
 							
 						}else{
 							
 							const result :any = await checkWallet(response[0].ibrgy_code)
 							if(result[0].current_wallet === 5000 || result[0].current_wallet < 5000){
-							
-								res.status(Codes.SUCCESS).send({ message : 'low_wallet' })
-
+								res.status(Codes.SUCCESS).send('low_wallet' )
 							}else{
 								/**
 								 * proceed to insert
 								 */
-								
+								 const bookResponse :any = await bookToBarkota(req.body)
+								 if(bookResponse.status !== 500 && bookResponse.status !== 401 && bookResponse.status !== 403 ){
+									/**response save to database */
+									const responses :any = await saveToDb(req.body, response[0].ibrgy_code, bookResponse.data.printUrl, result[0].current_wallet)
+									res.status(Codes.SUCCESS).send({ message : responses, ticket_url : bookResponse.data.printUrl })
+								}else{
+									res.status(Codes.INTERNAL || Codes.BADREQUEST || Codes.NOTFOUND || Codes.UNAUTHORIZED).send(bookResponse.detail)
+								}
 							}
 							
 						}

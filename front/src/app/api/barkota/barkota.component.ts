@@ -726,17 +726,24 @@ export class BarkotaComponent implements OnInit {
 	/*Revise bookNow code  */
 	async reviseBookNow(){
 		const token : any = this.cookieService.get('token')
-		await this.barkotaService.checkWallet({
+		 this.barkotaService.checkWallet({
 			
 			tellerCode : atob(sessionStorage.getItem('code')),
 			passengers 			: this.addPassengerArray,
 			contactInfo 		: this.contactForm.value,
-			token 				: JSON.parse(token)
-		}).then((response:any)=>{
+			token 				: JSON.parse(token),
+			departurePriceId 	: this.priceDetailId,
+			shippingVessel 		: this.dataSelectedVessel,
+			displayTicketTotal 	: this.displayTicketTotal
+		})
+		.pipe(
+			catchError((err:any)=>{
+				this._snackBar._showSnack(err, 'error')
+				return of([])
+			})
+		).subscribe((response:any)=>{
 			console.log(response);
-			
-		}).catch((err:any)=>{
-			this._snackBar.showSnack(err.statusText, 'error')
+			this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
 		})
 	}
 
