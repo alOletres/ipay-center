@@ -183,7 +183,7 @@ const commision = async(data:any)=>{
 		let values1 = [response[0].ib_fbranchCode, data[3], data[4], collection, sales, franchiseReturn, data[5], 'Confirm' ]
 		const response1 :any = await customQuery(Query1, values1)
 		response1.affectedRows > 0 ? await addCommission(response[0].ib_fbranchCode) : ''
-		
+
 		connection.commit()
 	}catch(err:any){
 		connection.rollback()
@@ -193,21 +193,18 @@ const commision = async(data:any)=>{
 const addCommission = async(data:any) =>{
 	try{
 		connection.beginTransaction()
-		return await new Promise((resolve ,reject)=>{
-			connection.query("SELECT current_wallet FROM wallet WHERE branchCode=?", [data], (err, result)=>{
-				if(err) return reject(err);
-				resolve(result)
-			})
-		}).then(async(response:any)=>{
-			const total_commission :any = response[0].current_wallet + 5
-			await Promise.resolve(
-				connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [total_commission, data], (err, result)=>{
-					if(err) throw err;
-					return result
-				})
-			)
-			connection.commit()
-		})
+		let Query = "SELECT current_wallet FROM wallet WHERE branchCode=?"
+		let values =  [data]
+
+		const response :any = await customQuery(Query, values)
+		const total_commission :any = response[0].current_wallet + 5
+
+		let Query1 =  "UPDATE wallet SET current_wallet=? WHERE branchCode=?"
+		let values1 = [total_commission, data]
+
+		await customQuery(Query1, values1)
+
+		connection.commit()
 	}catch(err:any){
 		connection.rollback()
 		return err
@@ -217,15 +214,13 @@ export const checkWallet = async (branchCode:any)=>{
 	try{
 		
 		connection.beginTransaction()
-		return await new Promise((resolve ,reject)=>{
-			connection.query("SELECT * FROM wallet WHERE branchCode=?", [branchCode], (err, result)=>{
-				if(err) return reject(err)
-				resolve(result)
-			})
-		}).then((response:any)=>{
-			connection.commit()
-			return response
-		})
+		let Query = "SELECT * FROM wallet WHERE branchCode=?"
+		let values = [branchCode]
+
+		const response :any = await customQuery(Query, values)
+
+		connection.commit()
+		return response
 		
 	}catch(err:any){
 		connection.rollback()
