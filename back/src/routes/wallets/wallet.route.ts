@@ -6,6 +6,20 @@ import moment from 'moment'
 import { connection } from '../../configs/database.config'
 import { authenticationToken } from '../../middleware/auth'
 import { Message, Codes } from '../../utils/main.enums'
+const customQuery = (Query :any , values :any) =>{
+	
+	return new Promise((resolve, reject)=>{
+		
+		connection.query(Query, values, (err, result)=>{
+			if(err) {
+				reject(err)
+			}else{
+				resolve(result)
+			}
+		})
+	})
+}
+
 
 class WalletsController {
     private router: Router
@@ -21,64 +35,34 @@ class WalletsController {
             const { data, img, remarks} = req.body
 			
             try{
-
-				if(remarks === '' || remarks === null || remarks === undefined){
-
-					connection.beginTransaction()
-
-					await new Promise((resolve,reject)=>{
-						connection.query('INSERT INTO top_uploads (branchCode, fbranchCode, image, referenceNumber, payment_date, payment_status, amount) VALUES (?, ?, ?, ?, ?, ?, ?)',
-						[data.bcode, data.fcode, img, data.reference, data.date_trans, 0, data.credit], (err, result)=>{
-							if(err) return reject(err)
-							resolve(result) 
-						})
-					}).then((response:any)=>{
-						if(response.affectedRows === 1){
-							res.status(Codes.SUCCESS).send( { message : 'ok'} )
-							
-						}else{
-							res.status(Codes.SUCCESS).send( { message : 'again'} )
-							
-						}
-						connection.commit()
-						
-					})
-
-					
-				}else{
-					connection.beginTransaction()
-					await new Promise((resolve, reject)=>{
-						connection.query('INSERT INTO top_uploads (branchCode, fbranchCode, image, referenceNumber, payment_date, payment_status, amount, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-						[data.bcode, data.fcode, img, data.reference,  data.date_trans, 0, data.credit, remarks ], (err, result)=>{
-							if(err) return reject(err);
-							resolve(result)
-						})
-					}).then((response:any)=>{
-						if(response.affectedRows === 1){
-							res.status(Codes.SUCCESS).send( { message : 'ok'} )
-							
-						}else{
-							res.status(Codes.SUCCESS).send( { message : 'again'} )
-							
-						}
-						connection.commit()
-						
-					})
-				}
+				connection.beginTransaction()
+				let Query = remarks === '' || remarks === null || remarks === undefined 
+							? 'INSERT INTO top_uploads (branchCode, fbranchCode, image, referenceNumber, payment_date, payment_status, amount) VALUES (?, ?, ?, ?, ?, ?, ?)'
+							: 'INSERT INTO top_uploads (branchCode, fbranchCode, image, referenceNumber, payment_date, payment_status, amount, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
 				
+				let values = remarks === '' || remarks === null || remarks === undefined
+							? [data.bcode, data.fcode, img, data.reference, data.date_trans, 0, data.credit] 
+							: [data.bcode, data.fcode, img, data.reference,  data.date_trans, 0, data.credit, remarks ]
+				
+				const result :any =  await customQuery(Query, values)
+				result.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : res.status(Codes.BADREQUEST).send({ message : 'again' }) 
+				connection.commit()
 			}catch(err:any){
-				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 				connection.rollback()
+				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+				
 			}
         })
 
 		this.router.post('/getTopup_list',authenticationToken,async (req, res) => {
 			const { code } = req.body
 			try{
-				connection.query('SELECT * FROM top_uploads WHERE fbranchCode=?', [code], (err, result)=>{
-					if(err) throw err;
-					res.status(Codes.SUCCESS).send(result)
-				})
+				let Query = 'SELECT * FROM top_uploads WHERE fbranchCode=?'
+				let values =  [code]
+
+				const result :any = await customQuery(Query, values)
+				
+				res.status(Codes.SUCCESS).send(result)
 			}catch(err:any){
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}			
@@ -86,10 +70,11 @@ class WalletsController {
 		this.router.post('/getTopup_listForBranchHead',authenticationToken,async (req, res) => {
 			const { code } = req.body
 			try{
-				connection.query('SELECT * FROM top_uploads WHERE branchCode=? AND payment_status=?', [code, 0], (err, result)=>{
-					if(err) throw err;
-					res.status(Codes.SUCCESS).send(result)
-				})
+				let Query = 'SELECT * FROM top_uploads WHERE branchCode=? AND payment_status=?'
+				let values =  [code, 0]
+				const result :any = await customQuery(Query, values)
+				res.status(Codes.SUCCESS).send(result)
+
 			}catch(err : any){
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}
@@ -97,47 +82,32 @@ class WalletsController {
 
 		this.router.post('/approvedTopupLoad',authenticationToken,async (req, res) => {
 			const { approved_date, approved_by, id, data, fcode } = req.body	
+			console.log(req.body);
+			
 			try{
 				connection.beginTransaction()
-				return new Promise((resolve, reject)=>{
-					// select for top uploads table if theres any data
-					connection.query("SELECT * FROM wallet WHERE branchCode=? ", [fcode],(err, result)=>{
-						
-						if(err) throw err;
-						resolve(result)
 
-					})
-				}).then(async (response :any) => {
-					// total values from wallet table to top upload 
-					const total_approvedWallet = response[0].approved_wallet + data.credit
-					const total_currentWallet = response[0].current_wallet + data.credit
-					
-					await Promise.all([
-						Promise.resolve(
-							// update current wallet to wallet table
-							connection.query("UPDATE wallet SET approved_wallet=?, current_wallet=? WHERE branchCode=?", 
-							[total_approvedWallet, total_currentWallet, fcode],(err, result)=>{
-								if(err) throw err;
-								return result
-							})
-						), Promise.resolve(
-							// update top uploads wallet has been approved 
-							connection.query('UPDATE top_uploads SET payment_status=?, approved_by=?, approved_date=? WHERE id=?',
-							[1, approved_by, approved_date, id],(err, result)=>{
-								if(err) throw err;
-								return result
-							})
-						)
-					])
+				let Query1 = "SELECT * FROM wallet WHERE branchCode=? "
+				let value1 = [fcode]
 
-					connection.commit()
-					res.status(Codes.SUCCESS).send(`Added.`)
-					
-				})
-				.catch((err) => {
-                    connection.rollback()
-                    res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-                })
+				const response : any = await customQuery(Query1, value1)
+				
+				const total_approvedWallet = response[0].approved_wallet + data.credit
+				const total_currentWallet = response[0].current_wallet + data.credit
+
+				let Query2 = "UPDATE wallet SET approved_wallet=?, current_wallet=? WHERE branchCode=?"
+				let value2 = [total_approvedWallet, total_currentWallet, fcode]
+
+				const response1 :any = await customQuery(Query2, value2)
+				
+				let Query3 = 'UPDATE top_uploads SET payment_status=?, approved_by=?, approved_date=? WHERE id=?'
+				let value3 = [1, approved_by, approved_date, id]
+				const QueryRes :any = response1.affectedRows > 0 ? await customQuery(Query3, value3) : ''
+
+				QueryRes.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : res.status(Codes.BADREQUEST).send({ message : 'notFound'})
+				
+				connection.commit()
+				
 				
 			}catch(err:any){
 				connection.rollback()
@@ -145,94 +115,94 @@ class WalletsController {
 			}
 		})
 
-		this.router.post('/sendLoadtable',authenticationToken,async (req, res) => {
-			const { data, fbranchCode, available_wallet } = req.body
-			const dateNow = new Date()
-			if(available_wallet < data.credit){
+		// this.router.post('/sendLoadtable',authenticationToken,async (req, res) => {
+		// 	const { data, fbranchCode, available_wallet } = req.body
+		// 	const dateNow = new Date()
+		// 	if(available_wallet < data.credit){
 
-				res.status(Codes.SUCCESS).send('dli')
+		// 		res.status(Codes.SUCCESS).send('dli')
 
-			}else{
+		// 	}else{
 
-				// 
-				try{
-					connection.beginTransaction()
-					return new Promise((resolve, reject)=>{
-						// insert the load in sendload table
-						connection.query("SELECT * FROM wallet WHERE branchCode=?", [data.ib_code],(err, result)=>{
-							if(err) throw err;
-							resolve(result)
-						})
+		// 		// 
+		// 		try{
+		// 			connection.beginTransaction()
+		// 			return new Promise((resolve, reject)=>{
+		// 				// insert the load in sendload table
+		// 				connection.query("SELECT * FROM wallet WHERE branchCode=?", [data.ib_code],(err, result)=>{
+		// 					if(err) throw err;
+		// 					resolve(result)
+		// 				})
 
-					}).then(async(response:any) =>{
-						// plus the ibarangay wallet load afterwards minus the franchise wallet
-						const totalapproved = data.credit + response[0].approved_wallet
-						const totalcurrent_wallet = data.credit + response[0].current_wallet 
+		// 			}).then(async(response:any) =>{
+		// 				// plus the ibarangay wallet load afterwards minus the franchise wallet
+		// 				const totalapproved = data.credit + response[0].approved_wallet
+		// 				const totalcurrent_wallet = data.credit + response[0].current_wallet 
 						
-						// 2nd query
-						connection.beginTransaction()
-						return new Promise((resolve, reject)=>{
-							connection.query("SELECT * FROM wallet WHERE branchCode=?", [fbranchCode],(err, result)=>{
-								if(err) throw err;
-								resolve(result)
-							})
-						}).then(async (response:any) => {
-							// mag minus ko dri para makuhaan ang wallet ni franchise
-							const decCurrent_wallet = response[0].current_wallet - data.credit
+		// 				// 2nd query
+		// 				connection.beginTransaction()
+		// 				return new Promise((resolve, reject)=>{
+		// 					connection.query("SELECT * FROM wallet WHERE branchCode=?", [fbranchCode],(err, result)=>{
+		// 						if(err) throw err;
+		// 						resolve(result)
+		// 					})
+		// 				}).then(async (response:any) => {
+		// 					// mag minus ko dri para makuhaan ang wallet ni franchise
+		// 					const decCurrent_wallet = response[0].current_wallet - data.credit
 
-							await Promise.all([
-								Promise.resolve(
-									// update wallet for ibarangay approved and current wallet
-									connection.query("UPDATE wallet SET approved_wallet=?, current_wallet=? WHERE branchCode=?",
-									[totalapproved, totalcurrent_wallet, data.ib_code], (err, result)=>{
-										if(err) throw err;
-										return result
-									})
-								),Promise.resolve(
-									// update wallet in franchise current wallet
-									connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?",
-									[decCurrent_wallet, fbranchCode], (err, result)=>{
-										if(err) throw err;
-										return result
-									})
-								),Promise.resolve(
-									// insert data to send load list
-									connection.query("INSERT INTO sendload_list (fbranchCode, ibrgy_code, credit_sent, load_status, paid_date) VALUES (?, ?, ?, ?, ?)",
-									[fbranchCode, data.ib_code, data.credit, data.paymentStatus, dateNow], (err, result)=>{
-										if(err) throw err;
-										return result
-									})
-								)
-							])
-							connection.commit()
-							res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Added.`)
+		// 					await Promise.all([
+		// 						Promise.resolve(
+		// 							// update wallet for ibarangay approved and current wallet
+		// 							connection.query("UPDATE wallet SET approved_wallet=?, current_wallet=? WHERE branchCode=?",
+		// 							[totalapproved, totalcurrent_wallet, data.ib_code], (err, result)=>{
+		// 								if(err) throw err;
+		// 								return result
+		// 							})
+		// 						),Promise.resolve(
+		// 							// update wallet in franchise current wallet
+		// 							connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?",
+		// 							[decCurrent_wallet, fbranchCode], (err, result)=>{
+		// 								if(err) throw err;
+		// 								return result
+		// 							})
+		// 						),Promise.resolve(
+		// 							// insert data to send load list
+		// 							connection.query("INSERT INTO sendload_list (fbranchCode, ibrgy_code, credit_sent, load_status, paid_date) VALUES (?, ?, ?, ?, ?)",
+		// 							[fbranchCode, data.ib_code, data.credit, data.paymentStatus, dateNow], (err, result)=>{
+		// 								if(err) throw err;
+		// 								return result
+		// 							})
+		// 						)
+		// 					])
+		// 					connection.commit()
+		// 					res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Added.`)
 
-						}).catch((err) => {
-							connection.rollback()
-							res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-						})
+		// 				}).catch((err) => {
+		// 					connection.rollback()
+		// 					res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+		// 				})
 
-						// last block of catch
-					}).catch((err) => {
-						connection.rollback()
-						res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-					})
+		// 				// last block of catch
+		// 			}).catch((err) => {
+		// 				connection.rollback()
+		// 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+		// 			})
 
-				}catch( err : any ) {
-					connection.rollback()
-					res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-				}	
-			}
+		// 		}catch( err : any ) {
+		// 			connection.rollback()
+		// 			res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+		// 		}	
+		// 	}
 				
-		})
+		// })
 
 		this.router.post('/getFranchisewallet',authenticationToken,async (req, res) => {
 			const { fbranchCode } = req.body
 			try{
-				connection.query("SELECT * FROM wallet WHERE branchCode=?", [fbranchCode], (err, result)=>{
-					if(err) throw err;
-					res.status(Codes.SUCCESS).send(result)
-				})
+				let Query = "SELECT * FROM wallet WHERE branchCode=?"
+				let values = [fbranchCode]
+				const result :any = await customQuery(Query, values)
+				res.status(Codes.SUCCESS).send(result)
 			}catch( err: any ){
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}
@@ -305,7 +275,7 @@ class WalletsController {
 				await Promise.resolve(
 					connection.query("SELECT * FROM top_uploads WHERE payment_status=?",[0], (err, result)=>{
 						if(err) throw err;
-						res.status(Codes.SUCCESS).send(JSON.stringify(result))
+						res.status(Codes.SUCCESS).send(result)
 					})
 				)
 			}catch(err:any){
@@ -392,7 +362,7 @@ class WalletsController {
 				await Promise.resolve(
 					connection.query("SELECT * FROM top_uploads INNER JOIN franchise_list ON top_uploads.fbranchCode = franchise_list.fbranchCode", (err, result)=>{
 						if(err) throw err;
-						res.status(Codes.SUCCESS).send(JSON.stringify(result))
+						res.status(Codes.SUCCESS).send(result)
 					})
 				)
 			}catch(err:any){
@@ -435,7 +405,4 @@ const user = new WalletsController()
 
 user.watchRequests()
 export default user.routerObject
-function resolve(result: any) {
-	throw new Error('Function not implemented.')
-}
 

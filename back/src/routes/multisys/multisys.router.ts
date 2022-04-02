@@ -20,6 +20,19 @@ import { authenticationToken } from '../../middleware/auth';
  *
  *  
 */
+const customQuery = (Query :any , values :any) =>{
+	
+	return new Promise((resolve, reject)=>{
+		
+		connection.query(Query, values, (err, result)=>{
+			if(err) {
+				reject(err)
+			}else{
+				resolve(result)
+			}
+		})
+	})
+}
 
 const { HTTP_MULTISYS } = Endpoints
 const { BILLER, CHANNEL } = MultisysCredentials
@@ -30,7 +43,7 @@ const secret : MUTISYS_PARTNER_SECRET ={
 
 let multisysSecret :any = secret.SECRET
 
-const calculateJulianDate = async() => {
+const calculateJulianDate = () => {
 
 	let today :any = new Date();
 	let onejan:any = new Date(today.getFullYear(),0,1);
@@ -50,29 +63,22 @@ const generateMultisysNumbers = async() =>{
 	try{
 		let series :any
 		connection.beginTransaction()
-		return await new Promise((resolve, reject)=>{
-			connection.query("SELECT * FROM branch_count WHERE type=?", ['IPY'], (err, result)=>{
-				if(err) return reject(err)
-				resolve(result)
-			})
-		}).then(async(response : any )=>{
-			if(!response.length){
-				return 'again'
-			}else{
-				let count = response[0].count + 1
-				series = `${response[0].type}${String(count).padStart(4, '0')}`
+		let Query = "SELECT * FROM branch_count WHERE type=?"
+		let  value = ['IPY']
+		const response :any = await customQuery(Query, value)
 
-				await Promise.resolve(
-					connection.query("Update branch_count SET count=? WHERE type=?", [count, 'IPY'], (err, result)=>{
-						if(err) throw err
-						return result
-					})
-				)
-			
-			}
-			connection.commit()
-			return series
-		})
+		if(!response.length){
+			return 'again'
+		}else{
+			let count = response[0].count + 1
+			series = `${response[0].type}${String(count).padStart(4, '0')}`
+			let Query1 = "Update branch_count SET count=? WHERE type=?"
+			let values1 = [count, 'IPY']
+			await customQuery(Query1, values1)
+		}
+
+		connection.commit()
+		return series
 	}catch(err:any){
 		connection.rollback()
 		return err
@@ -126,48 +132,28 @@ const insertMultisys = async(...data:any) =>{
 	 */
 	try{
 		connection.beginTransaction()
-		return await new Promise((resolve, reject)=>{
+		let Query = "INSERT INTO multisys (partner_refNo, branchCode, tellerCode, customer_name, account_number, amount, contact_number, channel, refno, txnid, biller, collections, sales, income ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+		let values = [data[5], data[3], data[4], data[0], data[1].account_number, data[1].amount, data[1].contact_number, data[1].channel, data[2].data.refno, data[2].data.txnid, data[2].data.biller, collection, sales, outletCharge ]
 
-			connection.query("INSERT INTO multisys (partner_refNo, branchCode, tellerCode, customer_name, account_number, amount, contact_number, channel, refno, txnid, biller, collections, sales, income ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-			[data[5], data[3], data[4], data[0], data[1].account_number, data[1].amount, data[1].contact_number, data[1].channel, data[2].data.refno, data[2].data.txnid, data[2].data.biller, collection, sales, outletCharge ], (err, result)=>{
-				if(err) return reject(err)
-				resolve(result)
-			})
-		}).then(async(response:any)=>{
-			
-			/**
-			 * table affected wallet update wallet	
-			 * wallet transacions
-			 */
-			if(response.affectedRows !== 1){
-				const data = { status : 400, reason : 'Try Again' }
-				return data
-			}else{
-				await Promise.all([
-					Promise.resolve(
-						connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [updatedWallet, data[3] ], (err, result)=>{
-							if(err) throw err
-							return result
-						})
-					),
-					Promise.resolve(
-						connection.query("INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?) ",
-						[data[3], data[4], collection, sales, outletCharge, data[5], 'Confirm' ], (err, result)=>{
-							if(err) throw err
-							return result
-						})
-					),
-					Promise.resolve(
-						/**ibarangay  teller */
-						data[4].slice(0,3) === 'BRT' ? await commision(data) 
-						:''
-					)
-				])
-				
-			}
-			connection.commit()
-			return data[2]
-		})
+		const response :any = await customQuery(Query, values)
+
+		/**query for wallet */
+		let Query1 = "UPDATE wallet SET current_wallet=? WHERE branchCode=?"
+		let values1 = [updatedWallet, data[3] ]
+		
+		const responses :any =  response.affectedRows > 0 ? await customQuery(Query1,values1) : ''
+
+		/**insert wallet transaction */
+		let Query2 = "INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?) "
+		let values2 =  [data[3], data[4], collection, sales, outletCharge, data[5], 'Confirm' ]
+
+		const rsponses1 :any = responses.affectedRows > 0 ? await customQuery(Query2, values2) : ''
+
+		rsponses1.affectedRows > 0 ? data[4].slice(0,3) === 'BRT' ? await commision(data) 
+								   								  :'' 
+								   : ''
+		connection.commit()
+		return data[2]
 
 	}catch(err:any){
 		connection.rollback()
@@ -188,30 +174,17 @@ const commision = async(data:any)=>{
 	
 	try{
 		connection.beginTransaction()
-		return await new Promise((resolve, reject)=>{
-			/**select ibrgy table to get the franchise code */
-			connection.query("SELECT ib_fbranchCode FROM ibrgy_list WHERE ib_ibrgyyCode=?", [ data[3] ], (err, result)=>{
-				if (err) return reject(err)
-				resolve(result)
-			})
-		}).then(async(response:any)=>{
+		let Query = "SELECT ib_fbranchCode FROM ibrgy_list WHERE ib_ibrgyyCode=?"
+		let values = [ data[3] ]
 
-			await Promise.all([
-				 Promise.resolve(
-					connection.query("INSERT INTO f_commission (franchise, ibarangay, teller, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?,?) ",
-					[response[0].ib_fbranchCode, data[3], data[4], collection, sales, franchiseReturn, data[5], 'Confirm' ], (err, result)=>{
-						if(err) throw err
-						return result
-					})
-				),
-				Promise.resolve(
-					await addCommission(response[0].ib_fbranchCode)
-				)
-			])
-			
-			/**update franchise wallet  */
-			connection.commit()
-		})
+		const response :any = await customQuery(Query, values)
+
+		let Query1 = "INSERT INTO f_commission (franchise, ibarangay, teller, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?,?) "
+		let values1 = [response[0].ib_fbranchCode, data[3], data[4], collection, sales, franchiseReturn, data[5], 'Confirm' ]
+		const response1 :any = await customQuery(Query1, values1)
+		response1.affectedRows > 0 ? await addCommission(response[0].ib_fbranchCode) : ''
+		
+		connection.commit()
 	}catch(err:any){
 		connection.rollback()
 		return err
@@ -351,7 +324,6 @@ class MultisysController {
 								 * proceed to insert
 								 */
 								const results = await multisysApi(data.CostumersName, payload, response[0].fiB_Code, tellerCode, result[0].current_wallet)
-								console.log(results);
 								
 								res.status(Codes.SUCCESS).send(results)
 							

@@ -31,3 +31,7 @@ export interface MultisysPayload {
 	biller : string,
 	channel : string
 }
+export interface Messages {
+	message : object
+	
+}

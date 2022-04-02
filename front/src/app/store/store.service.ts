@@ -35,10 +35,10 @@ export class StoreService {
 	}
 
 	setAuthorizedRequest() {
-		return { headers: { "Authorization": `Bearer ${this.cookie.get("access_token")}`, responseType :'text' } }
+		return { headers: { "Authorization": `Bearer ${this.cookie.get("access_token")}` } }
 	}
 	setAuthorizedRequestWithBlob(){
-		return { headers: { "Authorization": `Bearer ${this.cookie.get("access_token")}`, responseType : 'blob' } }
+		return { headers: { "Authorization": `Bearer ${this.cookie.get("access_token")}`, responseType :'blob'} }
 	}
 }
 
