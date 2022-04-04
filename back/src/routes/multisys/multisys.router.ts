@@ -41,7 +41,7 @@ const secret : MUTISYS_PARTNER_SECRET ={
 
 let multisysSecret :any = secret.SECRET
 
-const calculateJulianDate = () => {
+const calculateJulianDate = async() => {
 
 	let today :any = new Date();
 	let onejan:any = new Date(today.getFullYear(),0,1);

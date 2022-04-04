@@ -16,6 +16,20 @@ const { LOADCENTRAL_SELL_PRODUCT, LOADCENTRAL_SELL_PRODUCT_STATUS } = Endpoints
 const username = String(process.env.LOADCENTRAL_PROD_USERNAME)
 const password = String(process.env.LOADCENTRAL_PROD_PASSWORD)
 
+const customQuery = (Query :any , values :any) =>{
+	
+	return new Promise((resolve, reject)=>{
+		
+		connection.query(Query, values, (err, result)=>{
+			if(err) {
+				reject(err)
+			}else{
+				resolve(result)
+			}
+		})
+	})
+}
+
 const parseXML = async (xml:any) => {
 
 	const parser = new xml2js.Parser()
@@ -51,15 +65,20 @@ const parseXML = async (xml:any) => {
 	try{
 		
 		connection.beginTransaction()
-		return await new Promise((resolve ,reject)=>{
-			connection.query("SELECT * FROM wallet WHERE branchCode=?", [branchCode], (err, result)=>{
-				if(err) return reject(err)
-				resolve(result)
-			})
-		}).then((response:any)=>{
-			connection.commit()
-			return response
-		})
+		let Query = "SELECT * FROM wallet WHERE branchCode=?"
+		let value = [branchCode]
+		const response :any = await customQuery(Query, value)
+		connection.commit()
+		return response
+		// return await new Promise((resolve ,reject)=>{
+		// 	connection.query("SELECT * FROM wallet WHERE branchCode=?", [branchCode], (err, result)=>{
+		// 		if(err) return reject(err)
+		// 		resolve(result)
+		// 	})
+		// }).then((response:any)=>{
+		// 	connection.commit()
+		// 	return response
+		// })
 		
 	}catch(err:any){
 		connection.rollback()
@@ -68,8 +87,6 @@ const parseXML = async (xml:any) => {
  }
  const LoadCentralApi = async ( ...object:any)=>{
 
-	const html = '<RRN>ABC5203432373</RRN><RESP>0</RESP><TID>WB2764871028</TID><BAL>1000.00</BAL><EPIN>CARD #: 0000100022 PIN: BOYDRG</EPIN><ERR>Success</ERR>'
-	
 	const { data, modelType, productName , productPromo, amount, markup, selectedPromoCodes, tellerCode , createdBy } = object[0]
 			
 	const { contactNo } = data
@@ -80,69 +97,115 @@ const parseXML = async (xml:any) => {
 								
 	try{
 		connection.beginTransaction()
-		return await new Promise((resolve, reject)=>{
-			connection.query("SELECT * FROM branch_count WHERE type=?", ['IPC'], (err,result)=>{
-				if(err) return reject(err)
-				resolve(result)
-			})
-		}).then(async(response:any)=>{
 
+		let Query = "SELECT * FROM branch_count WHERE type=?"
+		let value = ['IPC']
+		const response :any = await customQuery(Query, value)
+		const series = response[0].count + 1
+		const rrn = `${ response[0].type }${String(series).padStart(10,"0")}`
+		const hashed = md5(md5(rrn) + md5(username + password ))
 
-			const series = response[0].count + 1
-			const rrn = `${ response[0].type }${String(series).padStart(10,"0")}`
-
-			const hashed = md5(md5(rrn) + md5(username + password ))
-		
-			if(!response.length){
-				return 'tryAgain'
-			}else{
-
-				await new Promise((resolve, reject)=>{
-					connection.query("UPDATE branch_count SET count=? WHERE type=?", [series, 'IPC'], (err,result)=>{
-						if(err) return reject (err)
-						resolve(result)
-					})
-				}).then(async()=>{
-
-					await axios.post(`${ LOADCENTRAL_SELL_PRODUCT }?uid=${ username }&auth=${ hashed }&pcode=${ PCODE }&to=63${ contactNo }&rrn=${ rrn }` )
-					.then(async(result:any) => {
-						
-						/**
-						 * save in database
-						*/
-						
-						const xml = await parseXML(`<data>${ result.data }</data>`)
-						// const xml = await parseXML(`<data>${ html }</data>`)
-
-
-						const ress = [ xml.data.RRN[0], xml.data.TID[0], contactNo, PCODE, PCODE.match(/(\d+)/)[1], markup, xml.data.BAL[0], xml.data.EPIN[0], tellerCode, createdBy, xml.data.ERR[0] ]	
-						/**
-						 * check if there's a error or not
-						 */
-						
-						await updateLCWALLET(ress)
-
-						
-						returnResponse =  xml.data.ERR[0] === 'Insufficient Funds' ? 'Insufficient Funds contact technical support' 
-										: xml.data.ERR[0] === 'LC API System Error' ? 'API System error contact technical support' 
-										: xml.data.ERR[0] === 'Invalid Mobile No.'   ? 'Invalid Mobile No.' 
-										: xml.data.ERR[0] === 'Remote IP not allowed' ? 'Remote IP not allowed'
-										: xml.data.ERR[0] === 'Invalid Globe Number'   ? 'Invalid Globe Number' 
-										: xml.data.ERR[0] === 'Duplicate RRN entry'   ? 'Duplicate RRN entry'
-										: await insertLoad(ress, object[1], object[2])
-						
-					})
-					
-				})
+		if(!response.length){
+			return 'tryAgain'
+		}else{
+			let Query1 = "UPDATE branch_count SET count=? WHERE type=?"
+			let values1 = [series, 'IPC']
+			const response :any = await customQuery(Query1, values1)
+			response.affectedRows > 0 
+			? await axios.post(`${ LOADCENTRAL_SELL_PRODUCT }?uid=${ username }&auth=${ hashed }&pcode=${ PCODE }&to=63${ contactNo }&rrn=${ rrn }` )
+			.then(async(result:any) => {
 				
-			}
+				/**
+				 * save in database
+				*/
+				
+				const xml = await parseXML(`<data>${ result.data }</data>`)
+				// const xml = await parseXML(`<data>${ html }</data>`)
+
+
+				const ress = [ xml.data.RRN[0], xml.data.TID[0], contactNo, PCODE, PCODE.match(/(\d+)/)[1], markup, xml.data.BAL[0], xml.data.EPIN[0], tellerCode, createdBy, xml.data.ERR[0] ]	
+				/**
+				* check if there's a error or not
+				*/
+				
+				await updateLCWALLET(ress)
+
+				returnResponse =  xml.data.ERR[0] === 'Insufficient Funds' ? 'Insufficient Funds contact technical support' 
+								: xml.data.ERR[0] === 'LC API System Error' ? 'API System error contact technical support' 
+								: xml.data.ERR[0] === 'Invalid Mobile No.'   ? 'Invalid Mobile No.' 
+								: xml.data.ERR[0] === 'Remote IP not allowed' ? 'Remote IP not allowed'
+								: xml.data.ERR[0] === 'Invalid Globe Number'   ? 'Invalid Globe Number' 
+								: xml.data.ERR[0] === 'Duplicate RRN entry'   ? 'Duplicate RRN entry'
+								: await insertLoad(ress, object[1], object[2])
+				
+			})
+			
+			
+			: ''
 			connection.commit()
 			return returnResponse
 			
-		}).catch((err:any)=>{
-			connection.rollback()
-			return err
-		})
+		}
+		// return await new Promise((resolve, reject)=>{
+		// 	connection.query("SELECT * FROM branch_count WHERE type=?", ['IPC'], (err,result)=>{
+		// 		if(err) return reject(err)
+		// 		resolve(result)
+		// 	})
+		// }).then(async(response:any)=>{
+
+
+		// 	const series = response[0].count + 1
+		// 	const rrn = `${ response[0].type }${String(series).padStart(10,"0")}`
+
+		// 	const hashed = md5(md5(rrn) + md5(username + password ))
+		
+		// 	if(!response.length){
+		// 		return 'tryAgain'
+		// 	}else{
+
+		// 		await new Promise((resolve, reject)=>{
+		// 			connection.query("UPDATE branch_count SET count=? WHERE type=?", [series, 'IPC'], (err,result)=>{
+		// 				if(err) return reject (err)
+		// 				resolve(result)
+		// 			})
+		// 		}).then(async()=>{
+
+		// 			await axios.post(`${ LOADCENTRAL_SELL_PRODUCT }?uid=${ username }&auth=${ hashed }&pcode=${ PCODE }&to=63${ contactNo }&rrn=${ rrn }` )
+		// 			.then(async(result:any) => {
+						
+		// 				/**
+		// 				 * save in database
+		// 				*/
+						
+		// 				const xml = await parseXML(`<data>${ result.data }</data>`)
+		// 				// const xml = await parseXML(`<data>${ html }</data>`)
+
+
+		// 				const ress = [ xml.data.RRN[0], xml.data.TID[0], contactNo, PCODE, PCODE.match(/(\d+)/)[1], markup, xml.data.BAL[0], xml.data.EPIN[0], tellerCode, createdBy, xml.data.ERR[0] ]	
+		// 				/**
+		// 				 * check if there's a error or not
+		// 				 */
+						
+		// 				await updateLCWALLET(ress)
+
+						
+		// 				returnResponse =  xml.data.ERR[0] === 'Insufficient Funds' ? 'Insufficient Funds contact technical support' 
+		// 								: xml.data.ERR[0] === 'LC API System Error' ? 'API System error contact technical support' 
+		// 								: xml.data.ERR[0] === 'Invalid Mobile No.'   ? 'Invalid Mobile No.' 
+		// 								: xml.data.ERR[0] === 'Remote IP not allowed' ? 'Remote IP not allowed'
+		// 								: xml.data.ERR[0] === 'Invalid Globe Number'   ? 'Invalid Globe Number' 
+		// 								: xml.data.ERR[0] === 'Duplicate RRN entry'   ? 'Duplicate RRN entry'
+		// 								: await insertLoad(ress, object[1], object[2])
+						
+		// 			})
+					
+		// 		})
+				
+		// 	}
+		// 	connection.commit()
+		// 	return returnResponse
+			
+		// })
 		
 	}catch(err){
 		connection.rollback()
@@ -154,39 +217,59 @@ const parseXML = async (xml:any) => {
 	
 	try{
 		connection.beginTransaction()
-		return await new Promise((resolve, reject)=>{
-			connection.query("INSERT INTO loadcentral (reference_id, TransId, mobileNo, productCode, amount, markUp, walletBalance, ePIN, branchCode, tellerCode, createdBy, LC_response) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", 
-			[data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], BRANCHCODE, data[8], data[9], data[10]],(err, result)=>{
-				if(err) return reject(err)
-				resolve(result)
-			})
-		}).then(async()=>{
-			/**
+		let Query = "INSERT INTO loadcentral (reference_id, TransId, mobileNo, productCode, amount, markUp, walletBalance, ePIN, branchCode, tellerCode, createdBy, LC_response) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
+		let values = [data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], BRANCHCODE, data[8], data[9], data[10]]
+
+		const response :any = await customQuery(Query, values)
+		/**
 			 * minus [4]
 			 */
-			let collection = 0
-			let wallet_deducted = CURRENT_WALLET - data[4]
-			collection  = parseInt(data[4]) + parseInt(data[5])
+		let collection = 0
+		let wallet_deducted = CURRENT_WALLET - data[4]
+		collection  = parseInt(data[4]) + parseInt(data[5])
+		let Query1 = "UPDATE wallet SET current_wallet=? WHERE branchCode=?"
+		let values1 = [wallet_deducted, BRANCHCODE]
+		const response1 :any = response.affectedRows > 0 ? await customQuery(Query1, values1) : ''
+		/** */
+		let Query2 = "INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?)"
+		let values2 = [BRANCHCODE, data[8], collection, data[4], data[5], data[0], 'Confirm']
+
+		response1.affectedRows > 0 ? await customQuery(Query2, values2) : '' 
+		connection.commit()
+		return 'Successfully Sent'
+		// return await new Promise((resolve, reject)=>{
+		// 	connection.query("INSERT INTO loadcentral (reference_id, TransId, mobileNo, productCode, amount, markUp, walletBalance, ePIN, branchCode, tellerCode, createdBy, LC_response) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", 
+		// 	[data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], BRANCHCODE, data[8], data[9], data[10]],(err, result)=>{
+		// 		if(err) return reject(err)
+		// 		resolve(result)
+		// 	})
+		// }).then(async()=>{
+		// 	/**
+		// 	 * minus [4]
+		// 	 */
+		// 	let collection = 0
+		// 	let wallet_deducted = CURRENT_WALLET - data[4]
+		// 	collection  = parseInt(data[4]) + parseInt(data[5])
 			
-			await Promise.all([
-				Promise.resolve(
-					connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [wallet_deducted, BRANCHCODE], (err,result)=>{
-						if(err) throw err
-						result
-					})
-				),
-				Promise.resolve(
-					connection.query("INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?)",
-					[BRANCHCODE, data[8], collection, data[4], data[5], data[0], 'Confirm'], (err, result)=>{
-						if(err) throw err
+		// 	await Promise.all([
+		// 		Promise.resolve(
+		// 			connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [wallet_deducted, BRANCHCODE], (err,result)=>{
+		// 				if(err) throw err
+		// 				result
+		// 			})
+		// 		),
+		// 		Promise.resolve(
+		// 			connection.query("INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?)",
+		// 			[BRANCHCODE, data[8], collection, data[4], data[5], data[0], 'Confirm'], (err, result)=>{
+		// 				if(err) throw err
 						
-					})
-				)
-			])
+		// 			})
+		// 		)
+		// 	])
 			
-			connection.commit()
-			return 'Successfully Sent'
-		})
+		// 	connection.commit()
+		// 	return 'Successfully Sent'
+		// })
 	}catch(err){
 		connection.rollback()
 		return err
