@@ -11,6 +11,21 @@ import { ticketPrices, walletCollection } from './../../utils/main.interfaces'
 const { BARKOTA_STAGING } = Endpoints
 import { authenticationToken } from '../../middleware/auth';
 import { checkWallet } from '../multisys/multisys.router';
+
+const customQuery = (Query :any , values :any) =>{
+	
+	return new Promise((resolve, reject)=>{
+		
+		connection.query(Query, values, (err, result)=>{
+			if(err) {
+				reject(err)
+			}else{
+				resolve(result)
+			}
+		})
+	})
+}
+
 const updateWallet = async(data:any) => {
 	try{
 		connection.beginTransaction()
@@ -35,6 +50,7 @@ const updateWallet = async(data:any) => {
 		return err
 	}
 }
+
 const voidTicket = async(BRANCHCODE:any, BARKOTACODE:any) =>{
 	try{
 		return await new Promise((resolve, reject)=>{
@@ -221,7 +237,6 @@ const saveToDb = async(data:any, branchCode :any, ticketUrl:any, CURRENT_WALLET 
 	const status : any = 'Confirm'
 
 	const series :any = await generateSeries('barkota')
-	const datas :any = [series, voyage.shippingLine.name , voyage.route.origin, voyage.route.destination, voyage.departureDateTime, voyage.id, `${ firstName } ${ middleInitial } ${ lastName }`, mobileNumber, address, ticketUrl, total, ipayCharge, outletCharge, branchCode, tellerCode, status]
  	/**wallet history transaction */
 	let collection : any = ipayCharge + outletCharge + total
 	let sales :any = ipayCharge + total
@@ -233,44 +248,61 @@ const saveToDb = async(data:any, branchCode :any, ticketUrl:any, CURRENT_WALLET 
 	const dataThree = [branchCode, tellerCode, collection, sales, commision, series, status]
 	try{
 		connection.beginTransaction()
-		return await new Promise((resolve, reject)=>{
-			connection.query("INSERT INTO barkota (barkota_code, shippingLine, origin, destination, departureDate, voyageId, customer_name, contact_personNo, contact_personAdd, ticket_url, ticket_totalPrice, ipayService_charge, franchise_charge, branchCode, transacted_by, status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", datas,(err, result)=>{
-				if(err) return reject(err)
-				resolve(result)
-			})
-		}).then(async(res:any)=>{
-			/**
-			 * table affected
-			 * wallet 
-			 * wallet history transaction
-			 * f_commision = BRT
-			 * ibrgy_list
-			 * franchise list
-			 */
-			if(res.affectedRows === 1){
-				await Promise.all([
-					Promise.resolve(
-						connection.query("INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?)", dataTwo, (err, result)=>{
-							if(err) throw err
-							return result
-						})
-					),Promise.resolve(
-						/**update wallet */
-						connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [deductedWallet, branchCode], (err, result)=>{
-							if(err)  throw err;
-							return result
-						})
-					),Promise.resolve(
-						commisionResponse = tellerCode.slice(0, 3) === 'BRT' ? await insertCommision(dataThree, CURRENT_WALLET) : 'ok'
-					)
-				])
-			}else{
-				return 'notFound'
-			}
+		let Query = "INSERT INTO barkota (barkota_code, shippingLine, origin, destination, departureDate, voyageId, customer_name, contact_personNo, contact_personAdd, ticket_url, ticket_totalPrice, ipayService_charge, franchise_charge, branchCode, transacted_by, status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+		const datas :any = [series, voyage.shippingLine.name , voyage.route.origin, voyage.route.destination, voyage.departureDateTime, voyage.id, `${ firstName } ${ middleInitial } ${ lastName }`, mobileNumber, address, ticketUrl, total, ipayCharge, outletCharge, branchCode, tellerCode, status]
+		
+		let res :any = await customQuery(Query, datas)
+		/**table affected wallet history transaction */
+		let Query1 = "INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?)"
+		/**@values datatwo */
+
+		const res1 :any = res.affectedRows > 0 ? await customQuery(Query1, dataTwo) :'' 
+		/**current wallet */
+		let Query2 = "UPDATE wallet SET current_wallet=? WHERE branchCode=?"
+		let values2 = [deductedWallet, branchCode]
+		const res2 :any = res1.affectedRows > 0 ? await customQuery(Query2, values2) : ''
+		res2.affectedRows > 0 ? commisionResponse = tellerCode.slice(0, 3) === 'BRT' ? await insertCommision(dataThree, CURRENT_WALLET) : 'ok' : ''
+		
+		// return await new Promise((resolve, reject)=>{
+		// 	connection.query("INSERT INTO barkota (barkota_code, shippingLine, origin, destination, departureDate, voyageId, customer_name, contact_personNo, contact_personAdd, ticket_url, ticket_totalPrice, ipayService_charge, franchise_charge, branchCode, transacted_by, status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", datas,(err, result)=>{
+		// 		if(err) return reject(err)
+		// 		resolve(result)
+		// 	})
+		// }).then(async(res:any)=>{
+		// 	/**
+		// 	 * table affected
+		// 	 * wallet 
+		// 	 * wallet history transaction
+		// 	 * f_commision = BRT
+		// 	 * ibrgy_list
+		// 	 * franchise list
+		// 	 */
+		// 	if(res.affectedRows === 1){
+		// 		await Promise.all([
+		// 			Promise.resolve(
+		// 				connection.query("INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?)", dataTwo, (err, result)=>{
+		// 					if(err) throw err
+		// 					return result
+		// 				})
+		// 			),Promise.resolve(
+		// 				/**update wallet */
+		// 				connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [deductedWallet, branchCode], (err, result)=>{
+		// 					if(err)  throw err;
+		// 					return result
+		// 				})
+		// 			),Promise.resolve(
+		// 				commisionResponse = tellerCode.slice(0, 3) === 'BRT' ? await insertCommision(dataThree, CURRENT_WALLET) : 'ok'
+		// 			)
+		// 		])
+		// 	}else{
+		// 		return 'notFound'
+		// 	}
 			
-			connection.commit()
-			return commisionResponse
-		})
+		// 	connection.commit()
+		// 	return commisionResponse
+		// })
+		connection.commit()
+		return commisionResponse
 
 	}catch(err:any){
 		
@@ -282,40 +314,63 @@ const insertCommision = async(data:any, wallet:any) =>{
 	
 	try{
 		connection.beginTransaction()
-		return await new Promise((resolve, reject)=>{
-			connection.query("SELECT ib_fbranchCode FROM ibrgy_list WHERE ib_ibrgyyCode=?", [data[0]], (err, result)=>{
-				if(err) return reject(err)
-				resolve(result)
-			})
-		}).then(async(response:any)=>{
-			data.unshift(response[0].ib_fbranchCode)
-			
-			await new Promise((resolve ,reject )=>{
-				connection.query("SELECT * FROM wallet WHERE branchCode=?", [data[0]], (err, result)=>{
-					if(err) return reject(err)
-					resolve(result)
-				})
-			}).then(async(res:any)=>{
+		
+		let Query = "SELECT ib_fbranchCode FROM ibrgy_list WHERE ib_ibrgyyCode=?"
+		let values = [data[0]]
 
-				const commision :any = res[0].current_wallet + 5
-				await Promise.all([
-					Promise.resolve(
-						connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [commision, response[0].ib_fbranchCode], (err,result)=>{
-							if(err) throw err;
-							return result
-						})
-					),
-					Promise.resolve(
-						connection.query("INSERT INTO f_commission (franchise, ibarangay, teller, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?,?)", data, (err, result)=>{
-							if(err) throw err;
-							return result
-						})
-					)
-				])
-			})
-			connection.commit()
-			return 'ok'
-		}) 
+		const response :any = await customQuery(Query, values)
+
+		data.unshift(response[0].ib_fbranchCode)
+		let Query1 = "SELECT * FROM wallet WHERE branchCode=?"
+		
+		const response1 :any = await customQuery(Query1, values)
+		const commision :any = response1[0].current_wallet + 5
+
+		let Query2 = "UPDATE wallet SET current_wallet=? WHERE branchCode=?"
+		let values1 = [commision, response[0].ib_fbranchCode]
+
+		const response2 :any = response1.affectedRows > 0 ? await customQuery(Query2, values1)  : ''
+		 
+		let Query3 = "INSERT INTO f_commission (franchise, ibarangay, teller, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?,?)"
+
+		response2.affectedRows > 0 ? await customQuery(Query3, data) : ''
+
+		connection.commit()
+		return 'ok'
+		// return await new Promise((resolve, reject)=>{
+		// 	connection.query("SELECT ib_fbranchCode FROM ibrgy_list WHERE ib_ibrgyyCode=?", [data[0]], (err, result)=>{
+		// 		if(err) return reject(err)
+		// 		resolve(result)
+		// 	})
+		// }).then(async(response:any)=>{
+		// 	data.unshift(response[0].ib_fbranchCode)
+			
+		// 	await new Promise((resolve ,reject )=>{
+		// 		connection.query("SELECT * FROM wallet WHERE branchCode=?", [data[0]], (err, result)=>{
+		// 			if(err) return reject(err)
+		// 			resolve(result)
+		// 		})
+		// 	}).then(async(res:any)=>{
+
+		// 		const commision :any = res[0].current_wallet + 5
+		// 		await Promise.all([
+		// 			Promise.resolve(
+		// 				connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [commision, response[0].ib_fbranchCode], (err,result)=>{
+		// 					if(err) throw err;
+		// 					return result
+		// 				})
+		// 			),
+		// 			Promise.resolve(
+		// 				connection.query("INSERT INTO f_commission (franchise, ibarangay, teller, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?,?)", data, (err, result)=>{
+		// 					if(err) throw err;
+		// 					return result
+		// 				})
+		// 			)
+		// 		])
+		// 	})
+		// 	connection.commit()
+		// 	return 'ok'
+		// }) 
 	}catch(err:any){
 		connection.rollback()
 		return err
