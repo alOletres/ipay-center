@@ -281,5 +281,13 @@ export class FranchiselistComponent implements OnInit {
 			this._snackBar._showSnack(err, 'error')
 		})
 	}
+	async signOut(data:any){
+		try{
+			const response:any = await this.http_auth.signOut({ type : data.fbranchType, code : data.fbranchCode })
+			response.message === 'ok' ? this._snackBar._showSnack('Successfully log out', 'success') : this._snackBar._showSnack('Try Again', 'error')
+		}catch(err:any){
+			this._snackBar._showSnack(err, 'error')
+		}
+	}
 }
 

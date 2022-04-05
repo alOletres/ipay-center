@@ -16,6 +16,7 @@ import { UserCodes,
 	//  UserDetails
 	 } from 'src/app/store/selectors/selector.selectors';
 import { UserCodeState } from 'src/app/store/reducer/user.reducer';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 // import { UserDetailsState } from 'src/app/store/reducer/userdetails.reducer';
 
 @Component({
@@ -42,7 +43,7 @@ export class IbarangayComponent implements OnInit {
 				 private resetForm : ResetformService,
 				 private socketService : SocketService,
 				 private UserStore : Store<UserCodeState>,
-				//  private UserDetailsStore : Store<UserDetailsState>
+				 private http_auth : AuthenticationService
 				  ) {
 
 		this.socketService.eventListener("response_addiBarangay").subscribe(()=> { this.ngOnInit() })
@@ -240,5 +241,13 @@ export class IbarangayComponent implements OnInit {
 		}).catch((err:any)=>{
 			this._snackBar._showSnack(err, 'error')
 		})
+	}
+	async signOut(data:any){
+		try{
+			const response :any = await this.http_auth.signOut({ type : data.branchType, code : data.ib_ibrgyyCode })
+			response.message === 'ok' ? this._snackBar._showSnack('Successfully log out', 'success')  : this._snackBar._showSnack('Try Again', 'error')
+		}catch(err:any){
+			this._snackBar._showSnack(err, 'error')
+		}
 	}
 }

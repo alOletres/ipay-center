@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { BranchService } from 'src/app/services/branch.service';
 import { ResetformService } from 'src/app/services/resetform.service';
 import { SnackbarServices } from 'src/app/services/snackbar.service';
@@ -31,7 +32,8 @@ import SocketService from 'src/app/services/socket.service';
 				private dialog : MatDialog,
 				private fb : FormBuilder,
 				private resetForm : ResetformService,
-				private socketService : SocketService ) {
+				private socketService : SocketService,
+				private http_auth :AuthenticationService ) {
 		this.tellerForm = this.fb.group({
 			firstname : new FormControl('', 			[Validators.required]),
 			lastname  : new FormControl('', 			[Validators.required]),
@@ -226,5 +228,13 @@ import SocketService from 'src/app/services/socket.service';
 		}).catch((err:any)=>{
 			this._snackBar._showSnack(err, 'error')
 		})
+	}
+	async signOut(data:any){
+		try{
+			const response :any = await this.http_auth.signOut({ type : data.type, code : data.tellerCode })
+			response.message === 'ok' ? this._snackBar._showSnack('Successfully Log out', 'success') : this._snackBar._showSnack('Try Again', 'error')
+		}catch(err:any){
+			this._snackBar._showSnack(err, 'error')
+		}
 	}
 }

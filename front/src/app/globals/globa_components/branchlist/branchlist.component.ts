@@ -40,9 +40,7 @@ export class BranchlistComponent implements OnInit {
 		private _recieved: ReceivablesService,
 		public dialog: MatDialog,
 		private fb: FormBuilder,
-		private http_auth : AuthenticationService,
-		private router : Router,
-		private socketService : SocketService
+		private http_auth : AuthenticationService
 	) { 
 
 
@@ -150,5 +148,13 @@ export class BranchlistComponent implements OnInit {
 		}).catch((err:any)=>{
 			this._snackBar._showSnack(err, 'error')
 		})
+	}
+	 async signOut(data:any){
+		try{
+			const response :any = await this.http_auth.signOut({ type : data.branchType, code : data.branchCode })
+			response.message === 'ok' ? this._snackBar._showSnack('Successfully logout', 'success') : this._snackBar._showSnack('Try Again', 'error')
+		}catch(err:any){
+			this._snackBar._showSnack(err, 'error')
+		}
 	}
 }

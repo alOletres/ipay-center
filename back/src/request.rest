@@ -16,3 +16,4 @@ GET http://ipinfo.io/?format=jsonp&callback=getIP
 Content-Type: application/json
 
 ### 103.168.38.30
+GET http://ip-api.com/json

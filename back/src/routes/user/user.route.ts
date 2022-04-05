@@ -87,9 +87,7 @@ class UserController {
 					})
 				}).then(async(response:any)=>{
 					if(!response.length){
-						
 						res.status(Codes.UNAUTHORIZED).send({ message : 'Username is incorrect' })
-					
 					}else{
 						
 						if(	bcrypt.compareSync(password, response[0].password)){
@@ -113,8 +111,8 @@ class UserController {
 								? res.status(Codes.UNAUTHORIZED).send({ message : 'Your account was Login to other PC' }) 
 								: response2 =  await customQuery(Query1, values1) 
 								
+								response2.affectedRows > 0 ? res.status(Codes.SUCCESS).send([response[0], token]) : ''
 							}
-							response2.affectedRows > 0 ? res.status(Codes.SUCCESS).send([response[0], token]) : ''
 							
 						}else{
 							res.status(Codes.UNAUTHORIZED).send({ message : 'Your Password is incorrect' })
