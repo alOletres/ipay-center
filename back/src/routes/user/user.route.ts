@@ -7,8 +7,7 @@ import { Message, Codes } from '../../utils/main.enums'
 import bcrypt from 'bcrypt'
 
 import { authenticationToken } from '../../middleware/auth'
-
-import jwt from 'jsonwebtoken'
+const jwt = require('jsonwebtoken');
 import axios from 'axios'
 
 
