@@ -9,6 +9,7 @@ import bcrypt from 'bcrypt'
 import { authenticationToken } from '../../middleware/auth'
 
 import jwt from 'jsonwebtoken'
+import axios from 'axios'
 
 
 const saltRounds : any = process.env.SALT_ROUNDS
@@ -16,6 +17,20 @@ const password : any = process.env.STAT_PASSWORD
 const salt = bcrypt.genSaltSync(parseInt(saltRounds));
 const savePassword = bcrypt.hashSync(password, salt)
 const ACCESS_TOKEN_SECRET = String(process.env.ACCESS_TOKEN_SECRET)
+
+const customQuery = (Query :any , values :any) =>{
+	
+	return new Promise((resolve, reject)=>{
+		
+		connection.query(Query, values, (err, result)=>{
+			if(err) {
+				reject(err)
+			}else{
+				resolve(result)
+			}
+		})
+	})
+}
 
 const resetPassword = async(BRANCHCODE:any) => {
 	try{
@@ -42,6 +57,14 @@ const resetPassword = async(BRANCHCODE:any) => {
 const generateToken = async(user:any) =>{
 	return jwt.sign( { user }, ACCESS_TOKEN_SECRET, { expiresIn : '8h' })
 }
+const getIpAddress = async() =>{
+	try{
+		const response :any = await axios.get(`http://ip-api.com/json`)
+		return JSON.stringify(response.data)
+	}catch(err:any){
+		return err
+	}
+}
 class UserController {
     private router: Router
     constructor() {
@@ -51,15 +74,11 @@ class UserController {
         /**
          * @Functions
          */
-		// this.router.get('/checkusername',authenticationToken,async (req, res) => {
-		// 	res.status(Codes.SUCCESS).send("alejhadnro")
-		// })
         this.router.post('/checkuserAccount', async(req, res)=>{
 
             const { username, password } = req.body;
-
-			
-            try{
+			var response2 :any
+			 try{
                 connection.beginTransaction()
 				return new Promise((resolve)=>{
 					connection.query("SELECT * FROM user_account WHERE username=? AND status=?", [username, 0], (err, result)=>{
@@ -69,18 +88,36 @@ class UserController {
 				}).then(async(response:any)=>{
 					if(!response.length){
 						
-						res.status(400).send('Something Went Wrong')
+						res.status(Codes.UNAUTHORIZED).send({ message : 'Username is incorrect' })
 					
 					}else{
 						
 						if(	bcrypt.compareSync(password, response[0].password)){
-
+							/**check first if online or offline except admin */
+							/**
+							 * 0 login
+							 * 1 cant login user is already online
+							 */
 							const token = await generateToken(username)
+							if(response[0].user_type === 'Admin'){
+								res.status(Codes.SUCCESS).send([response[0], token])
+							}else{
+								let Query = "SELECT * FROM user_account WHERE username=? AND isonline=?"
+								let values = [username,0]
+								const response1 :any = await customQuery(Query, values)
+								/**update isonline  */
+								let Query1 = "UPDATE user_account SET isonline=? WHERE username=?"
+								let values1 = [1, username]
 
-							res.status(Codes.SUCCESS).send([response[0], token])
-
+								!response1.length 
+								? res.status(Codes.UNAUTHORIZED).send({ message : 'Your account was Login to other PC' }) 
+								: response2 =  await customQuery(Query1, values1) 
+								
+							}
+							response2.affectedRows > 0 ? res.status(Codes.SUCCESS).send([response[0], token]) : ''
+							
 						}else{
-							res.status(400).send('Something Went Wrong')
+							res.status(Codes.UNAUTHORIZED).send({ message : 'Your Password is incorrect' })
 						}
 					}
 
@@ -389,20 +426,20 @@ class UserController {
 		this.router.post('/loginLogs',authenticationToken,async (req, res) => {
 			
 			const { user_type, username} = req.body
-			
-			const data = ['isOnline', username, user_type, JSON.stringify(req.body), Codes.SUCCESS]
+			const ip :any = await getIpAddress()
+
+			const data = ['isOnline', username, user_type, JSON.stringify(req.body), Codes.SUCCESS, ip]
 			
 			try{
 				connection.beginTransaction()
 
-			    await new Promise((resolve, reject)=>{
+			    return await new Promise((resolve, reject)=>{
 
-					connection.query("INSERT INTO activitylogs (affectedColumn, reference, loggedBy, dataBefore, logStatusCode) VALUES (?, ?, ?, ?, ?) ", data, (err, result) => {
+					connection.query("INSERT INTO activitylogs (affectedColumn, reference, loggedBy, dataBefore, logStatusCode, ip) VALUES (?, ?, ?, ?, ?, ?) ", data, (err, result) => {
 						if(err) return reject(err)
 						resolve(result)
 					})
-				}).then(()=>{
-					
+				}).then((response:any)=>{
 					res.status(Codes.SUCCESS).send({ message : 'ok' })
 					connection.commit()
 				}).catch((err:any)=>{
@@ -411,6 +448,7 @@ class UserController {
 				
 				
 			}catch(err:any){
+				console.log(err);
 				
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 				
@@ -422,14 +460,17 @@ class UserController {
 		this.router.post('/signOut',authenticationToken,async (req, res) => {
 			
 			const { type, code } = req.body
-			const data = ['offLine', code, type, '', Codes.SUCCESS]
 			try{
 				connection.beginTransaction()
-				connection.query("INSERT INTO activitylogs (affectedColumn, reference, loggedBy, dataBefore, logstatusCode) VALUES (?, ?, ?, ?, ?) ", 
-					data, (err, result)=>{
-					if(err) throw err;
-					return true
-				})
+				
+				let Query = "INSERT INTO activitylogs (affectedColumn, reference, loggedBy, dataBefore, logstatusCode) VALUES (?, ?, ?, ?, ?) "
+				let data = ['offLine', code, type, '', Codes.SUCCESS]
+				const response :any = await customQuery(Query, data)
+				/**update user_account isonline */
+				let Query1 = "UPDATE user_account SET isonline=? WHERE username=?"
+				let values1 = [0, code]
+				response.affectedRows > 0 ? await customQuery(Query1, values1) : ''
+
 				connection.commit()
 				res.status(Codes.SUCCESS).send({ message : 'ok' })
 			}catch(err:any){

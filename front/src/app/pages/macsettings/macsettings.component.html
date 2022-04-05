@@ -18,7 +18,7 @@
 	
 </div>
 <div  fxLayout="row wrap" *ngIf="createAnnoucementCard">
-	<div style="margin-left: 1%; cursor: pointer;" fxFlex= "45%" fxFlex.md="100%" fxFlex.xs="100%">
+	<div style=" cursor: pointer;" fxFlex= "50%" fxFlex.md="50%" fxFlex.xs="50%">
 		<mat-card  style="color:rgb(49, 13, 78)" (click) = "showAnnouncement()" class="card _card">
 			<div class="row">
 				<div class="col-md-1">
@@ -33,6 +33,22 @@
 			</div>
 		</mat-card>
 	</div>
+
+	<!-- <div style=" cursor: pointer;" fxFlex= "50%" fxFlex.md="50%" fxFlex.xs="50%">
+		<mat-card [routerLink]="['/incident report']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  style="color:rgb(45, 163, 231)"  class="card _card">
+			<div class="row">
+				<div class="col-md-1">
+					<b style="font-size: 30px; font-weight: 500;"> 
+						<i class="fa fa-info-circle" aria-hidden="true" style=" margin-right: 3px; "></i>
+					</b>
+				</div>
+				<div class="col-md-11">
+					<b>Incident Report</b><br>
+					..
+				</div>
+			</div>
+		</mat-card>
+	</div> -->
 </div>
 
 <br>

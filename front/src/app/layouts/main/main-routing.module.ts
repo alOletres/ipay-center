@@ -26,6 +26,7 @@ import { WalletHistoryComponent } from './../../pages/transaction/wallet-history
 import { CommissionComponent } from './../../pages/transaction/commission/commission.component';
 import { ServicesListComponent } from './../../pages/services-list/services-list.component';
 import { GovbillpaymentComponent } from './../../pages/transaction/govbillpayment/govbillpayment.component';
+import { IncidentComponent } from './../../pages/macsettings/incident/incident.component';
 const routes: Routes = [
 	{
 		path: '',
@@ -88,6 +89,9 @@ const routes: Routes = [
 			}, {
 				path:'billspayment',
 				component : GovbillpaymentComponent
+			}, {
+				path : 'incident report',
+				component : IncidentComponent
 			}
 		]
 	}

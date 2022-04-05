@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
 		/***
 		 * checkUser[1] ==token
 		 */
+		
 		this.cookie.set("access_token", checkUser[1])
 		this._snackBar._showSnack(`Success`, 'success')
 
@@ -81,10 +82,8 @@ export class LoginComponent implements OnInit {
 		this.progress = false
 		
 	}catch(err:any){
-		console.log(err);
-		
 		this.progress = false
-		this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
+		this._snackBar._showSnack(err.error.message, 'error')
 	}
 
   }

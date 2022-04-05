@@ -99,6 +99,8 @@ import { TotalIncomeCommissionPipe, SearchByCommissionPipe, TotalIncomeWalletHis
  import { NgxLoadingModule } from 'ngx-loading';
  import { ngxLoadingAnimationTypes } from 'ngx-loading';
  import { NgxPrintModule } from 'ngx-print';
+ 
+import { IncidentComponent } from './../../pages/macsettings/incident/incident.component';
 @NgModule({
 	declarations: [
 		HeaderComponent,
@@ -156,7 +158,8 @@ import { TotalIncomeCommissionPipe, SearchByCommissionPipe, TotalIncomeWalletHis
 		SearchByDateMultisysPipe,
 		MultisysDailyCollectionPipe,
 		MultisysDailySalesPipe,
-		MultisysDailyIncomePipe
+		MultisysDailyIncomePipe,
+		IncidentComponent
 	],
 	imports: [
 		CommonModule,

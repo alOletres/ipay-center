@@ -9,3 +9,10 @@ Content-Type: application/json
     "username" : "frt0001"
     
 }
+
+####
+
+GET http://ipinfo.io/?format=jsonp&callback=getIP
+Content-Type: application/json
+
+### 103.168.38.30
