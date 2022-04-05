@@ -170,14 +170,6 @@ const bookToBarkota = async(data:any) =>{
 			}
 
 			payload.allowPromotionsNotification = parseInt(contactInfo.promotion)
-
-			
-		// });
-		// const response = {
-		// 	data: {
-		// 		printUrl: 'https://barkota-reseller-php-staging-4kl27j34za-uc.a.run.app/print/voucher.php?c=https%3A%2F%2Fbarkota-reseller-php-staging-4kl27j34za-uc.a.run.app%2Fob%2Fvoucher%2Fcheck%3Fp%3Di63mjd3vmfguu1tm0m89I6iWdn0A0vDKSKH3mEd7wo2ih%252BiN%252B2R2mpgxlJ7ThLZdpnPBc7%252BzlKdOfvWpS%252ByYoSx4KaeB4iA%252FUqp2lKFAgrQ4AH8RrVsWL5AoTJE%253D'
-		// 	}
-		// }  
 		
 		const response : any = await axios.post(`${ BARKOTA_STAGING }/outlet/confirm-booking`,payload,{
 					
@@ -262,45 +254,7 @@ const saveToDb = async(data:any, branchCode :any, ticketUrl:any, CURRENT_WALLET 
 		let values2 = [deductedWallet, branchCode]
 		const res2 :any = res1.affectedRows > 0 ? await customQuery(Query2, values2) : ''
 		res2.affectedRows > 0 ? commisionResponse = tellerCode.slice(0, 3) === 'BRT' ? await insertCommision(dataThree, CURRENT_WALLET) : 'ok' : ''
-		
-		// return await new Promise((resolve, reject)=>{
-		// 	connection.query("INSERT INTO barkota (barkota_code, shippingLine, origin, destination, departureDate, voyageId, customer_name, contact_personNo, contact_personAdd, ticket_url, ticket_totalPrice, ipayService_charge, franchise_charge, branchCode, transacted_by, status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", datas,(err, result)=>{
-		// 		if(err) return reject(err)
-		// 		resolve(result)
-		// 	})
-		// }).then(async(res:any)=>{
-		// 	/**
-		// 	 * table affected
-		// 	 * wallet 
-		// 	 * wallet history transaction
-		// 	 * f_commision = BRT
-		// 	 * ibrgy_list
-		// 	 * franchise list
-		// 	 */
-		// 	if(res.affectedRows === 1){
-		// 		await Promise.all([
-		// 			Promise.resolve(
-		// 				connection.query("INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?)", dataTwo, (err, result)=>{
-		// 					if(err) throw err
-		// 					return result
-		// 				})
-		// 			),Promise.resolve(
-		// 				/**update wallet */
-		// 				connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [deductedWallet, branchCode], (err, result)=>{
-		// 					if(err)  throw err;
-		// 					return result
-		// 				})
-		// 			),Promise.resolve(
-		// 				commisionResponse = tellerCode.slice(0, 3) === 'BRT' ? await insertCommision(dataThree, CURRENT_WALLET) : 'ok'
-		// 			)
-		// 		])
-		// 	}else{
-		// 		return 'notFound'
-		// 	}
-			
-		// 	connection.commit()
-		// 	return commisionResponse
-		// })
+	
 		connection.commit()
 		return commisionResponse
 
@@ -337,40 +291,7 @@ const insertCommision = async(data:any, wallet:any) =>{
 
 		connection.commit()
 		return 'ok'
-		// return await new Promise((resolve, reject)=>{
-		// 	connection.query("SELECT ib_fbranchCode FROM ibrgy_list WHERE ib_ibrgyyCode=?", [data[0]], (err, result)=>{
-		// 		if(err) return reject(err)
-		// 		resolve(result)
-		// 	})
-		// }).then(async(response:any)=>{
-		// 	data.unshift(response[0].ib_fbranchCode)
-			
-		// 	await new Promise((resolve ,reject )=>{
-		// 		connection.query("SELECT * FROM wallet WHERE branchCode=?", [data[0]], (err, result)=>{
-		// 			if(err) return reject(err)
-		// 			resolve(result)
-		// 		})
-		// 	}).then(async(res:any)=>{
 
-		// 		const commision :any = res[0].current_wallet + 5
-		// 		await Promise.all([
-		// 			Promise.resolve(
-		// 				connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", [commision, response[0].ib_fbranchCode], (err,result)=>{
-		// 					if(err) throw err;
-		// 					return result
-		// 				})
-		// 			),
-		// 			Promise.resolve(
-		// 				connection.query("INSERT INTO f_commission (franchise, ibarangay, teller, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?,?)", data, (err, result)=>{
-		// 					if(err) throw err;
-		// 					return result
-		// 				})
-		// 			)
-		// 		])
-		// 	})
-		// 	connection.commit()
-		// 	return 'ok'
-		// }) 
 	}catch(err:any){
 		connection.rollback()
 		return err
@@ -908,183 +829,7 @@ class BarkotaController{
 
 
 		this.router.post('/saveBarkotaBookingTransactions',authenticationToken,async (req, res) => {
-			// const { passengers, contactInfo, shippingVessel, displayTicketTotal, ticketUrl, currentWallet, branchCode, userLog  } = req.body
-			
-			// const type = 'BRK'
-			
-			// try{
-			// 	if(userLog.slice(0, 3) === 'FRT'){
-
-			// 		connection.beginTransaction()
-			// 		return new Promise((resolve, reject)=>{
-			// 			connection.query("SELECT * FROM branch_count WHERE type=? ORDER  BY idCount DESC LIMIT 1", ['barkota'], (err, result)=>{
-			// 				if(err) return reject(err);
-			// 				resolve(result)
-			// 			})
-			// 		}).then(async (response:any)=>{
-
-			// 			const i = (parseInt(response[0].count) + ( 0 + 1))
-			// 			var ticketPrice = 0;
-			// 			var total_collections = 0;
-
-			// 			ticketPrice = (displayTicketTotal[0].total + 20) //mao ni na price ang mo minus sa wallet 
-			// 			total_collections = ticketPrice + 30
-
-			// 			const collections : walletCollection = {
-							
-			// 				collection : total_collections,
-			// 				sales : ticketPrice,
-			// 				income : 30
-
-			// 			}
-
-			// 			const currentW = currentWallet - ticketPrice
-						
-			// 			await Promise.all([
-			// 				Promise.resolve(
-								
-			// 					connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", 
-			// 					[currentW, branchCode], (err,result)=>{
-			// 						if(err) throw err;
-									
-			// 					})
-							
-			// 				)
-			// 				,Promise.resolve(
-
-			// 					connection.query("INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?, ?, ?, ? ,?, ?, ?)", 
-			// 					[branchCode, userLog, collections.collection, collections.sales, collections.income, type+('000'+i).slice(-4), 'Confirm'],(err, result)=>{
-			// 						if(err) throw err;
-			// 					})
-
-			// 				),Promise.resolve(
-								
-			// 					connection.query("INSERT INTO barkota (barkota_code, shippingLine, origin, destination, departureDate, voyageId, customer_name, contact_personNo, contact_personAdd, ticket_url, ticket_totalPrice, ipayService_charge, franchise_charge, branchCode, transacted_by, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-			// 					[type+('000'+i).slice(-4), shippingVessel[0].voyage.vesselName, shippingVessel[0].voyage.route.origin, shippingVessel[0].voyage.route.destination, shippingVessel[0].voyage.departureDateTime, shippingVessel[0].voyage.id, `${passengers[0].firstName} ${passengers[0].lastName}`, `+63${contactInfo.mobileNumber}`, contactInfo.address, ticketUrl, displayTicketTotal[0].total, 20, 30, branchCode, userLog, 'Confirm'], (err, result)=>{
-			// 						if(err) throw err;
-			// 					})
-			// 				), Promise.resolve(
-								
-			// 					connection.query("UPDATE branch_count SET count=? WHERE type=?",
-			// 					[i, 'barkota'], (err, result) => {
-			// 						if(err) throw err
-									
-			// 						res.status(200).send(type+('000'+i).slice(-4))
-									
-			// 					})
-			// 				)
-							
-			// 			])
-			// 			connection.commit()
-			// 		}).catch(err=>{
-
-			// 			res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-			// 		})
-
-			// 	}else{
-
-			// 		connection.beginTransaction()
-			// 		return new Promise((resolve , reject)=>{
-			// 			connection.query("SELECT * FROM branch_count WHERE type=?", ['barkota'], (err, result)=>{
-			// 				if(err) return reject(err);
-			// 				resolve(result)
-			// 			})
-			// 		}).then(async(response:any)=>{
-
-			// 			if(!response.length){
-
-			// 				res.status(Codes.SUCCESS).send({ message : 'notFound' })
-						
-			// 			}else{
-							
-			// 				const i = (parseInt(response[0].count) + ( 0 + 1))
-
-			// 				var ticketPrice = 0;
-			// 				var total_collections = 0;
-
-			// 				ticketPrice = (displayTicketTotal[0].total + 20) //mao ni na price ang mo minus sa wallet 
-							
-			// 				total_collections = ticketPrice + 25
-
-			// 				const currentW = currentWallet - ticketPrice
-
-			// 				const collections : walletCollection = {
-							
-			// 					collection : total_collections,
-			// 					sales : ticketPrice,
-			// 					income : 25
-	
-			// 				}
-							
-			// 				await new Promise((resolve, reject)=>{
-			// 					connection.query("SELECT ib_fbranchCode FROM ibrgy_list WHERE ib_ibrgyyCode=?", [branchCode], (err, result)=>{
-			// 						if(err) return reject(err)
-			// 						resolve(result)
-			// 					})
-			// 				}).then(async(result:any)=>{
-								
-			// 					if(!result.length){
-			// 						res.status(Codes.SUCCESS).send({ message : 'notFound' })
-			// 					}else{
-
-			// 						await Promise.all([
-			// 							Promise.resolve(
-											
-			// 								connection.query("UPDATE wallet SET current_wallet=? WHERE branchCode=?", 
-			// 								[currentW, branchCode], (err,result)=>{
-			// 									if(err) throw err;
-			// 									return result
-			// 								})
-										
-			// 							)
-			// 							,Promise.resolve(
-			
-			// 								connection.query("INSERT INTO wallet_historytransaction (branchCode, tellerCode, collection, sales, income, transaction_id, status) VALUES (?, ?, ?, ? ,?, ?, ?)", 
-			// 								[branchCode, userLog, collections.collection, collections.sales, collections.income, type+('000'+i).slice(-4), 'Confirm'],(err, result)=>{
-			// 									if(err) throw err;
-			// 									return result
-			// 								})
-			
-			// 							),Promise.resolve(
-											
-			// 								connection.query("INSERT INTO barkota (barkota_code, shippingLine, origin, destination, departureDate, voyageId, customer_name, contact_personNo, contact_personAdd, ticket_url, ticket_totalPrice, ipayService_charge, franchise_charge, branchCode, transacted_by, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-			// 								[type+('000'+i).slice(-4), shippingVessel[0].voyage.vesselName, shippingVessel[0].voyage.route.origin, shippingVessel[0].voyage.route.destination, shippingVessel[0].voyage.departureDateTime, shippingVessel[0].voyage.id, `${passengers[0].firstName} ${passengers[0].lastName}`, `+63${contactInfo.mobileNumber}`, contactInfo.address, ticketUrl, displayTicketTotal[0].total, 20, collections.income, branchCode, userLog, 'Confirm'], (err, result)=>{
-			// 									if(err) throw err;
-			// 									return result
-			// 								})
-			// 							), Promise.resolve(
-											
-			// 								connection.query("UPDATE branch_count SET count=? WHERE type=?",
-			// 								[i, 'barkota'], (err, result) => {
-			// 									if(err) throw err
-			// 									return result
-			// 								})
-			// 							), Promise.resolve(
-			// 								connection.query("INSERT INTO f_commission (franchise, ibarangay, teller, collection, sales, income, transaction_id, status) VALUES (?,?,?,?,?,?,?,?) ",
-			// 								[result[0].ib_fbranchCode, branchCode, userLog, collections.collection, collections.sales, 5, type+('000'+i).slice(-4), 'Confirm'],(err, result)=>{
-			// 									if(err) throw err
-			// 									return result
-			// 								})
-			// 							), Promise.resolve(
-			// 								await updateWallet(result[0].ib_fbranchCode)
-			// 							)
-										
-			// 						])
-			// 						res.status(Codes.SUCCESS).send({ message : 'ok' })
-			// 						connection.commit()
-			// 					}
-			// 				})
-			// 			}
-			// 		}).catch((err:any)=>{
-			// 			res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-			// 			connection.rollback()
-			// 		})
-			// 	}
-				
-			// }catch(err:any){
-			// 	res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-			// 	connection.rollback()
-			// }
+			/**nawala na */
 			
 		})
 

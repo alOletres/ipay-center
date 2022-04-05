@@ -109,10 +109,10 @@ export class SettingsComponent implements OnInit {
 			
 			).subscribe(data => {
 				
-				if(JSON.parse(data).length === 0 ){
+				if(data.length === 0 ){
 					this._snackBar._showSnack('No available data', 'error');
 				}else{
-					this.searchTicketTable = JSON.parse(data);
+					this.searchTicketTable = data;
 					this.transactionInfo = this.searchTicketTable[0].transactionInfo;
 					this.contactInfo = this.searchTicketTable[0].transactionInfo.contactInfo
 					this.voyageVessel = this.searchTicketTable[0].voyage
@@ -158,10 +158,10 @@ export class SettingsComponent implements OnInit {
 		).subscribe(data => {
 
 			
-			if(JSON.parse(data).length === 0){
+			if(data.length === 0){
 				this._snackBar._showSnack('Voucher not Available', 'error');
 			}else{
-				window.open(JSON.parse(data).printUrl)
+				window.open(data.printUrl)
 			}
 
 		})	
@@ -183,10 +183,10 @@ export class SettingsComponent implements OnInit {
 			})
 		).subscribe(data => {
 
-			if(JSON.parse(data).length === 0){
+			if(data.length === 0){
 				this._snackBar._showSnack('Transaction not Available', 'error');
 			}else{
-				window.open(JSON.parse(data).printUrl)
+				window.open(data.printUrl)
 			}
 
 		})	

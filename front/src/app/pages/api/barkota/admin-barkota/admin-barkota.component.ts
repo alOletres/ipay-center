@@ -128,9 +128,9 @@ export class AdminBarkotaComponent implements OnInit {
 					})
 				).subscribe(data=>{
 
-					if(JSON.parse(data).success === false){
+					if(data.success === false){
 						this._snackBar._showSnack('Please your credentials', 'error')
-					}else if(JSON.parse(data).success === 'again'){
+					}else if(data.success === 'again'){
 						this._snackBar._showSnack('Please check Barkota code or BranchCode', 'error')
 					}else{
 						this._snackBar._showSnack('Successfully Voided', 'success')
