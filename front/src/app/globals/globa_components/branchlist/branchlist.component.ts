@@ -91,21 +91,15 @@ export class BranchlistComponent implements OnInit {
 			this.ngOnInit()
 		})
 	}
-	slideStatus(dataStat: any) {
+	async slideStatus(dataStat: any) {
 		try{
-			this.httpBranch.updateBranchStatus({ 
-				data : dataStat,
-				loggedBy : atob(sessionStorage.getItem('type'))
-			}).then((response:any)=>{
-				if(response === 'success Updates.'){
-					this._snackBar._showSnack(`Branch Status Sucessfully Updated`, 'success')
-					this.ngOnInit()
-				}else{
-					this._snackBar._showSnack("Try Again", 'error')
-				}
-			}).catch(err=>{
-				this._snackBar._showSnack(err, 'error')
-			})
+			const response :any = await this.httpBranch.updateBranchStatus({  data : dataStat, loggedBy : atob(sessionStorage.getItem('type')) })
+			if(response.message === 'ok'){
+				this.ngOnInit()
+				this._snackBar._showSnack('Successfully update status', 'success')
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
 		}catch(err:any){
 			this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
 		}
@@ -120,7 +114,7 @@ export class BranchlistComponent implements OnInit {
 				branch : 'Franchise'
 			}
 		});
-		dialogRef.afterClosed().subscribe(result=>{
+		dialogRef.afterClosed().subscribe(()=>{
 			this.ngOnInit()
 		})
 	}
@@ -132,7 +126,7 @@ export class BranchlistComponent implements OnInit {
 				btnName : 'Save'
 			}
 		})
-		dialogRef.afterClosed().subscribe(result=>{
+		dialogRef.afterClosed().subscribe(()=>{
 			this.ngOnInit()
 		})
 	}

@@ -47,26 +47,16 @@ export class AddbranchComponent implements OnInit {
 	 async save() {
 		this.progress = true
 		try {
-			(this.btnName == 'Save') ? 			
-			
-				await this.httpBranch.saveBranch({ data : this.addbranchform.value, reference : atob(sessionStorage.getItem('type')) })
-				.then((response:any)=>{
-						
-					if(JSON.parse(response).message === 'ok'){
-						this._snackBar._showSnack("New Branch Head is Added", 'success')
-						this.dialogRe.close();
-					}else{
-						this._snackBar._showSnack('Try Again', 'error')
-					}	
-					this.progress = false				
+			if(this.btnName == 'Save') {
+				const response :any = await this.httpBranch.saveBranch({ data : this.addbranchform.value, reference : atob(sessionStorage.getItem('type')) })
+
+			}else{
+				await this.httpBranch.updateBranch(this.addbranchform.value).then(()=>{
+					this._snackBar._showSnack("Successfully change", 'success')
+					this.dialogRe.close()
+					this.progress = false
 				})
-			
-			: await this.httpBranch.updateBranch(this.addbranchform.value).then(()=>{
-				this._snackBar._showSnack("Successfully change", 'success')
-				this.dialogRe.close()
-				this.progress = false
-			})
-			
+			}		
 		} catch(e) {
 
 			this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')

@@ -131,32 +131,7 @@ export class GlobalDialogComponent implements OnInit {
 			this.dialogRef.close();
 
 		}else if(this.btnName === 'Save ' ){			
-			if(this.status === undefined && this.wallet === undefined){
-
-				this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
-
-			}else if(this.status === 'Approved' && this.wallet !== undefined ){
-				
-				const date :any = new Date() 
-				const dateApproved : any = moment(date).format() //date approved
-				await this.httpBranch.approvedIBstatus({id : this.id, code : this.codeforNotify, wallet: this.wallet, dateApproved : dateApproved});
-				this.socketService.sendEvent("eventSent", {data: "response_ibarangay"})/**SOCKET SEND EVENT */
-				this._snackBar._showSnack(`Successfully Added`, 'success')
-				this.dialogRef.close();
-
-			}else if(this.status === 'Decline' && this.wallet === undefined ){
-
-				const date :any = new Date() 
-				const dateDecline : any = moment(date).format() //date decline
-				await this.httpBranch.declineiBarangay({id : this.id, dateDecline : dateDecline}); // decline process status 2
-				this._snackBar._showSnack(`Request Declined`, 'error')
-				this.dialogRef.close();
-
-			}else{
-
-				this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
-
-			}
+			/***dri baih */
 		}else{
 			if(this.item == 'Teller'){
 				await this.httpBranch.updateTeller_list(this.editForm.value)

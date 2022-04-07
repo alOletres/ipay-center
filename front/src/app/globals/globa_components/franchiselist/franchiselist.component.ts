@@ -108,45 +108,14 @@ export class FranchiselistComponent implements OnInit {
 	async slideStatus(data:any, stat:any){
 		
 		try{
-			
-			// if(stat === 'Teller'){
-			// 	await this.httpFbranch.updateStatusTeller({
-					
-			// 		data: data,
-			// 		approved_by : `${atob(sessionStorage.getItem('code'))} ${atob(sessionStorage.getItem('type'))}`
 
-			// 	}).then(response=>{
-			// 		this._snackBar._showSnack(`Branch Status Sucessfully Updated`, 'success')
-			// 		this.ngOnInit()
-			// 	}).catch(error=>{
-			// 		this._snackBar._showSnack('Internal Error', 'error')
-			// 	})
-
-			// }else{
-			// 	if(stat == 'Franchise'){
-			// 		await this.httpFbranch.updateFbranchStatus({
-			// 			data : data,
-			// 			approved_by : `${atob(sessionStorage.getItem('code'))} ${atob(sessionStorage.getItem('type'))}`
-			// 		}).then(response=>{
-
-			// 			this._snackBar._showSnack(`Branch Status Sucessfully Updated`, 'success')
-			// 			this.ngOnInit()
-					
-			// 		}).catch(error=>{
-			// 			this._snackBar._showSnack('Internal Error', 'error')
-			// 		})
-			// 	}else{
-			// 		await this.httpFbranch.updateStatusIb({
-			// 			data:data,
-			// 			approved_by : `${atob(sessionStorage.getItem('code'))} ${atob(sessionStorage.getItem('type'))}`
-			// 		}).then(response=>{
-			// 			this._snackBar._showSnack(`Branch Status Sucessfully Updated`, 'success')
-			// 			this.ngOnInit()
-			// 		}).catch(error=>{
-			// 			this._snackBar._showSnack('Internal Error', 'error')
-			// 		})
-			// 	}
-			// }
+			const response :any = await this.httpFbranch.updateFbranchStatus({ data : data, approved_by : `${atob(sessionStorage.getItem('type'))}` })
+			if(response.message === 'ok'){
+				this.ngOnInit()
+				this._snackBar._showSnack('Successfully  Update status', 'success')
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
 		}catch(e){
 			this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
 		}

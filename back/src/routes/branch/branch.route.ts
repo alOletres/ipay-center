@@ -142,47 +142,19 @@ class BranchController {
 
 			
 			try{
-				if(data.branchStatus == 1){
+				connection.beginTransaction()
+				const id = data.branchStatus === 1 ? 0 : 1
+				let Query = "UPDATE branch_list SET branchStatus=? WHERE b_id=?"
+				let values = [id, data.b_id]
 
-					connection.beginTransaction()
-					return new Promise((resolve, reject)=>{
-						connection.query("UPDATE branch_list SET branchStatus=? WHERE b_id=?",
-						[0, data.b_id], (err, result) => {
-							if(err) throw err;
-							resolve(result)
-						})
-					}).then(async(response:any)=>{
+				const response :any = await customQuery(Query, values)
+				/** */
+				let Query1 = "UPDATE user_account SET status =? WHERE username =?"
+				let values1 = [id, data.branchCode]
 
-						await Promise.resolve(
-							connection.query("UPDATE user_account SET status =? WHERE username =?", [0, data.branchCode], (err, result)=>{
-								if(err) throw err;
-								res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-							})
-						)
-
-						connection.commit()
-					})
-					
-				}else{
-
-					connection.beginTransaction()
-					return new Promise((resolve)=>{
-						connection.query("UPDATE branch_list SET branchStatus=? WHERE b_id=?",
-						[1, data.b_id], (err, result) => {
-							if(err) throw err;
-							resolve(result)
-						})
-					}).then(async(response:any)=>{
-						await Promise.resolve(
-							connection.query("UPDATE user_account SET status =? WHERE username =?", [1, data.branchCode], (err, result)=>{
-								if(err) throw err;
-								res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-							})
-						)
-						connection.commit()
-					})
-					
-				}
+				const response1 :any = response.affectedRows > 0 ? await customQuery(Query1, values1) : ''
+				response1.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message :'ok' }) : ''
+				connection.commit()
 			}catch(err:any){
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
@@ -320,42 +292,21 @@ class BranchController {
 			const {data, approved_by} = req.body
 			
 			try{
-				if(data.status === 1){
-					connection.beginTransaction()
-					return new Promise((resolve, reject)=>{
+				connection.beginTransaction()
+				const id = data.status === 1 ? 0 : 1
+				let Query =  "UPDATE franchise_list SET status=? WHERE id=?"
+				let value = [id, data.id]
+				
+				const response :any = await customQuery(Query, value)
 
-						connection.query("UPDATE franchise_list SET status=? WHERE id=?",
-						[0, data.id], (err, result) => {
-							if(err) throw err;
-							resolve(result)
-						})
-					}).then((response:any) =>{
+				/** */
+				let Query1 = "UPDATE user_account SET status=?, approved_by=? WHERE username=?"
+				let value1 = [id, approved_by, data.fbranchCode]
 
-						connection.query("UPDATE user_account SET status=? WHERE username=?", [0, data.fbranchCode], (err, result)=>{
-							if(err) throw err;
-							connection.commit()
-							res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-						})
-					})
-					
-				}else{
+				const response1 :any = response.affectedRows > 0 ? await customQuery(Query1, value1) : ''
 
-					connection.beginTransaction()
-					return new Promise((resolve, reject)=>{
-						connection.query("UPDATE franchise_list SET status=? WHERE id=?",
-						[1, data.id], (err, result) => {
-							if(err) throw err;
-							resolve(result)
-						})
-					}).then((response:any)=>{
-						connection.query("UPDATE user_account SET status=?, approved_by=? WHERE username=?", [1, approved_by, data.fbranchCode], (err, result)=>{
-							if(err) throw err;
-							connection.commit()
-							res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-						})
-					})
-					
-				}
+				response1.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
+				connection.commit()
 			}catch(err:any){
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
@@ -460,7 +411,7 @@ class BranchController {
 				const result :any = response.affectedRows > 0 ? await customQuery(Query1, values) : ''
 				result.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
 				connection.commit()
-				
+
 			}catch(err:any){
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
