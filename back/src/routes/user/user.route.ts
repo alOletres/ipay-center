@@ -96,8 +96,10 @@ class UserController {
 							 * 1 cant login user is already online
 							 */
 							const token = await generateToken(username)
-							if(response[0].user_type === 'Admin'){
+							
+							if(response[0].user_type === 'Admin' || response[0].user_type === 'Franchise' || response[0].user_type === 'iBarangay' || response[0].user_type === 'Branch Head'){
 								res.status(Codes.SUCCESS).send([response[0], token])
+								
 							}else{
 								let Query = "SELECT * FROM user_account WHERE username=? AND isonline=?"
 								let values = [username,0]
@@ -106,11 +108,12 @@ class UserController {
 								let Query1 = "UPDATE user_account SET isonline=? WHERE username=?"
 								let values1 = [1, username]
 
-								!response1.length 
-								? res.status(Codes.UNAUTHORIZED).send({ message : 'Your account was Login to other PC' }) 
-								: response2 =  await customQuery(Query1, values1) 
-								
-								response2.affectedRows > 0 ? res.status(Codes.SUCCESS).send([response[0], token]) : ''
+								if(!response1.length){
+									res.status(Codes.UNAUTHORIZED).send({ message : 'Your account was Login to other PC' }) 
+								}else{
+									response2 =  await customQuery(Query1, values1) 
+									response2.affectedRows > 0 ? res.status(Codes.SUCCESS).send([response[0], token]) : ''
+								}
 							}
 							
 						}else{
@@ -523,25 +526,26 @@ class UserController {
 		this.router.post('/resetPassword',authenticationToken,async (req, res) => {
 			
 			const { branchCode, ib_fbranchCode, fbranchCode, ib_ibrgyyCode, tellerCode } = req.body
+			const response :any = await resetPassword(branchCode)
 			
 			if(branchCode !== null && fbranchCode === null && tellerCode === null && ib_fbranchCode === null || branchCode !== undefined && fbranchCode === undefined && tellerCode === undefined && ib_fbranchCode === undefined){
 				/** reset branchCode */
-				const response :any = await resetPassword(branchCode)
+			
 				res.status(Codes.SUCCESS).send({ message : response })
 				
 			}else if(branchCode !== null && fbranchCode !== null && tellerCode === null || branchCode !== undefined && fbranchCode !== undefined && tellerCode === undefined ){
 				/**reset franchise */
-				const response :any = await resetPassword(branchCode)
+			
 				res.status(Codes.SUCCESS).send({ message : response })
 				
 			}else if(branchCode !== null && ib_fbranchCode !== null && ib_ibrgyyCode !== null && tellerCode === null || branchCode !== undefined && ib_fbranchCode !== undefined && ib_ibrgyyCode !== undefined && tellerCode === undefined) {
 				/** reset ibarangay */
-				const response :any = await resetPassword(branchCode)
+			
 				res.status(Codes.SUCCESS).send({ message : response })
 				
 			}else if(tellerCode !== null || tellerCode !== undefined){
 				/**reset teller */
-				const response :any = await resetPassword(branchCode)
+				
 				res.status(Codes.SUCCESS).send({ message : response })
 			}
 			

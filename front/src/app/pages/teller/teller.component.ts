@@ -232,7 +232,12 @@ import SocketService from 'src/app/services/socket.service';
 	async signOut(data:any){
 		try{
 			const response :any = await this.http_auth.signOut({ type : data.type, code : data.tellerCode })
-			response.message === 'ok' ? this._snackBar._showSnack('Successfully Log out', 'success') : this._snackBar._showSnack('Try Again', 'error')
+			if(response.message === 'ok'){
+				this._snackBar._showSnack('Successfully Log out', 'success')
+				this.socketService.sendEvent("eventSent", {data: data.tellerCode})/**SOCKET SEND EVENT */
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
 		}catch(err:any){
 			this._snackBar._showSnack(err, 'error')
 		}

@@ -92,10 +92,13 @@
                         <ng-container matColumnDef="status">
                             <th class="table__table-header" mat-header-cell *matHeaderCellDef> Status </th>
                             <td class="table__table-body" mat-cell *matCellDef="let element"> 
-                                <mat-slide-toggle [checked]="element.status == 0"  (change)="slideStatus(element, item)" >
-                                    <div *ngIf="element.status == 0 ;else elseBlock">Active</div>
-                                    <ng-template #elseBlock >Inactive</ng-template>
-                                </mat-slide-toggle>
+                                <mat-chip-list aria-label="Fish selection">
+            
+                                    <mat-chip *ngIf = "element.status === 0" color="primary" selected>Active</mat-chip>
+                                    <mat-chip *ngIf = "element.status === 1" color="accent" selected>pending </mat-chip>
+                                    <mat-chip *ngIf = "element.status === 2" color="warn" selected>Decline</mat-chip>
+        
+                                </mat-chip-list>
                             </td>
                         </ng-container>
         

@@ -58,6 +58,12 @@ export class TellermainComponent implements OnInit {
 			this.eloads()	
 			this.multisys()
 		})
+
+		// logout here 
+		this.socketService.eventListener(atob(sessionStorage.getItem('code'))).subscribe(()=>{
+			this.signOutEmit()
+		})
+		
 		this.barkotaTrans()
 		this.eloads()
 	}
