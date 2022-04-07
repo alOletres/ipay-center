@@ -13,6 +13,35 @@ const savePassword = bcrypt.hashSync(password, salt)
 interface data {
 	res : Array<object>
 }
+const customQuery = (Query :any , values :any) =>{
+	
+	return new Promise((resolve, reject)=>{
+		
+		connection.query(Query, values, (err, result)=>{
+			if(err) {
+				reject(err)
+			}else{
+				resolve(result)
+			}
+		})
+	})
+}
+const updateStatusTeller = async(data:any, approved_by:any) =>{
+	
+	let id = data.status === 1 ? 0 : 1
+	let Query = "UPDATE teller_list SET status=? WHERE id=?"
+	let value = [id, data.id]
+
+	/** */
+	let Query1 = "UPDATE user_account SET status=? WHERE username=?"
+	let values1 = [0, data.tellerCode]
+
+	const response :any = await customQuery(Query, value)
+
+	return  response.affectedRows > 0 ? await  customQuery(Query1, values1) : { message : 'notFound'}
+	
+}
+
 class BranchController {
 
     private router: Router
@@ -418,41 +447,20 @@ class BranchController {
 			const { data, approved_by} = req.body
 			
 			try{
-				if(data.status == 1){
-					connection.beginTransaction()
-					return new Promise((resolve)=>{
-						connection.query("UPDATE ibrgy_list SET status=? WHERE ib_id=?",
-						[0, data.ib_id], (err, result) => {
-							if(err) throw err;
-							resolve(result)
-						})
-					}).then(async()=>{
+				connection.beginTransaction()
+				const id = data.status === 1 ? 0 : 1 
+				let Query = "UPDATE ibrgy_list SET status=? WHERE ib_id=?"
+				let value = [id, data.ib_id]
+				/**next query */
+				let Query1 = "UPDATE user_account SET status=?, approved_by=? WHERE username=?"
+				let values =[id, approved_by, data.ib_ibrgyyCode]
 
-						connection.query("UPDATE user_account SET status=? WHERE username=?", [0, data.ib_ibrgyyCode],(err, result)=>{
-							if(err)throw err;
-							connection.commit()
-							res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-						})
-					})
-				}else{
-					connection.beginTransaction()
-					
-					return new Promise((resolve)=>{
-						connection.query("UPDATE ibrgy_list SET status=? WHERE ib_id=?",
-						[1, data.ib_id], (err, result) => {
-							if(err) throw err;
-							resolve(result)
-						})
-					}).then(async()=>{
-
-						connection.query("UPDATE user_account SET status=?, approved_by=? WHERE username=?", [1, approved_by, data.ib_ibrgyyCode],(err, result)=>{
-							if(err) throw err;
-							connection.commit()
-							res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-						})
-					})
-					
-				}
+				const response :any = await customQuery(Query, value)
+				
+				const result :any = response.affectedRows > 0 ? await customQuery(Query1, values) : ''
+				result.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
+				connection.commit()
+				
 			}catch(err:any){
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
@@ -616,44 +624,8 @@ class BranchController {
 			const {data, approved_by} = req.body
 			
 			try{
-				if(data.status == 1){
-					connection.beginTransaction()
-					return new Promise((resolve, reject)=>{
-
-						connection.query("UPDATE teller_list SET status=? WHERE id=?",
-						[0, data.id], (err, result) => {
-							if(err) throw err;
-							resolve(result)
-							// res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-						})
-					}).then(async(response:any)=>{
-
-						connection.query("UPDATE user_account SET status=? WHERE username=?",[0, data.tellerCode],(err, result)=>{
-							if(err) throw err;
-							connection.commit()
-							res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-						})
-					})
-					
-				}else{
-
-					connection.beginTransaction()
-					return new Promise((resolve, reject)=>{
-
-						connection.query("UPDATE teller_list SET status=? WHERE id=?",
-						[1, data.id], (err, result) => {
-							if(err) throw err;
-							resolve(result)
-						})
-					}).then(async(response:any)=>{
-						// update for user account
-						connection.query("UPDATE user_account SET status=?, approved_by=? WHERE username=?", 
-						[1, approved_by, data.tellerCode],(err, result)=>{
-							connection.commit()
-							res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-						})
-					})
-				}
+				const response :any = await updateStatusTeller(data, approved_by)
+				response.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
 			}catch(err:any){
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)

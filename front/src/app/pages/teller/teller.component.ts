@@ -110,18 +110,18 @@ import SocketService from 'src/app/services/socket.service';
 	async slideStatus(data:any, type:any){
 
 		this.progress = true
-		await this.http_branch.updateStatusTeller({
-			data: data,
-			approved_by : `${atob(sessionStorage.getItem('code'))} ${atob(sessionStorage.getItem('type'))}`
-		}).then(()=>{
-			this.progress = false
-			this._snackBar._showSnack('Successfully change', 'success')
-			this.ngOnInit()
-		}).catch(error=>{
-			this.progress = false
-			this._snackBar._showSnack(error, 'error')
-		})
-
+		try{
+			const response :any = await this.http_branch.updateStatusTeller({ data: data, approved_by : `${atob(sessionStorage.getItem('code'))} ${atob(sessionStorage.getItem('type'))}` })
+			if(response.message === 'ok'){
+				this.ngOnInit()
+				this._snackBar._showSnack('Successfully Updated', 'success')
+			}else{
+				this._snackBar
+				._showSnack('Try Again', 'error')
+			}
+		}catch(err:any){
+			this._snackBar._showSnack(err, 'error')
+		}
 	}
 	editTeller(data:any){
 

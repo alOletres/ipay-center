@@ -12,7 +12,7 @@ import { Keywords } from './utils/main.enums'
 import  { socket } from './socket/socket.server'
 import  { watch }  from './databaseWatcher/db_watcher.server'
 import { Server } from 'socket.io'
-import path from 'path'
+
 const startSocketServer = (instance:any) => socket( {instance} )
 
 class MainServer {

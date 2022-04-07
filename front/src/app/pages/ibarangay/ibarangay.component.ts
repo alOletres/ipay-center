@@ -112,19 +112,18 @@ export class IbarangayComponent implements OnInit {
 	}
 
 	async slideStatus(data:any, type:any){
-		
-		await this.http_branch.updateStatusIb({
-			
-			data:data,
-			approved_by : `${atob(sessionStorage.getItem('code'))} ${atob(sessionStorage.getItem('type'))}`
-		
-		}).then(()=>{
-			this._snackBar._showSnack(`Branch Status Sucessfully Updated`, 'success')
-			this.ngOnInit()
-
-		}).catch(error=>{
-			this._snackBar._showSnack(error, 'error')
-		})
+		try{
+			const response :any = await this.http_branch.updateStatusIb({ data:data, approved_by : `${atob(sessionStorage.getItem('type'))}` })
+			if(response.message === 'ok'){
+				this.ngOnInit()
+				this._snackBar
+				._showSnack('Successfully updated status', 'success')
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
+		}catch(err:any){
+			this._snackBar._showSnack(err, 'error')
+		}
 	}
 
 	function_viewdialogTeller(data : any){
