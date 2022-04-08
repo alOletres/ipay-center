@@ -177,7 +177,7 @@ export class IbarangayComponent implements OnInit {
 		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
 			await this.http_branch.updateIbarangaylist({data : this.ibarangayForm.value})
 			.then((response:any)=>{
-				(JSON.parse(response).message === 'ok')?
+				(response.message === 'ok')?
 					`${this._snackBar._showSnack('Successfully Change', 'success')} ${this.ngOnInit()} ${this.resetForm.reset(this.ibarangayForm)}
 					
 					${this.socketService.sendEvent("eventSent", {data: "response_addiBarangay"})/**SOCKET SEND EVENT */}`
@@ -191,7 +191,7 @@ export class IbarangayComponent implements OnInit {
 
 				await this.http_branch.saveiB({ data : this.ibarangayForm.value, fcode : atob(sessionStorage.getItem('code'))})
 				.then((response:any)=>{
-					(JSON.parse(response).message === 'ok')
+					(response.message === 'ok')
 					? `${this._snackBar._showSnack('Successfully Save', 'success')} ${this.ngOnInit()} ${this.resetForm.reset(this.ibarangayForm)}
 					
 						${this.socketService.sendEvent("eventSent", {data: "response_addiBarangay"})/**SOCKET SEND EVENT */}`
@@ -203,7 +203,7 @@ export class IbarangayComponent implements OnInit {
 				
 			: await this.http_branch.updateIbarangaylist({data : this.ibarangayForm.value})
 			.then((response:any)=>{
-				(JSON.parse(response).message === 'ok')?
+				(response.message === 'ok')?
 				
 					`${this._snackBar._showSnack('Successfully Change', 'success')} ${this.ngOnInit()} ${this.resetForm.reset(this.ibarangayForm)}
 					 ${this.socketService.sendEvent("eventSent", {data: "response_addiBarangay"})/**SOCKET SEND EVENT */}`

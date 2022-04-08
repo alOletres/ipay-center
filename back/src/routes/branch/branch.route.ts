@@ -59,57 +59,41 @@ class BranchController {
 		this.router.post('/saveBranch', authenticationToken, async (req, res) => {
 			
 			const { data, reference } = req.body
-		
+			const type = 'BH'
 			try {
 				connection.beginTransaction()
-				return new Promise((resolve, reject) => {
-					connection.query("SELECT * from branch_count WHERE type=?", 
-					['Branch Head'], (err, result) => {
-						if(err) throw err
-						
-						resolve (result)
-					})
-				})
-				.then(async (responce: any) => {
+				let Query = "SELECT * from branch_count WHERE type=?"
+				let value = ['Branch Head']
+				const response :any = await customQuery(Query, value)
+				
+				if(!response.length){
+					res.status(Codes.NOTFOUND).send({ message : 'notFound' })
+				}else{
+					const i = response[0].count + 1
+					const count = `${type}${String(i).padStart(4, '0')}`
 					
-					const i = parseInt(responce[0].count)+1
-					const type = 'BH'
+					let Query1 = "INSERT INTO branch_list(ownerFirstname, ownerLastname, contactNo, emailAdd, address, branchName, branchType, branchCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+					let value1 = [data.ownerFirstname, data.ownerLastname, data.contactNo, data.emailAdd, data.address, data.branchName, 'Branch Head',count]
+
+					const response1 :any = await customQuery(Query1, value1)
+					/** */
+					let Query2 = "INSERT INTO user_account(user_type, username, password, status) VALUES (?, ?, ?, ?)"
+					let value2 = [ 'Branch Head', count, savePassword, 1]
+					const response2 :any = response1.affectedRows > 0 ? await customQuery(Query2, value2)  : ''
 					
-					
-					await Promise.all([
-						 Promise.resolve(
-							connection.query("INSERT INTO branch_list(ownerFirstname, ownerLastname, contactNo, emailAdd, address, branchName, branchType, branchCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-							[data.ownerFirstname, data.ownerLastname, data.contactNo, data.emailAdd, data.address, data.branchName, 'Branch Head', type+('000'+i).slice(-4)], (err, result) => {
-								if(err) throw err;
-								
-								return result
-							})
-						),  Promise.resolve(
-							connection.query("INSERT INTO user_account(user_type, username, password, status) VALUES (?, ?, ?, ?)",
-							[ 'Branch Head', type+('000'+i).slice(-4), savePassword, 1], (err, result)=>{
-								if(err) throw err;
-							
-								return result
-							})
-						),  Promise.resolve(
-							connection.query("UPDATE branch_count SET count=? WHERE type=?",
-							[i, 'Branch Head'], (err, result) => {
-								if(err) throw err
-								return result
-							})
-						) 
-						
-					])
-					connection.commit()
-					res.status(Codes.SUCCESS).send({ message : 'ok' })
-				})
+					/** */
+					let Query3 = "UPDATE branch_count SET count=? WHERE type=?"
+					let values3 = [i, 'Branch Head']
+					const response3 :any = response2.affectedRows > 0  ? await customQuery(Query3, values3) : ''
+					response3.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
+				}
+				connection.commit()
 			} catch (err: any) {
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}
 
 		})
-
 
 		this.router.get('/getBranches',authenticationToken, async (req, res) => {
 			try {
@@ -126,14 +110,18 @@ class BranchController {
 			const { ownerFirstname, ownerLastname, contactNo, emailAdd, address, branchName, id } = req.body
 			
 			try {
-				connection.query("UPDATE branch_list SET ownerFirstname=?, ownerLastname=?, contactNo=?, emailAdd=?, address=?, branchName=? WHERE b_id=?",
-				[ownerFirstname, ownerLastname, contactNo, emailAdd, address, branchName, id], (err, result) => {
-					if(err) throw err;
+				connection.beginTransaction()
+				let Query = "UPDATE branch_list SET ownerFirstname=?, ownerLastname=?, contactNo=?, emailAdd=?, address=?, branchName=? WHERE b_id=?"
+				let values = [ownerFirstname, ownerLastname, contactNo, emailAdd, address, branchName, id]
 
-					res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-				})
+				const response :any = await customQuery(Query, values)
+
+				response.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
+
+				connection.commit()
 			} catch (err: any) {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+				connection.rollback()
 			}	
 		})
 		this.router.post('/updateBranchStatus',authenticationToken, async (req, res) => {
@@ -170,50 +158,36 @@ class BranchController {
 
 			try {
 				connection.beginTransaction()
-				return new Promise((resolve, reject) => {
-					connection.query("SELECT * from branch_count WHERE type=?", 
-					['Franchise'], (err, result) => {
-						if(err) throw err
-						
-						resolve (result)
-					})
-				})
-				.then(async (responce: any) => {
+				let Query = "SELECT * from branch_count WHERE type=?"
+				let value = ['Franchise']
+				const response :any = await customQuery(Query, value)
+				const i = parseInt(response[0].count)+1
+				const series = `${type}${String(i).padStart(4, '0')}`
 
-					const i = parseInt(responce[0].count)+1
+				/** */
+				let Query1 = "INSERT INTO franchise_list (branchCode, fbranchCode, franchiseName, fbranchType, lastname, firstname, contactNo, email, location, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+				let value1 = [code, series, branchName, 'Franchise', lastname, firstname, contactNo, email, locationAddress, 1 ]
+				if(!response.length){
+					res.status(Codes.NOTFOUND).send({ message : 'notFound' })
+				}else{
+					const response1 :any = await customQuery(Query1, value1) 
 
+					/** */
+					let Query2 = "INSERT INTO user_account(user_type, username, password, status) VALUES (?, ?, ?, ?)"
+					let values2 = ['Franchise', series, savePassword, 1]
+					const response2 :any = response1.affectedRows > 0 ? await customQuery(Query2, values2)  : ''
+					
+					/** */
+					let Query3 = "UPDATE branch_count SET count=? WHERE type=?"
+					let value3 = [i, 'Franchise']
+
+					const response3 :any = response2.affectedRows > 0 ? await customQuery(Query3, value3) : ''
+					
+					response3.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
+					connection.commit()
+				}
 				
 					
-					await Promise.all([
-						Promise.resolve(
-							connection.query("INSERT INTO franchise_list (branchCode, fbranchCode, franchiseName, fbranchType, lastname, firstname, contactNo, email, location, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-							[code, type+('000'+i).slice(-4), branchName, 'Franchise', lastname, firstname, contactNo, email, locationAddress, 1 ], (err, result) => {
-								if(err) throw err;
-								return result
-							})
-						), Promise.resolve(
-							connection.query("INSERT INTO user_account(user_type, username, password, status) VALUES (?, ?, ?, ?)", 
-							['Franchise', type+('000'+i).slice(-4), savePassword, 1], (err, result)=>{
-								if(err) throw err;
-								return result
-							})
-						), Promise.resolve(
-							connection.query("UPDATE branch_count SET count=? WHERE type=?",
-							[i, 'Franchise'], (err, result) => {
-								if(err) throw err
-								
-								return result
-							})
-						)
-					])
-					connection.commit()
-					res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Added.`)
-					
-				})
-				.catch((err) => {
-                    connection.rollback()
-                    res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-                })
 			} catch (err: any) {
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
@@ -316,14 +290,15 @@ class BranchController {
 		this.router.post('/updateFbranch',authenticationToken, async (req, res)=>{
 			const { data } = req.body
 			try{
-				connection.query('UPDATE franchise_list SET franchiseName=?, lastname =?, firstname =?, contactNo =?, email =?, location =? WHERE id =?', 
-				[data.branchName, data.lastname, data.firstname, data.contactNo, data.email, data.locationAddress, data.id ],(err, result)=>{
-					if(err) throw err;
-					res.status(Codes.SUCCESS).send(result)
-						
-				})
+				connection.beginTransaction()
+				let Query = 'UPDATE franchise_list SET franchiseName=?, lastname =?, firstname =?, contactNo =?, email =?, location =? WHERE id =?'
+				let values = [data.branchName, data.lastname, data.firstname, data.contactNo, data.email, data.locationAddress, data.id ]
+				const response :any = await customQuery(Query, values)
+				response.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
+				connection.commit()
 			}catch(err:any){
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+				connection.rollback()
 			}
 			
 		})
@@ -333,47 +308,33 @@ class BranchController {
 			const { branchCode, fbranchCode, branchName, lastname, firstname, suffix,  contactNo, email, locationAddress }  = req.body
 			try {
 				connection.beginTransaction()
-				return await new Promise((resolve, reject) => {
-					connection.query("SELECT * from branch_count WHERE type=?", 
-					['iBarangay'], (err, result) => {
-						if(err) throw err
-						
-						resolve (result)
-					})
-				})
-				.then(async (responce: any) => {
-					const i = parseInt(responce[0].count)+1
-				
-					await Promise.all([
-						Promise.resolve(
-							connection.query("INSERT INTO ibrgy_list (branchCode, ib_fbranchCode, ib_ibrgyyCode, franchiseName, branchType, lastname, firstname, contactNo, email, location, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-							[branchCode, fbranchCode, type+('000'+i).slice(-4), branchName, 'iBarangay', lastname, firstname, contactNo, email, locationAddress, 1 ], (err, result) => {
-								if(err) throw err;
-								return result
-							})
-						), Promise.resolve(
-							connection.query("INSERT INTO user_account (user_type, username, password, status) VALUES (?, ?, ?, ?)", 
-							['iBarangay', type+('000'+i).slice(-4), savePassword, 1], (err, result)=>{
-								if(err) throw err;
-								return result
-							})
-						), Promise.resolve(
-							connection.query("UPDATE branch_count SET count=? WHERE type=?",
-							[i, 'iBarangay'], (err, result) => {
-								if(err) throw err
-								
-								return result
-							})
-						)
-					])
-					connection.commit()
-					res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Added.`)
+
+				let Query = "SELECT * from branch_count WHERE type=?"
+				let values = ['iBarangay']
+
+				const response :any = await customQuery(Query, values)
+				const i = parseInt(response[0].count)+1
+				const series = `${type}${String(i).padStart(4, '0')}`
+				if(!response.length){
+					res.status(Codes.NOTFOUND).send({ message :'notFound' })
+				}else{
+					let Query1 = "INSERT INTO ibrgy_list (branchCode, ib_fbranchCode, ib_ibrgyyCode, franchiseName, branchType, lastname, firstname, contactNo, email, location, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+					let value1 = [branchCode, fbranchCode, series, branchName, 'iBarangay', lastname, firstname, contactNo, email, locationAddress, 1 ]
+					const response1 :any = await customQuery(Query1, value1)
+					/** */
+					let Query2 = "INSERT INTO user_account (user_type, username, password, status) VALUES (?, ?, ?, ?)"
+					let value2 =  ['iBarangay', series, savePassword, 1]
+					const response2 :any = response1.affectedRows > 0 ? await customQuery(Query2, value2) : ''
+					/** */
+					let Query3 = "UPDATE branch_count SET count=? WHERE type=?"
+					let value3 = [i, 'iBarangay']
+
+					const response3:any = response2.affectedRows > 0 ? await customQuery(Query3, value3) : ''
+
+					response3.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
 					
-				})
-				.catch((err) => {
-                    connection.rollback()
-                    res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-                })
+				}
+				connection.commit()
 			} catch (err: any) {
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
@@ -677,37 +638,21 @@ class BranchController {
 
 			try{
 				connection.beginTransaction()
-				return new Promise ((resolve, reject)=>{
-					connection.query("UPDATE ibrgy_list SET status=?, date_approved=? WHERE ib_id=?", [0, dateApproved,  id], (err, result)=>{
-						if(err) throw err
-								
-						resolve (result)
-					})
-				}).then(async (reponse:any) => {
-					await Promise.all([
-						Promise.resolve(
+				let Query = "UPDATE ibrgy_list SET status=?, date_approved=? WHERE ib_id=?"
+				let values = [0, dateApproved,  id]
+				const response :any = await customQuery(Query, values)
 
-							connection.query("INSERT INTO wallet (branchCode, approved_wallet, current_wallet) VALUES (?, ?, ?)", 
-							[code, wallet, wallet], (err, result)=>{
-								if(err) throw err;
-								return result
-							})
-						), Promise.resolve(
-
-							connection.query("INSERT INTO user_account (user_type, username, password, status) VALUES (?, ?, ?, ?)",
-							['iBarangay', code, savePassword, 0 ],(err, result)=>{
-								if(err) throw err;
-								return result
-							})
-						)
-					])
-					connection.commit()
-					res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Added.`)
-				})
-				.catch((err) => {
-                    connection.rollback()
-                    res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
-                })
+				/** */
+				let Query1 = "INSERT INTO wallet (branchCode, approved_wallet, current_wallet) VALUES (?, ?, ?)"
+				let value1 = [code, wallet, wallet] 
+				const response1 :any = response.affectedRows > 0 ? await customQuery(Query1, value1) : ''
+				/** */
+				let Query2 = "INSERT INTO user_account (user_type, username, password, status) VALUES (?, ?, ?, ?)"
+				let value2 = ['iBarangay', code, savePassword, 0 ]
+				const response2 :any = response1.affectedRows > 0 ? await customQuery(Query2, value2) : ''
+				response2.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
+				connection.commit()
+				
 			}catch(err:any){
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)

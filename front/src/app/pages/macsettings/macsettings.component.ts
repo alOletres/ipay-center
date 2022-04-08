@@ -58,7 +58,7 @@ export class MacsettingsComponent implements OnInit {
 			await this.http_settings.createAnnouncement({ messages: this.announcementForm.value ,createdBy: atob(sessionStorage.getItem('type')) })		
 			.then((message:any)=>{
 				
-				(JSON.parse(message).message === 'ok') ? `${this._snackBar._showSnack('Successfully Created', 'success')} ${this.resetForm.reset(this.announcementForm)}`
+				(message.message === 'ok') ? `${this._snackBar._showSnack('Successfully Created', 'success')} ${this.resetForm.reset(this.announcementForm)}`
 				: this._snackBar._showSnack('Something went wrong', 'error')
 				this.ngOnInit()
 				this.socketService.sendEvent("eventSent", {data: "response_newAnnouncement"})/**SOCKET SEND EVENT */
@@ -77,7 +77,7 @@ export class MacsettingsComponent implements OnInit {
 	
 				
 					
-				(JSON.parse(message).message === 'ok') ? `${this._snackBar._showSnack('Successfully Updated', 'success')} ${this.resetForm.reset(this.announcementForm)}`
+				(message.message === 'ok') ? `${this._snackBar._showSnack('Successfully Updated', 'success')} ${this.resetForm.reset(this.announcementForm)}`
 				: this._snackBar._showSnack('Something went wrong', 'error')
 				this.ngOnInit()
 				this.socketService.sendEvent("eventSent", {data: "response_newAnnouncement"})/**SOCKET SEND EVENT */
@@ -93,7 +93,7 @@ export class MacsettingsComponent implements OnInit {
 	async displayAnnouncement(){
 
 		const res : any = await this.http_settings.displayAnnouncement()
-		let result = JSON.parse(res).map((data:any)=>data)
+		let result = res.map((data:any)=>data)
 		
 		this.data = new MatTableDataSource<any>(result)
 		this.data.paginator = this.paginator	
@@ -105,7 +105,7 @@ export class MacsettingsComponent implements OnInit {
 		await this.http_settings.changeStatus({ value : data })
 		.then((message:any)=>{
 			
-			(JSON.parse(message).message === 'ok') ? `${this._snackBar._showSnack('Successfully Change', 'success')} ${this.ngOnInit()} ${this.socketService.sendEvent("eventSent", {data: "response_Announcement_changeStatus"})}`
+			(message.message === 'ok') ? `${this._snackBar._showSnack('Successfully Change', 'success')} ${this.ngOnInit()} ${this.socketService.sendEvent("eventSent", {data: "response_Announcement_changeStatus"})}`
 			: this._snackBar._showSnack('Something went wrong', 'error')
 
 			this.progress = false

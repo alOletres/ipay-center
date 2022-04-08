@@ -65,16 +65,26 @@ export class StepperComponent implements OnInit {
 			(this.branch == 'Franchise')
 			
 			? await this.httpBranch.saveFbranch({...this.addFranchiseform.value, code: this.franchiseData.branchCode})
-				.then(()=>{
-
-					this.socketService.sendEvent("eventSent", {data: "response_addFranchise"})/**SOCKET SEND EVENT */	
-					this._snackBar._showSnack(`Branch Save`, 'success')
+				.then((response:any)=>{
+					console.log(response);
+					
+					if(response.message === 'ok'){
+						this.socketService.sendEvent("eventSent", {data: "response_addFranchise"})/**SOCKET SEND EVENT */	
+						this._snackBar._showSnack(`Branch Save`, 'success')
+					}else{
+						this._snackBar._showSnack('Try Again', 'error')
+					}
+					
 				})
 			: await this.httpBranch.saveIbarangay({...this.addFranchiseform.value, branchCode : this.branchCode, fbranchCode :this.fbranchCode})
-				.then(()=>{
-					this.socketService.sendEvent("eventSent", {data: "response_addiBarangay"})/**SOCKET SEND EVENT */	
-					this._snackBar._showSnack(`Branch Save`, 'success')
-				})
+				.then((response:any)=>{
+					if(response.message === 'ok'){
+						this.socketService.sendEvent("eventSent", {data: "response_addiBarangay"})/**SOCKET SEND EVENT */	
+						this._snackBar._showSnack(`Branch Save`, 'success')
+					}else{
+						this._snackBar._showSnack('Try Again', 'error')
+					}
+			})
 
 		}catch(e){
 			this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
