@@ -56,7 +56,7 @@ import SocketService from 'src/app/services/socket.service';
 			this.progress = true
 			
 			const res = await this.http_branch.getTellerlist()
-
+			
 			if( atob(sessionStorage.getItem('type')) === 'Admin' ){
 
 				const r = Object.values(res)
@@ -108,10 +108,10 @@ import SocketService from 'src/app/services/socket.service';
 	}
 
 	async slideStatus(data:any, type:any){
-
-		this.progress = true
+		
 		try{
-			const response :any = await this.http_branch.updateStatusTeller({ data: data, approved_by : `${atob(sessionStorage.getItem('code'))} ${atob(sessionStorage.getItem('type'))}` })
+			const response :any = await this.http_branch.updateStatusTeller({ data: data, approved_by : `${atob(sessionStorage.getItem('type'))}` })
+			
 			if(response.message === 'ok'){
 				this.ngOnInit()
 				this._snackBar._showSnack('Successfully Updated', 'success')

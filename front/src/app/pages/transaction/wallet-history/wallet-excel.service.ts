@@ -20,10 +20,6 @@ export class WalletExcelService {
     constructor() { }
 	exportAsExcelFile(...data:any){
 
-		
-
-	
-		
 		const fileName = atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'? ''
 						: ''
 		this.workbook.creator = 'alOletres';
@@ -115,7 +111,7 @@ export class WalletExcelService {
 
 			const transactionName = d.transaction_id.slice(0, 3) === 'BRK' ? 'BARKOTA' 
 									: d.transaction_id.slice(0, 3) === 'IPC' ? 'LOAD CENTRAL' 
-									: ''
+									: 'Gov Bills Payment'
 			 const i = index + 1
 			 rows = [i , transactionName, d.tellerCode, d.collection, d.sales, d.income, moment(d.transacted_date).format('LLL'), 'Success']
 			 const x = worksheet.addRow(rows)

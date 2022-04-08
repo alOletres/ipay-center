@@ -521,7 +521,8 @@ class BranchController {
 		// get teller list
 		this.router.get('/getTellerlist',authenticationToken, async(req, res) =>{
 			try{
-				 connection.query('SELECT * FROM teller_list', (err, result) =>{
+				
+				 connection.query('SELECT * FROM teller_list INNER JOIN user_account ON teller_list.tellerCode = user_account.username', (err, result) =>{
 					if(err) throw err;
 
 					res.status(Codes.SUCCESS).send(result)
@@ -536,8 +537,11 @@ class BranchController {
 			const {data, approved_by} = req.body
 			
 			try{
+				connection.beginTransaction()
 				const response :any = await updateStatusTeller(data, approved_by)
+				
 				response.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
+				connection.commit()
 			}catch(err:any){
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)

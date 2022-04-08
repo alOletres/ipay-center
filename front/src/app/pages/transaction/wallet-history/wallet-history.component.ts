@@ -52,6 +52,7 @@ export class WalletHistoryComponent implements OnInit {
 			const res :any = result.filter((x:any)=>{ return x.branchCode === atob(sessionStorage.getItem('code')) }).map((y:any)=>y)
 			this.dataSource = new MatTableDataSource<any>(res)
 			this.dataSource.paginator = this.paginator
+			
 		}
 		
 	}
