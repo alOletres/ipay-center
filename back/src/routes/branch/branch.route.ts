@@ -550,13 +550,12 @@ class BranchController {
 			const {firstname, lastname, contactNo, email, locationAddress, id} = req.body	
 			
 			try {
-				await Promise.resolve(
-					connection.query("UPDATE teller_list SET firstname=?, lastname=?, contactNo=?, email=?, location=? WHERE id=?",
-					[firstname, lastname, contactNo, email, locationAddress, id], (err, result) => {
-						if(err) throw err;
-						res.status(Codes.SUCCESS).send(`${ Message.SUCCESS } Updates.`)
-					})
-				)
+				connection.beginTransaction()
+				let Query = "UPDATE teller_list SET firstname=?, lastname=?, contactNo=?, email=?, location=? WHERE id=?"
+				let value = [firstname, lastname, contactNo, email, locationAddress, id]
+				const response :any = await customQuery(Query, value)
+				response.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message :'ok' }) : ''
+				connection.commit()
 			} catch (err: any) {
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
 			}	
@@ -652,7 +651,7 @@ class BranchController {
 				const response2 :any = response1.affectedRows > 0 ? await customQuery(Query2, value2) : ''
 				response2.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
 				connection.commit()
-				
+
 			}catch(err:any){
 				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)

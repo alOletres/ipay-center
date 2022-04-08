@@ -152,7 +152,7 @@ export class FranchiselistComponent implements OnInit {
 			data : this.tellerForm.value,
 			fcode : this.fbranchCode
 		}).then((response:any)=>{
-			if(JSON.parse(response).message === 'ok'){
+			if(response.message === 'ok'){
 				this._snackBar._showSnack('Successfully Save', 'success')
 				this.socketService.sendEvent("eventSent", {data: "response_teller"})/**SOCKET SEND EVENT */
 			}else{

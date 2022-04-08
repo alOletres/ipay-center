@@ -161,7 +161,7 @@ import SocketService from 'src/app/services/socket.service';
 			? await this.http_branch.addibTeller({data : this.tellerForm.value , fcode : atob(sessionStorage.getItem('code'))})
 				.then((response : any)=>{
 
-					(JSON.parse(response).message) 
+					(response.message) 
 					? `${this._snackBar._showSnack("Successfully Save", 'success')} ${this.ngOnInit()} ${this.resetForm.reset(this.tellerForm)} ${this.progress = false} `
 					: `${this._snackBar._showSnack('Try Again', 'error')} ${this.progress = false}`
 					
@@ -189,8 +189,8 @@ import SocketService from 'src/app/services/socket.service';
 			await this.http_branch.updateTeller_list(this.tellerForm.value)
 		
 			.then((response:any)=>{
-				(response === 'success Updates.')
-				? `${this._snackBar._showSnack(response, 'success')} ${this.ngOnInit()} ${this.resetForm.reset(this.tellerForm)} ${this.progress =false}`
+				(response.message === 'ok')
+				? `${this._snackBar._showSnack('Successfully updated', 'success')} ${this.ngOnInit()} ${this.resetForm.reset(this.tellerForm)} ${this.progress =false}`
 				:  `${this._snackBar._showSnack('Try Again', 'error')} ${this.progress = false}`
 				
 			}).catch((err)=>{
