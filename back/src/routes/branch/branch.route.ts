@@ -37,8 +37,8 @@ const updateStatusTeller = async(data:any, approved_by:any) =>{
 	let values1 = [0, data.tellerCode]
 
 	const response :any = await customQuery(Query, value)
-
-	return  response.affectedRows > 0 ? await  customQuery(Query1, values1) : { message : 'notFound'}
+	
+	return  response.affectedRows === 0 ? await  customQuery(Query1, values1) : { message : 'notFound'}
 	
 }
 
@@ -522,7 +522,7 @@ class BranchController {
 		this.router.get('/getTellerlist',authenticationToken, async(req, res) =>{
 			try{
 				
-				 connection.query('SELECT * FROM teller_list INNER JOIN user_account ON teller_list.tellerCode = user_account.username', (err, result) =>{
+				 connection.query('SELECT * FROM user_account INNER JOIN teller_list ON user_account.username = teller_list.tellerCode', (err, result) =>{
 					if(err) throw err;
 
 					res.status(Codes.SUCCESS).send(result)
@@ -538,13 +538,22 @@ class BranchController {
 			
 			try{
 				connection.beginTransaction()
-				const response :any = await updateStatusTeller(data, approved_by)
+				let id = data.status === 1 ? 0 : 1
+				let Query = "UPDATE teller_list SET status=? WHERE id=?"
+				let value = [id, data.id]
+
+				/** */
+				let Query1 = "UPDATE user_account SET status=? WHERE username=?"
+				let values1 = [id, data.tellerCode]
+
+				const response :any = await customQuery(Query, value)
 				
-				response.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) : ''
+				const response1 :any = response.affectedRows > 0 ? await  customQuery(Query1, values1) : { message : 'notFound'}
+				response1.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message : 'ok' }) :''
 				connection.commit()
 			}catch(err:any){
-				connection.rollback()
 				res.status(err.status || Codes.INTERNAL).send(err.message || Message.INTERNAL)
+				connection.rollback()
 			}
 			
 		})
@@ -558,6 +567,7 @@ class BranchController {
 				let Query = "UPDATE teller_list SET firstname=?, lastname=?, contactNo=?, email=?, location=? WHERE id=?"
 				let value = [firstname, lastname, contactNo, email, locationAddress, id]
 				const response :any = await customQuery(Query, value)
+				
 				response.affectedRows > 0 ? res.status(Codes.SUCCESS).send({ message :'ok' }) : ''
 				connection.commit()
 			} catch (err: any) {

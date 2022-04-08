@@ -56,6 +56,7 @@ import SocketService from 'src/app/services/socket.service';
 			this.progress = true
 			
 			const res = await this.http_branch.getTellerlist()
+			console.log(res);
 			
 			if( atob(sessionStorage.getItem('type')) === 'Admin' ){
 

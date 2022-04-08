@@ -185,8 +185,8 @@
                         <ng-container matColumnDef="status">
                             <th class="table__table-header" mat-header-cell *matHeaderCellDef> Status </th>
                             <td class="table__table-body" mat-cell *matCellDef="let element"> 
-                                <mat-slide-toggle [checked]="element.status == 0"  (change)="slideStatus(element, item)" >
-                                    <div *ngIf="element.status == 0 ;else elseBlock">Active</div>
+                                <mat-slide-toggle [checked]="element.status === 0"  (change)="slideStatus(element, item)" >
+                                    <div *ngIf="element.status === 0 ;else elseBlock">Active</div>
                                     <ng-template #elseBlock >Inactive</ng-template>
                                 </mat-slide-toggle>
                             </td>

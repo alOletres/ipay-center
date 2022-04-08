@@ -175,7 +175,7 @@ export class TellermainComponent implements OnInit {
 			this.logsDisplay = this.activityLogs.length
 			this.bottomMessage = 'show less..'
 		}else{
-			this.logsDisplay = 8
+			this.logsDisplay = 3
 			this.bottomMessage = 'see more...'
 		}
 	}
