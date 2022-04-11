@@ -1,0 +1,19 @@
+GET http://localhost:7000/user/users/checkusername
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZnJ0MDAwMSIsImlhdCI6MTY0ODY5MDM3MCwiZXhwIjoxNjQ4NjkwNDAwfQ.IqeA2Bm48OSrTCdW56_zfGyrXpy94FoHsL0TOhapahE
+#####
+
+POST http://localhost:7000/user/users/checkuserAccount
+Content-Type: application/json
+
+{
+    "username" : "frt0001"
+    
+}
+
+####
+
+GET http://ipinfo.io/?format=jsonp&callback=getIP
+Content-Type: application/json
+
+### 103.168.38.30
+GET http://ip-api.com/json
