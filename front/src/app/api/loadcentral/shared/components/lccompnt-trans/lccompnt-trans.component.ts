@@ -20,9 +20,9 @@ export class LccompntTransComponent implements OnInit {
 
 	lcservices: any = (data as any).default;
 
-	modelType: string 
-	productName: string 
-	productPromo: string 
+	modelType: string
+	productName: string
+	productPromo: string
 	types: Array<string>
 	searchTxt: string
 	searchPromo: string
@@ -60,7 +60,7 @@ export class LccompntTransComponent implements OnInit {
 
 	onselectPromo(e) {
 		const x = this.ProductPromo.filter((a: any) => a.PRODUCTNAME == e)
-		
+
 		this.selectedPromoCodes = x[0]
 		this.amount = ''
 	}
@@ -81,7 +81,7 @@ export class LccompntTransComponent implements OnInit {
 	}
 	markup(...data:any){
 		/***
-		 * 
+		 *
 		 * ELOAD
 			10-49		2
 			50-99		3
@@ -110,38 +110,38 @@ export class LccompntTransComponent implements OnInit {
 		const amount =   data[2] === '' ? data[3].LCPRODUCTCODE.match(/(\d+)/)[1]
 		               : data[2] !== '' ? data[2]
 					   : ''
-		switch(data[0]){
-			
-			case 'ELOAD': return  parseInt(amount) === 10  || parseInt(amount) < 50  ? 2 
-								: parseInt(amount) === 50  || parseInt(amount) < 99  ? 3 
+		switch(data[0]) {
+
+			case 'ELOAD': return  parseInt(amount) === 10  || parseInt(amount) < 50  ? 2
+								: parseInt(amount) === 50  || parseInt(amount) < 99  ? 3
 								: parseInt(amount) === 100 || parseInt(amount) < 499 ? 5
 								: parseInt(amount) === 500 || parseInt(amount) > 500 ? 7
 								: ''
-			case 'GAMES': return  parseInt(amount) === 10  || parseInt(amount) < 100  ? 7 
+			case 'GAMES': return  parseInt(amount) === 10  || parseInt(amount) < 100  ? 7
 								: parseInt(amount) === 100 || parseInt(amount) < 500  ? 10
 								: parseInt(amount) === 500 || parseInt(amount) < 1000 ? 20
 								: parseInt(amount) === 1000 || parseInt(amount) < 2500 ? 30
 								: parseInt(amount) === 2500 || parseInt(amount) < 5000 ? 50
 								: parseInt(amount) === 5000 || parseInt(amount) > 5000 ? 70
-								: '' 
-			case 'SATELLITE': return  data[1] === 'GLOBAL SATELLITE (GSAT and GPINOY)' ? parseInt(amount) === 99 ? 3 
+								: ''
+			case 'SATELLITE': return  data[1] === 'GLOBAL SATELLITE (GSAT and GPINOY)' ? parseInt(amount) === 99 ? 3
 																					   : parseInt(amount) === 200 || parseInt(amount) <= 500 ? 7
-																					   :'' 
+																					   :''
 									: data[1] === 'CIGNAL RELOAD CARDS' ? parseInt(amount) === 200 || parseInt(amount) <= 500 ? 7
 																		: parseInt(amount) === 600 || parseInt(amount) <= 1000 ? 10
 																		: ''
-									: data[1] === 'SATLITE by Cignal'   ? parseInt(amount) === 49 || parseInt(amount) <= 199 ? 3 
-																		: parseInt(amount) === 299 ? 7 
-																		: '' 
+									: data[1] === 'SATLITE by Cignal'   ? parseInt(amount) === 49 || parseInt(amount) <= 199 ? 3
+																		: parseInt(amount) === 299 ? 7
+																		: ''
 									: ''
 			default:
 		}
 
 	}
 	async submitLoad(){
-	
+
 		const MARKUP = this.markup(this.modelType, this.productName, this.amount, this.selectedPromoCodes)
-		
+
 		 Swal.fire({
 			title:  ` Collect Charge &#8369;${MARKUP}.00`,
 			text: 'Confirm to Proceed',
@@ -163,7 +163,7 @@ export class LccompntTransComponent implements OnInit {
 
 					const dialogRef = this.dialog.open(LoadingDialogComponent,{disableClose:true})
 					if (result.value) {
-						
+
 						this.http_load.sellProduct({
 							data				: this.phoneNumberForm.value,
 							modelType 			: this.modelType,
@@ -191,21 +191,21 @@ export class LccompntTransComponent implements OnInit {
 							}else{
 								this._snackBar._showSnack(`${JSON.parse(response).message}`, 'error')
 							}
-							
+
 							// if(JSON.parse(response).message === 'ok' ){
 
 							// 	this._snackBar._showSnack('Successfully Loaded', 'success')
 							// 	this.socketService.sendEvent("eventSent", {data: "response_sucessfullyLoaded"})/**SOCKET SEND EVENT */
 							// 	this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
-								
+
 							// }else if(JSON.parse(response).message === 'low_wallet'){
-								
+
 							// 	this._snackBar._showSnack('Your wallet has reached the 5000 system limit, Please reload to Continue', 'error')
-							
+
 							// }else if(JSON.parse(response).message === 'lackFunds'){
-							
+
 							// 	this._snackBar._showSnack('Insufficient Funds, Please contact technical support', 'error')
-							
+
 							// }else if(JSON.parse(response).message === 'systemError'){
 							// 	this._snackBar._showSnack('Load Central API System Error', 'error')
 							// }else{
@@ -215,15 +215,15 @@ export class LccompntTransComponent implements OnInit {
 						})
 
 					} else if (result.dismiss === Swal.DismissReason.cancel) {
-						
-						dialogRef.close()	
-						
+
+						dialogRef.close()
+
 						Swal.fire(
 						'Cancelled',
 						'',
 						'error'
 						)
-						
+
 					}
 				})
 			}
