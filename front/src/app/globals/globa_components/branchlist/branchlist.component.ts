@@ -40,9 +40,7 @@ export class BranchlistComponent implements OnInit {
 		private _recieved: ReceivablesService,
 		public dialog: MatDialog,
 		private fb: FormBuilder,
-		private http_auth : AuthenticationService,
-		private router : Router,
-		private socketService : SocketService
+		private http_auth : AuthenticationService
 	) { 
 
 
@@ -63,8 +61,8 @@ export class BranchlistComponent implements OnInit {
 				this.dataSource = new MatTableDataSource<branch>(dataResult);
 				this.dataSource.paginator = this.paginator
 			}
-		} catch (e) {
-			console.log(e);
+		} catch (err:any) {
+			this._snackBar._showSnack(err.statusText, 'error')
 		}
 	}
 	applyFilter(event: Event): void {
@@ -93,21 +91,15 @@ export class BranchlistComponent implements OnInit {
 			this.ngOnInit()
 		})
 	}
-	slideStatus(dataStat: any) {
+	async slideStatus(dataStat: any) {
 		try{
-			this.httpBranch.updateBranchStatus({ 
-				data : dataStat,
-				loggedBy : atob(sessionStorage.getItem('type'))
-			}).then((response:any)=>{
-				if(response === 'success Updates.'){
-					this._snackBar._showSnack(`Branch Status Sucessfully Updated`, 'success')
-					this.ngOnInit()
-				}else{
-					this._snackBar._showSnack("Try Again", 'error')
-				}
-			}).catch(err=>{
-				this._snackBar._showSnack(err, 'error')
-			})
+			const response :any = await this.httpBranch.updateBranchStatus({  data : dataStat, loggedBy : atob(sessionStorage.getItem('type')) })
+			if(response.message === 'ok'){
+				this.ngOnInit()
+				this._snackBar._showSnack('Successfully update status', 'success')
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
 		}catch(err:any){
 			this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
 		}
@@ -122,7 +114,7 @@ export class BranchlistComponent implements OnInit {
 				branch : 'Franchise'
 			}
 		});
-		dialogRef.afterClosed().subscribe(result=>{
+		dialogRef.afterClosed().subscribe(()=>{
 			this.ngOnInit()
 		})
 	}
@@ -134,8 +126,29 @@ export class BranchlistComponent implements OnInit {
 				btnName : 'Save'
 			}
 		})
-		dialogRef.afterClosed().subscribe(result=>{
+		dialogRef.afterClosed().subscribe(()=>{
 			this.ngOnInit()
 		})
+	}
+
+	async resetPassword(data:any){
+		await this.httpBranch.resetPassword(data).then((response:any)=>{
+			
+			if(response.message === 'ok'){
+				this._snackBar._showSnack('Successfully Reset', 'success')
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
+		}).catch((err:any)=>{
+			this._snackBar._showSnack(err, 'error')
+		})
+	}
+	 async signOut(data:any){
+		try{
+			const response :any = await this.http_auth.signOut({ type : data.branchType, code : data.branchCode })
+			response.message === 'ok' ? this._snackBar._showSnack('Successfully logout', 'success') : this._snackBar._showSnack('Try Again', 'error')
+		}catch(err:any){
+			this._snackBar._showSnack(err, 'error')
+		}
 	}
 }

@@ -5,6 +5,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from './../../services/authentication.service'
 import { SnackbarServices } from './../../services/snackbar.service';
 import { NgToastService } from 'ng-angular-popup';
+import { StoreService } from 'src/app/store/store.service';
+import { Stores } from 'src/app/models/main.enums';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
@@ -19,10 +22,9 @@ export class LoginComponent implements OnInit {
 		private httpAuthentication: AuthenticationService,
 		private _snackBar: SnackbarServices,
 		private router: Router,
-		private toast : NgToastService
-		
-		
-		
+		private toast : NgToastService	,	
+		private methodStore : StoreService,
+		private cookie : CookieService
     ) {
         this.loginForm = this.fb.group({
             username: ['', [Validators.required]],
@@ -40,18 +42,24 @@ export class LoginComponent implements OnInit {
 	try{
 
 		const checkUser:any = await this.httpAuthentication.checkuserAccount(this.loginForm.value)
+		/***
+		 * checkUser[1] ==token
+		 */
 		
+		this.cookie.set("access_token", checkUser[1])
 		this._snackBar._showSnack(`Success`, 'success')
+
+		this.methodStore.addToStore(Stores.USERCODES,  {data : checkUser[0] })		
+
+		sessionStorage.setItem('userLog', btoa(checkUser[0].id));
+		sessionStorage.setItem('type', btoa(checkUser[0].user_type));
+		sessionStorage.setItem('code', btoa(checkUser[0].username)); //decript atob
 		
-		sessionStorage.setItem('userLog', btoa(checkUser.id));
-		sessionStorage.setItem('type', btoa(checkUser.user_type));
-		sessionStorage.setItem('code', btoa(checkUser.username)); //decript atob
-		
-		await this.httpAuthentication.loginLogs(checkUser)
+		await this.httpAuthentication.loginLogs(checkUser[0])
 		.then((result:any) => {
 			
 			if(result.message === 'ok'){
-				if (checkUser.user_type !== 'Teller') {
+				if (checkUser[0].user_type !== 'Teller') {
 			
 					this.router.navigate(['/main'])
 					
@@ -75,7 +83,7 @@ export class LoginComponent implements OnInit {
 		
 	}catch(err:any){
 		this.progress = false
-		this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
+		this._snackBar._showSnack(err.error.message, 'error')
 	}
 
   }

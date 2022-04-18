@@ -3,18 +3,19 @@ import { HttpClient, HttpErrorResponse  } from "@angular/common/http";
 import { EndPoint } from "./../globals/endpoints";
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { StoreService } from '../store/store.service';
 @Injectable({
   providedIn: 'root'
 })
 export class BarkotaService {
 	 errorMsg: string;
-	constructor(private http : HttpClient) { 
+	constructor(private http : HttpClient, private method : StoreService) { 
 		
 	}
 	
 	function_getBarkotaToken() {
 
-		return this.http.get(`${ EndPoint.endpoint }/barkota/barkotas/getBarkotaToken`)
+		return this.http.get(`${ EndPoint.endpoint }/barkota/barkotas/getBarkotaToken`, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -31,11 +32,11 @@ export class BarkotaService {
 		);
 	}
 	function_getShippingLines(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/getShippingLines`, data, {responseType: 'text'}).toPromise()
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/getShippingLines`, data, this.method.setAuthorizedRequest()).toPromise()
 	}
 
 	function_getRoutes (data:any) : Observable <any>{
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/getRoutes`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/getRoutes`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -52,11 +53,15 @@ export class BarkotaService {
 		);
 	}
 	function_listOfTrips(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/listOfTrips`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/listOfTrips`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
 	function_ticketPrice(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/ticketPrice`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/ticketPrice`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -73,7 +78,7 @@ export class BarkotaService {
 		);
 	}
 	function_getVoyageCots(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/getVoyageCots`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/getVoyageCots`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -90,8 +95,7 @@ export class BarkotaService {
 		);
 	}
 	function_computeCharges(data:any):Observable<any>{
-		// return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/computeCharges`, data, {responseType: 'text'}).toPromise()
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/computeCharges`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/computeCharges`, data,  this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -110,7 +114,7 @@ export class BarkotaService {
 
 	 function_bookNow(data:any):Observable<any>{
 		
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/bookNow`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/bookNow`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -129,7 +133,7 @@ export class BarkotaService {
 	}
 
 	function_searchTicket(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/searchTicket`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/searchTicket`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -147,7 +151,7 @@ export class BarkotaService {
 	}
 
 	function_searchVoucherByTicket(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/searchVoucherByTicket`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/searchVoucherByTicket`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -166,7 +170,7 @@ export class BarkotaService {
 	}
 
 	function_searchTransactionNo(data:any):Observable<any> {
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/searchTransactionNo`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/searchTransactionNo`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -185,7 +189,7 @@ export class BarkotaService {
 	}
 
 	function_refundTicket(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/refundTicket`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/refundTicket`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -204,7 +208,7 @@ export class BarkotaService {
 	}
 
 	function_voidTicket(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/voidTicket`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/voidTicket`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -223,7 +227,7 @@ export class BarkotaService {
 	}
 
 	function_revalidateTicket(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/revalidateTicket`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/revalidateTicket`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -242,7 +246,7 @@ export class BarkotaService {
 	}
 
 	function_saveBarkotaBookingTransactions(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/saveBarkotaBookingTransactions`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/saveBarkotaBookingTransactions`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -261,7 +265,26 @@ export class BarkotaService {
 	}
 
 	function_getByTellerTransactions (data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/getByTellerTransactions`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/getByTellerTransactions`, data, this.method.setAuthorizedRequest())
+		.pipe(
+			catchError(error => {
+				
+				if (error.error instanceof ErrorEvent) {
+
+					this.errorMsg = `Error: ${error.error.message}`;
+
+				} else {
+					this.errorMsg = this.getServerErrorMessage(error);
+					
+				}
+				return throwError(this.errorMsg);
+			}),
+			
+		)
+	}
+
+	 checkWallet (data:any){
+		return  this.http.post(`${ EndPoint.endpoint }/barkota/barkotas/barkotaCheckWallet`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -14,7 +14,8 @@ import { WalletService } from "./../../services/wallet.service"
 import { SearchByDateAdminPipe } from "./../../pipes/admin/compute-debit.pipe"
 import SocketService from 'src/app/services/socket.service';
 import { BranchService } from 'src/app/services/branch.service';
-
+import { SearchByDatePipe } from 'src/app/pipes/admin/compute-debit.pipe';
+import { ExcelService } from 'src/app/services/excel.service';
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
@@ -59,12 +60,17 @@ export class TransactionComponent implements OnInit {
 	topUpLength : any
 	topUpLengthIb : any
 	tellerList : any
+	email :any
+	contactNo :any
+	address :any
+	@ViewChild("printMe") printTheDiv!: ElementRef
 	@ViewChild('zoomOutImage') zoomOutImage : TemplateRef<any>
 	constructor(private dialog : MatDialog,
 				private http_auth: AuthenticationService,
 				private http_wallet : WalletService,
 				private _snackBar : SnackbarServices,
 				private http_excel : AdminExcelService,
+				private http_excelBranch : ExcelService,
 				private pipeData : SearchByDateAdminPipe,
 				private socketService : SocketService,
 				private http_branch : BranchService) {
@@ -84,10 +90,22 @@ export class TransactionComponent implements OnInit {
 
 		await this.function_topUpList()
 		await this.getTellerlist()
+		// this.function_walletHistory()
+		this.showloadTable = false
 		this.filteredOptions = this.searchControl.valueChanges.pipe(
 			startWith(''),
 			map(value=>  this._filter(value))
 		)
+		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
+			/** Branch head and Admin data here */
+		}else{
+			const { firstname, lastname, email, contactNo, franchiseName, location } = JSON.parse(atob(sessionStorage.getItem('d')))[0]
+			this.fullname = `${firstname} ${lastname}`.toUpperCase()
+			this.email = email
+			this.contactNo = contactNo
+			this.branchName = franchiseName.toUpperCase()
+			this.address = location.toUpperCase()
+		}
 	}
 
 	
@@ -121,30 +139,34 @@ export class TransactionComponent implements OnInit {
 	}
 	async function_openTOpLoad (){
 		
-		const fcode : any = atob(sessionStorage.getItem('code'))
-		const data: any = await this.http_auth.getUser({type: this.type, type_code: fcode}); //query for franchise data
-		
-		const dialogRef = this.dialog.open(ModalComponent, {
-
-			width: '800px',
-			disableClose : true,
-			data : {
-				email 		: data[0].email,
-				contactNo 	: `0${data[0].contactNo}`,
-				name 		: `${data[0].firstname} ${data[0].lastname}`,
-				fcode 		: fcode,
-				bcode 		: data[0].branchCode
-			}
-		})
-		dialogRef.afterClosed().subscribe(result=>{
+		try{
+			const fcode : any = atob(sessionStorage.getItem('code'))
+			const data: any = await this.http_auth.getUser({type: this.type, type_code: fcode}); //query for franchise data
 			
-			this.function_topUpList()
-			this.showTable = true
-			this.hideCards = false 
-			this.showTableForTopUploadHistory = false
-			this.tableHeader = 'Top-up Load'
-		
-		})
+			const dialogRef = this.dialog.open(ModalComponent, {
+
+				width: '800px',
+				disableClose : true,
+				data : {
+					email 		: data[0].email,
+					contactNo 	: `0${data[0].contactNo}`,
+					name 		: `${data[0].firstname} ${data[0].lastname}`,
+					fcode 		: fcode,
+					bcode 		: data[0].branchCode
+				}
+			})
+			dialogRef.afterClosed().subscribe(result=>{
+				
+				this.function_topUpList()
+				this.showTable = true
+				this.hideCards = false 
+				this.showTableForTopUploadHistory = false
+				this.tableHeader = 'Top-up Load'
+			
+			})
+		}catch(err:any){
+			this._snackBar._showSnack(err.statusText, 'error')
+		}
 	}
 	function_back() {
 		this.showTable = false
@@ -203,9 +225,10 @@ export class TransactionComponent implements OnInit {
 		})
 	}
 
-	function_walletHistory(){
+	async function_walletHistory(){
 
 		this.function_checkFranchiseWallet()
+
 		this.showMonitoredBranches= false
 		this.btnBack = true
 		this.showTable = false
@@ -226,7 +249,6 @@ export class TransactionComponent implements OnInit {
 			this.userType = atob(sessionStorage.getItem('code'))
 			this.dataWalletHistory = new MatTableDataSource<any>(data)
 			this.dataWalletHistory.paginator = this.paginator	
-			
 			this.autoCompleteData = this.dataWalletHistory.filteredData 
 			
 			
@@ -277,125 +299,126 @@ export class TransactionComponent implements OnInit {
 	}
 
 	print(){
-		let printContents, popupWin;
-			printContents = document.getElementById('print-section').innerHTML;
+		this.printTheDiv.nativeElement.click()
+		// let printContents, popupWin;
+		// 	printContents = document.getElementById('print-section').innerHTML;
 			
-			popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+		// 	popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
 
-			popupWin.document.open();
-		if(atob(sessionStorage.getItem('type') ) === 'Admin'){
-			popupWin.document.write(`
-			<html>
-			  <div  fxLayout="row wrap">
-				  <div class="row">
-					  <div style ="float : left;" class="col m4">
-						  <img style = "width: 150px; height : 100px;" src="./../../../assets/img/IPAY_LOGO.png" alt="">
-					  </div>
-					  <div class="col m8">
-						  <p style ="text-transform: capitalize ">  <br>  </p>
-					  </div>
-				  </div>
+		// 	popupWin.document.open();
+		// if(atob(sessionStorage.getItem('type') ) === 'Admin'){
+		// 	popupWin.document.write(`
+		// 	<html>
+		// 	  <div  fxLayout="row wrap">
+		// 		  <div class="row">
+		// 			  <div style ="float : left;" class="col m4">
+		// 				  <img style = "width: 150px; height : 100px;" src="./../../../assets/img/IPAY_LOGO.png" alt="">
+		// 			  </div>
+		// 			  <div class="col m8">
+		// 				  <p style ="text-transform: capitalize ">  <br>  </p>
+		// 			  </div>
+		// 		  </div>
 	  
-				  <br>
-				  <head>
-					  <style>
-						  body{  width: 99%;}
-							  label { 
-								  font-weight: 400;
-								  font-size: 13px;
-								  padding: 2px;
-								  margin-bottom: 5px;
-							  }
-							  table, td, th {
-								  border: 1px solid silver;
-							  }
-							  table td {
-								  font-size: 13px;
-							  }
-							  table th {
-								  font-size: 13px;
-							  }
-							  table {
-								  border-collapse: collapse;
-								  width: 98%;
-							  }
-							  th {
-								  height: 26px;
-							  }
-					  </style>
-				  </head>
-				  <body onload="window.print();window.close()">${printContents}</body>
-				  <br>
-				  <br>
-				  <div style="float : right">
-				  <hr>
-					  <p style = "text-transform : capitalize"> Prepared by: Admin</p>
-				  </div>
+		// 		  <br>
+		// 		  <head>
+		// 			  <style>
+		// 				  body{  width: 99%;}
+		// 					  label { 
+		// 						  font-weight: 400;
+		// 						  font-size: 13px;
+		// 						  padding: 2px;
+		// 						  margin-bottom: 5px;
+		// 					  }
+		// 					  table, td, th {
+		// 						  border: 1px solid silver;
+		// 					  }
+		// 					  table td {
+		// 						  font-size: 13px;
+		// 					  }
+		// 					  table th {
+		// 						  font-size: 13px;
+		// 					  }
+		// 					  table {
+		// 						  border-collapse: collapse;
+		// 						  width: 98%;
+		// 					  }
+		// 					  th {
+		// 						  height: 26px;
+		// 					  }
+		// 			  </style>
+		// 		  </head>
+		// 		  <body onload="window.print();window.close()">${printContents}</body>
+		// 		  <br>
+		// 		  <br>
+		// 		  <div style="float : right">
+		// 		  <hr>
+		// 			  <p style = "text-transform : capitalize"> Prepared by: Admin</p>
+		// 		  </div>
 	  
-			  </div>
-			</html>`
-			  );
-		  popupWin.document.close();
-		}else{
+		// 	  </div>
+		// 	</html>`
+		// 	  );
+		//   popupWin.document.close();
+		// }else{
 
-			const x :any = (atob(sessionStorage.getItem('d')))
+		// 	const x :any = (atob(sessionStorage.getItem('d')))
 			
-			const { firstname, lastname, franchiseName, location, contactNo } = JSON.parse(x)[0]
+		// 	const { firstname, lastname, franchiseName, location, contactNo } = JSON.parse(x)[0]
 
-			popupWin.document.write(`
-				<html>
-				<div  fxLayout="row wrap">
-					<div class="row">
-						<div style ="float : left;" class="col m4">
-							<img style = "width: 150px; height : 100px;" src="./../../../assets/img/IPAY_LOGO.png" alt="">
-						</div>
-						<div class="col m8">
-							<p style ="text-transform: capitalize "> ${franchiseName} <br> ${location} <br> +63${contactNo} <br>  </p>
-						</div>
-					</div>
+		// 	popupWin.document.write(`
+		// 		<html>
+		// 		<div  fxLayout="row wrap">
+		// 			<div class="row">
+		// 				<div style ="float : left;" class="col m4">
+		// 					<img style = "width: 150px; height : 100px;" src="./../../../assets/img/IPAY_LOGO.png" alt="">
+		// 				</div>
+		// 				<div class="col m8">
+		// 					<p style ="text-transform: capitalize "> ${franchiseName} <br> ${location} <br> +63${contactNo} <br>  </p>
+		// 				</div>
+		// 			</div>
 		
-					<br>
-					<head>
-						<style>
-							body{  width: 99%;}
-								label { 
-									font-weight: 400;
-									font-size: 13px;
-									padding: 2px;
-									margin-bottom: 5px;
-								}
-								table, td, th {
-									border: 1px solid silver;
-								}
-								table td {
-									font-size: 13px;
-								}
-								table th {
-									font-size: 13px;
-								}
-								table {
-									border-collapse: collapse;
-									width: 98%;
-								}
-								th {
-									height: 26px;
-								}
-						</style>
-					</head>
-					<body onload="window.print();window.close()">${printContents}</body>
-					<br>
-					<br>
-					<div style="float : right">
-					<hr>
-						<p style = "text-transform : capitalize"> Prepared by: ${firstname} ${lastname}</p>
-					</div>
+		// 			<br>
+		// 			<head>
+		// 				<style>
+		// 					body{  width: 99%;}
+		// 						label { 
+		// 							font-weight: 400;
+		// 							font-size: 13px;
+		// 							padding: 2px;
+		// 							margin-bottom: 5px;
+		// 						}
+		// 						table, td, th {
+		// 							border: 1px solid silver;
+		// 						}
+		// 						table td {
+		// 							font-size: 13px;
+		// 						}
+		// 						table th {
+		// 							font-size: 13px;
+		// 						}
+		// 						table {
+		// 							border-collapse: collapse;
+		// 							width: 98%;
+		// 						}
+		// 						th {
+		// 							height: 26px;
+		// 						}
+		// 				</style>
+		// 			</head>
+		// 			<body onload="window.print();window.close()">${printContents}</body>
+		// 			<br>
+		// 			<br>
+		// 			<div style="float : right">
+		// 			<hr>
+		// 				<p style = "text-transform : capitalize"> Prepared by: ${firstname} ${lastname}</p>
+		// 			</div>
 		
-				</div>
-				</html>`
-			);
-		  popupWin.document.close();
+		// 		</div>
+		// 		</html>`
+		// 	);
+		//   popupWin.document.close();
 
-		}
+		// }
 	}
 
 	async exportArrayAsExcel(){
@@ -405,28 +428,29 @@ export class TransactionComponent implements OnInit {
 		 * @VALUE Admin
 		 */
 		const dataResult = this.pipeData.transform(this.dataWalletHistory, this.start, this.end, this.searchControl) 
+		this.http_excel.exportAsExcelFile(dataResult, atob(sessionStorage.getItem('type')), '')
+		// if(atob(sessionStorage.getItem('type')) === 'Admin' ){
 
-		if(atob(sessionStorage.getItem('type')) === 'Admin' ){
-
-			this.http_excel.exportAsExcelFile(dataResult, atob(sessionStorage.getItem('type')), '')
 			
-		}else{
 			
+		// }else{
+			
+		// 	this.http_excelBranch.exportAsExcelFile(dataResult, )
 
-			await this.http_auth.getUser({
+		// 	await this.http_auth.getUser({
 				
-			   type: atob(sessionStorage.getItem('type')),
-			   type_code: atob(sessionStorage.getItem('code'))
+		// 	   type: atob(sessionStorage.getItem('type')),
+		// 	   type_code: atob(sessionStorage.getItem('code'))
 		   
-		   }).then((data:any)=>{
+		//    }).then((data:any)=>{
    
-				(atob(sessionStorage.getItem('type')) === 'Branch Head')?  this.fullname = `${data[0].ownerFirstname} ${data[0].ownerLastname}` : this.fullname = `${data[0].firstname} ${data[0].lastname}`
+		// 		(atob(sessionStorage.getItem('type')) === 'Branch Head')?  this.fullname = `${data[0].ownerFirstname} ${data[0].ownerLastname}` : this.fullname = `${data[0].firstname} ${data[0].lastname}`
    
-		   }).catch(err=>{
-				this._snackBar._showSnack(err, 'error')
-		   })
+		//    }).catch(err=>{
+		// 		this._snackBar._showSnack(err, 'error')
+		//    })
 
-		}
+		// }
 	}
 
 	function_walletBranchesMonitoring(){

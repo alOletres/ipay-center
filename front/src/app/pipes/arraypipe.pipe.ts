@@ -12,8 +12,6 @@ export class ArraypipePipe implements PipeTransform {
 	// }
 
 	transform(objects : any = []) {
-		console.log(objects);
-		
 		return Object.values(objects);
 	  }
 

@@ -71,25 +71,36 @@ import { MacsettingsComponent } from './../../pages/macsettings/macsettings.comp
 import { SettingsComponent } from './../../globals/globa_components/settings/settings.component';
 import { IbarangayComponent } from 'src/app/pages/ibarangay/ibarangay.component';
 
+import { CommissionComponent } from './../../pages/transaction/commission/commission.component';
+import { WalletHistoryComponent } from './../../pages/transaction/wallet-history/wallet-history.component';
+import { LoadCentralHistoryComponent } from './../../pages/transaction/load-central-history/load-central-history.component';
 import { TopuploadListComponent } from './../../pages/transaction/topupload-list/topupload-list.component';
 import { TellerComponent } from './../../pages/teller/teller.component';
+import { ServicesListComponent } from './../../pages/services-list/services-list.component';
+
+import { GovbillpaymentComponent } from './../../pages/transaction/govbillpayment/govbillpayment.component';
 /**
  * pipes
  */
 import { ImgPipe } from './../../pipes/img.pipe';
 import { imgpipes } from './../../pipes/img.pipe';
-import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, ComputeTotalCreditBranchPipe, SearchByDateAdminPipe} from './../../pipes/admin/compute-debit.pipe'
+import { TotalIncomeCommissionPipe, SearchByCommissionPipe, TotalIncomeWalletHistoryPipe, TotalSalesWalletHistoryPipe,
+		 TotalCollectionWalletHistory, SearchByDateWalletHistoryPipe, ComputeDebitPipe, ComputeTotalDebitPipe,
+		 ComputeTotalCreditAdminPipe, ComputeTotalCreditBranchPipe, SearchByDateAdminPipe, eloadsDailyMarkUpPipe, 
+		 EloadDailtyTotalPipe, SearchByDatePipe, SearchByDateMultisysPipe, MultisysDailyCollectionPipe, MultisysDailySalesPipe, MultisysDailyIncomePipe } from './../../pipes/admin/compute-debit.pipe'
 /**
  * directives
  */
 
  import { ActivitylogsDirective } from './../../components/directive/activitylogs.directive';
-
  import { BranchCodeDirective } from './../../components/directive/branch-code.directive';
+ import { TransactionnameDirective } from './../../components/directive/transactionname.directive';
 
  import { NgxLoadingModule } from 'ngx-loading';
  import { ngxLoadingAnimationTypes } from 'ngx-loading';
-
+ import { NgxPrintModule } from 'ngx-print';
+ 
+import { IncidentComponent } from './../../pages/macsettings/incident/incident.component';
 @NgModule({
 	declarations: [
 		HeaderComponent,
@@ -128,8 +139,27 @@ import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, C
 		TellerComponent,
 		ActivitylogsDirective,
 		BranchCodeDirective,
-		TopuploadListComponent
-		
+		TopuploadListComponent,
+		LoadCentralHistoryComponent,
+		WalletHistoryComponent,
+		eloadsDailyMarkUpPipe,
+		EloadDailtyTotalPipe,
+		SearchByDatePipe,
+		TransactionnameDirective,
+		SearchByDateWalletHistoryPipe,
+		TotalCollectionWalletHistory,
+		TotalSalesWalletHistoryPipe,
+		TotalIncomeWalletHistoryPipe,
+		CommissionComponent,
+		SearchByCommissionPipe,
+		TotalIncomeCommissionPipe,
+		ServicesListComponent,
+		GovbillpaymentComponent,
+		SearchByDateMultisysPipe,
+		MultisysDailyCollectionPipe,
+		MultisysDailySalesPipe,
+		MultisysDailyIncomePipe,
+		IncidentComponent
 	],
 	imports: [
 		CommonModule,
@@ -180,13 +210,16 @@ import { ComputeDebitPipe, ComputeTotalDebitPipe, ComputeTotalCreditAdminPipe, C
 			tertiaryColour: '#ffffff',
 			fullScreenBackdrop: false,
 		  }),
-		
+		NgxPrintModule
 	],
 	entryComponents: [
 		SnackbarComponent
 	],
 	providers: [
-		SearchByDateAdminPipe
+		SearchByDateAdminPipe,
+		SearchByDatePipe,
+		SearchByDateWalletHistoryPipe,
+		SearchByDateMultisysPipe
 	]
 })
 export class MainModule { }

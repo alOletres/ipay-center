@@ -1,0 +1,109 @@
+<div  fxLayout="row wrap">
+    <mat-toolbar class="page-header" role="heading">
+        <div fxFlex="5%" fxFlex.md="5%" fxFlex.xs="5%" class="example-button-container" >
+            <button [routerLink]="['/transactions']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style=" color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+                <i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div fxFlex="78%" fxFlex.md="78%" fxFlex.xs="78%">
+            <h1>Transactions</h1>
+        </div>
+        <div style=" margin-top: 3%;" fxFlex="3%" fxFlex.md="3%" fxFlex.xs="3%" style="padding-right:  10%;">
+            <button (click)="print()"  mat-raised-button style="background-color:black;color: white;"> <i class="fa fa-print" aria-hidden="true" ></i>Print</button> 
+        </div>
+    </mat-toolbar>
+</div>
+<br>
+<div fxLayout="row wrap">
+    <div fxFlex="98%" fxFlex.md="100%" fxFlex.xs="100%">
+        <mat-card style="margin-left: 2%;" class="card card-wrapper">
+            <div fxLayout="row wrap">
+                <div fxFlex="70%" fxFlex.md="70%" fxFlex.xs="70%">
+                    <mat-card-title class="card__header">
+                        <h5  class="card__title"> Branch Commission</h5>
+                    </mat-card-title>
+                </div>
+               <form  fxFlex="30%" fxFlex.md="30%" fxFlex.xs="30%">
+                    <div class="row">
+                        
+                        <mat-form-field class="col-md-12" appearance="outline">
+                            <mat-label>Enter a date range</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickers"  >
+                                <input matStartDate [(ngModel)]="start"  [ngModelOptions]="{standalone: true}" placeholder="Start date">
+                                <input matEndDate [(ngModel)]="end"  [ngModelOptions]="{standalone: true}" placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickers></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+               </form>
+            </div>
+            <mat-card-content>
+                <div  id="print-section">
+                    <div id="showOnPrnt" >
+                        <div class="row">
+                            <div class="col-md-1">
+                                <img src="assets/img/IPAY_LOGO.png" style="width: 120px; height: 70px;" alt="">
+                            </div>
+                            <div class="col-md-11">
+                                <p> {{ fullname }} <br> {{ email }} <br> {{ contactNo }} <br> {{ address }}  </p>
+                            </div>
+                        </div>
+                    </div>
+                    <table [dataSource] = "dataSource | searchByCommissionDate : start : end " class="table__table" mat-table class="mat-elevation-z0" style="width: 100%;">
+                        <ng-container matColumnDef="no">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>No.</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="ibarangay">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>iBarangay</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.ibarangay }} </td>
+                            <td mat-footer-cell *matFooterCellDef style="font-weight: bold;" > TOTAL COMMISSION</td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="teller">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Teller</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.teller }} </td>
+                            <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> Automatically added in your wallet </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="income">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Commission</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.income }} </td>
+                            <td mat-footer-cell *matFooterCellDef> {{ dataSource | totalIncomeCommission : start : end }} </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="transaction_id">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Transaction Name</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.transaction_id }} </td>
+                            <td mat-footer-cell *matFooterCellDef>  </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="status">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Status</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> <span style="color:#039A4D ;"> success </span> </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="date_transacted">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Date transacted</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.date_transacted | date : 'medium' }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+                    </table>
+                </div>
+               
+            </mat-card-content>
+            <div class="pagination">
+				<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+			</div>
+        </mat-card>
+    </div>
+</div>
+<button type="button" hidden="true" printTitle="MyTitle" printSectionId="print-section" [useExistingCss]="true" ngxPrint #printMe></button>

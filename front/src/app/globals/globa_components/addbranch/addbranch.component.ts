@@ -47,28 +47,19 @@ export class AddbranchComponent implements OnInit {
 	 async save() {
 		this.progress = true
 		try {
-			(this.btnName == 'Save') ? 			
-			
-				await this.httpBranch.saveBranch({ data : this.addbranchform.value, reference : atob(sessionStorage.getItem('type')) })
-				.then((response:any)=>{
-						
-					if(JSON.parse(response).message === 'ok'){
-						this._snackBar._showSnack("New Branch Head is Added", 'success')
-						this.dialogRe.close();
-					}else{
-						this._snackBar._showSnack('Try Again', 'error')
-					}	
-					this.progress = false				
-				})
-			
-			: await this.httpBranch.updateBranch(this.addbranchform.value).then(()=>{
-				this._snackBar._showSnack("Successfully change", 'success')
+			if(this.btnName == 'Save') {
+				const response :any = await this.httpBranch.saveBranch({ data : this.addbranchform.value, reference : atob(sessionStorage.getItem('type')) })
+				response.message === 'ok' ? this._snackBar._showSnack('Successfully Save', 'success') : this._snackBar._showSnack('Try Again', 'error')
 				this.dialogRe.close()
 				this.progress = false
-			})
-			
-		} catch(e) {
-
+			}else{
+				await this.httpBranch.updateBranch(this.addbranchform.value).then((response:any)=>{
+					response.message === 'ok' ? this._snackBar._showSnack("Successfully change", 'success') : this._snackBar._showSnack('Try Again', 'error')
+					this.dialogRe.close()
+					this.progress = false
+				})
+			}		
+		} catch(err:any) {
 			this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
 			this.dialogRe.close()
 			this.progress = false

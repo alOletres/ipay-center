@@ -19,7 +19,7 @@ import { of } from 'rxjs';
 })
 
 export class DashboardComponent implements OnInit {
-
+	
 
 	dateNow = new Date()
 	/**
@@ -47,11 +47,9 @@ export class DashboardComponent implements OnInit {
 	/**
 	 * @donutGraph
 	 */
-	doughnutChartLabels: Label[] = [];
+	doughnutChartLabels: Label[] = ['ELOADS', 'FERRIES', 'GOVT BILL PAYMENT'];
 
-	doughnutChartData: MultiDataSet = [
-		[]
-	];
+	doughnutChartData: MultiDataSet = [ [] ];
 	
 	doughnutChartType: ChartType = 'doughnut';
 	@Input() isMenuOpened: boolean | undefined;
@@ -76,6 +74,13 @@ export class DashboardComponent implements OnInit {
 	walletHistoryLength: number;
 	fWallet: any;
 	cardName: string;
+	totalMarkUp: any;
+	barkotaLength: any
+	eloadsDailyTransactions :any
+	loadcentralWallet: any;
+	type: string;
+	multisysLenght: any;
+	multisysIncome: number;
   	constructor( private _route : ActivatedRoute, private http_dash : DashboardService, private _snackBar : SnackbarServices,
 				 private socketService :SocketService,
 				 private http_wallet : WalletService) {
@@ -106,21 +111,30 @@ export class DashboardComponent implements OnInit {
 					this.checkFranchiseWallet()
 					this.barYear()
 					this.barkotaTrans()
+					this.motherWallet()
+					this.multisys()
 				})
 				
 		
 	  }
 
 	async ngOnInit(){
+		this.type = atob(sessionStorage.getItem('type')) 
+		
 		this.currentDate = new Date()
 		this.bottomMessage = 'see more...'
 		this.announceBottomMessage = 'see more...'
 
-		await this.barYear()
-		await this.barkotaTrans()
-		await this.getActiveAnnouncement()
+		this.barYear()
+		this.getTransactionLoadCentralByBranch()
+		this.barkotaTrans()
+		
+		this.getActiveAnnouncement()
 		this.checkFranchiseWallet()
-		await this.getLogs()
+		this.getLogs()
+		this.motherWallet()
+		this.numberofTransactions()
+		this.multisys()
 	}
 
 	async barYear(){
@@ -140,7 +154,7 @@ export class DashboardComponent implements OnInit {
 		})
 
 		const datas : any = await this.http_dash.barGraphData()
-		let profit = Object.values(JSON.parse(datas))
+		let profit = Object.values(datas)
 		
 		
 		/**
@@ -326,7 +340,7 @@ export class DashboardComponent implements OnInit {
 		})
 
 		const res : any = await this.http_dash.barGraphData()
-		let profit = Object.values(JSON.parse(res))
+		let profit = Object.values(res)
 
 		/**
 		 * get first the total collection , sales, income
@@ -491,7 +505,7 @@ export class DashboardComponent implements OnInit {
 		})
 
 		const res : any = await this.http_dash.barGraphData()
-		let profit = Object.values(JSON.parse(res))
+		let profit = Object.values(res)
 
 
 		{
@@ -658,22 +672,21 @@ export class DashboardComponent implements OnInit {
 
 	async barkotaTrans(){
 		const res : any = await this.http_dash.getBarkotaTransactions()
-		let dataHandler = Object.values(JSON.parse(res))
+		let dataHandler = Object.values(res)
 		
 		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
 
 			
-			this.doughnutChartLabels = ['Barkota']
-			this.doughnutChartData = [ [dataHandler.length] ]
 			let t_charge = 0
 			dataHandler.map((charge:any)=>{
 				t_charge += charge.ipayService_charge
 			})
 			this.dataHandler = t_charge
-
+			this.barkotaLength = res.length
+			
+			this.numberofTransactions()
 		}else{
 
-			this.doughnutChartLabels = ['Barkota']
 			let t_charge = 0
 
 			let result  = dataHandler.filter((x:any)=> {
@@ -683,7 +696,9 @@ export class DashboardComponent implements OnInit {
 			})
 			this.dataHandler = t_charge
 			
-			this.doughnutChartData = [ [result.length] ]
+			this.barkotaLength = result.length
+			this.numberofTransactions()
+			
 			
 		}
 	}
@@ -691,7 +706,7 @@ export class DashboardComponent implements OnInit {
 	async getActiveAnnouncement(){
 		/** mao ni modawat sa response sa socket if naay update mahitabo or  naay bag.o */
 		const res:any =  await this.http_dash.displayAnnouncement()
-		let result = JSON.parse(res).filter((data:any)=> { return data.status === 0})
+		let result = res.filter((data:any)=> { return data.status === 0})
 		if(result.length === 0){
 			this.messageAnnouncement = 'NO ANNOUNCEMENT POSTED'
 			this.announcementResult = result.length
@@ -706,7 +721,7 @@ export class DashboardComponent implements OnInit {
 		
 	    const result:any =	await this.http_dash.getLogs()
 		
-		const data :any = JSON.parse(result).filter((x:any)=>{ return x.reference === atob(sessionStorage.getItem('code')) }).map((res:any)=>res) 
+		const data :any = result.filter((x:any)=>{ return x.reference === atob(sessionStorage.getItem('code')) }).map((res:any)=>res) 
 
 		this.activityLogs = data	
 	}
@@ -752,5 +767,73 @@ export class DashboardComponent implements OnInit {
 			})
 		}
    }
+
+   async getTransactionLoadCentralByBranch(){
+	  
+		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
+			let total = 0
+			this.http_dash.getLoadCentralTransactions()
+
+			.then((response:any)=>{
+
+				this.eloadsDailyTransactions = response.length
+
+				response.map((x:any)=>{
+
+					total += x.markUp
+				})
+				this.totalMarkUp = total
+				
+			}).catch(()=>{
+				this._snackBar._showSnack('Failed to Fetch', 'error')
+			})
+		}else{
+			let total = 0
+			await this.http_dash.getTransactionLoadCentralByBranch({code : atob(sessionStorage.getItem('code'))})
+			.then((response:any)=>{
+				
+				this.eloadsDailyTransactions = response.length
+
+				response.map((x:any)=>{
+
+					total += x.markUp
+				})
+				this.totalMarkUp = total
+				
+				this.numberofTransactions()
+			}).catch(()=>{
+				this._snackBar._showSnack('Failed to Fetch', 'error')
+			})
+		}
+   }
+
+    numberofTransactions(){
+		this.doughnutChartData = [[this.eloadsDailyTransactions, this.barkotaLength, this.multisysLenght]]
+	}
+
+	async motherWallet(){
+		const result : any = await this.http_dash.getMotherWallet()
+		const { wallet } = result[0]
+		this.loadcentralWallet = wallet
+	}
+
+	async multisys(){
+		try{
+			let income = 0
+			const result :any = await this.http_dash.multisys()
+			const data:any = result.filter((x:any)=>{ 
+				return x.branchCode === atob(sessionStorage.getItem('code')) ? x.branchCode === atob(sessionStorage.getItem('code'))
+					: atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head' 
+			}).map((y:any)=>{
+				income += y.income
+			})
+			this.multisysIncome = income
+			this.multisysLenght = data.length
+			this.numberofTransactions()
+		}catch(err:any){
+			this._snackBar._showSnack('Failed to Fetch', 'error')
+		}
+	}
+
 
 }

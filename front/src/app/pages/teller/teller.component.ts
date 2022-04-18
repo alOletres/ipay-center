@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { BranchService } from 'src/app/services/branch.service';
 import { ResetformService } from 'src/app/services/resetform.service';
 import { SnackbarServices } from 'src/app/services/snackbar.service';
@@ -26,9 +27,13 @@ import SocketService from 'src/app/services/socket.service';
 	type: string;
 	tellerData: number;
 	progress : boolean =false
-    constructor(private http_branch : BranchService, private _snackBar : SnackbarServices, 
-				private dialog : MatDialog, private fb : FormBuilder, private resetForm : ResetformService,
-				private socketService : SocketService ) {
+    constructor(private http_branch : BranchService,
+				private _snackBar : SnackbarServices, 
+				private dialog : MatDialog,
+				private fb : FormBuilder,
+				private resetForm : ResetformService,
+				private socketService : SocketService,
+				private http_auth :AuthenticationService ) {
 		this.tellerForm = this.fb.group({
 			firstname : new FormControl('', 			[Validators.required]),
 			lastname  : new FormControl('', 			[Validators.required]),
@@ -51,7 +56,8 @@ import SocketService from 'src/app/services/socket.service';
 			this.progress = true
 			
 			const res = await this.http_branch.getTellerlist()
-
+			console.log(res);
+			
 			if( atob(sessionStorage.getItem('type')) === 'Admin' ){
 
 				const r = Object.values(res)
@@ -103,20 +109,20 @@ import SocketService from 'src/app/services/socket.service';
 	}
 
 	async slideStatus(data:any, type:any){
-
-		this.progress = true
-		await this.http_branch.updateStatusTeller({
-			data: data,
-			approved_by : `${atob(sessionStorage.getItem('code'))} ${atob(sessionStorage.getItem('type'))}`
-		}).then(()=>{
-			this.progress = false
-			this._snackBar._showSnack('Successfully change', 'success')
-			this.ngOnInit()
-		}).catch(error=>{
-			this.progress = false
-			this._snackBar._showSnack(error, 'error')
-		})
-
+		
+		try{
+			const response :any = await this.http_branch.updateStatusTeller({ data: data, approved_by : `${atob(sessionStorage.getItem('type'))}` })
+			
+			if(response.message === 'ok'){
+				this.ngOnInit()
+				this._snackBar._showSnack('Successfully Updated', 'success')
+			}else{
+				this._snackBar
+				._showSnack('Try Again', 'error')
+			}
+		}catch(err:any){
+			this._snackBar._showSnack(err, 'error')
+		}
 	}
 	editTeller(data:any){
 
@@ -156,7 +162,7 @@ import SocketService from 'src/app/services/socket.service';
 			? await this.http_branch.addibTeller({data : this.tellerForm.value , fcode : atob(sessionStorage.getItem('code'))})
 				.then((response : any)=>{
 
-					(JSON.parse(response).message) 
+					(response.message) 
 					? `${this._snackBar._showSnack("Successfully Save", 'success')} ${this.ngOnInit()} ${this.resetForm.reset(this.tellerForm)} ${this.progress = false} `
 					: `${this._snackBar._showSnack('Try Again', 'error')} ${this.progress = false}`
 					
@@ -184,8 +190,8 @@ import SocketService from 'src/app/services/socket.service';
 			await this.http_branch.updateTeller_list(this.tellerForm.value)
 		
 			.then((response:any)=>{
-				(response === 'success Updates.')
-				? `${this._snackBar._showSnack(response, 'success')} ${this.ngOnInit()} ${this.resetForm.reset(this.tellerForm)} ${this.progress =false}`
+				(response.message === 'ok')
+				? `${this._snackBar._showSnack('Successfully updated', 'success')} ${this.ngOnInit()} ${this.resetForm.reset(this.tellerForm)} ${this.progress =false}`
 				:  `${this._snackBar._showSnack('Try Again', 'error')} ${this.progress = false}`
 				
 			}).catch((err)=>{
@@ -212,5 +218,29 @@ import SocketService from 'src/app/services/socket.service';
 		  	if(theEvent.preventDefault) theEvent.preventDefault();
 		}
 	}
-
+	async resetPassword(data:any){
+		await this.http_branch.resetPassword(data)
+		.then((response:any)=>{		
+			if(response.message === 'ok'){
+				this._snackBar._showSnack('Successfully Reset', 'success')
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
+		}).catch((err:any)=>{
+			this._snackBar._showSnack(err, 'error')
+		})
+	}
+	async signOut(data:any){
+		try{
+			const response :any = await this.http_auth.signOut({ type : data.type, code : data.tellerCode })
+			if(response.message === 'ok'){
+				this._snackBar._showSnack('Successfully Log out', 'success')
+				this.socketService.sendEvent("eventSent", {data: data.tellerCode})/**SOCKET SEND EVENT */
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
+		}catch(err:any){
+			this._snackBar._showSnack(err, 'error')
+		}
+	}
 }

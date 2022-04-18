@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { BranchService } from 'src/app/services/branch.service';
+import { ResetformService } from 'src/app/services/resetform.service';
 import { SnackbarServices } from 'src/app/services/snackbar.service';
 
 @Component({
@@ -32,7 +33,8 @@ export class SettingsComponent implements OnInit {
 	constructor( private fb : FormBuilder,
 				 private http_auth : AuthenticationService,
 				 private http_branch : BranchService,
-				private _snackBar : SnackbarServices) {
+				private _snackBar : SnackbarServices,
+				private resetForm : ResetformService) {
 
 		
 	}
@@ -40,9 +42,6 @@ export class SettingsComponent implements OnInit {
 	async ngOnInit(){
 		const type :any = atob(sessionStorage.getItem('type'))
 		const type_code : any = atob(sessionStorage.getItem('code'))
-		console.log(type);
-		
-		
 		await this.http_auth.getUser({
 			type: type, type_code: type_code
 		}).then((response: any)=>{
@@ -69,9 +68,8 @@ export class SettingsComponent implements OnInit {
 	
 			})
 			
-		}).catch(err=>{
-			console.log(err);
-			
+		}).catch((err:any)=>{
+			this._snackBar._showSnack(err.statusText, 'error')
 		})
 
 		switch(atob(sessionStorage.getItem('type'))){
@@ -134,7 +132,7 @@ export class SettingsComponent implements OnInit {
 			this.http_branch.updateBranch(this.accountInformationForm.value)
 
 			.then(()=>{
-				this.ngOnInit()
+				this.resetForm.reset(this.accountInformationForm)
 				this._snackBar._showSnack('Successfully Updated', 'success')
 				this.progress = false
 			}).catch(error=>{
@@ -158,7 +156,7 @@ export class SettingsComponent implements OnInit {
 					return of ([])
 				})
 			).subscribe((data:any)=>{
-				this.ngOnInit()
+				this.resetForm.reset(this.accountInformationForm)
 				this._snackBar._showSnack('Successfully Updated', 'success')
 				this.progress = false
 			})
@@ -243,7 +241,7 @@ export class SettingsComponent implements OnInit {
 								
 				if(JSON.parse(data).message === 'ok'){
 
-					(data.length === 0)? this._snackBar._showSnack('Please check your username and password', 'error') : `${this._snackBar._showSnack('Successfully Change', 'success')} ${this.ngOnInit()} `
+					(data.length === 0)? this._snackBar._showSnack('Please check your username and password', 'error') : `${this._snackBar._showSnack('Successfully Change', 'success')} ${this.resetForm.reset(this.changePasswordForm)} `
 					this.progress = false
 				}else if (JSON.parse(data).message === 'undefined'){
 

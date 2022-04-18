@@ -108,43 +108,13 @@ export class FranchiselistComponent implements OnInit {
 	async slideStatus(data:any, stat:any){
 		
 		try{
-			if(stat === 'Teller'){
-				await this.httpFbranch.updateStatusTeller({
-					
-					data: data,
-					approved_by : `${atob(sessionStorage.getItem('code'))} ${atob(sessionStorage.getItem('type'))}`
 
-				}).then(response=>{
-					this._snackBar._showSnack(`Branch Status Sucessfully Updated`, 'success')
-					this.ngOnInit()
-				}).catch(error=>{
-					this._snackBar._showSnack('Internal Error', 'error')
-				})
-
+			const response :any = await this.httpFbranch.updateFbranchStatus({ data : data, approved_by : `${atob(sessionStorage.getItem('type'))}` })
+			if(response.message === 'ok'){
+				this.ngOnInit()
+				this._snackBar._showSnack('Successfully  Update status', 'success')
 			}else{
-				if(stat == 'Franchise'){
-					await this.httpFbranch.updateFbranchStatus({
-						data : data,
-						approved_by : `${atob(sessionStorage.getItem('code'))} ${atob(sessionStorage.getItem('type'))}`
-					}).then(response=>{
-
-						this._snackBar._showSnack(`Branch Status Sucessfully Updated`, 'success')
-						this.ngOnInit()
-					
-					}).catch(error=>{
-						this._snackBar._showSnack('Internal Error', 'error')
-					})
-				}else{
-					await this.httpFbranch.updateStatusIb({
-						data:data,
-						approved_by : `${atob(sessionStorage.getItem('code'))} ${atob(sessionStorage.getItem('type'))}`
-					}).then(response=>{
-						this._snackBar._showSnack(`Branch Status Sucessfully Updated`, 'success')
-						this.ngOnInit()
-					}).catch(error=>{
-						this._snackBar._showSnack('Internal Error', 'error')
-					})
-				}
+				this._snackBar._showSnack('Try Again', 'error')
 			}
 		}catch(e){
 			this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
@@ -182,7 +152,7 @@ export class FranchiselistComponent implements OnInit {
 			data : this.tellerForm.value,
 			fcode : this.fbranchCode
 		}).then((response:any)=>{
-			if(JSON.parse(response).message === 'ok'){
+			if(response.message === 'ok'){
 				this._snackBar._showSnack('Successfully Save', 'success')
 				this.socketService.sendEvent("eventSent", {data: "response_teller"})/**SOCKET SEND EVENT */
 			}else{
@@ -265,6 +235,28 @@ export class FranchiselistComponent implements OnInit {
 				return x.branchCode === atob(sessionStorage.getItem('code'))
 			}).map((y:any)=>y)
 			this.globalpaginator(data)
+		}
+	}
+
+	async resetPassword(data:any){
+		await this.httpFbranch.resetPassword(data)
+		.then((response:any)=>{
+			
+			if(response.message === 'ok'){
+				this._snackBar._showSnack('Successfully Reset', 'success')
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
+		}).catch((err:any)=>{
+			this._snackBar._showSnack(err, 'error')
+		})
+	}
+	async signOut(data:any){
+		try{
+			const response:any = await this.http_auth.signOut({ type : data.fbranchType, code : data.fbranchCode })
+			response.message === 'ok' ? this._snackBar._showSnack('Successfully log out', 'success') : this._snackBar._showSnack('Try Again', 'error')
+		}catch(err:any){
+			this._snackBar._showSnack(err, 'error')
 		}
 	}
 }

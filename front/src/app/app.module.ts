@@ -17,10 +17,16 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LOADING_BAR_CONFIG } from '@ngx-loading-bar/core';
 
+import { StoreModule } from "@ngrx/store";
+import { reducers, metaReducers } from "./store/reducer";
+
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+ 
 
 const config: SocketIoConfig = {
-	// url: 'http://192.168.1.53:3000',
-	url: 'https://ippctransaction.com:3000',
+	url: 'http://192.168.1.39:7000',
+	// url: 'https://ippctransaction.com:3000',
 	options: {}
 }
 @NgModule({
@@ -36,9 +42,12 @@ const config: SocketIoConfig = {
 		TellerModule,
 		ChartsModule,
 		SocketIoModule.forRoot(config),
+		StoreModule.forRoot(reducers),
 		LoadingBarHttpClientModule,
 		LoadingBarRouterModule,
-		LoadingBarModule
+		LoadingBarModule,
+		StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+		!environment.production ? StoreDevtoolsModule.instrument() : [],
 		
 	],
 	

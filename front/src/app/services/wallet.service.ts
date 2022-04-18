@@ -4,43 +4,86 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { EndPoint } from "./../globals/endpoints";
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { StoreService } from '../store/store.service';
 @Injectable({
   providedIn: 'root'
 })
 export class WalletService {
 	errorMsg: any;
 
-	constructor( private http : HttpClient) {
+	constructor( private http : HttpClient,
+				 private method : StoreService) {
 		
 	}
 	// functions
 	topupload(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/topupload`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/topupload`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	getTopup_list(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/getTopup_list`, data).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/getTopup_list`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	getTopup_listForBranchHead (data:any){
-		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/getTopup_listForBranchHead`, data).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/getTopup_listForBranchHead`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	approvedTopupLoad(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/approvedTopupLoad`, data, {responseType: 'blob'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/approvedTopupLoad`, data, this.method.setAuthorizedRequestWithBlob()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	sendLoadtable(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/sendLoadtable`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/sendLoadtable`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	getFranchisewallet(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/getFranchisewallet`, data).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/getFranchisewallet`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	decreaseWalletFranchise(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/decreaseWalletFranchise`, data).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/decreaseWalletFranchise`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 	updateLoadstatus(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/updateLoadstatus`, data, {responseType: 'text'}).toPromise()
+		try{
+			return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/updateLoadstatus`, data, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
+	}
+
+
+	getOverallWallet(){
+		try{
+			return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/getOverallWallet`, this.method.setAuthorizedRequest()).toPromise()
+		}catch(err:any){
+			return err
+		}
 	}
 
 	function_checkAvailableWallet(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/checkAvailableWallet`, data, {responseType: 'text'})
+		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/checkAvailableWallet`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -59,7 +102,7 @@ export class WalletService {
 	}
 
 	function_adminTopUpload(){
-		return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/adminTopUpload`)
+		return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/adminTopUpload`, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -78,7 +121,7 @@ export class WalletService {
 	}
 	
 	function_walletHistory(data:any){
-		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/walletHistory`, data)
+		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/walletHistory`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -96,7 +139,7 @@ export class WalletService {
 		)
 	}
 	function_checkFranchiseWallet(data:any):Observable<any>{
-		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/checkFranchiseWallet`, data)
+		return this.http.post(`${ EndPoint.endpoint }/wallet/wallets/checkFranchiseWallet`, data, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -115,7 +158,7 @@ export class WalletService {
 	}
 
 	function_walletTransactionForAdminBranchHead(){
-		return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/walletTransactionForAdminBranchHead`)
+		return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/walletTransactionForAdminBranchHead`, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -135,7 +178,7 @@ export class WalletService {
 
 
 	walletBranchesMonitoring(){
-		return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/walletBranchesMonitoring`)
+		return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/walletBranchesMonitoring`, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -154,7 +197,7 @@ export class WalletService {
 	}
 
 	walletiBarangayMonitoring(){
-		return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/walletiBarangayMonitoring`)
+		return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/walletiBarangayMonitoring`, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -172,7 +215,7 @@ export class WalletService {
 		)
 	}
 	topUploadsIbarangayHistory(){
-		return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/topUploadsIbarangayHistory`)
+		return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/topUploadsIbarangayHistory`, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				
@@ -192,7 +235,7 @@ export class WalletService {
 
 	topUploadsFranchiseeHistory(){
 
-		return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/topUploadsFranchiseeHistory`)
+		return this.http.get(`${ EndPoint.endpoint }/wallet/wallets/topUploadsFranchiseeHistory`, this.method.setAuthorizedRequest())
 		.pipe(
 			catchError(error => {
 				

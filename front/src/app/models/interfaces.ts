@@ -55,3 +55,30 @@ export interface PassengerCount {
 export interface Month{
 	month : object 
 }
+export interface UserCodes {
+	id : number;
+	type : string;
+	code : string;
+}
+export interface UserDetails {
+    id: number;
+	firstname : string;
+	lastname : string;
+	email : string;
+	contactNo : number;
+	branchCode : string;
+	branchName : string;
+	address : string;
+	status: number;
+	franchiseName : string
+	fbranchType :string
+	fbranchCode:string
+	location:string
+	date_added:Date
+	update_byss : string
+}
+// export interface UserDetails { 
+// 	id : 
+// 	data: Array<object>
+// }
+

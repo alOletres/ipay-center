@@ -1,0 +1,148 @@
+<div  fxLayout="row wrap">
+    <mat-toolbar class="page-header" role="heading">
+        <div fxFlex="5%" fxFlex.md="5%" fxFlex.xs="5%" class="example-button-container" >
+            <button [routerLink]="['/transactions']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" style="color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+                <i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div fxFlex="78%" fxFlex.md="78%" fxFlex.xs="78%">
+            <h1>Transactions</h1>
+        </div>
+        <div  fxFlex="8%" fxFlex.md="8%" fxFlex.xs="8%">
+            <button (click)="print()" mat-raised-button style="background-color:black;color: white;"> <i class="fa fa-print" aria-hidden="true" ></i>Print</button> 
+        </div>
+        <div  fxFlex="8%" fxFlex.md="8%" fxFlex.xs="8%">
+            <button (click)="exportAsExcel()" mat-raised-button style="background-color:black;color: white;"> <i class="fa fa-download" aria-hidden="true"></i> Save as Excel</button>
+        </div>
+    </mat-toolbar>
+</div>
+<br>
+<div fxLayout="row wrap">
+    <div fxFlex="98%" fxFlex.md="100%" fxFlex.xs="100%">
+        <mat-card style="margin-left: 2%;" class="card card-wrapper">
+            <div fxLayout="row wrap">
+                <div fxFlex="70%" fxFlex.md="70%" fxFlex.xs="70%">
+                    <mat-card-title class="card__header">
+                        <h5  class="card__title"> Eloads Transaction History </h5>
+                    </mat-card-title>
+                </div>
+               <form  fxFlex="30%" fxFlex.md="30%" fxFlex.xs="30%">
+                    <div class="row">
+                        <mat-form-field  class="col-md-6" appearance="outline">
+                            <mat-label> Search Branch </mat-label>
+                            <input type="text" matInput [matAutocomplete]="auto" [formControl]="searchControl">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option  *ngFor="let data of filteredOptions | async" [value]="data">
+                                    {{ data.tellerCode }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-6" appearance="outline">
+                            <mat-label>Enter a date range</mat-label>
+                            <mat-date-range-input  [rangePicker]="pickers"  >
+                                <input matStartDate [(ngModel)]="start"  [ngModelOptions]="{standalone: true}" placeholder="Start date">
+                                <input matEndDate [(ngModel)]="end"  [ngModelOptions]="{standalone: true}" placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                            <mat-date-range-picker #pickers></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+               </form>
+            </div>
+            
+            <mat-card-content  class="card__content">
+                <div id="print-section"> 
+                    <div id="showOnPrnt" >
+                        <div class="row">
+                            <div class="col-md-1">
+                                <img src="assets/img/IPAY_LOGO.png" style="width: 120px; height: 70px;" alt="">
+                            </div>
+                            <div class="col-md-11">
+                                <p> {{ fullname }} <br> {{ email }} <br> {{ contactNo }} <br> {{ address }}  </p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- table here -->
+                    <table [dataSource] = "dataSource | searchByDate: start : end : this.searchControl" class="table__table" mat-table class="mat-elevation-z0" style="width: 100%;">
+                        <ng-container matColumnDef="no">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>No.</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="reference_id">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Rereference Id</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.reference_id }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="TransId">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Transaction Id</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.TransId }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="mobileNo">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Mobile Number</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> +63{{ element.mobileNo }} </td>
+                            <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> TOTAL </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="productCode">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Product Code</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.productCode }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+                        <ng-container matColumnDef="amount">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Amount</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.amount | number : '1.2-2' }} </td>
+                            <td mat-footer-cell *matFooterCellDef  style="font-weight: bold;"> {{ dataSource | eloadsDailyTotal : start : end  : this.searchControl | currency : "&#8369;" }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="markUp">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Mark Up</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.markUp | number : '1.2-2' }} </td>
+                            <td mat-footer-cell *matFooterCellDef style="font-weight: bold;"> {{ dataSource | eloadsDailyMarkUp : start : end  : this.searchControl | currency : "&#8369;" }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ePIN">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>EPIN</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.ePIN }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+                        <ng-container matColumnDef="createdBy">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Created By</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> <span style="text-transform: uppercase;"> {{ element.tellerCode }} &nbsp; {{ element.createdBy }}   </span> </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+                        <ng-container matColumnDef="createdDate">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Created Date</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.createdDate | date : 'medium' }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+                        <ng-container matColumnDef="status">
+                            <th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Status</th>
+                            <td class="table_table-body" mat-cell *matCellDef="let element"> 
+                                <span *ngIf = "element.status === 0" style="color:#039A4D;"> success</span>
+                                <span *ngIf = "element.status === 1" style="color:red;"> cancel </span>
+                            </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+                    </table>
+                </div>
+                
+            </mat-card-content>
+            <div class="pagination">
+				<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+			</div>
+        </mat-card>
+    </div>
+</div>
+
+<button type="button" hidden="true" printTitle="MyTitle" printSectionId="print-section" [useExistingCss]="true" ngxPrint #printMe></button>
+
+
+

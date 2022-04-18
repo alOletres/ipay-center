@@ -34,7 +34,6 @@ export class ServicedialogComponent implements OnInit {
 	}
 
 	onRemove(event:any) {
-		console.log(event);
 		this.files.splice(this.files.indexOf(event), 1);
 	}
 	

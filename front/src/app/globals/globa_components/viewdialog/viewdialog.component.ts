@@ -37,7 +37,6 @@ export class ViewdialogComponent implements OnInit {
 			}else{
 				const result:any =	await this.http_auth.getTellerIbarangay({ib_code : this.ib_code})
 				this.dataSource = result
-				console.log(this.dataSource);
 				this.dataSourceLength = result.length
 			}
 		}else{

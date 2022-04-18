@@ -146,7 +146,6 @@ export class BarkotaComponent implements OnInit {
 				private http_excel : ExcelService,
 				private socketService : SocketService) 
 		{
-			console.log(atob(sessionStorage.getItem('tN')));
 			this.routesForm = this.fb.group({
 				origin : ['', [Validators.required]],
 				destination : ['', [Validators.required]],
@@ -155,10 +154,6 @@ export class BarkotaComponent implements OnInit {
 		}
 
 	ngOnInit(){
-
-		console.log(atob(sessionStorage.getItem('code')));
-		
-		
 
 		if(this.addPassengerArray === undefined){
 			this.passengerLength = 0
@@ -240,7 +235,7 @@ export class BarkotaComponent implements OnInit {
 			})
 		).subscribe(response=>{
 
-			this.result = JSON.parse(response)
+			this.result = response
 			this.routesOrigin = new Observable ((observer)=>{ //observable for getting routes
 
 				try{
@@ -278,14 +273,14 @@ export class BarkotaComponent implements OnInit {
 				departure_date : this.bookdate.toISOString().slice(0, 10)
 
 			}).then((response)=>{
-				if(JSON.parse(response).length === 0){
+				if(response.length === 0){
 					this.dataSource = ''
 					this.tablemessage ="NO AVAILABLE TRIPS"
 					this._snackBar._showSnack('NO AVAILABLE TRIPS', 'error')
 					dialogRef.close()
 				}else{
 
-					this.dataSource = JSON.parse(response)
+					this.dataSource = response
 
 					this.viewAccomodation = new Observable((observer)=>{
 						try{
@@ -331,12 +326,10 @@ export class BarkotaComponent implements OnInit {
 		dialog.close()
 	}
 	 function_selectAccommodation(data : any, i:any){
-		// console.log(data, i);
 		
 		const dialog = this.dialog.open(LoadingDialogComponent,{disableClose:true})
 
 		this.accomodationId = data.id
-		console.log(this.dataSource);
 		
 		this.getAccomodation.subscribe((index :any)=>{
 			
@@ -361,7 +354,7 @@ export class BarkotaComponent implements OnInit {
 				return of ([])
 			})
 		).subscribe(response=>{
-			this.dataTicketlist = JSON.parse(response)
+			this.dataTicketlist = response
 			dialog.close()
 		})
 		
@@ -370,9 +363,7 @@ export class BarkotaComponent implements OnInit {
 	function_viewDetails(data:any){
 		this.detailsTable = true
 		this.routeName = data.routePriceName
-		this.routeType = data.routePriceType.name
-		console.log(data.details);
-		
+		this.routeType = data.routePriceType.fileName
 		this.dataDetails = data.details
 		
 	}
@@ -407,13 +398,12 @@ export class BarkotaComponent implements OnInit {
 			this.accomodationNextButton = false
 			this.discountType = i
 			
-			this.cotsLength = JSON.parse(data).length
-			// console.log(this.cotsLength);
+			this.cotsLength = data.length
 			
 				if(this.cotsLength === this.compareValue ){
-					console.log('true');
+
 				}else{
-					JSON.parse(data).forEach((element: any) => {
+					data.forEach((element: any) => {
 						
 						this.cotsName.push(element)
 						
@@ -422,7 +412,6 @@ export class BarkotaComponent implements OnInit {
 				}
 				
 			dialogRef.close();
-			this.function_checkWalletFirst()
 		})
 	}
 	function_hideTable(){
@@ -458,23 +447,22 @@ export class BarkotaComponent implements OnInit {
 			
 			if(this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)]){
 
-				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].ticketTotal 		= JSON.parse(response).ticketTotal
-				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].terminalFee 		= JSON.parse(response).terminalFee
-				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].outletServiceFee = JSON.parse(response).outletServiceFee
-				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].serviceCharge 	= JSON.parse(response).serviceCharge
-				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].total 			= JSON.parse(response).total
+				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].ticketTotal 		= response.ticketTotal
+				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].terminalFee 		= response.terminalFee
+				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].outletServiceFee = response.outletServiceFee
+				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].serviceCharge 	= response.serviceCharge
+				this.displayTicketTotal[this.displayTicketTotal.findIndex(item => item.id === id)].total 			= response.total
 			
 			}else{
 				this.displayTicketTotal.push({
 					id 					: id,
-					ticketTotal 		: JSON.parse(response).ticketTotal,
-					terminalFee 		: JSON.parse(response).terminalFee,
-					outletServiceFee 	: JSON.parse(response).outletServiceFee,
-					serviceCharge 		: JSON.parse(response).serviceCharge,
-					total 				: JSON.parse(response).total
+					ticketTotal 		: response.ticketTotal,
+					terminalFee 		: response.terminalFee,
+					outletServiceFee 	: response.outletServiceFee,
+					serviceCharge 		: response.serviceCharge,
+					total 				: response.total
 				})
 			}
-			console.log(this.displayTicketTotal);
 			var ticketTotal = 0
 			var terminalFee = 0
 			var outletServiceFee  = 0
@@ -514,7 +502,7 @@ export class BarkotaComponent implements OnInit {
 
 
 	 function_revalidateTicket (){
-		console.log(this.priceDetailId, this.voyageId, this.revalidateTicket, this.departureCotId);
+
 		const token : any = this.cookieService.get('token')
 		try{
 			 this.barkotaService.function_revalidateTicket({
@@ -533,7 +521,7 @@ export class BarkotaComponent implements OnInit {
 					return of([]);
 				})
 			).subscribe(response=>{
-				window.open(JSON.parse(response).printUrl)
+				window.open(response.printUrl)
 				this._snackBar._showSnack('Successfully Revalidate', 'success')
 			})
 		}catch(e){
@@ -559,174 +547,17 @@ export class BarkotaComponent implements OnInit {
 		const dialogRef = this.dialog.open(CotsdialogComponent,{
 			width : '800px',
 			// disableClose : true,
+			autoFocus: false,
 			data : {
 				cots : this.cotsName
 			}
 		})
 		dialogRef.afterClosed().subscribe(result=>{
-			// console.log(result);
-			
 			this.addPassengerArray[this.addPassengerArray.findIndex(item => item.id === id)].cots = result.name
 			this.addPassengerArray[this.addPassengerArray.findIndex(item => item.id === id)].departureCotId = result.id
 			
 		})
 	}
-
-	 function_checkWalletFirst(){
-
-		const branchCode = atob(sessionStorage.getItem('code'))
-		
-		 this.http_wallet.function_checkAvailableWallet({
-			branchCode : branchCode
-		})
-		.pipe(
-			catchError(error=>{
-				this._snackBar._showSnack(error, 'error')
-				return of([])
-			})
-		).subscribe(data=>{
-			this.currentWallet = JSON.parse(data)
-			this.c_wallet = `${JSON.parse(data)[0].current_wallet.toLocaleString('en-US')}.00`
-
-			this.observableWallet = new Observable((observer)=>{
-				observer.next(this.currentWallet)
-			})
-		})
-	}
-
-	function_forBarkotaBookingApi(wallet:any, branchCode:any){
-		const token : any = this.cookieService.get('token')
-		this.barkotaService.function_bookNow({
-			
-			passengers 			: this.addPassengerArray,
-			contactInfo 		: this.contactForm.value,
-			token 				: JSON.parse(token)
-
-		})
-		.pipe(
-			catchError(error => {
-
-				this._snackBar._showSnack(error, 'error')
-				
-				return of([]);
-			})
-		).subscribe((data:any)=>{
-			
-			if(data.length === 0){
-				console.log('Internal error');
-			}else{	
-					
-				var win = window.open(JSON.parse(data).printUrl, '_blank')
-				win.focus()
-				this._snackBar._showSnack('Successfully Book', 'success')
-				this.function_saveDbBarkotaTransactions(JSON.parse(data).printUrl, wallet, branchCode)
-			}
-			
-		})
-		
-	}
-
-	 function_saveDbBarkotaTransactions( ticketUrl: any, wallet:any, branchCode:any){
-		
-		this.barkotaService.function_saveBarkotaBookingTransactions({
-			
-			passengers 			: this.addPassengerArray,
-			contactInfo 		: this.contactForm.value,
-			departurePriceId 	: this.priceDetailId,
-			ticketUrl			: ticketUrl,
-			shippingVessel 		: this.dataSelectedVessel,
-			displayTicketTotal 	: this.displayTicketTotal,
-			currentWallet 		: wallet,
-			branchCode			: branchCode,
-			userLog 			: atob(sessionStorage.getItem('code')),
-			dateNow 			: this.dateNow
-
-		}).pipe(
-			catchError(error=>{
-				this._snackBar.showSnack(error, 'error')
-				return of([])
-			})
-		).subscribe(data=>{
-
-			this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
-
-			this.printReceipt(data)
-		
-		})
-
-	}
-
-	async function_bookNow(){
-		
-		Swal.fire({
-			title: 'Make sure all the fields are correct',
-			text: 'Press confirm to proceed',
-			icon: 'info',
-			showCancelButton: true,
-			confirmButtonText: 'Confirm',
-			cancelButtonText: 'Read Again'
-		}).then((result) => {
-			if (result.value) {
-					// continue booking
-				const dialogref = this.dialog.open(LoadingDialogComponent,{disableClose : true})
-				
-				this.function_checkWalletFirst() //this function will check the availability of wallet branches
-			
-					setTimeout(() => { //delay the process  to get the wallet data
-
-					this.observableWallet.subscribe(data=>{
-						
-						if (data[0].current_wallet > 5000 ){
-							
-							this.function_forBarkotaBookingApi(data[0].current_wallet, data[0].branchCode)
-							dialogref.close()
-						
-						}else if(data[0].current_wallet <= 5000){
-
-							Swal.fire({
-								title: 'Are you sure want to Continue?',
-								text: 'Your wallet balance almost reach the amount limit',
-								icon: 'warning',
-								showCancelButton: true,
-								confirmButtonText: 'Yes, Continue',
-								cancelButtonText: 'No, keep it'
-							}).then((result) => {
-								if (result.value) {
-										// continue booking
-										this.function_forBarkotaBookingApi(data[0].current_wallet, data[0].branchCode)
-										dialogref.close()
-										
-								} else if (result.dismiss === Swal.DismissReason.cancel) {
-										
-									Swal.fire(
-									'Cancelled',
-									'Your Booking is Cancelled',
-									'error'
-									)
-								}
-							})
-						} else if (data[0].current_wallet <= 1000){
-							console.log('wallet <= 5000');
-							// cant transact snack bar will appear
-							this._snackBar._showSnack('Cant Proceed Transaction Please Reload before to Continue', 'error')
-							dialogref.close()
-						}
-					})			
-				}, 1000);
-
-			}
-		})
-			
-	}
-	printReceipt(data:any){
-		this.showHideDiv= false;
-		this.print(data);
-		
-	}
-
-	print(no:any){
-		this.printTheDiv.nativeElement.click()
-    }
 
 	validateOnlyNumbers(evt: any) {
 		var theEvent = evt || window.event;
@@ -737,6 +568,63 @@ export class BarkotaComponent implements OnInit {
 		  	theEvent.returnValue = false;
 		  	if(theEvent.preventDefault) theEvent.preventDefault();
 		}
+	}
+	/*Revise bookNow code  */
+	async reviseBookNow(){
+		const token : any = this.cookieService.get('token')
+			Swal.fire({
+			title: 'Make sure all the fields are correct',
+			text: 'Press confirm to proceed',
+			icon: 'info',
+			showCancelButton: true,
+			confirmButtonText: 'Confirm',
+			cancelButtonText: 'Read Again'
+		}).then((result) => {
+			const dialogref = this.dialog.open(LoadingDialogComponent,{disableClose : true})
+			if (result.value) {
+				
+				this.barkotaService.checkWallet({
+			
+					tellerCode : atob(sessionStorage.getItem('code')),
+					passengers 			: this.addPassengerArray,
+					contactInfo 		: this.contactForm.value,
+					token 				: JSON.parse(token),
+					departurePriceId 	: this.priceDetailId,
+					shippingVessel 		: this.dataSelectedVessel,
+					displayTicketTotal 	: this.displayTicketTotal
+				})
+				.pipe(
+					catchError((err:any)=>{
+						this._snackBar._showSnack(err, 'error')
+						dialogref.close()
+						return of([])
+					})
+				).subscribe((response:any)=>{
+					
+					if(response.message === 'ok'){
+						this._snackBar._showSnack("Successfully Book", 'success')
+						var win = window.open(response.ticket_url, '_blank')
+						win.focus()
+						this.printTheDiv.nativeElement.click()
+						this.socketService.sendEvent("eventSent", {data: "decreased_wallet"})/**SOCKET SEND EVENT */
+					}else if(response.message === 'low_wallet'){
+						this._snackBar._showSnack("Insufficient Funds, Please reload to continue", 'error')
+					}else{
+						this._snackBar._showSnack("Try Again", 'error')
+					}
+					dialogref.close()
+				})
+			}else if (result.dismiss === Swal.DismissReason.cancel) {
+											
+				Swal.fire(
+				'Cancelled',
+				'Your Booking is Cancelled',
+				'error'
+				)
+				dialogref.close()
+			}
+		})
+		
 	}
 
 }

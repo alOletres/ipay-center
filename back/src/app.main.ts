@@ -14,6 +14,7 @@ import  { watch }  from './databaseWatcher/db_watcher.server'
 import { Server } from 'socket.io'
 
 const startSocketServer = (instance:any) => socket( {instance} )
+
 class MainServer {
 	private app: Express
 	private server: any
@@ -29,21 +30,22 @@ class MainServer {
 		this.app.use(cors())
 
 		if(environment === 'test prod'){
-			
+		    
 			const options = {
-				key: fs.readFileSync("./../../ssl/keys/f15a6_e242b_9adc49af084fce6a9e6493f1cedb02fd.key"),
-				cert: fs.readFileSync("./../../ssl/certs/ippctransaction_com_ca648_2f011_1677769970_ef63cb59405f8ca8d1b98f0e6be176ed.crt")
+				key : fs.readFileSync("./../ssl/keys/f15a6_e242b_9adc49af084fce6a9e6493f1cedb02fd.key"),
+				cert: fs.readFileSync("./../ssl/certs/ippctransaction_com_f15a6_e242b_1680911999_2ea04cb8d8925e4aad2c40f3947860ef.crt")
 			 } 
 
 			this.server = https.createServer(options, this.app)
-			// this.server = http.createServer(this.app)
-			new MainModule(this.app)
 			
+			new MainModule(this.app)
+
 			const ioConn = new Server(this.server, { cors: { origin: "*" } })
 			
 			startSocketServer(ioConn)
 
-			watch(ioConn).then(()=>console.log('Waiting for events') )		
+			watch(ioConn).then(()=>console.log('Waiting for events') )	
+			
 			
 			this.startServer(this.port).then(() => console.log(`Server is running on port ${ this.port }`))
 
@@ -56,6 +58,7 @@ class MainServer {
 			const ioConn = new Server(this.server, { cors: { origin: "*" } })
 			
 			startSocketServer(ioConn)
+
 
 			watch(ioConn).then(()=>console.log('Waiting for events') )
 
@@ -83,8 +86,8 @@ const PORT: any = process.env.NODE_ENV === DEVELOPMENT ? process.env.DEV_PORT
 				: process.env.TEST_PROD_PORT
 
 const environment = process.env.NODE_ENV === DEVELOPMENT ? DEVELOPMENT
-				: process.env.NODE_ENV === PRODUCTION ? PRODUCTION
-				: 'test prod'
+				: process.env.NODE_ENV === PRODUCTION ? 'test prod'
+				: ''
 
 
 new MainServer(PORT)

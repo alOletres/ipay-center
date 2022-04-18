@@ -191,3 +191,12 @@ mat-select.mat-select {
 		}
 	}
 }
+#showOnPrnt {
+    display: none;
+}
+
+@media print {
+    #showOnPrnt {
+        display: block;
+    }   
+}

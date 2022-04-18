@@ -14,7 +14,6 @@ import { BarkotaService } from './../../../services/barkota.service'
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ExcelService } from 'src/app/services/excel.service';
 // pipes
-import { ComputeSalesPipe, ComputeCollectionPipe } from './../../../pipes/compute.pipe';
 import { SearchByDatePipe } from './../../../pipes/compute.pipe';
 @Component({
   selector: 'app-settings',
@@ -109,12 +108,11 @@ export class SettingsComponent implements OnInit {
 				
 			
 			).subscribe(data => {
-				// console.log(JSON.parse(data));
 				
-				if(JSON.parse(data).length === 0 ){
+				if(data.length === 0 ){
 					this._snackBar._showSnack('No available data', 'error');
 				}else{
-					this.searchTicketTable = JSON.parse(data);
+					this.searchTicketTable = data;
 					this.transactionInfo = this.searchTicketTable[0].transactionInfo;
 					this.contactInfo = this.searchTicketTable[0].transactionInfo.contactInfo
 					this.voyageVessel = this.searchTicketTable[0].voyage
@@ -160,10 +158,10 @@ export class SettingsComponent implements OnInit {
 		).subscribe(data => {
 
 			
-			if(JSON.parse(data).length === 0){
+			if(data.length === 0){
 				this._snackBar._showSnack('Voucher not Available', 'error');
 			}else{
-				window.open(JSON.parse(data).printUrl)
+				window.open(data.printUrl)
 			}
 
 		})	
@@ -185,10 +183,10 @@ export class SettingsComponent implements OnInit {
 			})
 		).subscribe(data => {
 
-			if(JSON.parse(data).length === 0){
+			if(data.length === 0){
 				this._snackBar._showSnack('Transaction not Available', 'error');
 			}else{
-				window.open(JSON.parse(data).printUrl)
+				window.open(data.printUrl)
 			}
 
 		})	
@@ -207,7 +205,7 @@ export class SettingsComponent implements OnInit {
 		).subscribe((data :any)=>{
 
 			
-			this.dataSourceBarkotaReports = new MatTableDataSource<any>(JSON.parse(data))// display for log user franchise 
+			this.dataSourceBarkotaReports = new MatTableDataSource<any>(data)// display for log user franchise 
 			this.dataSourceBarkotaReports.paginator = this.paginator
 			this.dataT = data
 			

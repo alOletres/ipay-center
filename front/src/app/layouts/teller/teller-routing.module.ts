@@ -13,6 +13,7 @@ import { TellersettingsComponent } from 'src/app/tellercomponents/tellersettings
 import { BarkotaComponent } from 'src/app/api/barkota/barkota.component';
 import { SettingsComponent } from './../../api/barkota/settings/settings.component';
 import { LcTransComponent } from "src/app/api/loadcentral/shared/components/lc-trans/lc-trans.component";
+import { MultisysComponent } from "./../../api/multisys/multisys.component";
 
 const routes: Routes = [
   {
@@ -40,6 +41,9 @@ const routes: Routes = [
 			}, {
 				path : 'loadcentralComponnt',
 				component : LcTransComponent
+			}, {
+				path : 'multysis',
+				component : MultisysComponent
 			}
 		]
 	}

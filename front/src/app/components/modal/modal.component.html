@@ -9,8 +9,9 @@
 		
 		<div  class="col-md-6 col-sm-6">
 			<input  hidden (change)="onSelectFile($event)" #fileInput type="file" class="upload" formControlName="image"/>
-			<button class="col-md-12 col-sm-12" *ngIf = "type !== 'Branch Head' " style="background-color: #039A4D; color: #fff;" type="button" mat-raised-button (click)="fileInput.click()">Upload Receipt File</button>
-			<mat-chip-list *ngIf = "type === 'Branch Head' " aria-label="Fish selection">
+			<button class="col-md-12 col-sm-12" *ngIf = "type !== 'Branch Head' && type !== 'Admin' " style="background-color: #039A4D; color: #fff;" type="button" mat-raised-button (click)="fileInput.click()">Upload Receipt File</button>
+			
+			<mat-chip-list *ngIf = "type === 'Branch Head' || type === 'Admin' " aria-label="Fish selection">
 				<mat-chip color="primary" selected>Receipt uploaded</mat-chip>
 			</mat-chip-list>
 

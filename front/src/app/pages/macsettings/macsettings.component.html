@@ -5,24 +5,20 @@
 
 <div fxLayout="row wrap">
 
-	
-
-	<span  *ngIf="annoncementCard"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
-
-	<div  fxFlex= "90%" fxFlex.md="100%" fxFlex.xs="100%">
-		<mat-toolbar >
-			<div *ngIf="annoncementCard" >
-				<button (click)="btnBack()" style=" color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
-					<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
-				</button>
-			</div>
+	<div style="padding: 20px; margin-top: 1%;"  *ngIf="annoncementCard" fxFlex= "5%" fxFlex.md="5%" fxFlex.xs="5%">
+		<button (click)="btnBack()" style=" color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+			<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+		</button>
+	</div>
+	<div fxFlex= "90%" fxFlex.md="90%" fxFlex.xs="90%">
+		<mat-toolbar class="page-header" role="heading">
 			<h1>Settings</h1>
 		</mat-toolbar>
 	</div>
 	
 </div>
 <div  fxLayout="row wrap" *ngIf="createAnnoucementCard">
-	<div style="margin-left: 1%; cursor: pointer;" fxFlex= "45%" fxFlex.md="100%" fxFlex.xs="100%">
+	<div style=" cursor: pointer;" fxFlex= "50%" fxFlex.md="50%" fxFlex.xs="50%">
 		<mat-card  style="color:rgb(49, 13, 78)" (click) = "showAnnouncement()" class="card _card">
 			<div class="row">
 				<div class="col-md-1">
@@ -37,6 +33,22 @@
 			</div>
 		</mat-card>
 	</div>
+
+	<!-- <div style=" cursor: pointer;" fxFlex= "50%" fxFlex.md="50%" fxFlex.xs="50%">
+		<mat-card [routerLink]="['/incident report']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  style="color:rgb(45, 163, 231)"  class="card _card">
+			<div class="row">
+				<div class="col-md-1">
+					<b style="font-size: 30px; font-weight: 500;"> 
+						<i class="fa fa-info-circle" aria-hidden="true" style=" margin-right: 3px; "></i>
+					</b>
+				</div>
+				<div class="col-md-11">
+					<b>Incident Report</b><br>
+					..
+				</div>
+			</div>
+		</mat-card>
+	</div> -->
 </div>
 
 <br>

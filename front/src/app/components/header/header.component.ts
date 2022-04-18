@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from './../../services/authentication.service'
 
 import { SnackbarServices } from 'src/app/services/snackbar.service';
+import { Stores } from 'src/app/models/main.enums';
+import { StoreService } from 'src/app/store/store.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -14,11 +16,12 @@ export class HeaderComponent implements OnInit {
 	@Output() isShowSidebar = new EventEmitter<boolean>();
 
 	fullname :any 
-	
+	errorMessage :any = ""
 	constructor(
 		private router: Router,
 		private http_auth : AuthenticationService,
-		private _snackBar : SnackbarServices){ 
+		private _snackBar : SnackbarServices,
+		private methodStore : StoreService){ 
 		
 	}
 
@@ -33,14 +36,15 @@ export class HeaderComponent implements OnInit {
 			await this.http_auth.getUser({type: type, type_code: type_code})
 
 			.then((data:any)=>{
-
+				
 				(type === 'Branch Head')?  this.fullname = `${data[0].ownerFirstname} ${data[0].ownerLastname}` : this.fullname = `${data[0].firstname} ${data[0].lastname}`
-				
+				this.methodStore.addToStore(Stores.USERDETAILS,  { data : data })	
 				sessionStorage.setItem('d', btoa(JSON.stringify(data)))
+
+					
 			
-			}).catch(err=>{
-				
-				this._snackBar._showSnack(err, 'error')
+			}).catch((err:any)=>{
+				this._snackBar._showSnack(err.statusText, 'error')
 				
 			})
 

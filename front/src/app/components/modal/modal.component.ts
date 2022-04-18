@@ -93,7 +93,7 @@ export class ModalComponent implements OnInit {
 
 		.then((response:any)=>{
 
-			if(JSON.parse(response).message === 'ok'){
+			if(response.message === 'ok'){
 				this.socketService.sendEvent("eventSent", { data : "response_topUpload" })
 				this._snackBar._showSnack(`Success Change`, 'success')
 				this.dialogRef.close();
@@ -118,43 +118,29 @@ export class ModalComponent implements OnInit {
 		const type = atob(sessionStorage.getItem('type'))
 
 		this.progress = true
+		const code = this.ib_code === undefined ? this.f_code : this.ib_code
 
-		if(this.ib_code === undefined){
+
+		await this.http_wallet.approvedTopupLoad({
+			approved_date : moment(date).format(),
+			approved_by : type,
+			id : this.id, 
+			data : this.creditLoadForm.value,
+			fcode : code
+		}).then((response:any)=>{
+			console.log(response);
 			
-			await this.http_wallet.approvedTopupLoad({
-				approved_date : moment(date).format(),
-				approved_by : type,
-				id : this.id, 
-				data : this.creditLoadForm.value,
-				fcode : this.f_code
-			}).then(()=>{
+			this.socketService.sendEvent("eventSent", { data : "response_approvedTopUp" })
 
-				this.socketService.sendEvent("eventSent", { data : "response_approvedTopUp" })
-
-				this._snackBar._showSnack(`Success Change`, 'success')
-				this.dialogRef.close();
-				this.progress = false
-			}).catch(error=>{
-				this.progress =false
-				this._snackBar._showSnack(error, 'error')
-			})			
-		}else{
-
-			await this.http_wallet.approvedTopupLoad({
-				approved_date : moment(date).format(),
-				approved_by : type,
-				id : this.id, 
-				data : this.creditLoadForm.value,
-				fcode : this.ib_code
-			}).then(()=>{
-				this._snackBar._showSnack(`Success Change`, 'success')
-				this.dialogRef.close();
-				this.progress = false
-			}).catch(error=>{
-				this.progress = false
-				this._snackBar._showSnack(error, 'error')
-			})			
-		}
+			this._snackBar._showSnack(`Successfully Approved`, 'success')
+			this.dialogRef.close();
+			this.progress = false
+		}).catch((error:any)=>{
+			console.log(error);
+			
+			this.progress =false
+			this._snackBar._showSnack(error, 'error')
+		})
 
 		
 	}

@@ -9,7 +9,7 @@ const { DEVELOPMENT, PRODUCTION } = Keywords
 export const ReplicatorConfig: DatabaseConfigs = {
 	host: process.env.NODE_ENV === DEVELOPMENT? "localhost" : "localhost",
 	user: process.env.NODE_ENV === DEVELOPMENT ? "replicator" : process.env.REPLICATOR_USERNAME,
-	password: process.env.NODE_ENV === DEVELOPMENT ? '' : process.env.REPLICATOR_PASSWORD
+	password: process.env.NODE_ENV === DEVELOPMENT ? '123456' : process.env.REPLICATOR_PASSWORD
 }
 
 export const DatabaseConnections: DatabaseConfigs = {

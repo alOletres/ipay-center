@@ -3,12 +3,21 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+
+
 import { ViewdialogComponent } from 'src/app/globals/globa_components/viewdialog/viewdialog.component';
 import { BranchService } from 'src/app/services/branch.service';
 import { ResetformService } from 'src/app/services/resetform.service';
 import { SnackbarServices } from 'src/app/services/snackbar.service';
 import SocketService from 'src/app/services/socket.service';
-
+/**STATE MANAGEMENT */
+import { Store } from '@ngrx/store';
+import { UserCodes,
+	//  UserDetails
+	 } from 'src/app/store/selectors/selector.selectors';
+import { UserCodeState } from 'src/app/store/reducer/user.reducer';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+// import { UserDetailsState } from 'src/app/store/reducer/userdetails.reducer';
 
 @Component({
 selector: 'app-ibarangay',
@@ -27,14 +36,18 @@ export class IbarangayComponent implements OnInit {
 	btnName : any = "Save"
 	dataIbarangay: number;
 	
+
 	constructor( private http_branch : BranchService,
 				 private _snackBar : SnackbarServices,
 				 private dialog : MatDialog,
 				 private resetForm : ResetformService,
-				 private socketService : SocketService ) {
+				 private socketService : SocketService,
+				 private UserStore : Store<UserCodeState>,
+				 private http_auth : AuthenticationService
+				  ) {
 
 		this.socketService.eventListener("response_addiBarangay").subscribe(()=> { this.ngOnInit() })
-		
+		this.socketService.eventListener("response_ibarangay").subscribe(()=> { this.ngOnInit() })
 		this.ibarangayForm = new FormBuilder().group({
 			firstname 		: new FormControl('', 	  [Validators.required]),
 			lastname 		: new FormControl('', 	  [Validators.required]),
@@ -45,12 +58,19 @@ export class IbarangayComponent implements OnInit {
 		})
 
 		this.btnName = "Save"
+		
+		this.UserStore.select(UserCodes).subscribe((data:any)=>{
+			/**to read the data */
+		})
+		// this.UserDetailsStore.select(UserDetails).subscribe((data:any)=>{
+		// 	console.log(data);
+			
+		// })
 	}
 
 	async ngOnInit() {
 		await this.ibarangay()
 		this.type = atob(sessionStorage.getItem('type'))
-		
 	}
 
 	async ibarangay(){
@@ -92,19 +112,18 @@ export class IbarangayComponent implements OnInit {
 	}
 
 	async slideStatus(data:any, type:any){
-		
-		await this.http_branch.updateStatusIb({
-			
-			data:data,
-			approved_by : `${atob(sessionStorage.getItem('code'))} ${atob(sessionStorage.getItem('type'))}`
-		
-		}).then(()=>{
-			this._snackBar._showSnack(`Branch Status Sucessfully Updated`, 'success')
-			this.ngOnInit()
-
-		}).catch(error=>{
-			this._snackBar._showSnack(error, 'error')
-		})
+		try{
+			const response :any = await this.http_branch.updateStatusIb({ data:data, approved_by : `${atob(sessionStorage.getItem('type'))}` })
+			if(response.message === 'ok'){
+				this.ngOnInit()
+				this._snackBar
+				._showSnack('Successfully updated status', 'success')
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
+		}catch(err:any){
+			this._snackBar._showSnack(err, 'error')
+		}
 	}
 
 	function_viewdialogTeller(data : any){
@@ -158,7 +177,7 @@ export class IbarangayComponent implements OnInit {
 		if(atob(sessionStorage.getItem('type')) === 'Admin' || atob(sessionStorage.getItem('type')) === 'Branch Head'){
 			await this.http_branch.updateIbarangaylist({data : this.ibarangayForm.value})
 			.then((response:any)=>{
-				(JSON.parse(response).message === 'ok')?
+				(response.message === 'ok')?
 					`${this._snackBar._showSnack('Successfully Change', 'success')} ${this.ngOnInit()} ${this.resetForm.reset(this.ibarangayForm)}
 					
 					${this.socketService.sendEvent("eventSent", {data: "response_addiBarangay"})/**SOCKET SEND EVENT */}`
@@ -172,7 +191,7 @@ export class IbarangayComponent implements OnInit {
 
 				await this.http_branch.saveiB({ data : this.ibarangayForm.value, fcode : atob(sessionStorage.getItem('code'))})
 				.then((response:any)=>{
-					(JSON.parse(response).message === 'ok')
+					(response.message === 'ok')
 					? `${this._snackBar._showSnack('Successfully Save', 'success')} ${this.ngOnInit()} ${this.resetForm.reset(this.ibarangayForm)}
 					
 						${this.socketService.sendEvent("eventSent", {data: "response_addiBarangay"})/**SOCKET SEND EVENT */}`
@@ -184,7 +203,7 @@ export class IbarangayComponent implements OnInit {
 				
 			: await this.http_branch.updateIbarangaylist({data : this.ibarangayForm.value})
 			.then((response:any)=>{
-				(JSON.parse(response).message === 'ok')?
+				(response.message === 'ok')?
 				
 					`${this._snackBar._showSnack('Successfully Change', 'success')} ${this.ngOnInit()} ${this.resetForm.reset(this.ibarangayForm)}
 					 ${this.socketService.sendEvent("eventSent", {data: "response_addiBarangay"})/**SOCKET SEND EVENT */}`
@@ -207,9 +226,27 @@ export class IbarangayComponent implements OnInit {
 	}
 
 	reset(){
-		this.resetForm.reset(this.ibarangayForm)
+		this.resetForm.reset(this.ibarangayForm)		
 	}
 
-	
-
+	async resetPassword(data:any){
+		await this.http_branch.resetPassword(data)
+		.then((response:any)=>{		
+			if(response.message === 'ok'){
+				this._snackBar._showSnack('Successfully Reset', 'success')
+			}else{
+				this._snackBar._showSnack('Try Again', 'error')
+			}
+		}).catch((err:any)=>{
+			this._snackBar._showSnack(err, 'error')
+		})
+	}
+	async signOut(data:any){
+		try{
+			const response :any = await this.http_auth.signOut({ type : data.branchType, code : data.ib_ibrgyyCode })
+			response.message === 'ok' ? this._snackBar._showSnack('Successfully log out', 'success')  : this._snackBar._showSnack('Try Again', 'error')
+		}catch(err:any){
+			this._snackBar._showSnack(err, 'error')
+		}
+	}
 }

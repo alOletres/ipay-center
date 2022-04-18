@@ -97,7 +97,7 @@ export class GlobalDialogComponent implements OnInit {
 				lastname: [data.lastname, [Validators.required]],
 				contactNo: [data.contactNo, [Validators.required]],
 				email: [data.email, [Validators.required]],
-				branchName : ['branch', [Validators.required]],
+				branchName : [data.franchiseName, [Validators.required]],
 				locationAddress: [data.location, [Validators.required]],
 				id : data.id
 			})
@@ -109,70 +109,83 @@ export class GlobalDialogComponent implements OnInit {
 		
 	}
 	async updateFbranch(){
-
-		
-		if(this.btnName == 'Save'){
-			
-
-			try{
-				  await this.httpBranch.addTellerAdminFranchise({data: this.editForm.value, barangayCode: this.barangayCode, fbranchCode : this.franchiseCode, branchCode : this.branchCode, ib_franchiseCode : this.ib_franchiseCode})
-				this._snackBar._showSnack(`Successfully Added`, 'success')
-				this.dialogRef.close();
-			}catch(err){
-				this._snackBar._showSnack(err, 'error')
+		if(this.item === 'Franchise'){
+			if(this.btnName === 'Save Changes'){
+				const response :any = await this.httpBranch.updateFbranch({ data: this.editForm.value }) 
+				response.message === 'ok' ? this._snackBar._showSnack('Successfully Updated', 'success') : this._snackBar._showSnack('Try Again', 'error')
+				this.dialogRef.close()
+			}else{
+				this.dialogRef.close()
+				this._snackBar._showSnack('Try Again', 'error')
 			}
-
-		}else if(this.btnName === 'Save_') {
-
-			await this.httpBranch.saveIbarangayForapproval({data : this.editForm.value, franchiseCode : this.franchiseCode, branchCode : this.branchCode})
-		
-			this.socketService.sendEvent("eventSent", {data: "response_ibarangay"})/**SOCKET SEND EVENT */
-			
-			this._snackBar._showSnack(`Successfully Added`, 'success')
-			this.dialogRef.close();
-
-		}else if(this.btnName === 'Save ' ){			
+		}else{
 			if(this.status === undefined && this.wallet === undefined){
-
+			
 				this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
-
+	
 			}else if(this.status === 'Approved' && this.wallet !== undefined ){
 				
 				const date :any = new Date() 
 				const dateApproved : any = moment(date).format() //date approved
-				await this.httpBranch.approvedIBstatus({id : this.id, code : this.codeforNotify, wallet: this.wallet, dateApproved : dateApproved});
-				this._snackBar._showSnack(`Successfully Added`, 'success')
-				this.dialogRef.close();
-
+				const response :any = await this.httpBranch.approvedIBstatus({id : this.id, code : this.codeforNotify, wallet: this.wallet, dateApproved : dateApproved});
+				
+				if(response.message === 'ok'){
+					this.socketService.sendEvent("eventSent", {data: "response_ibarangay"})/**SOCKET SEND EVENT */
+					this._snackBar._showSnack(`Successfully Added`, 'success')
+					this.dialogRef.close();
+				}else{
+					this._snackBar._showSnack('Try Again', 'error')
+				}
+				
 			}else if(this.status === 'Decline' && this.wallet === undefined ){
-
+	
 				const date :any = new Date() 
 				const dateDecline : any = moment(date).format() //date decline
 				await this.httpBranch.declineiBarangay({id : this.id, dateDecline : dateDecline}); // decline process status 2
 				this._snackBar._showSnack(`Request Declined`, 'error')
 				this.dialogRef.close();
-
-			}else{
-
-				this._snackBar._showSnack('Something went wrong! Please contact tech support.', 'error')
-
-			}
-		}else{
-			if(this.item == 'Teller'){
-				await this.httpBranch.updateTeller_list(this.editForm.value)
-				this._snackBar._showSnack(`Successfully Added`, 'success')
-				this.dialogRef.close();
-			}else{
-				
-				(this.item == 'Franchise')
-				
-				?  await this.httpBranch.updateFbranch({data: this.editForm.value}) 
-				
-				: await this.httpBranch.updateIbarangaylist({data: this.editForm.value, ib_id: this.ib_id})		
-				this._snackBar._showSnack(`Successfully Added`, 'success')
-				this.dialogRef.close();
+	
 			}
 		}
+		
+		
+		// if(this.btnName == 'Save'){
+			
+
+		// 	try{
+		// 		await this.httpBranch.addTellerAdminFranchise({data: this.editForm.value, barangayCode: this.barangayCode, fbranchCode : this.franchiseCode, branchCode : this.branchCode, ib_franchiseCode : this.ib_franchiseCode})
+		// 		this.socketService.sendEvent("eventSent", {data: "response_ibarangay"})/**SOCKET SEND EVENT */
+		// 		this._snackBar._showSnack(`Successfully Added`, 'success')
+		// 		this.dialogRef.close();
+		// 	}catch(err){
+		// 		this._snackBar._showSnack(err, 'error')
+		// 	}
+
+		// }else if(this.btnName === 'Save_') {
+
+		// 	await this.httpBranch.saveIbarangayForapproval({data : this.editForm.value, franchiseCode : this.franchiseCode, branchCode : this.branchCode})
+		
+		// 	this._snackBar._showSnack(`Successfully Added`, 'success')
+		// 	this.dialogRef.close();
+
+		// }else if(this.btnName === 'Save ' ){			
+		// 	/***dri baih */
+		// }else{
+		// 	if(this.item == 'Teller'){
+		// 		await this.httpBranch.updateTeller_list(this.editForm.value)
+		// 		this._snackBar._showSnack(`Successfully Added`, 'success')
+		// 		this.dialogRef.close();
+		// 	}else{
+				
+		// 		(this.item == 'Franchise')
+				
+		// 		?  await this.httpBranch.updateFbranch({data: this.editForm.value}) 
+				
+		// 		: await this.httpBranch.updateIbarangaylist({data: this.editForm.value, ib_id: this.ib_id})		
+		// 		this._snackBar._showSnack(`Successfully Added`, 'success')
+		// 		this.dialogRef.close();
+		// 	}
+		// }
 		
 	}
 	closeDialog(){

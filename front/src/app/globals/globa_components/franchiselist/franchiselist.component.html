@@ -78,6 +78,8 @@
 							
 							<div *ngIf = "types === 'Admin' || types === 'Branch Head'">
 								<button  class="settings-menu__item" mat-menu-item (click) ="addiBaranggay(element.branchCode, element.fbranchCode)"><mat-icon>home</mat-icon>Add iBaranggay</button>
+								<button  class="settings-menu__item" mat-menu-item (click)="resetPassword(element)" ><mat-icon>lock_open</mat-icon> Reset Password </button>
+								<!-- <button  class="settings-menu__item" mat-menu-item (click)="signOut(element)" ><mat-icon>lock</mat-icon> Log out </button> -->
 							</div>
 							<button  class="settings-menu__item" mat-menu-item (click) ="addTeller(element)"><mat-icon>group_add</mat-icon> Teller </button>
 						

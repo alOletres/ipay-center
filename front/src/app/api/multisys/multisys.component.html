@@ -1,0 +1,193 @@
+<div style="display: block; height: 100vh;">
+	<mat-toolbar class="page-header" role="heading">
+		<div  [routerLink]="['/tellerdashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  fxFlex="10%" fxFlex.md="10%" fxFlex.xs="10%">
+			<button style=" margin-left: 20px; color: darkgray; cursor: pointer; height: 50px; width: 50px; background-color: white;"   matTooltip="Back"  mat-mini-fab aria-label="Example icon button with a filter list icon">
+				<i style="font-size: 50px;" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+			</button>
+		</div>
+		<div fxFlex="90%" fxFlex.md="90%" fxFlex.xs="90%">
+			<h1>Gov't Bill Payments</h1>
+		</div>
+		<!-- <div fxFlex="50%" fxFlex.md="50%" fxFlex.xs="50%" style="text-align: right">
+			<button mat-raised-button style="font-size: 15px; background-color:#039A4D; color: white" (click)="openDialogMltsis()">Bills & Payments</button>
+		</div> -->
+	</mat-toolbar>
+	
+	<mat-card  class="card card-wrapper">
+		<mat-card-title class="card__header">
+			<h5 class="card__title">Bill Payments</h5>
+	  </mat-card-title>
+		<mat-card-content style="overflow-x: hidden;" class="card__content">
+			<div style="padding: 0px 20px 20px 20px;" >
+				<form [formGroup]="billingForm" (ngSubmit)="inquire()" >
+					<div class=" row " >
+						<mat-form-field  class=" col-md-6" appearance="outline">
+							<mat-label>Costumers Name</mat-label>
+							<input style="text-transform: uppercase;" type="text" matInput formControlName="CostumersName" autocomplete="off">
+						</mat-form-field>
+						<mat-form-field class=" col-md-6"  appearance="fill" >
+							<mat-label class="">Contact No.</mat-label>
+							<span matPrefix>+63 &nbsp;</span>
+							<input matInput type="text"  maxlength="10" formControlName="contactNo"  (keypress)="validateOnlyNumbers($event)" autocomplete="off">
+						</mat-form-field>
+					</div>
+					<div class="row">
+						<mat-form-field  class=" col-md-6"   appearance="outline">
+							<mat-label>Account Number</mat-label>
+							<input type="text" matInput formControlName="account_number" autocomplete="off">
+						</mat-form-field>
+			
+						<mat-form-field  class=" col-md-6 "   appearance="outline">
+							<mat-label>Amount</mat-label>
+							<input type="number" matInput formControlName="Amount" (keypress)="validateOnlyNumbers($event)" autocomplete="off">
+						</mat-form-field>
+					</div>
+					<div  >
+						<span> RESPONSE </span>
+						<div style="width: 100%; background:#f0f0f0; padding: 4px 3px; color: rgb(24, 24, 109)">
+							Costumers Name: <b style="font-weight: 500; color: black; text-transform: uppercase;">{{ billingForm.value.CostumersName }}</b><br>
+							Contact No.: <b style="font-weight: 500; color: black;">{{ billingForm.value.contactNo }}</b><br>
+							Account Number No.: <b style="font-weight: 500; color: black;">{{ account_number }}</b><br>
+							Amount: <b style="font-weight: 500; color: black;">{{ amount | number:'1.2-2' }}</b><br>
+							Transactions Type: <b style="font-weight: 500; color: black;"> {{ biller }} </b><br>
+						</div>
+					</div>
+					<br>
+					<div align="end">
+						<button type="submit" mat-raised-button [disabled]="billingForm.invalid" style="background-color:#039A4D;"  > {{ btnName }} </button>
+					</div>
+				</form>
+			</div>
+			<table [dataSource] = "dataSource" class="table__table" mat-table class="mat-elevation-z0" style="width: 100%;">
+				<ng-container matColumnDef="no">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>No.</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element; index as i"> {{ i + 1 }} </td>
+					<td mat-footer-cell *matFooterCellDef></td>
+				</ng-container>
+	
+				<ng-container matColumnDef="customer_name">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Customer Name</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element" style="text-transform :uppercase;"> {{ element.customer_name }} </td>
+					<td mat-footer-cell *matFooterCellDef></td>
+				</ng-container>
+	
+				<ng-container matColumnDef="account_number">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Account number</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.account_number }} </td>
+					<td mat-footer-cell *matFooterCellDef></td>
+				</ng-container>
+	
+				<ng-container matColumnDef="amount">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Amount</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.amount }} </td>
+					<td mat-footer-cell *matFooterCellDef></td>
+				</ng-container>
+	
+				<ng-container matColumnDef="contact_number">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Contact Number</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> +63{{ element.contact_number }} </td>
+					<td mat-footer-cell *matFooterCellDef></td>
+				</ng-container>
+	
+				<ng-container matColumnDef="refno">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Ref No.</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.refno }} </td>
+					<td mat-footer-cell *matFooterCellDef></td>
+				</ng-container>
+	
+				<ng-container matColumnDef="biller">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Biller</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.biller }} </td>
+					<td mat-footer-cell *matFooterCellDef> <b>TOTAL</b> </td>
+				</ng-container>
+				
+				
+				<ng-container matColumnDef="collections">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Collections</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.collections }} </td>
+					<td mat-footer-cell *matFooterCellDef> <b>{{ dataSource | multisysCollectionTotal | currency : "&#8369;"}}</b> </td>
+				</ng-container>
+	
+				<ng-container matColumnDef="sales">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Sales</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.sales }} </td>
+					<td mat-footer-cell *matFooterCellDef> <b>{{ dataSource |  multisysSalesTotal | currency : "&#8369;"}}</b> </td>
+				</ng-container>
+	
+				<ng-container matColumnDef="income">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Income</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> {{ element.income }} </td>
+					<td mat-footer-cell *matFooterCellDef> <b> {{ dataSource | multisysIncomeTotal | currency : "&#8369;"}} </b> </td>
+				</ng-container>
+	
+				<ng-container matColumnDef="status">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Status</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element"> <span style="color: #039A4D;"> Success </span> </td>
+					<td mat-footer-cell *matFooterCellDef></td>
+				</ng-container>
+				
+				<ng-container matColumnDef="action">
+					<th style="background-color: #039A4D;color: white;" class="table_table-header" mat-header-cell *matHeaderCellDef>Action</th>
+					<td class="table_table-body" mat-cell *matCellDef="let element">
+						<button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="print(element)" matTooltip="Print Receipt">
+							<i class="fa fa-print" aria-hidden="true"></i>
+						</button>
+					</td>
+					<td mat-footer-cell *matFooterCellDef></td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColums"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColums;"></tr>
+				<tr mat-footer-row *matFooterRowDef="displayedColums"></tr>
+			</table>
+		</mat-card-content>
+		<div class="pagination">
+			<mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+		</div>
+	</mat-card>
+	
+</div>
+<button type="button" hidden="true" printTitle="MyTitle" printSectionId="print-section" ngxPrint #printMe></button>
+<div hidden="true" id="print-section" style="padding: 8px 4px;"> 
+	<div >
+		<div fxLayout="row wrap">
+			<div fxFlex="10%" fxFlex.md="10%" fxFlex.xs="10%">
+				<img src="assets/img/IPAY_LOGO.png" style="width: 120px; height: 70px;" alt="">
+			</div>
+			<div fxFlex="90%" fxFlex.md="90%" fxFlex.xs="90%">
+				<p> {{ franchiseName }} <br> {{ email }} <br> +63{{ contactNo }} <br> {{ address }}  </p>
+			</div>
+		</div>
+	</div>
+	<div style="margin: auto;">
+		<p> Account No: {{ accountNumber }} <br> Biller : {{ billerReceipt }} </p>
+		<table style="border: solid 1px #ccc; padding: 2px;margin: auto; width: 100%;">
+			<thead>
+				<tr>
+					<th style="border: solid 1px #ccc; width:  24rem;"> Fee</th>
+					<th style="border: solid 1px #ccc; width:  15rem;" >Charge </th>
+				</tr>
+			</thead>
+			<tbody style="border: solid 1px #ccc">
+				<tr style="border: solid 1px #ccc">
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> TotalAmount : </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ amounts | currency : "&#8369;" }} </td>
+				</tr>
+				
+				<tr>
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> OutletFee: </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ outletServices  | currency : "&#8369;" }} </td>
+				</tr>
+				<tr>
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> SystemCharge </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ 10  | currency : "&#8369;" }} </td>
+				</tr>
+	
+				<tr style=" font-weight: bold;">
+					<td style="border: solid 1px #ccc; padding:  3px 3px 0;"> Overall Total </td>
+					<td style="border: solid 1px #ccc; text-align: center;"> {{ ipayTotal  | currency : "&#8369;" }} </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

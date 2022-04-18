@@ -8,6 +8,7 @@ export const watch = async (io:any) => {
 	const connection = mysql.createConnection(ReplicatorConfig)
 	
 	const instance = new MySQLEvents(connection, {
+		serverId : 1,
 		startAtEnd: true
 	  });
 	
